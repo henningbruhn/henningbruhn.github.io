@@ -3,6 +3,7 @@ Maximum inner product search
 ============================
 
 .. see https://en.wikipedia.org/wiki/Vector_database
+
 Vector databases are becoming more and more important. 
 What's a vector database? A system to store a large number of vectors 
 :math:`x^{(1)},\ldots, x^{(n)}\in\mathbb R^d`
@@ -21,7 +22,7 @@ simply mean: the largest scalar product. That is, given a query
 :math:`x^{(i)}`
 with largest 
 :math:`q^\intercal x^{(i)}`. 
-In that case, the problem is known as :emphasis:`maximum inner product search` (or MIPS).
+In that case, the problem is known as :index:`\ <maximum inner product search>`\ *maximum inner product search* (or MIPS).
 
 At first, the computational problem may appear to have an easy solution -- after all, scalar 
 products can be computed very efficiently. With :math:`n` vectors in the database, each with length :math:`d`,
@@ -40,6 +41,7 @@ Vector quantisation
 .. Quantization based Fast Inner Product Search
 .. Ruiqi Guo, Sanjiv Kumar, Krzysztof Choromanski, David Simcha
 .. arXiv:1509.01469
+
 Let :math:`x^{(1)},\ldots x^{(n)}\in\mathbb R^d` be the vectors  that make up the database,
 let :math:`k,m>0` be integers, and let :math:`\ell=\tfrac{d}{m}`, which we assume to be an integer. [#fQuant]_
 
@@ -125,6 +127,8 @@ which is nothing else than the :math:`k`-means objective!
 What does that mean? We split each database vector :math:`x^{(i)}` into chunks of size :math:`\tfrac{d}{m}`, and then, for each :math:`j=1,\ldots, m`, 
 solve for the data :math:`x^{(1)}_j,\ldots, x^{(n)}_j` a :math:`k`-means clustering problem, resulting 
 in the centres :math:`c_{j1},\ldots,c_{jk}`; finally we replace each :math:`x^{(i)}_j` with the nearest cluster centre :math:`c_{js}`.
+
+.. index:: vector quantisation
 
 Replacing vectors in a dataset by simpler vectors is  called :emphasis:`vector quantisation`, and also used as a compression tool, 
 for example, in video or audio codecs. 
