@@ -4,7 +4,7 @@ Maximum inner product search
 
 .. see https://en.wikipedia.org/wiki/Vector_database
 
-Vector databases are becoming more and more important. 
+:index:`\ <vector database>`\ *Vector databases* are becoming more and more important. 
 What's a vector database? A system to store a large number of vectors 
 :math:`x^{(1)},\ldots, x^{(n)}\in\mathbb R^d`
 in such a way that a (approximate) nearest neighbour search can be performed efficiently.    
@@ -23,6 +23,26 @@ simply mean: the largest scalar product. That is, given a query
 with largest 
 :math:`q^\intercal x^{(i)}`. 
 In that case, the problem is known as :index:`\ <maximum inner product search>`\ *maximum inner product search* (or MIPS).
+
+.. admonition:: Retrieval augmented generation
+
+    It is not easy to keep an AI chatbot up-to-date with current affairs. 
+    The large language model (LLM) it is based on is trained on a snapshot of data 
+    available at training time (perhaps all of wikipedia as of 07/10/24). Later
+    events (announcement of the Physics Nobel Prize on 08/10/24) are thus not immediately accessible 
+    to the bot. 
+
+    Re-training an LLM to incorporate later events is resource intensive and therefore only 
+    done rarely. An alternative is to provide the AI chatbot with an external memory. One such 
+    method is :index:`\ <retrieval augmented generation>`\ *retrieval augmented generation*, or RAG. 
+
+    In RAG, the user query is transformed into a vector via a topic embedding that is compared to 
+    data in a vector database (this could be a current snapshot of wikipedia). The perhaps ten documents
+    that are most similar to the query are located and added to the prompt of the AI chatbot. The
+    bot then generates the response based on the query and the search results. 
+
+    *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks*, 
+    P. Lewis et al. (2021), `arXiv:2005.11401 <https://arxiv.org/pdf/2005.11401>`_ 
 
 At first, the computational problem may appear to have an easy solution -- after all, scalar 
 products can be computed very efficiently. With :math:`n` vectors in the database, each with length :math:`d`,
