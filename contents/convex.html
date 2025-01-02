@@ -1,0 +1,826 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Stochastic gradient descent &#8212; A second test run  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css?v=ca93fcec" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=82609fe5" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contents/convex';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Maximum inner product search" href="mips.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">A second test run  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="mips.html">Maximum inner product search</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Stochastic gradient descent</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/contents/convex.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Stochastic gradient descent</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convexity">Convexity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convex-optimisation-problems">Convex optimisation problems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convex-functions">Convex functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strong-convexity">Strong convexity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">Gradient descent</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><span class="math notranslate nohighlight">\(\newcommand{\bigO}{O}
+\newcommand{\trsp}[1]{#1^\intercal} % transpose
+\DeclareMathOperator*{\expec}{\mathbb{E}} % Expectation
+\DeclareMathOperator*{\proba}{\mathbb{P}}   % Probability
+\DeclareMathOperator*{\vari}{\mathbb{V}}   % Probability
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\newcommand{\sigm}{\phi_{\text{sig}}} % logistic function
+\)</span></p>
+<section class="tex2jax_ignore mathjax_ignore" id="stochastic-gradient-descent">
+<h1>Stochastic gradient descent<a class="headerlink" href="#stochastic-gradient-descent" title="Link to this heading">#</a></h1>
+<p>How is a neural network trained? How can we minimise logistic loss in order
+to learn the parameters of a logistic regression? Both cases reduce to an
+optimisation problem that requires a numerical optimisation algorithm, often a variant
+of a gradient descent technique. In the nicest and simplest setting, a convex optimisation
+problem, these are even guaranteed to find an optimal solution.</p>
+<section id="convexity">
+<h2>Convexity<a class="headerlink" href="#convexity" title="Link to this heading">#</a></h2>
+<p>A set <span class="math notranslate nohighlight">\(C\subseteq\mathbb R^n\)</span> is <em>convex</em> if the connecting segment
+between any two points in <span class="math notranslate nohighlight">\(C\)</span> is also contained in <span class="math notranslate nohighlight">\(C\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda x+(1-\lambda)y\in C\text{ for all }x,y\in C\text{ and }\lambda\in[0,1].
+\]</div>
+<figure class="align-default" id="convsetfig" style="width: 12cm">
+<img alt="../_images/convexsets.png" src="../_images/convexsets.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">A convex set in  (a) and (b); the set in (c) is not convex</span><a class="headerlink" href="#convsetfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Let <span class="math notranslate nohighlight">\(C\subseteq\mathbb R^n\)</span> be a convex set.
+A function <span class="math notranslate nohighlight">\(f:C\to\mathbb R\)</span> is a <em>convex function</em> if for all <span class="math notranslate nohighlight">\(x,y\in C\)</span> and all <span class="math notranslate nohighlight">\(\lambda\in[0,1]\)</span>
+it holds that</p>
+<div class="math notranslate nohighlight">
+\[
+f(\lambda x+(1-\lambda) y)\leq \lambda f(x) + (1-\lambda) f(y)
+\]</div>
+<p>Obviously, a linear function is always convex.</p>
+<figure class="align-default" id="convfunfig" style="width: 12cm">
+<img alt="../_images/convexconcave.png" src="../_images/convexconcave.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">A convex function, a concave function (negative of a convex function), and a function that is neither convex nor concave.</span><a class="headerlink" href="#convfunfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The two notions of convexity, convex sets and convex functions, are related via the
+epigraph of a function. For a function <span class="math notranslate nohighlight">\(f:C\to\mathbb R\)</span>, the <em>epigraph</em>
+is defined as</p>
+<div class="math notranslate nohighlight" id="equation-convdef">
+<span class="eqno">(2)<a class="headerlink" href="#equation-convdef" title="Link to this equation">#</a></span>\[\text{epi}(f)=\{(x,y) : x\in C,y\geq f(x)\}\]</div>
+<p>That means, the epigraph is simply the set of all points above the function graph.</p>
+<p>Convex sets and convex functions are now related as follows:</p>
+<div class="proof proposition admonition" id="proposition-0">
+<p class="admonition-title"><span class="caption-number">Proposition 1 </span></p>
+<section class="proposition-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(C\subseteq\mathbb R^n\)</span> be a convex set, and let <span class="math notranslate nohighlight">\(f:C\to\mathbb R\)</span> be a function.
+Then <span class="math notranslate nohighlight">\(f\)</span> is a convex function if and only if the epigraph <span class="math notranslate nohighlight">\(\text{epi}(f)\)</span> is a convex set.</p>
+</section>
+</div></section>
+<section id="convex-optimisation-problems">
+<h2>Convex optimisation problems<a class="headerlink" href="#convex-optimisation-problems" title="Link to this heading">#</a></h2>
+<p>A <em>convex optimisation problem</em> is any problem of the form</p>
+<div class="math notranslate nohighlight" id="equation-convopt">
+<span class="eqno">(3)<a class="headerlink" href="#equation-convopt" title="Link to this equation">#</a></span>\[\inf f(x),\quad x\in K\]</div>
+<p>where <span class="math notranslate nohighlight">\(K\subseteq \mathbb R^n\)</span> is a convex set and <span class="math notranslate nohighlight">\(f:K\to\mathbb R\)</span>
+a convex function.</p>
+<p>A point <span class="math notranslate nohighlight">\(x^*\in K\)</span> is a <em>local minimum</em> if there is an open ball <span class="math notranslate nohighlight">\(B\)</span>
+around <span class="math notranslate nohighlight">\(x^*\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[
+f(x^*)\leq f(x) \text{ for all }x\in B\cap K
+\]</div>
+<div class="proof proposition admonition" id="proposition-1">
+<p class="admonition-title"><span class="caption-number">Proposition 2 </span></p>
+<section class="proposition-content" id="proof-content">
+<p>If <span class="math notranslate nohighlight">\(x^*\)</span> is a local minimum of <a class="reference internal" href="#equation-convopt">(3)</a> then it is also a
+global minimum.</p>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. Suppose there is a <span class="math notranslate nohighlight">\(z\in K\)</span> with <span class="math notranslate nohighlight">\(f(z)&lt;f(x^*)\)</span>. Let <span class="math notranslate nohighlight">\(B\)</span> be a ball around
+<span class="math notranslate nohighlight">\(x^*\)</span> such that <span class="math notranslate nohighlight">\(f(x^*)\leq f(x)\)</span> for all <span class="math notranslate nohighlight">\(x\in B\cap K\)</span>.
+Since <span class="math notranslate nohighlight">\(K\)</span> is convex,
+<span class="math notranslate nohighlight">\(x_\lambda=\lambda x^*+(1-\lambda)z\in K\)</span> for all <span class="math notranslate nohighlight">\(\lambda\in [0,1]\)</span>.
+In particular, there is a <span class="math notranslate nohighlight">\(\lambda\in (0,1]\)</span> such that <span class="math notranslate nohighlight">\(x_\lambda\in B\)</span>.
+Because <span class="math notranslate nohighlight">\(f\)</span> is convex</p>
+<div class="math notranslate nohighlight">
+\[
+f(x_\lambda)\leq \lambda f(x^*)+(1-\lambda)f(z)&lt;f(x^*)
+\]</div>
+<p>as <span class="math notranslate nohighlight">\(\lambda\neq 0\)</span> and <span class="math notranslate nohighlight">\(f(z)&lt;f(x^*)\)</span>. This, however, is a contradiction to <span class="math notranslate nohighlight">\(x^*\)</span>
+being a local minimum.</p>
+</div>
+<p>Note that it makes a difference whether we aim to minimise or maximise a convex
+function over a convex set. Indeed, if we maximise the convex function in <a class="reference internal" href="#convfunfig"><span class="std std-numref">Figure 2</span></a>
+over the convex set <span class="math notranslate nohighlight">\([0,3]\)</span> we see that <span class="math notranslate nohighlight">\(x^*=0\)</span> is a local maximum but not  a
+global one (that would be <span class="math notranslate nohighlight">\(x=3\)</span>).</p>
+</section>
+<section id="convex-functions">
+<h2>Convex functions<a class="headerlink" href="#convex-functions" title="Link to this heading">#</a></h2>
+<p>Which functions are convex?
+Norms are convex. Indeed, the function <span class="math notranslate nohighlight">\(x\mapsto ||x||\)</span> is convex as for every <span class="math notranslate nohighlight">\(\lambda\in [0,1]\)</span>
+the triangle inequality implies:</p>
+<div class="math notranslate nohighlight">
+\[
+||\lambda x+(1-\lambda) y||\leq ||\lambda x|| + ||(1-\lambda) y|| = \lambda||x||+(1-\lambda)||y||
+\]</div>
+<p>Recall that <span class="math notranslate nohighlight">\(\nabla f(x) = \trsp{\left(\frac{\partial f}{\partial x_1}(x),\ldots,\frac{\partial f}{\partial x_n}(x)\right)}\)</span>
+is the <em>gradient</em> of <span class="math notranslate nohighlight">\(f\)</span> at <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<div class="proof lemma admonition" id="gradlem">
+<p class="admonition-title"><span class="caption-number">Lemma 1 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(f:C\to\mathbb R\)</span> be a differentiable function on an open convex set <span class="math notranslate nohighlight">\(C\subseteq \mathbb R^n\)</span>.
+Then <span class="math notranslate nohighlight">\(f\)</span> is convex if and only if</p>
+<div class="math notranslate nohighlight">
+\[
+f(y)\geq f(x)+\trsp{\nabla f(x)}(y-x)\text{ for all }x,y\in C.
+\]</div>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. First we do <span class="math notranslate nohighlight">\(n=1\)</span>, i.e. we prove that</p>
+<div class="math notranslate nohighlight">
+\[
+\text{$f$ is convex} \quad\Leftrightarrow\quad  f(y)\geq f(x)+f'(x)(y-x)\text{ for all }x,y\in C
+\]</div>
+<p>Assume first that <span class="math notranslate nohighlight">\(f\)</span> is convex. Then for every <span class="math notranslate nohighlight">\(\lambda\in[0,1]\)</span></p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\lambda f(y) &amp;\geq f(x+\lambda(y-x))-(1-\lambda) f(x)
+\end{align*}\]</div>
+<p>We divide by <span class="math notranslate nohighlight">\(\lambda\)</span>:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+f(y) &amp;\geq \frac{f(x+\lambda(y-x))-f(x)}{\lambda}+f(x)\\
+&amp;=\frac{f(x+\lambda(y-x))-f(x)}{\lambda(y-x)}(y-x)+f(x)\\
+&amp;= \frac{f(x+t)-f(x)}{t}(y-x)+f(x)
+\end{align*}\]</div>
+<p>for <span class="math notranslate nohighlight">\(t=\lambda(y-x)\)</span>. Now taking <span class="math notranslate nohighlight">\(t\to 0\)</span>, we get <span class="math notranslate nohighlight">\(f(y)\geq f(x)+f'(x)(y-x)\)</span>.</p>
+<p>For the other direction, we put <span class="math notranslate nohighlight">\(z=\lambda x+(1-\lambda)y\)</span>, and obtain</p>
+<div class="math notranslate nohighlight">
+\[
+f(x)\geq f(z)+f'(z)(x-z)\text{ and }f(y)\geq f(z)+f'(z)(y-z)
+\]</div>
+<p>We multiply the first inequality with <span class="math notranslate nohighlight">\(\lambda\)</span>, the second with <span class="math notranslate nohighlight">\((1-\lambda)\)</span> and add them.
+This finishes the case <span class="math notranslate nohighlight">\(n=1\)</span>.</p>
+<p>For <span class="math notranslate nohighlight">\(n&gt;1\)</span>, we define <span class="math notranslate nohighlight">\(g:[0,1]\to\mathbb R\)</span> by <span class="math notranslate nohighlight">\(g(\lambda)=f(\lambda x+(1-\lambda) y)\)</span>
+and then apply the one-dimensional case. We omit the details.</p>
+</div>
+<p>If a function is twice differentiable then whether it is convex can be read off
+its second derivative:</p>
+<div class="proof lemma admonition" id="twicelem">
+<p class="admonition-title"><span class="caption-number">Lemma 2 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(f:C\to\mathbb R\)</span> be a twice differentiable function
+on an open interval <span class="math notranslate nohighlight">\(C\subseteq \mathbb R\)</span>.  Then the following statements
+are equivalent:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(f\)</span> is convex;</p></li>
+<li><p><span class="math notranslate nohighlight">\(f'\)</span> is monotonically non-decreasing; and</p></li>
+<li><p><span class="math notranslate nohighlight">\(f''\)</span> is non-negative.</p></li>
+</ol>
+</section>
+</div><p>Again, I omit the proof. There is also a version for multivariate functions.</p>
+<p>As a consequence of the lemma,
+<span class="math notranslate nohighlight">\(x\mapsto x^2\)</span> is a convex function over <span class="math notranslate nohighlight">\(\mathbb R\)</span>, and so is <span class="math notranslate nohighlight">\(x\mapsto e^x\)</span>.
+Also, the function <span class="math notranslate nohighlight">\(f:x\mapsto \log(1+e^x)\)</span> is convex: Indeed,</p>
+<div class="math notranslate nohighlight">
+\[
+f'(x)=\frac{e^x}{1+e^x}=\frac{1}{1+e^{-x}},
+\]</div>
+<p>which is monotonically increasing.</p>
+<p>Compositions of convex functions are not generally convex: Indeed, both <span class="math notranslate nohighlight">\(f:x\mapsto x^2\)</span> and
+<span class="math notranslate nohighlight">\(g:x\mapsto e^{-x}\)</span> are both convex, but <span class="math notranslate nohighlight">\(g\circ f:x\mapsto e^{-x^2}\)</span> is not. This is different if the
+inner function is affine.</p>
+<div class="proof lemma admonition" id="affconflem">
+<p class="admonition-title"><span class="caption-number">Lemma 3 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(g:\mathbb R\to\mathbb R\)</span> be convex, and let <span class="math notranslate nohighlight">\(w\in\mathbb R^n\)</span> and <span class="math notranslate nohighlight">\(b\in\mathbb R\)</span>.
+Then <span class="math notranslate nohighlight">\(f(x)=g(\trsp wx+b)\)</span> is also convex.</p>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. Let <span class="math notranslate nohighlight">\(x,y\in\mathbb R^n\)</span> and <span class="math notranslate nohighlight">\(\lambda\in [0,1]\)</span>. Then</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+f(\lambda x+(1-\lambda)y) &amp;= g(\lambda (\trsp wx+b) + (1-\lambda)(\trsp wy+b))\\
+&amp;\leq \lambda g(\trsp wx+b) + (1-\lambda) g(\trsp wy+b)\\
+&amp; = \lambda f(x)+(1-\lambda)f(y),
+\end{align*}\]</div>
+<p>as <span class="math notranslate nohighlight">\(g\)</span> is convex.</p>
+</div>
+<p>As a consequence, for fixed <span class="math notranslate nohighlight">\(x\in\mathbb R^n\)</span>, <span class="math notranslate nohighlight">\(y\in\mathbb R\)</span> the
+function <span class="math notranslate nohighlight">\(f:\mathbb R^n\to\mathbb R\)</span>, <span class="math notranslate nohighlight">\(w\mapsto \log(1+e^{-y\trsp wx})\)</span>
+is convex.</p>
+<p>The following statement is almost trivial to prove:</p>
+<div class="proof lemma admonition" id="sumlem">
+<p class="admonition-title"><span class="caption-number">Lemma 4 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(C\subseteq\mathbb R^n\)</span> be a convex set, let <span class="math notranslate nohighlight">\(w_1,\ldots, w_m\geq 0\)</span>,
+and
+let <span class="math notranslate nohighlight">\(f_1,\ldots,f_m:C\to\mathbb R\)</span> be convex functions. Then <span class="math notranslate nohighlight">\(f=\sum_{i=1}^mw_if_i\)</span>
+is a convex function.</p>
+</section>
+</div><p>Recall that  logistic regression works by minimising the logistic loss.
+As a consequence of the previous lemmas, we get:</p>
+<div class="proof lemma admonition" id="loglosslem">
+<p class="admonition-title"><span class="caption-number">Lemma 5 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>For every finite training set <span class="math notranslate nohighlight">\(S\subseteq \mathbb R^n\times\{-1,1\}\)</span>,
+the logistic loss function</p>
+<div class="math notranslate nohighlight">
+\[
+w\mapsto \frac{1}{|S|}\sum_{(x,y)\in S}-\log_2\left(\sigm(y\trsp wx)\right)
+\]</div>
+<p>is convex.</p>
+</section>
+</div><p>Recall that</p>
+<div class="math notranslate nohighlight">
+\[
+\sigm:z\mapsto \frac{1}{1+e^{-z}}
+\]</div>
+<div class="proof admonition" id="proof">
+<p>Proof. We have already seen that the function
+<span class="math notranslate nohighlight">\(f:\mathbb R^n\to\mathbb R\)</span>, <span class="math notranslate nohighlight">\(w\mapsto \log(1+e^{-y\trsp wx})\)</span>
+is convex, for fixed <span class="math notranslate nohighlight">\(x\in\mathbb R^n\)</span> and <span class="math notranslate nohighlight">\(y\in\{-1,1\}\)</span>.
+Now, the logistic loss is simply the sum of such functions, weighted with
+the positive factor <span class="math notranslate nohighlight">\(\tfrac{1}{|S|}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{|S|}\sum_{(x,y)\in S}-\log_2\left(\sigm(y\trsp wx)\right)
+= \frac{1}{|S|}\sum_{(x,y)\in S}\log_2\left(1+e^{-y\trsp wx}\right)
+\]</div>
+<p>Thus, it follows from <a class="reference internal" href="#sumlem">Lemma 4</a>
+that the logistic loss function is convex.</p>
+</div>
+<p>Recall that when performing logistic regression we aim to find a linear classifier
+with small zero-one loss. Instead of minimising the zero-one loss directly, however,
+we minimise the logistic loss – which we had seen to upper-bound the zero-one loss;
+see Lemma~\ref{upperloglosslem}. Here now is the reason, why we replace the zero-one loss
+by a <em>surrogate loss</em> function, the logistic loss: in contrast to zero-one loss,
+the logistic loss function is convex!</p>
+<p>Let’s look at one more way to obtain a convex function.</p>
+<div class="proof lemma admonition" id="suplem">
+<p class="admonition-title"><span class="caption-number">Lemma 6 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(I\)</span> be some index set, let <span class="math notranslate nohighlight">\(C\)</span> be a convex set.
+Let <span class="math notranslate nohighlight">\(f_i:C\to\mathbb R\)</span>, <span class="math notranslate nohighlight">\(i\in I\)</span>, be a family of convex functions. Then
+<span class="math notranslate nohighlight">\(f:x\mapsto\sup_{i\in I}f_i(x)\)</span> is a convex function.</p>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. Let <span class="math notranslate nohighlight">\(x,y\in C\)</span> and <span class="math notranslate nohighlight">\(\lambda\in [0,1]\)</span>. Then for every <span class="math notranslate nohighlight">\(i^*\in I\)</span>,
+because <span class="math notranslate nohighlight">\(f_{i^*}\)</span> is convex, it holds that:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+f_{i^*}(\lambda x+(1-\lambda)y) &amp;\leq \lambda f_{i^*} + (1-\lambda) f_{i^*}(y)\\
+&amp; \leq \sup_{i\in I}\lambda f_{i} + (1-\lambda) f_{i}(y)
+\leq \lambda \sup_{i\in I}f_{i} + (1-\lambda) \sup_{i\in I}f_{i}(y)
+\end{align*}\]</div>
+<p>Therefore it also holds that</p>
+<div class="math notranslate nohighlight">
+\[
+\sup_{i\in I}f_{i}(\lambda x+(1-\lambda)y)
+\leq \lambda \sup_{i\in I}f_{i} + (1-\lambda) \sup_{i\in I}f_{i}(y)
+\]</div>
+</div>
+</section>
+<section id="strong-convexity">
+<h2>Strong convexity<a class="headerlink" href="#strong-convexity" title="Link to this heading">#</a></h2>
+<p>Many of the functions we encounter in machine learning are at least locally convex,
+and usually these even exhibit a stronger notion of convexity that is called,
+well, <em>strong</em> convexity. The difference between convexity and strong convexity
+is basically the difference between an affine function such as <span class="math notranslate nohighlight">\(x\mapsto x\)</span> and a
+quadratic function such as <span class="math notranslate nohighlight">\(x\mapsto x^2\)</span>. Affine functions are convex but barely so:
+they satisfy the defining inequality of convexity <a class="reference internal" href="#equation-convdef">(2)</a> with equality. For
+a strongly convex function this will never be the case.</p>
+<p>A function <span class="math notranslate nohighlight">\(f:K\to\mathbb R\)</span> on a convex set <span class="math notranslate nohighlight">\(K\subseteq\mathbb R^d\)</span> is
+<em><span class="math notranslate nohighlight">\(\mu\)</span>-strongly convex</em> for <span class="math notranslate nohighlight">\(\mu&gt;0\)</span> if for all <span class="math notranslate nohighlight">\(\lambda\in [0,1]\)</span>
+and <span class="math notranslate nohighlight">\(x,y\in K\)</span> it holds that</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda f(x)+ (1-\lambda)f(y)\geq f(\lambda x+(1-\lambda)y) +\frac{\mu}{2}\lambda(1-\lambda)
+||x-y||^2_2
+\]</div>
+<p>Clearly, it is the additional term <span class="math notranslate nohighlight">\(\frac{\mu}{2}\lambda(1-\lambda)
+||x-y||^2_2\)</span> that makes strong convexity a stronger notion than ordinary convexity.
+In particular, affine functions are convex but not <span class="math notranslate nohighlight">\(\mu\)</span>-strongly convex for any <span class="math notranslate nohighlight">\(\mu&gt;0\)</span>.</p>
+<div class="proof lemma admonition" id="strongnormlem">
+<p class="admonition-title"><span class="caption-number">Lemma 7 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>The function <span class="math notranslate nohighlight">\(\mathbb R^d\to\mathbb R\)</span>, <span class="math notranslate nohighlight">\(x\mapsto ||x||^2_2\)</span> is
+<span class="math notranslate nohighlight">\(2\)</span>-strongly convex.</p>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. Let <span class="math notranslate nohighlight">\(\lambda\in[0,1]\)</span> and <span class="math notranslate nohighlight">\(x,y\in\mathbb R^d\)</span>. Then</p>
+<div class="math notranslate nohighlight">
+\[
+||\lambda x+(1-\lambda)y||^2 = \lambda^2||x||^2+2\lambda(1-\lambda)\trsp xy+(1-\lambda)^2||y||^2
+\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda(1-\lambda)||x-y||^2 = \lambda(1-\lambda)||x||^2-2\lambda(1-\lambda)\trsp xy+\lambda(1-\lambda)||y||^2
+\]</div>
+<p>Adding the two right-hand sides gives <span class="math notranslate nohighlight">\(\lambda ||x||^2+(1-\lambda)||y||^2\)</span>.</p>
+</div>
+<div class="proof lemma admonition" id="stronglem">
+<p class="admonition-title"><span class="caption-number">Lemma 8 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(g:K\to\mathbb R\)</span> be a <span class="math notranslate nohighlight">\(\mu\)</span>-strongly convex function on a convex set <span class="math notranslate nohighlight">\(K\subseteq\mathbb R^d\)</span>.
+Then</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(Cg\)</span> is <span class="math notranslate nohighlight">\(C\mu\)</span>-strongly convex for any <span class="math notranslate nohighlight">\(C&gt;0\)</span>; and</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(f:K\to\mathbb R\)</span> is convex then <span class="math notranslate nohighlight">\(f+g\)</span> is <span class="math notranslate nohighlight">\(\mu\)</span>-strongly convex.</p></li>
+</ol>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. 1. is trivial and so is 2.</p>
+</div>
+<p>Here, statement 2. is the reason why strong convexity is relevant to us.
+Often, we might have a convex loss function <span class="math notranslate nohighlight">\(L(w)\)</span> and then add a term <span class="math notranslate nohighlight">\(\mu||w||_2\)</span>
+to the loss function that penalises large weights. This is a common strategy, called <em>regularisation</em>,
+that we will treat later. A fortunate consequence is then that the new function <span class="math notranslate nohighlight">\(w\mapsto L(w)+\mu||w||_2^2\)</span>
+is even strongly convex.</p>
+<div class="proof lemma admonition" id="strongdifflem">
+<p class="admonition-title"><span class="caption-number">Lemma 9 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(f:K\to\mathbb R\)</span> be a differentiable
+function on an open convex set <span class="math notranslate nohighlight">\(K\subseteq\mathbb R^d\)</span>.
+Then <span class="math notranslate nohighlight">\(f\)</span> is <span class="math notranslate nohighlight">\(\mu\)</span>-strongly convex if and only if for all <span class="math notranslate nohighlight">\(x,y\in K\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+f(y)\geq f(x)+\nabla \trsp{f(x)} (y-x)+\frac{\mu}{2}||y-x||^2
+\]</div>
+</section>
+</div><p>The proof is an obvious modification of the proof of <a class="reference internal" href="#gradlem">Lemma 1</a>.</p>
+<p>We draw a simple consequence. If <span class="math notranslate nohighlight">\(x\)</span> is a global minimum of <span class="math notranslate nohighlight">\(f\)</span> then,
+as <span class="math notranslate nohighlight">\(\nabla f(x)=0\)</span> it follows that</p>
+<div class="math notranslate nohighlight" id="equation-strongmin2">
+<span class="eqno">(4)<a class="headerlink" href="#equation-strongmin2" title="Link to this equation">#</a></span>\[f(y)-f(x)\geq \frac{\mu}{2}||y-x||^2\]</div>
+</section>
+<section id="gradient-descent">
+<h2>Gradient descent<a class="headerlink" href="#gradient-descent" title="Link to this heading">#</a></h2>
+<p>Some of the objective functions in machine learning are convex.
+How can we minimise them? With <em>stochastic gradient descent</em> – it is this
+algorithm (or one of its variants) that powers most of machine learning. Let’s understand
+simple <em>gradient descent</em> first.</p>
+<div class="proof algorithm admonition" id="gdalg">
+<p class="admonition-title"><span class="caption-number">Algorithm 1 </span></p>
+<section class="algorithm-content" id="proof-content">
+<p><strong>Instance</strong> A differentiable function <span class="math notranslate nohighlight">\(f:\mathbb R^n\to\mathbb R\)</span>, a first point <span class="math notranslate nohighlight">\(x^{(1)}\)</span>.<br />
+<strong>Output</strong> A point :math:<span class="math notranslate nohighlight">\(x\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Set <span class="math notranslate nohighlight">\(t=1\)</span>.</p></li>
+<li><p>While stopping criterion not satisfied:</p>
+<ol class="arabic simple" start="3">
+<li><p>Compute <span class="math notranslate nohighlight">\(\nabla f(x^{(t)})\)</span>.</p></li>
+<li><p>Compute learning rate <span class="math notranslate nohighlight">\(\eta_t\)</span>.</p></li>
+<li><p>Set <span class="math notranslate nohighlight">\(x^{(t+1)}=x^{(t)}-\eta_t\nabla f(x^{(t)})\)</span>.</p></li>
+<li><p>Set <span class="math notranslate nohighlight">\(t=t+1\)</span>.</p></li>
+</ol>
+</li>
+<li><p>Output <span class="math notranslate nohighlight">\(x^{(t)}\)</span>, or best of <span class="math notranslate nohighlight">\(x^{(1)},\ldots, x^{(t)}\)</span>, or average.</p></li>
+</ol>
+</section>
+</div><p>There<label for='marginnote-role-1' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-1' name='marginnote-role-1' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/stochastic_gradient_descent/gradient.ipynb">gradient descent</a></span> are different strategies for the learning rate <span class="math notranslate nohighlight">\(\eta_t\)</span> (which should always be positive).
+The easiest is a constant
+learning rate <span class="math notranslate nohighlight">\(\eta_t=\eta&gt;0\)</span> for all <span class="math notranslate nohighlight">\(t\)</span>. The problem here is that at the beginning
+of gradient descent, a constant learning rate will probably lead to slow progress,
+while near the minimum, it might lead to overshooting. More common are decreasing or
+adaptive learning rates, see below.</p>
+<p>Typical stopping criteria are: a pre-fixed maximum number of iterations has been reached;
+or the norm of the gradient has become very small.</p>
+<p>Concerning the output: rather than outputting the last <span class="math notranslate nohighlight">\(x^{(t)}\)</span> it seems that it cannot hurt
+to output the best <span class="math notranslate nohighlight">\(x^{(t)}\)</span> encountered during the execution – that, however, necessitates
+a function evaluation <span class="math notranslate nohighlight">\(f(x^{(t)})\)</span> in every step, which can be computationally costly. From a theoretical point
+of view, the average <span class="math notranslate nohighlight">\(\tfrac{1}{T}\sum_{t=1}^Tx^{(t)}\)</span> is sometimes convenient.</p>
+<figure class="align-default" id="etafig">
+<a class="reference internal image-reference" href="../_images/gd_etas.png"><img alt="../_images/gd_etas.png" src="../_images/gd_etas.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Gradient descent with constant learning rates of different values.
+The function to be minimised is
+<span class="math notranslate nohighlight">\((x,y)\mapsto \tfrac{1}{2}(x^2+10y^2)\)</span>. Middle: small learning
+rate leads to slow convergence. Right: learning rate is too large, no
+convergence.</span><a class="headerlink" href="#etafig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<div class="proof theorem admonition" id="theorem-12">
+<p class="admonition-title"><span class="caption-number">Theorem 1 </span></p>
+<section class="theorem-content" id="proof-content">
+<p>If <span class="math notranslate nohighlight">\(f:\mathbb R^n\to \mathbb R\)</span> is a convex and differentiable function and certain additional but
+mild conditions are satisfied, in particular with respect to the learning rate, then
+<a class="reference internal" href="#gdalg">Algorithm 1</a> will converge towards the global minimum:</p>
+<div class="math notranslate nohighlight">
+\[
+x^{(t)}\to x^*,\text{ as }t\to\infty,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(x^*\)</span> is a global minimum of <span class="math notranslate nohighlight">\(f\)</span>.</p>
+</section>
+</div><p>The statement is intentionally vague. Indeed, there are a number of such results, each with its own set of
+specific conditions. The main point is: For a convex function gradient descent will normally converge.
+We will not discuss this in more detail as plain gradient descent is almost never used in machine learning.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-success sd-bg-text-success">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-rocket" viewBox="0 0 16 16" aria-hidden="true"><path d="M14.064 0h.186C15.216 0 16 .784 16 1.75v.186a8.752 8.752 0 0 1-2.564 6.186l-.458.459c-.314.314-.641.616-.979.904v3.207c0 .608-.315 1.172-.833 1.49l-2.774 1.707a.749.749 0 0 1-1.11-.418l-.954-3.102a1.214 1.214 0 0 1-.145-.125L3.754 9.816a1.218 1.218 0 0 1-.124-.145L.528 8.717a.749.749 0 0 1-.418-1.11l1.71-2.774A1.748 1.748 0 0 1 3.31 4h3.204c.288-.338.59-.665.904-.979l.459-.458A8.749 8.749 0 0 1 14.064 0ZM8.938 3.623h-.002l-.458.458c-.76.76-1.437 1.598-2.02 2.5l-1.5 2.317 2.143 2.143 2.317-1.5c.902-.583 1.74-1.26 2.499-2.02l.459-.458a7.25 7.25 0 0 0 2.123-5.127V1.75a.25.25 0 0 0-.25-.25h-.186a7.249 7.249 0 0 0-5.125 2.123ZM3.56 14.56c-.732.732-2.334 1.045-3.005 1.148a.234.234 0 0 1-.201-.064.234.234 0 0 1-.064-.201c.103-.671.416-2.273 1.15-3.003a1.502 1.502 0 1 1 2.12 2.12Zm6.94-3.935c-.088.06-.177.118-.266.175l-2.35 1.521.548 1.783 1.949-1.2a.25.25 0 0 0 .119-.213ZM3.678 8.116 5.2 5.766c.058-.09.117-.178.176-.266H3.309a.25.25 0 0 0-.213.119l-1.2 1.95ZM12 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg></span><span class="sd-summary-text">Gradient descent – an old technique</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<a class="reference internal image-reference" href="../_images/cauchy_methode_generale.png"><img alt="../_images/cauchy_methode_generale.png" class="align-left" src="../_images/cauchy_methode_generale.png" style="width: 10cm;" />
+</a>
+<p class="sd-card-text">Gradient descent was invented long before the first neural network
+was trained. In the 19th century, the emminent French mathematician
+Augustin Louis Cauchy (1789–1857) was studying orbital motions that
+are described by an equation in six variables, three variables for
+the position of the celestial body in space, and three for its
+momentum. As a general method to minimise such equations, Cauchy
+proposed a procedure that eventually became known as gradient
+descent.</p>
+<p class="sd-card-text">Cauchy contributed to many areas of mathematics and counts as one of
+the most prolific mathematicians of all time.</p>
+<p class="sd-card-text"><em>Méthode générale pour la résolution des systèmes d’équations
+simultanées</em>, A.L. Cauchy (1847)</p>
+</div>
+</details></section>
+</section>
+<hr class="footnotes docutils" />
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="mips.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Maximum inner product search</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convexity">Convexity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convex-optimisation-problems">Convex optimisation problems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convex-functions">Convex functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strong-convexity">Strong convexity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">Gradient descent</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Henning
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Henning.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

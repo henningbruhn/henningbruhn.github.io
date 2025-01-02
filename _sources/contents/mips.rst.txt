@@ -100,6 +100,15 @@ Then, using the look-up table, we compute for all :math:`i` the scalar product :
 :math:`d,k,n,m` the running time is dominated by :math:`O(nm)`, and as usually :math:`m \ll d`, we achieve a substantial reduction 
 in comparison to the running time :math:`O(nd)` of the naive algorithm.
 
+.. dropdown:: Retrieval augmented generation
+
+    It is not easy to keep an AI chatbot up-to-date with current affairs. 
+    The large language model (LLM) it is based on is trained on a snapshot of data 
+    available at training time (perhaps all of wikipedia as of 07/10/24). Later
+    events (announcement of the Physics Nobel Prize on 08/10/24) are thus not immediately accessible 
+    to the bot. 
+
+
 How should the representatives :math:`c_{ji},\ldots,c_{jk}\in\mathbb R^\ell` be chosen? Well, :math:`q^\intercal\hat x^{(i)}`
 should be a good approximation of :math:`q^\intercal x^{(i)}`, which is the case if :math:`q^\intercal_j\hat x^{(i)}_j` is a 
 good approximation of :math:`q^\intercal_jx^{(i)}_j` for every :math:`j\in\{1,\ldots, m\}`. So, let's fix :math:`j` and 

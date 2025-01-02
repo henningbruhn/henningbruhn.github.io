@@ -1,86 +1,322 @@
 
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../">
-<head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Maximum inner product search &mdash; A test run  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Maximum inner product search &#8212; A second test run  documentation</title>
   
-      <script src="../_static/jquery.js?v=5d32c60e"></script>
-      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script src="../_static/js/theme.js"></script>
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css?v=ca93fcec" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=82609fe5" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contents/mips';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="A test run" href="../index.html" /> 
-</head>
+    <link rel="next" title="Stochastic gradient descent" href="convex.html" />
+    <link rel="prev" title="A second test run" href="../index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
-          
-          
-          <a href="../index.html" class="icon icon-home">
-            A test run
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Table of Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Maximum inner product search</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#vector-quantisation">Vector quantisation</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Index</a></li>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">A second test run  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convex.html">Stochastic gradient descent</a></li>
 </ul>
 
-        </div>
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
       </div>
-    </nav>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">A test run</a>
-      </nav>
+<div class="sbt-scroll-pixel-helper"></div>
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Maximum inner product search</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/contents/mips.rst.txt" rel="nofollow"> View page source</a>
-      </li>
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/contents/mips.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
   </ul>
-  <hr/>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <section id="maximum-inner-product-search">
-<h1>Maximum inner product search<a class="headerlink" href="#maximum-inner-product-search" title="Link to this heading"></a></h1>
-<p><span class="target" id="index-0"></span><em>Vector databases</em> are becoming more and more important.
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Maximum inner product search</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-quantisation">Vector quantisation</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><span class="math notranslate nohighlight">\(\newcommand{\bigO}{O}
+\newcommand{\trsp}[1]{#1^\intercal} % transpose
+\DeclareMathOperator*{\expec}{\mathbb{E}} % Expectation
+\DeclareMathOperator*{\proba}{\mathbb{P}}   % Probability
+\DeclareMathOperator*{\vari}{\mathbb{V}}   % Probability
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\)</span></p>
+<section class="tex2jax_ignore mathjax_ignore" id="maximum-inner-product-search">
+<h1>Maximum inner product search<a class="headerlink" href="#maximum-inner-product-search" title="Link to this heading">#</a></h1>
+<p><em>Vector databases</em> are becoming more and more important.
 What’s a vector database? A system to store a large number of vectors
 <span class="math notranslate nohighlight">\(x^{(1)},\ldots, x^{(n)}\in\mathbb R^d\)</span>
-in such a way that a (approximate) nearest neighbour search can be performed efficiently.
+in such a way that a (approximate) nearest neighbour search can be performed efficiently.<br />
 A recommender system, for instance, might
 store the preferences of the users encoded as vectors; for a new user the five most similar
 known users could be computed in order to recommend the products or services they prefered.
@@ -89,41 +325,41 @@ of documents are stored in the database; a user may then formulate a query (“w
 features Hamlet as a side character?”) that is transformed into a vector; the documents with
 most similar vector representation are then returned.</p>
 <p>What <em>most similar</em> means will differ from application to application. Often it may
-simply mean: the largest scalar product. That is, given a query
-<span class="math notranslate nohighlight">\(q\in\mathbb R^d\)</span> we look for the
-<span class="math notranslate nohighlight">\(x^{(i)}\)</span>
-with largest
-<span class="math notranslate nohighlight">\(q^\intercal x^{(i)}\)</span>.
-In that case, the problem is known as <span class="target" id="index-1"></span><em>maximum inner product search</em> (or MIPS).</p>
-<div class="admonition-retrieval-augmented-generation admonition">
-<p class="admonition-title">Retrieval augmented generation</p>
-<p>It is not easy to keep an AI chatbot up-to-date with current affairs.
+simply mean: the largest scalar product. That is, given a query <span class="math notranslate nohighlight">\(q\in\mathbb R^d\)</span> we look for the <span class="math notranslate nohighlight">\(x^{(i)}\)</span>
+with largest <span class="math notranslate nohighlight">\(\trsp{q}x^{(i)}\)</span>. In that case, the problem is known as <em>maximum inner product search</em> (or MIPS).</p>
+<p>At first, the computational problem may appear to have an easy solution – after all, scalar
+products can be computed very efficiently. With <span class="math notranslate nohighlight">\(n\)</span> vectors in the database, each with length <span class="math notranslate nohighlight">\(d\)</span>,
+checking every scalar product amounts to a running time of <span class="math notranslate nohighlight">\(\bigO(nd)\)</span>. The number of vectors, <span class="math notranslate nohighlight">\(n\)</span>,
+however, will usually be extremely large, perhaps even in the billions, and the dimension <span class="math notranslate nohighlight">\(d\)</span> may
+have three or four digits. Moreover, queries typically need to be answered very quickly. A recommender system,
+for example, could easily need to address hundreds or thousands of queries every second.
+As a result, a running time of <span class="math notranslate nohighlight">\(\bigO(nd)\)</span> may be too slow.
+How can this be sped up?</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-success sd-bg-text-success">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-rocket" viewBox="0 0 16 16" aria-hidden="true"><path d="M14.064 0h.186C15.216 0 16 .784 16 1.75v.186a8.752 8.752 0 0 1-2.564 6.186l-.458.459c-.314.314-.641.616-.979.904v3.207c0 .608-.315 1.172-.833 1.49l-2.774 1.707a.749.749 0 0 1-1.11-.418l-.954-3.102a1.214 1.214 0 0 1-.145-.125L3.754 9.816a1.218 1.218 0 0 1-.124-.145L.528 8.717a.749.749 0 0 1-.418-1.11l1.71-2.774A1.748 1.748 0 0 1 3.31 4h3.204c.288-.338.59-.665.904-.979l.459-.458A8.749 8.749 0 0 1 14.064 0ZM8.938 3.623h-.002l-.458.458c-.76.76-1.437 1.598-2.02 2.5l-1.5 2.317 2.143 2.143 2.317-1.5c.902-.583 1.74-1.26 2.499-2.02l.459-.458a7.25 7.25 0 0 0 2.123-5.127V1.75a.25.25 0 0 0-.25-.25h-.186a7.249 7.249 0 0 0-5.125 2.123ZM3.56 14.56c-.732.732-2.334 1.045-3.005 1.148a.234.234 0 0 1-.201-.064.234.234 0 0 1-.064-.201c.103-.671.416-2.273 1.15-3.003a1.502 1.502 0 1 1 2.12 2.12Zm6.94-3.935c-.088.06-.177.118-.266.175l-2.35 1.521.548 1.783 1.949-1.2a.25.25 0 0 0 .119-.213ZM3.678 8.116 5.2 5.766c.058-.09.117-.178.176-.266H3.309a.25.25 0 0 0-.213.119l-1.2 1.95ZM12 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg></span><span class="sd-summary-text">Retrieval augmented generation</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">It is not easy to keep an AI chatbot up-to-date with current affairs.
 The large language model (LLM) it is based on is trained on a snapshot of data
 available at training time (perhaps all of wikipedia as of 07/10/24). Later
 events (announcement of the Physics Nobel Prize on 08/10/24) are thus not immediately accessible
 to the bot.</p>
-<p>Re-training an LLM to incorporate later events is resource intensive and therefore only
+<p class="sd-card-text">Re-training an LLM to incorporate later events is resource intensive and therefore only
 done rarely. An alternative is to provide the AI chatbot with an external memory. One such
-method is <span class="target" id="index-2"></span><em>retrieval augmented generation</em>, or RAG.</p>
-<p>In RAG, the user query is transformed into a vector via a topic embedding that is compared to
+method is <em>retrieval augmented generation</em>, or RAG.</p>
+<p class="sd-card-text">In RAG, the user query is transformed into a vector via a topic embedding that is compared to
 data in a vector database (this could be a current snapshot of wikipedia). The perhaps ten documents
 that are most similar to the query are located and added to the prompt of the AI chatbot. The
 bot then generates the response based on the query and the search results.</p>
-<p><em>Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</em>,
+<p class="sd-card-text"><em>Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</em>,
 P. Lewis et al. (2021), <a class="reference external" href="https://arxiv.org/pdf/2005.11401">arXiv:2005.11401</a></p>
 </div>
-<p>At first, the computational problem may appear to have an easy solution – after all, scalar
-products can be computed very efficiently. With <span class="math notranslate nohighlight">\(n\)</span> vectors in the database, each with length <span class="math notranslate nohighlight">\(d\)</span>,
-checking every scalar product amounts to a running time of <span class="math notranslate nohighlight">\(O(nd)\)</span>. The number of vectors, <span class="math notranslate nohighlight">\(n\)</span>,
-however, will usually be extremely large, perhaps even in the billions, and the dimension <span class="math notranslate nohighlight">\(d\)</span> may
-have three or four digits. Moreover, queries typically need to be answered very quickly. A recommender system,
-for example, could easily need to address hundreds or thousands of queries every second.
-As a result, a running time of <span class="math notranslate nohighlight">\(O(nd)\)</span> may be too slow.
-How can this be sped up?</p>
-<section id="vector-quantisation">
-<h2>Vector quantisation<a class="headerlink" href="#vector-quantisation" title="Link to this heading"></a></h2>
+</details><section id="vector-quantisation">
+<h2>Vector quantisation<a class="headerlink" href="#vector-quantisation" title="Link to this heading">#</a></h2>
 <p>Let <span class="math notranslate nohighlight">\(x^{(1)},\ldots x^{(n)}\in\mathbb R^d\)</span> be the vectors  that make up the database,
-let <span class="math notranslate nohighlight">\(k,m&gt;0\)</span> be integers, and let <span class="math notranslate nohighlight">\(\ell=\tfrac{d}{m}\)</span>, which we assume to be an integer. <a class="footnote-reference brackets" href="#fquant" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
+let <span class="math notranslate nohighlight">\(k,m&gt;0\)</span> be integers, and let <span class="math notranslate nohighlight">\(\ell=\tfrac{d}{m}\)</span>, which we assume to be an integer.<label for='sidenote-role-1' class='margin-toggle'><span id="id1">
+<sup>1</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-1' name='sidenote-role-1' class='margin-toggle'><span class="sidenote"><sup>1</sup><em>Quantization based Fast Inner Product Search</em>, R. Guo, S. Kumar, K. Choromanski and D. Simcha (2015), <a class="reference external" href="https://arxiv.org/abs/1509.01469">arXiv:1509.01469</a></span></p>
 <p>We split each vector <span class="math notranslate nohighlight">\(x\in\mathbb R^d\)</span> into <span class="math notranslate nohighlight">\(m\)</span> vectors each of length <span class="math notranslate nohighlight">\(\ell\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}x=\begin{pmatrix}x_1\\x_2\\\vdots\\x_m\end{pmatrix}, \text{ with }x_j\in\mathbb R^\ell\text{ for }j=1,\ldots, m\end{split}\]</div>
@@ -133,105 +369,177 @@ These are used to replace the database vectors by simpler vectors: For each <spa
 we find a suitable <span class="math notranslate nohighlight">\(\hat x^{(i)}_j\in\{c_{j1},\ldots,c_{jk}\}\)</span>. That is, we basically replace <span class="math notranslate nohighlight">\(x^{(i)}_j\)</span> by one of <span class="math notranslate nohighlight">\(\{c_{j1},\ldots,c_{jk}\}\)</span>.
 In this way <span class="math notranslate nohighlight">\(x^{(i)}\)</span> is replaced by</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}\hat x^{(i)}=\begin{pmatrix}\hat x^{(i)}_1\\\vdots\\\hat x^{(i)}_m\end{pmatrix}\end{split}\]</div>
-<p>For a query <span class="math notranslate nohighlight">\(q\in\mathbb R^d\)</span> we then approximate <span class="math notranslate nohighlight">\(q^\intercal x^{(i)}\approx q^\intercal\hat x^{(i)}\)</span>.</p>
+\[\begin{split}
+\hat x^{(i)}=\begin{pmatrix}\hat x^{(i)}_1\\\vdots\\\hat x^{(i)}_m\end{pmatrix}
+\end{split}\]</div>
+<p>For a query <span class="math notranslate nohighlight">\(q\in\mathbb R^d\)</span> we then approximate <span class="math notranslate nohighlight">\(\trsp qx^{(i)}\approx \trsp q\hat x^{(i)}\)</span>.</p>
 <p>Before we look at <span class="math notranslate nohighlight">\(q\hat x^{(i)}\)</span> let me point out that replacing each <span class="math notranslate nohighlight">\(x^{(i)}\)</span> by <span class="math notranslate nohighlight">\(\hat x^{(i)}\)</span>
 already results in a welcome compression of the data. Indeed, we only need to store all <span class="math notranslate nohighlight">\(c_{js}\)</span>, <span class="math notranslate nohighlight">\(j=1,\ldots, m\)</span>, <span class="math notranslate nohighlight">\(s=1,\ldots, k\)</span>
 and, instead of <span class="math notranslate nohighlight">\(x^{(i)}\)</span> we store a vector <span class="math notranslate nohighlight">\(\hat z^{(i)}\in\{1,\ldots,k\}^m\)</span> with <span class="math notranslate nohighlight">\(\hat z^{(i)}_j=s\)</span> if and only if <span class="math notranslate nohighlight">\(\hat x^{(i)}_j=c_{js}\)</span>.</p>
-<p>What is the computational complexity to compute <span class="math notranslate nohighlight">\(q^\intercal\hat x^{(i)}\)</span> for all <span class="math notranslate nohighlight">\(i\)</span>?
+<p>What is the computational complexity to compute <span class="math notranslate nohighlight">\(\trsp q\hat x^{(i)}\)</span> for all <span class="math notranslate nohighlight">\(i\)</span>?
 We write</p>
 <div class="math notranslate nohighlight">
-\[q^\intercal\hat x^{(i)} = \sum_{j=1}^mq^\intercal_j\hat x^{(i)}_j\]</div>
-<p>Note that <span class="math notranslate nohighlight">\(\hat x^{(i)}_j\)</span> is one of <span class="math notranslate nohighlight">\(c_{j1},\ldots, c_{jk}\)</span>. We first compute all scalar products <span class="math notranslate nohighlight">\(q^\intercal_jc_{js}\)</span> and
-put them in a look-up table. Computing the scalar product takes <span class="math notranslate nohighlight">\(O(mk\ell)\)</span> time as <span class="math notranslate nohighlight">\(j\)</span> runs from <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(m\)</span>, <span class="math notranslate nohighlight">\(s\)</span> runs
-from <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(k\)</span> and as the vectors have length <span class="math notranslate nohighlight">\(\ell\)</span>. With <span class="math notranslate nohighlight">\(\ell=\tfrac{d}{m}\)</span> the running time reduces to <span class="math notranslate nohighlight">\(O(kd)\)</span>.
-Then, using the look-up table, we compute for all <span class="math notranslate nohighlight">\(i\)</span> the scalar product <span class="math notranslate nohighlight">\(q^\intercal\hat x^{(i)}\)</span>, with a running time of
-<span class="math notranslate nohighlight">\(O(nm)\)</span>. In total we obtain a running time of <span class="math notranslate nohighlight">\(O(kd+nm)\)</span>. As <span class="math notranslate nohighlight">\(n\)</span> is typically the by far largest quantity among
-<span class="math notranslate nohighlight">\(d,k,n,m\)</span> the running time is dominated by <span class="math notranslate nohighlight">\(O(nm)\)</span>, and as usually <span class="math notranslate nohighlight">\(m \ll d\)</span>, we achieve a substantial reduction
-in comparison to the running time <span class="math notranslate nohighlight">\(O(nd)\)</span> of the naive algorithm.</p>
-<p>How should the representatives <span class="math notranslate nohighlight">\(c_{ji},\ldots,c_{jk}\in\mathbb R^\ell\)</span> be chosen? Well, <span class="math notranslate nohighlight">\(q^\intercal\hat x^{(i)}\)</span>
-should be a good approximation of <span class="math notranslate nohighlight">\(q^\intercal x^{(i)}\)</span>, which is the case if <span class="math notranslate nohighlight">\(q^\intercal_j\hat x^{(i)}_j\)</span> is a
-good approximation of <span class="math notranslate nohighlight">\(q^\intercal_jx^{(i)}_j\)</span> for every <span class="math notranslate nohighlight">\(j\in\{1,\ldots, m\}\)</span>. So, let’s fix <span class="math notranslate nohighlight">\(j\)</span> and
+\[
+\trsp q\hat x^{(i)} = \sum_{j=1}^m\trsp q_j\hat x^{(i)}_j
+\]</div>
+<p>Note that <span class="math notranslate nohighlight">\(\hat x^{(i)}_j\)</span> is one of <span class="math notranslate nohighlight">\(c_{j1},\ldots, c_{jk}\)</span>. We first compute all scalar products <span class="math notranslate nohighlight">\(\trsp q_jc_{js}\)</span> and
+put them in a look-up table. Computing the scalar product takes <span class="math notranslate nohighlight">\(\bigO(mk\ell)\)</span> time as <span class="math notranslate nohighlight">\(j\)</span> runs from <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(m\)</span>, <span class="math notranslate nohighlight">\(s\)</span> runs
+from <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(k\)</span> and as the vectors have length <span class="math notranslate nohighlight">\(\ell\)</span>. With <span class="math notranslate nohighlight">\(\ell=\tfrac{d}{m}\)</span> the running time reduces to <span class="math notranslate nohighlight">\(\bigO(kd)\)</span>.
+Then, using the look-up table, we compute for all <span class="math notranslate nohighlight">\(i\)</span> the scalar product <span class="math notranslate nohighlight">\(\trsp q\hat x^{(i)}\)</span>, with a running time of
+<span class="math notranslate nohighlight">\(\bigO(nm)\)</span>. In total we obtain a running time of <span class="math notranslate nohighlight">\(\bigO(kd+nm)\)</span>. As <span class="math notranslate nohighlight">\(n\)</span> is typically the by far largest quantity among
+<span class="math notranslate nohighlight">\(d,k,n,m\)</span> the running time is dominated by <span class="math notranslate nohighlight">\(\bigO(nm)\)</span>, and as usually <span class="math notranslate nohighlight">\(m \ll d\)</span>, we achieve a substantial reduction
+in comparison to the running time <span class="math notranslate nohighlight">\(\bigO(nd)\)</span> of the naive algorithm.</p>
+<p>How should the representatives <span class="math notranslate nohighlight">\(c_{ji},\ldots,c_{jk}\in\mathbb R^\ell\)</span> be chosen? Well, <span class="math notranslate nohighlight">\(\trsp q\hat x^{(i)}\)</span>
+should be a good approximation of <span class="math notranslate nohighlight">\(\trsp qx^{(i)}\)</span>, which is the case if <span class="math notranslate nohighlight">\(\trsp q_j\hat x^{(i)}_j\)</span> is a
+good approximation of <span class="math notranslate nohighlight">\(\trsp q_jx^{(i)}_j\)</span> for every <span class="math notranslate nohighlight">\(j\in\{1,\ldots, m\}\)</span>. So, let’s fix <span class="math notranslate nohighlight">\(j\)</span> and
 let us assume that the queries <span class="math notranslate nohighlight">\(q\)</span> are drawn from some distribution <span class="math notranslate nohighlight">\(\mathcal D\)</span>.
 Then, arguably, we should choose <span class="math notranslate nohighlight">\(c_{j1},\ldots,c_{jk}\)</span> such that</p>
 <div class="math notranslate nohighlight" id="equation-vqobj">
-<span class="eqno">(1)<a class="headerlink" href="#equation-vqobj" title="Link to this equation"></a></span>\[\mathbb E_{q\sim\mathcal D}\left[\sum_{i=1}^n(q^\intercal_jx^{(i)}_j-q^\intercal_j\hat x^{(i)}_j)^2\right]\]</div>
+<span class="eqno">(1)<a class="headerlink" href="#equation-vqobj" title="Link to this equation">#</a></span>\[\expec_{q\sim\mathcal D}\left[\sum_{i=1}^n(\trsp q_jx^{(i)}_j-\trsp q_j\hat x^{(i)}_j)^2\right]\]</div>
 <p>is minimised. Let us rewrite that.</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\mathbb E_{q\sim\mathcal D}\left[\sum_{i=1}^n\left(q^\intercal_jx^{(i)}_j-q^\intercal_j\hat x^{(i)}_j\right)^2\right]
-&amp;= \sum_{i=1}^n\mathbb E_{q\sim\mathcal D}\left[\left(q^\intercal_j\left(x^{(i)}_j-\hat x^{(i)}_j\right)\right)^2\right]\\
-&amp;=\sum_{i=1}^n\mathbb E_{q\sim\mathcal D}\left[\left( \cos\theta_{ij} ||q_j||\cdot ||x^{(i)}_j-\hat x^{(i)}_j|| \right)^2\right]\\
-&amp;=\sum_{i=1}^n||x^{(i)}_j-\hat x^{(i)}_j||^2\cdot\mathbb E_{q\sim\mathcal D}\left[\left( \cos\theta_{ij} ||q_j||\right)^2\right],\end{split}\]</div>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\expec_{q\sim\mathcal D}\left[\sum_{i=1}^n\left(\trsp q_jx^{(i)}_j-\trsp q_j\hat x^{(i)}_j\right)^2\right]
+&amp;= \sum_{i=1}^n\expec_{q\sim\mathcal D}\left[\left(\trsp q_j\left(x^{(i)}_j-\hat x^{(i)}_j\right)\right)^2\right]\\
+&amp;=\sum_{i=1}^n\expec_{q\sim\mathcal D}\left[\left( \cos\theta_{ij} ||q_j||\cdot ||x^{(i)}_j-\hat x^{(i)}_j|| \right)^2\right]\\
+&amp;=\sum_{i=1}^n||x^{(i)}_j-\hat x^{(i)}_j||^2\cdot\expec_{q\sim\mathcal D}\left[\left( \cos\theta_{ij} ||q_j||\right)^2\right],
+\end{align*}\]</div>
 <p>where we write <span class="math notranslate nohighlight">\(\theta_{ij}\)</span> for the angle between <span class="math notranslate nohighlight">\(q_j\)</span> and <span class="math notranslate nohighlight">\(x^{(i)}_j-\hat x^{(i)}_j\)</span>.</p>
 <p>We’ve reached a point where we are stuck without further assumption on the distribution <span class="math notranslate nohighlight">\(\mathcal D\)</span>.
 We do not want to impose strong conditions on it as it is quite outside our control.
 However, not too far of a stretch seems to assume that <span class="math notranslate nohighlight">\(\mathcal D\)</span> is <em>isotropic</em>, ie, does not
 depend on the direction. Under that assumption, we obtain:</p>
-<div class="math notranslate nohighlight">
-\[\mathbb E_{q\sim\mathcal D}\left[\sum_{i=1}^n\left(q^\intercal_jx^{(i)}_j-q^\intercal_j\hat x^{(i)}_j\right)^2\right]
-=C\sum_{i=1}^n||x^{(i)}_j-\hat x^{(i)}_j||^2,\]</div>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\expec_{q\sim\mathcal D}\left[\sum_{i=1}^n\left(\trsp q_jx^{(i)}_j-\trsp q_j\hat x^{(i)}_j\right)^2\right]
+&amp;=C\sum_{i=1}^n||x^{(i)}_j-\hat x^{(i)}_j||^2,
+\end{align*}\]</div>
 <p>for some constant <span class="math notranslate nohighlight">\(C&gt;0\)</span> that only depends on <span class="math notranslate nohighlight">\(\mathcal D\)</span> but not on <span class="math notranslate nohighlight">\(\hat x^{(i)}_j\)</span>.</p>
 <p>Recall that each <span class="math notranslate nohighlight">\(\hat x^{(i)}_j\)</span> is one of <span class="math notranslate nohighlight">\(c_{j1},\ldots,c_{jk}\)</span>. Thus</p>
 <div class="math notranslate nohighlight">
-\[\text{argmin}_{c_{j1},\ldots,c_{jk}} \mathbb E_{q\sim\mathcal D}\left[\sum_{i=1}^n\left(q^\intercal_jx^{(i)}_j-q^\intercal_j\hat x^{(i)}_j\right)^2\right]
-= \text{argmin}_{c_{j1},\ldots,c_{jk}} \sum_{i=1}^n\min_{s}||x^{(i)}_j-c_{js}||^2,\]</div>
+\[
+\argmin_{c_{j1},\ldots,c_{jk}} \expec_{q\sim\mathcal D}\left[\sum_{i=1}^n\left(\trsp q_jx^{(i)}_j-\trsp q_j\hat x^{(i)}_j\right)^2\right]
+= \argmin_{c_{j1},\ldots,c_{jk}} \sum_{i=1}^n\min_{s}||x^{(i)}_j-c_{js}||^2,
+\]</div>
 <p>which is nothing else than the <span class="math notranslate nohighlight">\(k\)</span>-means objective!</p>
 <p>What does that mean? We split each database vector <span class="math notranslate nohighlight">\(x^{(i)}\)</span> into chunks of size <span class="math notranslate nohighlight">\(\tfrac{d}{m}\)</span>, and then, for each <span class="math notranslate nohighlight">\(j=1,\ldots, m\)</span>,
 solve for the data <span class="math notranslate nohighlight">\(x^{(1)}_j,\ldots, x^{(n)}_j\)</span> a <span class="math notranslate nohighlight">\(k\)</span>-means clustering problem, resulting
 in the centres <span class="math notranslate nohighlight">\(c_{j1},\ldots,c_{jk}\)</span>; finally we replace each <span class="math notranslate nohighlight">\(x^{(i)}_j\)</span> with the nearest cluster centre <span class="math notranslate nohighlight">\(c_{js}\)</span>.</p>
-<p id="index-3">Replacing vectors in a dataset by simpler vectors is  called <em>vector quantisation</em>, and also used as a compression tool,
+<p>Replacing vectors in a dataset by simpler vectors is  called <em>vector quantisation</em><label for='marginnote-role-2' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-2' name='marginnote-role-2' class='margin-toggle'><span class="marginnote"> vector quantisation</span>, and also used as a compression tool,
 for example, in video or audio codecs.</p>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
 <p>The approach outlined here can be improved upon. Indeed, I’ve cheated with the objective <a class="reference internal" href="#equation-vqobj">(1)</a>: The objective
-incorporates <em>all</em> scalar products <span class="math notranslate nohighlight">\(q^\intercal\hat x^{(i)}\)</span>. In the applications, however, we just want to find
+incorporates <em>all</em> scalar products <span class="math notranslate nohighlight">\(\trsp q\hat x^{(i)}\)</span>. In the applications, however, we just want to find
 the datapoint with largest scalar product with the query, or rather, the top-10 datapoints with largest scalar product.
-Thus, it does not matter if <span class="math notranslate nohighlight">\(q^\intercal\hat x^{(i)}\)</span> deviates from <span class="math notranslate nohighlight">\(q^\intercal x^{(i)}\)</span> as long as both scalar products
+Thus, it does not matter if <span class="math notranslate nohighlight">\(\trsp q\hat x^{(i)}\)</span> deviates from <span class="math notranslate nohighlight">\(\trsp qx^{(i)}\)</span> as long as both scalar products
 are not too large. This insight can be used to devise a more complicated loss function that results in
-better performance; see Guo et al. (2020). <a class="footnote-reference brackets" href="#fguo" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a></p>
-<p class="rubric">Footnotes</p>
-<aside class="footnote-list brackets">
-<aside class="footnote brackets" id="fquant" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
-<p><em>Quantization based Fast Inner Product Search</em>, R. Guo, S. Kumar, K. Choromanski and D. Simcha (2015), <a class="reference external" href="https://arxiv.org/abs/1509.01469">arXiv:1509.01469</a></p>
-</aside>
-<aside class="footnote brackets" id="fguo" role="doc-footnote">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
-<p><em>Accelerating Large-Scale Inference with Anisotropic Vector Quantization</em>, R. Guo, P. Sun, E. Lindgren, Q. Geng, D. Simcha, F. Chern and S. Kumar (2020), <a class="reference external" href="https://arxiv.org/pdf/1908.10396">arXiv:1908.10396</a></p>
-</aside>
-</aside>
+better performance; see Guo et al. (2020).<label for='sidenote-role-3' class='margin-toggle'><span id="id3">
+<sup>3</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-3' name='sidenote-role-3' class='margin-toggle'><span class="sidenote"><sup>3</sup><em>Accelerating Large-Scale Inference with Anisotropic Vector Quantization</em>, R. Guo, P. Sun, E. Lindgren, Q. Geng, D. Simcha,
+F. Chern and S. Kumar (2020), <a class="reference external" href="https://arxiv.org/pdf/1908.10396">arXiv:1908.10396</a></span></p>
 </section>
 </section>
+<hr class="footnotes docutils" />
 
 
-           </div>
-          </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../index.html" class="btn btn-neutral float-left" title="A test run" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-    </div>
+                </article>
+              
 
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2024, me.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">A second test run</p>
       </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+    </a>
+    <a class="right-next"
+       href="convex.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Stochastic gradient descent</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
-</body>
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-quantisation">Vector quantisation</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Henning
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Henning.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
 </html>

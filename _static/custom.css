@@ -1,1 +1,24 @@
 /* This file intentionally left blank. */
+
+div.lemma {
+	border-color: var(--note-border-color);
+	background-color: var(--note-title-color);
+}
+
+div.lemma p.admonition-title {
+	background-color: var(--note-title-color);
+}
+
+
+:root {
+	--sd-color-card-border: rgba(220, 53, 69, 0.2);
+	--sd-color-card-border-hover: rgba(220, 53, 69, 0.2);
+	--sd-color-card-background: rgba(220, 53, 69, 0.2);
+	--sd-color-card-text: inherit;
+	--sd-color-card-header: rgba(220, 53, 69, 0.2);
+	--sd-color-card-footer: rgba(220, 53, 69, 0.2);
+}
+
+.sd-card-header{padding:.5rem 1rem;margin-bottom:0;background-color:powderblue;border-bottom:1px solid var(--sd-color-card-border)}
+
+
