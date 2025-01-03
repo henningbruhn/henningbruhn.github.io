@@ -39,7 +39,7 @@ How can this be sped up?
 
 :::{dropdown} Retrieval augmented generation
 :color: success
-:icon: rocket
+:icon: telescope
 
 It is not easy to keep an AI chatbot up-to-date with current affairs. 
 The large language model (LLM) it is based on is trained on a snapshot of data 

@@ -6,6 +6,7 @@ $\newcommand{\bigO}{O}
 \DeclareMathOperator*{\argmin}{argmin}
 \DeclareMathOperator*{\argmax}{argmax}
 \newcommand{\sigm}{\phi_{\text{sig}}} % logistic function
+\newcommand{\bigOmega}{\Omega}
 $
 
 Stochastic gradient descent
@@ -401,20 +402,18 @@ How can we minimise them? With *stochastic gradient descent* -- it is this
 algorithm (or one of its variants) that powers most of machine learning. Let's understand
 simple *gradient descent* first.
 
-```{prf:Algorithm}
+```{prf:Algorithm} gradient descent
 :label: gdalg
 **Instance** A differentiable function $f:\mathbb R^n\to\mathbb R$, a first point $x^{(1)}$.\
-**Output** A point :math:$x$.
+**Output** A point $x$.
 
 1. Set $t=1$. 
-2. While stopping criterion not satisfied:
-
-   3. Compute $\nabla f(x^{(t)})$.
-   4. Compute learning rate $\eta_t$.
-   5. Set $x^{(t+1)}=x^{(t)}-\eta_t\nabla f(x^{(t)})$.
-   6. Set $t=t+1$.
-   
-7. Output $x^{(t)}$, or best of $x^{(1)},\ldots, x^{(t)}$, or average.
+2. **while** stopping criterion not satisfied:
+3.   {{tab}}Compute $\nabla f(x^{(t)})$.
+4.   {{tab}}Compute learning rate $\eta_t$.
+5.   {{tab}}Set $x^{(t+1)}=x^{(t)}-\eta_t\nabla f(x^{(t)})$.
+6.   {{tab}}Set $t=t+1$.   
+7. **output** $x^{(t)}$, or best of $x^{(1)},\ldots, x^{(t)}$, or average.
 ```
 
 There[^gdcode] are different strategies for the learning rate $\eta_t$ (which should always be positive). 
@@ -424,7 +423,7 @@ of gradient descent, a constant learning rate will probably lead to slow progres
 while near the minimum, it might lead to overshooting. More common are decreasing or
 adaptive learning rates, see below. 
 
-[^gdcode]: {-} [gradient descent](https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/stochastic_gradient_descent/gradient.ipynb)
+[^gdcode]: {-} [{{ codeicon }}gradient descent](https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/stochastic_gradient_descent/gradient.ipynb)
 
 Typical stopping criteria are: a pre-fixed maximum number of iterations has been reached;
 or the norm of the gradient has become very small. 
@@ -463,7 +462,7 @@ We will not discuss this in more detail as plain gradient descent is almost neve
 
 ````{dropdown} Gradient descent – an old technique
 :color: success
-:icon: rocket
+:icon: telescope
 
 ```{image} pix/cauchy_methode_generale.png
 :width: 10cm
@@ -485,4 +484,453 @@ the most prolific mathematicians of all time.
 *Méthode générale pour la résolution des systèmes d’équations
 simultanées*, A.L. Cauchy (1847)
 ````
+
+(sgdsec)=
+Stochastic gradient descent
+---------------------------
+
+Gradient descent is a quite efficient algorithm. Under mild assumptions and with the right 
+(adaptable) learning rate it can be shown that the error $\epsilon$, the difference $f(\overline x)-f(x^*)$,
+decreases exponentially with the number of iterations, i.e. that
+
+$$
+\log(1/\epsilon) \sim t \leftrightarrow \epsilon \sim e^{-t}
+$$
+
+Why is gradient descent not normally used in machine learning? Let's consider logistic regression, 
+where we have the logistic loss function 
+
+$$
+w\mapsto \frac{1}{|S|}\sum_{(x,y)\in S}\log_2\left(1+e^{-y\trsp wx}\right)
+$$
+
+Note that we see that loss function as a function on the weights $w$.
+To apply gradient descent we first compute the gradient of the loss function $L$ as
+
+$$
+\nabla L(w) = \frac{1}{\ln 2\cdot |S|}\sum_{(x,y)\in S}\frac{-y}{1+e^{y\trsp wx}} x
+$$
+
+We see that the computation of $\nabla L(w)$ needs $\bigOmega(|S|)$ many operations,
+and that thus one iteration of gradient descent has running time $\bigOmega(|S|)$.
+In machine learning, data sets may be very large, so large that it becomes infeasible 
+to execute many iterations of gradient descent. In such cases, *stochastic gradient descent* (SGD)
+starts to shine: instead of computing the full gradient, the gradient with respect to a 
+random sample in the training set is computed:
+
+$$
+\nabla L_{(x,y)}(w) = \frac{1}{\ln 2} \frac{-y}{1+e^{y\trsp wx}} x
+$$
+ 
+Clearly, this is much faster -- it only needs $\bigO(1)$ many operations (we treat the dimension $n$ of
+the sample space as a constant). Now, the sample based gradient $\nabla L_{(x,y)}(w)$
+will in general by different from the full gradient $\nabla L(w)$. However, its *expectation*
+$\expec_{(x,y)}[\nabla L_{(x,y)}(w)]$ coincides with $\nabla L(w)$. This is
+the key point exploited by SGD. Moreover, this can be generalised to arbitrary loss
+function, or empirical risks.[^sgdcode]
+
+[^sgdcode]: {-} [{{ codeicon }}sgd](https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/stochastic_gradient_descent/sgd.ipynb)
+
+
+```{prf:Algorithm} stochastic gradient descent
+:label: sgdalg
+**Instance** An empirical risk $L(w)=\tfrac{1}{|S|}\sum_{(x,y)\in S}L_{(x,y)}(w)$, a  point $w^{(1)}$.\
+**Output** A point $w$.
+
+1. Set $t=1$.
+2. Initialise $w^{(1)}$ to some value.
+3. **while** stopping criterion not satisfied:
+4. {{tab}}Sample $z_t=(x_t,y_t)$ uniformly from $S$.
+4. {{tab}}Compute $\nabla L_{z_t}(w^{(t)})$.
+4. {{tab}}Compute learning rate $\eta_t$.
+4. {{tab}}Set $w^{(t+1)}=w^{(t)}-\eta_t\nabla L_{z_t}(w^{(t)})$.
+4. {{tab}}Set $t=t+1$.
+4. **output** $w^{(t)}$, or best of $w^{(1)},\ldots, w^{(t)}$, or average.
+```
+
+```{figure} pix/sgd_three_runs.png
+:name: setafig
+:width: 15cm
+
+Three runs of SGD with same constant learning rate. The function to be minimised 
+is $(x,y)\mapsto \tfrac{1}{2}(x^2+10y^2)$, which is not of the type that is typical in machine learning. 
+To simulate SGD a normally distributed error is added to each gradient.
+```
+
+In a similar way as gradient descent, 
+SGD will also converge towards the global minimum 
+of a convex loss function. We'll prove a corresponding result below.
+
+
+:::{dropdown} Learning rates
+:color: success
+:icon: telescope
+
+How well SGD resolves an optimisation problem depends quite heavily on the learning rates. 
+A too small learning rate leads to slow convergence, while a too large rate might even 
+preclude convergence. Often, therefore, learning rate schemes are  used that initially have
+a large learning rate that, over time, is decreased. In this way, the algorithm takes large 
+steps at the beginning and then ever smaller step to home in on some (local) optimum. 
+
+Different learning rate schemes are popular, among them:
+
+* *exponential scheduling:* in iteration $t$, the learning rate is set to
+$
+\eta_t=\eta_0\cdot 10^{-\frac{t}{r}},
+$
+where $\eta_0$ and $r>0$ are parameters that need to be fine-tuned.
+* *power scheduling:* the learning rate is set to 
+$
+\eta_t=\eta_0(1+\tfrac{t}{r})^{-c},
+$
+where again $\eta_0,c,r$ are parameters.
+* *performance scheduling:* the learning rate $\eta_t$ is adapted 
+with respect to how some performance measure improves. That is, if accuracy (or some other relevant 
+measure) stops improving then the learning rate is decreased.
+
+
+*An empirical study of learning rates in deep neural networks for speech recognition*, 
+A. Senior, G. Heigold, M. Ranzato and K. Yang (2013) [link](https://static.googleusercontent.com/media/research.google.com/de//pubs/archive/40808.pdf)
+:::
+
+Analysis of SGD
+---------------
+
+If the loss function is convex then SGD converges, at least in expectation,
+towards the global minimum, provided some additional mild conditions are satisfied.[^Tur]
+There are a number of such convergence proofs, each with their own set of additional 
+conditions. We assume here strong convexity.
+
+[^Tur]: Based on *The convergence of the Stochastic Gradient Descent (SGD) : a self-contained proof*
+by G. Turinci, [arXiv:2103.14350](https://arxiv.org/pdf/2103.14350.pdf)
+
+
+Let $S$ be a training set, and let 
+
+$$
+L:w \mapsto\frac{1}{|S|}\sum_{(x,y)\in S}L_{(x,y)}(w)
+$$
+
+be a differentiable loss function such that 
+
+1. [$w\mapsto L(w)$ is $\mu$-strongly convex;]{#coni} and 
+2. [there is a constant $B$ such that $\sup_{w}||\nabla L_{(x,y)}(w)||^2\leq B$ for all $(x,y)\in S$.]{#conii}
+
+How serious are these assumptions? If the loss function is convex then it is often 
+also strongly convex --- due to regularisation. (We'll discuss this later.)
+The loss function of a neural network, however, will almost never be convex. 
+The second assumption is also a serious restriction. In practice, however, we normally do not
+encounter very large gradients, or if we do, we would cap the gradient or
+restart the algorithm. 
+
+Let $w^*$ be the global minimum of $L(w)$:
+
+$$
+w^*=\argmin_w L(w)
+$$
+
+
+We denote by  $\expec_{1..t}[Z]$ the expected value of some random variable over 
+the iterations $1,\ldots, t$ of the SGD algorithm.
+
+Set $\epsilon_t=\expec_{1..t-1}\left[||w^{(t)}-w^*||^2\right]$. Our aim is to show 
+that $\epsilon_t\to 0$ as $t\to\infty$ provided the learning rate is adapted in the right way.
+
+We now fix what we need from the learning rate. We'll require 
+ positive $\eta_1\geq \eta_2\geq\ldots$
+such that 
+
+$$
+\sum_{t=1}^\infty\eta_t=\infty\text{ but }\sum_{t=1}^\infty\eta_t^2<\infty
+$$
+
+An example here would be a learning rate of the form
+
+$$
+\eta_t=\tfrac{\eta_0}{t}
+$$
+
+
+
+We now prove that SGD is expected to converge towards the minimum. 
+
+```{prf:Theorem}
+:label: sgdthm
+Let $S$ be a training set, and let 
+
+$$
+L:w \mapsto\frac{1}{|S|}\sum_{(x,y)\in S}L_{(x,y)}(w)
+$$
+
+ be a differentiable $\mu$-strongly convex loss function such that 
+ there is a constant $B$ with
+$\sup_{w}||\nabla L_{(x,y)}(w)||^2\leq B$ for all $(x,y)\in S$.
+If $\eta_1\geq \eta_2\geq\ldots$ are
+such that 
+$\sum_{t=1}^\infty\eta_t=\infty$  but $\sum_{t=1}^\infty\eta_t^2<\infty$
+then
+
+$$
+\expec_{1..t}\left[||w^{(t+1)}-w^*||^2\right]\to 0\text{ as }t\to\infty,
+$$
+
+where $w^*$ is a global minimum of $L$.
+```
+
+We need a key lemma for the proof:
+
+```{prf:Lemma}
+:label: sgdlem4
+
+$$
+\epsilon_{T'+k+1}\leq \epsilon_{T'}\prod_{t=T'}^{T'+k}(1-\eta_t\mu)+\sum_{t=T'}^{T'+k}\eta_t^2B
+$$
+
+as long as $1-\eta_t\mu\geq 0$ for all $t\in\{T',\ldots, T'+k\}$.
+```
+
+With the help of the lemma, we can do the proof of {prf:ref}`sgdthm`:
+````{prf:Proof} 
+Fix some arbitrary $\delta>0$. We show that then  for every 
+large enough  $T$ it holds  that $\epsilon_T\leq\delta$.
+
+First, as $\sum_{t=1}^\infty\eta_t^2<\infty$ there is a $T'$ such that 
+```{math}
+:label: blubb1
+B\sum_{t=T'}^\infty \eta_t^2\leq\tfrac{1}{2}\delta
+```
+At the same time we can choose $T'$ large enough such that $1-\eta_t\mu\geq 0$ for all $t\geq T'$. 
+
+Next, choose $k_0$ large enough such that 
+```{math}
+:label: blubb2
+\text{exp}\left(\sum_{t=T'}^{T'+k_0}\eta_t\mu\right)\geq \frac{2\epsilon_{T'}}{\delta}
+```
+This is possible as $\sum_{t=1}^\infty\eta_t=\infty$.
+Also note that then {eq}`blubb2` holds for every integer $k\geq k_0$.
+
+With {prf:ref}`sgdlem4` we get for every $T=T'+k+1$ with $k\geq k_0$
+\begin{align*}
+\epsilon_T &\leq \epsilon_{T'}\prod_{t=T'}^{T'+k}(1-\eta_t\mu)+\sum_{t=T'}^{T'+k}\eta_t^2B\\
+&\leq \epsilon_{T'}\prod_{t=T'}^{T'+k}e^{\ln(1-\eta_t\mu)} + \sum_{t=T'}^{\infty}\eta_t^2B\\
+& \leq \epsilon_{T'}\text{exp}\left(\sum_{t=T'}^{T'+k}\ln(1-\eta_t\mu)\right) +\tfrac{1}{2}\delta,
+\end{align*}
+by {eq}`blubb1`. Next, we use $\ln(1-x)\leq -x$, which holds for any $x<1$:
+\begin{align*}
+\epsilon_T 
+& \leq \epsilon_{T'}\text{exp}\left(\sum_{t=T'}^{T'+k}-\eta_t\mu\right) +\tfrac{1}{2}\delta,
+\end{align*}
+and then {eq}`blubb2` to obtain
+$
+\epsilon_T \leq \tfrac{1}{2}\delta+\tfrac{1}{2}\delta=\delta.
+$
+````
+
+It remains to prove {prf:ref}`sgdlem4`. 
+As a first step, we prove:
+```{prf:Lemma}
+:label: sgdlem3
+
+$$
+\epsilon_{t+1}\leq\epsilon_t(1-\eta_t\mu)+\eta_t^2B
+$$
+```
+````{prf:Proof}
+We start with
+\begin{align*}
+\epsilon_{t+1} &= 
+\expec_{1..t}\left[||w^{(t+1)}-w^*||^2\right] \\ 
+& = \expec_{1..t}\left[||w^{(t)}-\eta_t\nabla L_{z_t}(w^{(t)})-w^*||^2\right] \\
+& = \epsilon_t -2\eta_t\expec_{1..t}\left[\trsp{(w^{(t)}-w^*)}\nabla^{(t)}\right]+\eta_t^2 \expec_{1..t}[||\nabla^{(t)}||^2], 
+\end{align*}
+where we have abbreviated $\nabla L_{z_t}(w^{(t)})$ to $\nabla^{(t)}$.
+With [condition 2](conii) on $L$, we obtain
+```{math}
+:label: sgd1
+\epsilon_{t+1} \leq \epsilon_t -2\eta_t\expec_{1..t}\left[\trsp{(w^{(t)}-w^*)}\nabla^{(t)}\right]+\eta_t^2 B
+```
+We focus on the summand in the middle:
+\begin{align*}
+\expec_{1..t}\left[\trsp{(w^{(t)}-w^*)}\nabla^{(t)}\right] & = 
+\expec_{1..t-1}\left[\expec_{z_t}[\trsp{(w^{(t)}-w^*)}\nabla^{(t)}]\right] \\
+& = \expec_{1..t-1}\left[\trsp{(w^{(t)}-w^*)}\expec_{z_t}[\nabla^{(t)}]\right] \\
+& = \expec_{1..t-1}\left[\trsp{(w^{(t)}-w^*)}\nabla L(w^{(t)})\right]
+\end{align*}
+We use {prf:ref}`strongdifflem`, to see that
+
+$$
+\trsp{(w^{(t)}-w^*)}\nabla L(w^{(t)}) \geq L(w^{(t)})-L(w^*) + \tfrac{\mu}{2}||w^{(t)}-w^*||^2,
+$$
+
+which we plug right in:
+\begin{align*}
+\expec_{1..t}\left[\trsp{(w^{(t)}-w^*)}\nabla^{(t)}\right] & \geq 
+\expec_{1..t-1}\left[
+L(w^{(t)})-L(w^*) + \tfrac{\mu}{2}||w^{(t)}-w^*||^2 
+\right] \\
+& \geq 
+\expec_{1..t-1}\left[
+\tfrac{\mu}{2}||w^{(t)}-w^*||^2 
+\right] =  \tfrac{\mu}{2}\epsilon_t,
+\end{align*}
+as $L(w^*)\leq L(w^{(t)})$ by choice of $w^*$.
+
+We use that in {eq}`sgd1`:
+
+$$
+\epsilon_{t+1} \leq \epsilon_t -2\eta_t\cdot\tfrac{\mu}{2}\epsilon_t
++\eta_t^2 B,
+$$
+
+which finishes the proof of the lemma.
+````
+
+Let's finish the proof of {prf:ref}`sgdlem4`.
+```{prf:Proof}
+For $k=0$, this is just {prf:ref}`sgdlem3`. Now, we do induction and use {prf:ref}`sgdlem3`
+again:
+\begin{align*}
+\epsilon_{T'+k+1}&\leq \epsilon_{T'+k}(1-\eta_{T'+k}\mu)+\eta_{T'+k}^2B\\
+&\leq (1-\eta_{T'+k}\mu)\left(\epsilon_{T'}\prod_{t=T'}^{T'+k-1}(1-\eta_t\mu)+\sum_{t=T'}^{T'+k-1}\eta_t^2B\right)
++\eta_{T'+k}^2B \\
+& \leq \epsilon_{T'}\prod_{t=T'}^{T'+k}(1-\eta_t\mu)+\sum_{t=T'}^{T'+k}\eta_t^2B
+\end{align*}
+as $(1-\eta_{T'+k}\mu)\leq 1$ and $(1-\eta_{T'+k}\mu)\geq 0$.
+```
+
+Discussion of SGD
+-----------------
+
+Descent methods are old, simple and have apparently been observed
+to be ``slow and unreliable''.[^slow] Moreover, 
+in convex optimisation, when both algorithms are known to converge,
+SGD has even worse convergence rates than vanilla gradient descent. 
+In fact, while the error $\epsilon$, the difference $f(x^{(t)})-f(x^*)$ 
+is known to drop exponentially for gradient descent, ie 
+
+$$
+\log(1/\epsilon)\sim t \text{ or }\epsilon\sim e^{-t}
+$$
+
+the error decreases much more slowly for SGD, namely
+
+$$
+\epsilon \sim \tfrac{1}{\sqrt t} 
+$$
+
+See Bottou[^Bot12]
+for more details.
+
+[^slow]: *Deep learning*, p.~148
+[^Bot12]: *Stochastic Gradient Descent Tricks*, L. Bottou (2012) and *Online Learning and Stochastic Approximations*, L. Bottou (1998)
+
+% discussion taken/inspired from 8.1.3 of Deep Learning
+
+Still, SGD powers much of machine learning. Well not quite. What 
+is used in fact is *minibatch stochastic gradient descent*. 
+Somewhat confusingly, gradient descent as discussed above is often referred
+to as *batch* gradient descent -- probably because the whole *batch*
+of samples is used to compute the gradient. SGD, in contrast, is 
+sometimes called *online* stochastic gradient descent, because the 
+samples are fed one after another into the algorithm. Finally, in *minibatch*
+SGD in each iteration a small sample, say of size 32, or 128, of 
+the training set is randomly chosen and then the gradient is computed with 
+respect to this sample. 
+
+To be more precise, as in [Section Analysis of SGD](sgdsec) we assume 
+the loss function to be 
+ $L(w)=\tfrac{1}{|S|}\sum_{(x,y)\in S}L_{(x,y)}(w)$, where $S$ is the training set. 
+Then, in each iteration a minibatch $M\subseteq S$ is chosen and the gradient
+
+$$
+\nabla L_M(w^{t)}) = \frac{1}{|M|} \sum_{(x,y)\in M} \nabla L_{(x,y)}(w^{(t)})
+$$
+
+is computed. Note that this minibatch gradient has the exact same form as the full 
+(batch) gradient $\nabla L$. 
+
+The advantage of a minibatch is that it provides a more accurate estimation of the 
+full gradient than in (online) SGD. 
+Moreover, modern hardware can quite efficiently handle the computation 
+of a minibatch gradient in parallel, so that drawing only one sample would 
+waste machine efficiency. 
+
+But why now are modern neural networks trained with minibatch SGD, and not
+with (batch) gradient descent? Recall that, while we minimise the training error, 
+our real aim is to achieve a small generalisation error $L_\mathcal D(w)$. 
+In this way, we may see batch gradient, minibatch gradient and online gradient 
+all as approximations of the *true* gradient, the gradient that points
+in the (opposite) direction of smaller generalisation error:
+
+$$
+\expec_{(x,y)\sim\mathcal D}\left[\nabla L_{(x,y)}(w)\right]
+$$
+ 
+Recall that, if $X_1,\ldots, X_n$ are iid random variables with variance $\sigma^2$
+then their mean has variance $\sigma^2/n$, and also recall *Chebyshev's inequality*:
+
+$$
+\proba\left[|X-\mu|\geq\tfrac{\sigma}{\sqrt{\epsilon}}\right]\leq \epsilon,
+$$
+
+where $X$ is a random variable, $\mu$ its expectation, $\sigma^2$ the variance and $\epsilon>0$.
+(In this form the inequality can be read as: with high probability $X$ deviates from its expectation
+by at most $\sigma/\sqrt\epsilon$.)
+
+Now let's apply that to the minibatch gradient. Denote with 
+ $\sigma^2$ the variance of (some entry of the vector) $\nabla L_{(x,y)}$. 
+Then a minibatch gradient of size $n$ has variance $\sigma^2/n$, which means that Chebyshev's inequality
+yields 
+
+$$
+\proba\left[|\nabla L_M(w)-\mu|\geq\tfrac{\sigma}{\sqrt{n\epsilon}}\right]\leq \epsilon,
+$$
+
+We see that increasing the minibatch size (perhaps even up to the full size of the training set),
+yields sublinear returns: the difference of $\nabla L_M(w)$ to the true gradient shrinks only with $1/\sqrt{n}$. 
+The time to compute a minibatch gradient based on $n$ samples, however, grows with $n$.
+
+That means minibatch SGD can perform several iterations with a nearly as accurate gradient
+in the time batch gradient descent performs a single iteration. Consequently, minibatch SGD
+can move more quickly towards a smaller loss. 
+
+There are also other advantages of (minibatch) SGD over gradient descent. For instance, 
+the noisier gradient may make it less likely that the algorithm gets trapped in a local minimum.[^lrate]
+
+[^lrate]: {-} [{{ codeicon }}lrate](https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/stochastic_gradient_descent/lrate.ipynb)
+
+```{figure} pix/sgd_time.png
+:name: gdtimefig
+:width: 15cm
+
+Comparison of  logistic loss per running time for batch gradient descent, 
+and online and minibatch gradient descent. 
+All algorithms were applied to an artificial logistic regression problem. Minibatch size was equal 
+to 20, total sample size was 5000. Online and minibatch SGD converge much faster than 
+batch gradient descent. Note the different scales of the axes.
+```
+
+
+
+If the training set is very large then picking a random minibatch in every iteration would actually 
+be prohibitively expensive: in order to pick random samples it must be possible to at least access
+the whole dataset, which is computationally costly if the dataset is large. A common strategy around this 
+is to randomly shuffle the dataset once before SGD is started and then to take always 
+consecutive parts of the training set as minibatches. One pass through the whole dataset 
+is called an *epoch* -- the number of epochs is often a parameter when training a neural network.
+Once the epoch is over, the minibatches repeat. That is, the same 32 (or 128 or whatever) samples
+are chosen as a minibatch to compute the gradient. While, from a stochastic point of view, it
+would be more proper to shuffle the dataset again after an epoch, this is often avoided because
+of the computational burden.[^gdtimes]
+
+[^gdtimes]: {-} [{{ codeicon }}gdtimes](https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/stochastic_gradient_descent/gdtimes.ipynb)
+
+
+
+In practice the simple version of SGD that I have presented is modified
+in various ways. In particular, the gradients and the learning rate are often modified. 
+Common, and more efficient, variants of SGD are *Nesterov accelerated gradient*,
+*AdaGrad*, *RMSProp* and *Adam*.
+
+
 

@@ -52,7 +52,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'contents/convex';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Maximum inner product search" href="mips.html" />
+    <link rel="next" title="Neural networks" href="nets.html" />
+    <link rel="prev" title="A second test run" href="../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -143,8 +144,9 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="mips.html">Maximum inner product search</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Stochastic gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nets.html">Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mips.html">Maximum inner product search</a></li>
 </ul>
 
     </div>
@@ -295,6 +297,9 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convex-functions">Convex functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strong-convexity">Strong convexity</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">Gradient descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sgdsec">Stochastic gradient descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-of-sgd">Analysis of SGD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion-of-sgd">Discussion of SGD</a></li>
 </ul>
             </nav>
         </div>
@@ -314,6 +319,7 @@
 \DeclareMathOperator*{\argmin}{argmin}
 \DeclareMathOperator*{\argmax}{argmax}
 \newcommand{\sigm}{\phi_{\text{sig}}} % logistic function
+\newcommand{\bigOmega}{\Omega}
 \)</span></p>
 <section class="tex2jax_ignore mathjax_ignore" id="stochastic-gradient-descent">
 <h1>Stochastic gradient descent<a class="headerlink" href="#stochastic-gradient-descent" title="Link to this heading">#</a></h1>
@@ -354,7 +360,7 @@ f(\lambda x+(1-\lambda) y)\leq \lambda f(x) + (1-\lambda) f(y)
 epigraph of a function. For a function <span class="math notranslate nohighlight">\(f:C\to\mathbb R\)</span>, the <em>epigraph</em>
 is defined as</p>
 <div class="math notranslate nohighlight" id="equation-convdef">
-<span class="eqno">(2)<a class="headerlink" href="#equation-convdef" title="Link to this equation">#</a></span>\[\text{epi}(f)=\{(x,y) : x\in C,y\geq f(x)\}\]</div>
+<span class="eqno">(1)<a class="headerlink" href="#equation-convdef" title="Link to this equation">#</a></span>\[\text{epi}(f)=\{(x,y) : x\in C,y\geq f(x)\}\]</div>
 <p>That means, the epigraph is simply the set of all points above the function graph.</p>
 <p>Convex sets and convex functions are now related as follows:</p>
 <div class="proof proposition admonition" id="proposition-0">
@@ -368,7 +374,7 @@ Then <span class="math notranslate nohighlight">\(f\)</span> is a convex functio
 <h2>Convex optimisation problems<a class="headerlink" href="#convex-optimisation-problems" title="Link to this heading">#</a></h2>
 <p>A <em>convex optimisation problem</em> is any problem of the form</p>
 <div class="math notranslate nohighlight" id="equation-convopt">
-<span class="eqno">(3)<a class="headerlink" href="#equation-convopt" title="Link to this equation">#</a></span>\[\inf f(x),\quad x\in K\]</div>
+<span class="eqno">(2)<a class="headerlink" href="#equation-convopt" title="Link to this equation">#</a></span>\[\inf f(x),\quad x\in K\]</div>
 <p>where <span class="math notranslate nohighlight">\(K\subseteq \mathbb R^n\)</span> is a convex set and <span class="math notranslate nohighlight">\(f:K\to\mathbb R\)</span>
 a convex function.</p>
 <p>A point <span class="math notranslate nohighlight">\(x^*\in K\)</span> is a <em>local minimum</em> if there is an open ball <span class="math notranslate nohighlight">\(B\)</span>
@@ -380,7 +386,7 @@ f(x^*)\leq f(x) \text{ for all }x\in B\cap K
 <div class="proof proposition admonition" id="proposition-1">
 <p class="admonition-title"><span class="caption-number">Proposition 2 </span></p>
 <section class="proposition-content" id="proof-content">
-<p>If <span class="math notranslate nohighlight">\(x^*\)</span> is a local minimum of <a class="reference internal" href="#equation-convopt">(3)</a> then it is also a
+<p>If <span class="math notranslate nohighlight">\(x^*\)</span> is a local minimum of <a class="reference internal" href="#equation-convopt">(2)</a> then it is also a
 global minimum.</p>
 </section>
 </div><div class="proof admonition" id="proof">
@@ -576,7 +582,7 @@ and usually these even exhibit a stronger notion of convexity that is called,
 well, <em>strong</em> convexity. The difference between convexity and strong convexity
 is basically the difference between an affine function such as <span class="math notranslate nohighlight">\(x\mapsto x\)</span> and a
 quadratic function such as <span class="math notranslate nohighlight">\(x\mapsto x^2\)</span>. Affine functions are convex but barely so:
-they satisfy the defining inequality of convexity <a class="reference internal" href="#equation-convdef">(2)</a> with equality. For
+they satisfy the defining inequality of convexity <a class="reference internal" href="#equation-convdef">(1)</a> with equality. For
 a strongly convex function this will never be the case.</p>
 <p>A function <span class="math notranslate nohighlight">\(f:K\to\mathbb R\)</span> on a convex set <span class="math notranslate nohighlight">\(K\subseteq\mathbb R^d\)</span> is
 <em><span class="math notranslate nohighlight">\(\mu\)</span>-strongly convex</em> for <span class="math notranslate nohighlight">\(\mu&gt;0\)</span> if for all <span class="math notranslate nohighlight">\(\lambda\in [0,1]\)</span>
@@ -641,7 +647,7 @@ f(y)\geq f(x)+\nabla \trsp{f(x)} (y-x)+\frac{\mu}{2}||y-x||^2
 <p>We draw a simple consequence. If <span class="math notranslate nohighlight">\(x\)</span> is a global minimum of <span class="math notranslate nohighlight">\(f\)</span> then,
 as <span class="math notranslate nohighlight">\(\nabla f(x)=0\)</span> it follows that</p>
 <div class="math notranslate nohighlight" id="equation-strongmin2">
-<span class="eqno">(4)<a class="headerlink" href="#equation-strongmin2" title="Link to this equation">#</a></span>\[f(y)-f(x)\geq \frac{\mu}{2}||y-x||^2\]</div>
+<span class="eqno">(3)<a class="headerlink" href="#equation-strongmin2" title="Link to this equation">#</a></span>\[f(y)-f(x)\geq \frac{\mu}{2}||y-x||^2\]</div>
 </section>
 <section id="gradient-descent">
 <h2>Gradient descent<a class="headerlink" href="#gradient-descent" title="Link to this heading">#</a></h2>
@@ -650,24 +656,21 @@ How can we minimise them? With <em>stochastic gradient descent</em> – it is th
 algorithm (or one of its variants) that powers most of machine learning. Let’s understand
 simple <em>gradient descent</em> first.</p>
 <div class="proof algorithm admonition" id="gdalg">
-<p class="admonition-title"><span class="caption-number">Algorithm 1 </span></p>
+<p class="admonition-title"><span class="caption-number">Algorithm 1 </span> (gradient descent)</p>
 <section class="algorithm-content" id="proof-content">
 <p><strong>Instance</strong> A differentiable function <span class="math notranslate nohighlight">\(f:\mathbb R^n\to\mathbb R\)</span>, a first point <span class="math notranslate nohighlight">\(x^{(1)}\)</span>.<br />
-<strong>Output</strong> A point :math:<span class="math notranslate nohighlight">\(x\)</span>.</p>
+<strong>Output</strong> A point <span class="math notranslate nohighlight">\(x\)</span>.</p>
 <ol class="arabic simple">
 <li><p>Set <span class="math notranslate nohighlight">\(t=1\)</span>.</p></li>
-<li><p>While stopping criterion not satisfied:</p>
-<ol class="arabic simple" start="3">
-<li><p>Compute <span class="math notranslate nohighlight">\(\nabla f(x^{(t)})\)</span>.</p></li>
-<li><p>Compute learning rate <span class="math notranslate nohighlight">\(\eta_t\)</span>.</p></li>
-<li><p>Set <span class="math notranslate nohighlight">\(x^{(t+1)}=x^{(t)}-\eta_t\nabla f(x^{(t)})\)</span>.</p></li>
-<li><p>Set <span class="math notranslate nohighlight">\(t=t+1\)</span>.</p></li>
-</ol>
-</li>
-<li><p>Output <span class="math notranslate nohighlight">\(x^{(t)}\)</span>, or best of <span class="math notranslate nohighlight">\(x^{(1)},\ldots, x^{(t)}\)</span>, or average.</p></li>
+<li><p><strong>while</strong> stopping criterion not satisfied:</p></li>
+<li><p>      Compute <span class="math notranslate nohighlight">\(\nabla f(x^{(t)})\)</span>.</p></li>
+<li><p>      Compute learning rate <span class="math notranslate nohighlight">\(\eta_t\)</span>.</p></li>
+<li><p>      Set <span class="math notranslate nohighlight">\(x^{(t+1)}=x^{(t)}-\eta_t\nabla f(x^{(t)})\)</span>.</p></li>
+<li><p>      Set <span class="math notranslate nohighlight">\(t=t+1\)</span>.</p></li>
+<li><p><strong>output</strong> <span class="math notranslate nohighlight">\(x^{(t)}\)</span>, or best of <span class="math notranslate nohighlight">\(x^{(1)},\ldots, x^{(t)}\)</span>, or average.</p></li>
 </ol>
 </section>
-</div><p>There<label for='marginnote-role-1' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-1' name='marginnote-role-1' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/stochastic_gradient_descent/gradient.ipynb">gradient descent</a></span> are different strategies for the learning rate <span class="math notranslate nohighlight">\(\eta_t\)</span> (which should always be positive).
+</div><p>There<label for='marginnote-role-1' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-1' name='marginnote-role-1' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/stochastic_gradient_descent/gradient.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>gradient descent</a></span> are different strategies for the learning rate <span class="math notranslate nohighlight">\(\eta_t\)</span> (which should always be positive).
 The easiest is a constant
 learning rate <span class="math notranslate nohighlight">\(\eta_t=\eta&gt;0\)</span> for all <span class="math notranslate nohighlight">\(t\)</span>. The problem here is that at the beginning
 of gradient descent, a constant learning rate will probably lead to slow progress,
@@ -707,7 +710,7 @@ specific conditions. The main point is: For a convex function gradient descent w
 We will not discuss this in more detail as plain gradient descent is almost never used in machine learning.</p>
 <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
 <summary class="sd-summary-title sd-card-header sd-bg-success sd-bg-text-success">
-<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-rocket" viewBox="0 0 16 16" aria-hidden="true"><path d="M14.064 0h.186C15.216 0 16 .784 16 1.75v.186a8.752 8.752 0 0 1-2.564 6.186l-.458.459c-.314.314-.641.616-.979.904v3.207c0 .608-.315 1.172-.833 1.49l-2.774 1.707a.749.749 0 0 1-1.11-.418l-.954-3.102a1.214 1.214 0 0 1-.145-.125L3.754 9.816a1.218 1.218 0 0 1-.124-.145L.528 8.717a.749.749 0 0 1-.418-1.11l1.71-2.774A1.748 1.748 0 0 1 3.31 4h3.204c.288-.338.59-.665.904-.979l.459-.458A8.749 8.749 0 0 1 14.064 0ZM8.938 3.623h-.002l-.458.458c-.76.76-1.437 1.598-2.02 2.5l-1.5 2.317 2.143 2.143 2.317-1.5c.902-.583 1.74-1.26 2.499-2.02l.459-.458a7.25 7.25 0 0 0 2.123-5.127V1.75a.25.25 0 0 0-.25-.25h-.186a7.249 7.249 0 0 0-5.125 2.123ZM3.56 14.56c-.732.732-2.334 1.045-3.005 1.148a.234.234 0 0 1-.201-.064.234.234 0 0 1-.064-.201c.103-.671.416-2.273 1.15-3.003a1.502 1.502 0 1 1 2.12 2.12Zm6.94-3.935c-.088.06-.177.118-.266.175l-2.35 1.521.548 1.783 1.949-1.2a.25.25 0 0 0 .119-.213ZM3.678 8.116 5.2 5.766c.058-.09.117-.178.176-.266H3.309a.25.25 0 0 0-.213.119l-1.2 1.95ZM12 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg></span><span class="sd-summary-text">Gradient descent – an old technique</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-telescope" viewBox="0 0 16 16" aria-hidden="true"><path d="M14.184 1.143v-.001l1.422 2.464a1.75 1.75 0 0 1-.757 2.451L3.104 11.713a1.75 1.75 0 0 1-2.275-.702l-.447-.775a1.75 1.75 0 0 1 .53-2.32L11.682.573a1.748 1.748 0 0 1 2.502.57Zm-4.709 9.32h-.001l2.644 3.863a.75.75 0 1 1-1.238.848l-1.881-2.75v2.826a.75.75 0 0 1-1.5 0v-2.826l-1.881 2.75a.75.75 0 1 1-1.238-.848l2.049-2.992a.746.746 0 0 1 .293-.253l1.809-.87a.749.749 0 0 1 .944.252ZM9.436 3.92h-.001l-4.97 3.39.942 1.63 5.42-2.61Zm3.091-2.108h.001l-1.85 1.26 1.505 2.605 2.016-.97a.247.247 0 0 0 .13-.151.247.247 0 0 0-.022-.199l-1.422-2.464a.253.253 0 0 0-.161-.119.254.254 0 0 0-.197.038ZM1.756 9.157a.25.25 0 0 0-.075.33l.447.775a.25.25 0 0 0 .325.1l1.598-.769-.83-1.436-1.465 1Z"></path></svg></span><span class="sd-summary-text">Gradient descent – an old technique</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
 <a class="reference internal image-reference" href="../_images/cauchy_methode_generale.png"><img alt="../_images/cauchy_methode_generale.png" class="align-left" src="../_images/cauchy_methode_generale.png" style="width: 10cm;" />
 </a>
 <p class="sd-card-text">Gradient descent was invented long before the first neural network
@@ -724,6 +727,392 @@ the most prolific mathematicians of all time.</p>
 simultanées</em>, A.L. Cauchy (1847)</p>
 </div>
 </details></section>
+<section id="sgdsec">
+<span id="id2"></span><h2>Stochastic gradient descent<a class="headerlink" href="#sgdsec" title="Link to this heading">#</a></h2>
+<p>Gradient descent is a quite efficient algorithm. Under mild assumptions and with the right
+(adaptable) learning rate it can be shown that the error <span class="math notranslate nohighlight">\(\epsilon\)</span>, the difference <span class="math notranslate nohighlight">\(f(\overline x)-f(x^*)\)</span>,
+decreases exponentially with the number of iterations, i.e. that</p>
+<div class="math notranslate nohighlight">
+\[
+\log(1/\epsilon) \sim t \leftrightarrow \epsilon \sim e^{-t}
+\]</div>
+<p>Why is gradient descent not normally used in machine learning? Let’s consider logistic regression,
+where we have the logistic loss function</p>
+<div class="math notranslate nohighlight">
+\[
+w\mapsto \frac{1}{|S|}\sum_{(x,y)\in S}\log_2\left(1+e^{-y\trsp wx}\right)
+\]</div>
+<p>Note that we see that loss function as a function on the weights <span class="math notranslate nohighlight">\(w\)</span>.
+To apply gradient descent we first compute the gradient of the loss function <span class="math notranslate nohighlight">\(L\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla L(w) = \frac{1}{\ln 2\cdot |S|}\sum_{(x,y)\in S}\frac{-y}{1+e^{y\trsp wx}} x
+\]</div>
+<p>We see that the computation of <span class="math notranslate nohighlight">\(\nabla L(w)\)</span> needs <span class="math notranslate nohighlight">\(\bigOmega(|S|)\)</span> many operations,
+and that thus one iteration of gradient descent has running time <span class="math notranslate nohighlight">\(\bigOmega(|S|)\)</span>.
+In machine learning, data sets may be very large, so large that it becomes infeasible
+to execute many iterations of gradient descent. In such cases, <em>stochastic gradient descent</em> (SGD)
+starts to shine: instead of computing the full gradient, the gradient with respect to a
+random sample in the training set is computed:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla L_{(x,y)}(w) = \frac{1}{\ln 2} \frac{-y}{1+e^{y\trsp wx}} x
+\]</div>
+<p>Clearly, this is much faster – it only needs <span class="math notranslate nohighlight">\(\bigO(1)\)</span> many operations (we treat the dimension <span class="math notranslate nohighlight">\(n\)</span> of
+the sample space as a constant). Now, the sample based gradient <span class="math notranslate nohighlight">\(\nabla L_{(x,y)}(w)\)</span>
+will in general by different from the full gradient <span class="math notranslate nohighlight">\(\nabla L(w)\)</span>. However, its <em>expectation</em>
+<span class="math notranslate nohighlight">\(\expec_{(x,y)}[\nabla L_{(x,y)}(w)]\)</span> coincides with <span class="math notranslate nohighlight">\(\nabla L(w)\)</span>. This is
+the key point exploited by SGD. Moreover, this can be generalised to arbitrary loss
+function, or empirical risks.<label for='marginnote-role-2' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-2' name='marginnote-role-2' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/stochastic_gradient_descent/sgd.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>sgd</a></span></p>
+<div class="proof algorithm admonition" id="sgdalg">
+<p class="admonition-title"><span class="caption-number">Algorithm 2 </span> (stochastic gradient descent)</p>
+<section class="algorithm-content" id="proof-content">
+<p><strong>Instance</strong> An empirical risk <span class="math notranslate nohighlight">\(L(w)=\tfrac{1}{|S|}\sum_{(x,y)\in S}L_{(x,y)}(w)\)</span>, a  point <span class="math notranslate nohighlight">\(w^{(1)}\)</span>.<br />
+<strong>Output</strong> A point <span class="math notranslate nohighlight">\(w\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Set <span class="math notranslate nohighlight">\(t=1\)</span>.</p></li>
+<li><p>Initialise <span class="math notranslate nohighlight">\(w^{(1)}\)</span> to some value.</p></li>
+<li><p><strong>while</strong> stopping criterion not satisfied:</p></li>
+<li><p>      Sample <span class="math notranslate nohighlight">\(z_t=(x_t,y_t)\)</span> uniformly from <span class="math notranslate nohighlight">\(S\)</span>.</p></li>
+<li><p>      Compute <span class="math notranslate nohighlight">\(\nabla L_{z_t}(w^{(t)})\)</span>.</p></li>
+<li><p>      Compute learning rate <span class="math notranslate nohighlight">\(\eta_t\)</span>.</p></li>
+<li><p>      Set <span class="math notranslate nohighlight">\(w^{(t+1)}=w^{(t)}-\eta_t\nabla L_{z_t}(w^{(t)})\)</span>.</p></li>
+<li><p>      Set <span class="math notranslate nohighlight">\(t=t+1\)</span>.</p></li>
+<li><p><strong>output</strong> <span class="math notranslate nohighlight">\(w^{(t)}\)</span>, or best of <span class="math notranslate nohighlight">\(w^{(1)},\ldots, w^{(t)}\)</span>, or average.</p></li>
+</ol>
+</section>
+</div><figure class="align-default" id="setafig">
+<a class="reference internal image-reference" href="../_images/sgd_three_runs.png"><img alt="../_images/sgd_three_runs.png" src="../_images/sgd_three_runs.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Three runs of SGD with same constant learning rate. The function to be minimised
+is <span class="math notranslate nohighlight">\((x,y)\mapsto \tfrac{1}{2}(x^2+10y^2)\)</span>, which is not of the type that is typical in machine learning.
+To simulate SGD a normally distributed error is added to each gradient.</span><a class="headerlink" href="#setafig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>In a similar way as gradient descent,
+SGD will also converge towards the global minimum
+of a convex loss function. We’ll prove a corresponding result below.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-success sd-bg-text-success">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-telescope" viewBox="0 0 16 16" aria-hidden="true"><path d="M14.184 1.143v-.001l1.422 2.464a1.75 1.75 0 0 1-.757 2.451L3.104 11.713a1.75 1.75 0 0 1-2.275-.702l-.447-.775a1.75 1.75 0 0 1 .53-2.32L11.682.573a1.748 1.748 0 0 1 2.502.57Zm-4.709 9.32h-.001l2.644 3.863a.75.75 0 1 1-1.238.848l-1.881-2.75v2.826a.75.75 0 0 1-1.5 0v-2.826l-1.881 2.75a.75.75 0 1 1-1.238-.848l2.049-2.992a.746.746 0 0 1 .293-.253l1.809-.87a.749.749 0 0 1 .944.252ZM9.436 3.92h-.001l-4.97 3.39.942 1.63 5.42-2.61Zm3.091-2.108h.001l-1.85 1.26 1.505 2.605 2.016-.97a.247.247 0 0 0 .13-.151.247.247 0 0 0-.022-.199l-1.422-2.464a.253.253 0 0 0-.161-.119.254.254 0 0 0-.197.038ZM1.756 9.157a.25.25 0 0 0-.075.33l.447.775a.25.25 0 0 0 .325.1l1.598-.769-.83-1.436-1.465 1Z"></path></svg></span><span class="sd-summary-text">Learning rates</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">How well SGD resolves an optimisation problem depends quite heavily on the learning rates.
+A too small learning rate leads to slow convergence, while a too large rate might even
+preclude convergence. Often, therefore, learning rate schemes are  used that initially have
+a large learning rate that, over time, is decreased. In this way, the algorithm takes large
+steps at the beginning and then ever smaller step to home in on some (local) optimum.</p>
+<p class="sd-card-text">Different learning rate schemes are popular, among them:</p>
+<ul class="simple">
+<li><p class="sd-card-text"><em>exponential scheduling:</em> in iteration <span class="math notranslate nohighlight">\(t\)</span>, the learning rate is set to
+<span class="math notranslate nohighlight">\(
+\eta_t=\eta_0\cdot 10^{-\frac{t}{r}},
+\)</span>
+where <span class="math notranslate nohighlight">\(\eta_0\)</span> and <span class="math notranslate nohighlight">\(r&gt;0\)</span> are parameters that need to be fine-tuned.</p></li>
+<li><p class="sd-card-text"><em>power scheduling:</em> the learning rate is set to
+<span class="math notranslate nohighlight">\(
+\eta_t=\eta_0(1+\tfrac{t}{r})^{-c},
+\)</span>
+where again <span class="math notranslate nohighlight">\(\eta_0,c,r\)</span> are parameters.</p></li>
+<li><p class="sd-card-text"><em>performance scheduling:</em> the learning rate <span class="math notranslate nohighlight">\(\eta_t\)</span> is adapted
+with respect to how some performance measure improves. That is, if accuracy (or some other relevant
+measure) stops improving then the learning rate is decreased.</p></li>
+</ul>
+<p class="sd-card-text"><em>An empirical study of learning rates in deep neural networks for speech recognition</em>,
+A. Senior, G. Heigold, M. Ranzato and K. Yang (2013) <a class="reference external" href="https://static.googleusercontent.com/media/research.google.com/de//pubs/archive/40808.pdf">link</a></p>
+</div>
+</details></section>
+<section id="analysis-of-sgd">
+<h2>Analysis of SGD<a class="headerlink" href="#analysis-of-sgd" title="Link to this heading">#</a></h2>
+<p>If the loss function is convex then SGD converges, at least in expectation,
+towards the global minimum, provided some additional mild conditions are satisfied.<label for='sidenote-role-3' class='margin-toggle'><span id="id4">
+<sup>3</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-3' name='sidenote-role-3' class='margin-toggle'><span class="sidenote"><sup>3</sup>Based on <em>The convergence of the Stochastic Gradient Descent (SGD) : a self-contained proof</em>
+by G. Turinci, <a class="reference external" href="https://arxiv.org/pdf/2103.14350.pdf">arXiv:2103.14350</a></span>
+There are a number of such convergence proofs, each with their own set of additional
+conditions. We assume here strong convexity.</p>
+<p>Let <span class="math notranslate nohighlight">\(S\)</span> be a training set, and let</p>
+<div class="math notranslate nohighlight">
+\[
+L:w \mapsto\frac{1}{|S|}\sum_{(x,y)\in S}L_{(x,y)}(w)
+\]</div>
+<p>be a differentiable loss function such that</p>
+<ol class="arabic simple">
+<li><p><span id="coni"><span class="math notranslate nohighlight">\(w\mapsto L(w)\)</span> is <span class="math notranslate nohighlight">\(\mu\)</span>-strongly convex;</span> and</p></li>
+<li><p><span id="conii">there is a constant <span class="math notranslate nohighlight">\(B\)</span> such that <span class="math notranslate nohighlight">\(\sup_{w}||\nabla L_{(x,y)}(w)||^2\leq B\)</span> for all <span class="math notranslate nohighlight">\((x,y)\in S\)</span>.</span></p></li>
+</ol>
+<p>How serious are these assumptions? If the loss function is convex then it is often
+also strongly convex — due to regularisation. (We’ll discuss this later.)
+The loss function of a neural network, however, will almost never be convex.
+The second assumption is also a serious restriction. In practice, however, we normally do not
+encounter very large gradients, or if we do, we would cap the gradient or
+restart the algorithm.</p>
+<p>Let <span class="math notranslate nohighlight">\(w^*\)</span> be the global minimum of <span class="math notranslate nohighlight">\(L(w)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+w^*=\argmin_w L(w)
+\]</div>
+<p>We denote by  <span class="math notranslate nohighlight">\(\expec_{1..t}[Z]\)</span> the expected value of some random variable over
+the iterations <span class="math notranslate nohighlight">\(1,\ldots, t\)</span> of the SGD algorithm.</p>
+<p>Set <span class="math notranslate nohighlight">\(\epsilon_t=\expec_{1..t-1}\left[||w^{(t)}-w^*||^2\right]\)</span>. Our aim is to show
+that <span class="math notranslate nohighlight">\(\epsilon_t\to 0\)</span> as <span class="math notranslate nohighlight">\(t\to\infty\)</span> provided the learning rate is adapted in the right way.</p>
+<p>We now fix what we need from the learning rate. We’ll require
+positive <span class="math notranslate nohighlight">\(\eta_1\geq \eta_2\geq\ldots\)</span>
+such that</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_{t=1}^\infty\eta_t=\infty\text{ but }\sum_{t=1}^\infty\eta_t^2&lt;\infty
+\]</div>
+<p>An example here would be a learning rate of the form</p>
+<div class="math notranslate nohighlight">
+\[
+\eta_t=\tfrac{\eta_0}{t}
+\]</div>
+<p>We now prove that SGD is expected to converge towards the minimum.</p>
+<div class="proof theorem admonition" id="sgdthm">
+<p class="admonition-title"><span class="caption-number">Theorem 2 </span></p>
+<section class="theorem-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(S\)</span> be a training set, and let</p>
+<div class="math notranslate nohighlight">
+\[
+L:w \mapsto\frac{1}{|S|}\sum_{(x,y)\in S}L_{(x,y)}(w)
+\]</div>
+<p>be a differentiable <span class="math notranslate nohighlight">\(\mu\)</span>-strongly convex loss function such that
+there is a constant <span class="math notranslate nohighlight">\(B\)</span> with
+<span class="math notranslate nohighlight">\(\sup_{w}||\nabla L_{(x,y)}(w)||^2\leq B\)</span> for all <span class="math notranslate nohighlight">\((x,y)\in S\)</span>.
+If <span class="math notranslate nohighlight">\(\eta_1\geq \eta_2\geq\ldots\)</span> are
+such that
+<span class="math notranslate nohighlight">\(\sum_{t=1}^\infty\eta_t=\infty\)</span>  but <span class="math notranslate nohighlight">\(\sum_{t=1}^\infty\eta_t^2&lt;\infty\)</span>
+then</p>
+<div class="math notranslate nohighlight">
+\[
+\expec_{1..t}\left[||w^{(t+1)}-w^*||^2\right]\to 0\text{ as }t\to\infty,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(w^*\)</span> is a global minimum of <span class="math notranslate nohighlight">\(L\)</span>.</p>
+</section>
+</div><p>We need a key lemma for the proof:</p>
+<div class="proof lemma admonition" id="sgdlem4">
+<p class="admonition-title"><span class="caption-number">Lemma 10 </span></p>
+<section class="lemma-content" id="proof-content">
+<div class="math notranslate nohighlight">
+\[
+\epsilon_{T'+k+1}\leq \epsilon_{T'}\prod_{t=T'}^{T'+k}(1-\eta_t\mu)+\sum_{t=T'}^{T'+k}\eta_t^2B
+\]</div>
+<p>as long as <span class="math notranslate nohighlight">\(1-\eta_t\mu\geq 0\)</span> for all <span class="math notranslate nohighlight">\(t\in\{T',\ldots, T'+k\}\)</span>.</p>
+</section>
+</div><p>With the help of the lemma, we can do the proof of <a class="reference internal" href="#sgdthm">Theorem 2</a>:</p>
+<div class="proof admonition" id="proof">
+<p>Proof. Fix some arbitrary <span class="math notranslate nohighlight">\(\delta&gt;0\)</span>. We show that then  for every
+large enough  <span class="math notranslate nohighlight">\(T\)</span> it holds  that <span class="math notranslate nohighlight">\(\epsilon_T\leq\delta\)</span>.</p>
+<p>First, as <span class="math notranslate nohighlight">\(\sum_{t=1}^\infty\eta_t^2&lt;\infty\)</span> there is a <span class="math notranslate nohighlight">\(T'\)</span> such that</p>
+<div class="math notranslate nohighlight" id="equation-blubb1">
+<span class="eqno">(4)<a class="headerlink" href="#equation-blubb1" title="Link to this equation">#</a></span>\[B\sum_{t=T'}^\infty \eta_t^2\leq\tfrac{1}{2}\delta\]</div>
+<p>At the same time we can choose <span class="math notranslate nohighlight">\(T'\)</span> large enough such that <span class="math notranslate nohighlight">\(1-\eta_t\mu\geq 0\)</span> for all <span class="math notranslate nohighlight">\(t\geq T'\)</span>.</p>
+<p>Next, choose <span class="math notranslate nohighlight">\(k_0\)</span> large enough such that</p>
+<div class="math notranslate nohighlight" id="equation-blubb2">
+<span class="eqno">(5)<a class="headerlink" href="#equation-blubb2" title="Link to this equation">#</a></span>\[\text{exp}\left(\sum_{t=T'}^{T'+k_0}\eta_t\mu\right)\geq \frac{2\epsilon_{T'}}{\delta}\]</div>
+<p>This is possible as <span class="math notranslate nohighlight">\(\sum_{t=1}^\infty\eta_t=\infty\)</span>.
+Also note that then <a class="reference internal" href="#equation-blubb2">(5)</a> holds for every integer <span class="math notranslate nohighlight">\(k\geq k_0\)</span>.</p>
+<p>With <a class="reference internal" href="#sgdlem4">Lemma 10</a> we get for every <span class="math notranslate nohighlight">\(T=T'+k+1\)</span> with <span class="math notranslate nohighlight">\(k\geq k_0\)</span></p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\epsilon_T &amp;\leq \epsilon_{T'}\prod_{t=T'}^{T'+k}(1-\eta_t\mu)+\sum_{t=T'}^{T'+k}\eta_t^2B\\
+&amp;\leq \epsilon_{T'}\prod_{t=T'}^{T'+k}e^{\ln(1-\eta_t\mu)} + \sum_{t=T'}^{\infty}\eta_t^2B\\
+&amp; \leq \epsilon_{T'}\text{exp}\left(\sum_{t=T'}^{T'+k}\ln(1-\eta_t\mu)\right) +\tfrac{1}{2}\delta,
+\end{align*}\]</div>
+<p>by <a class="reference internal" href="#equation-blubb1">(4)</a>. Next, we use <span class="math notranslate nohighlight">\(\ln(1-x)\leq -x\)</span>, which holds for any <span class="math notranslate nohighlight">\(x&lt;1\)</span>:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\epsilon_T 
+&amp; \leq \epsilon_{T'}\text{exp}\left(\sum_{t=T'}^{T'+k}-\eta_t\mu\right) +\tfrac{1}{2}\delta,
+\end{align*}\]</div>
+<p>and then <a class="reference internal" href="#equation-blubb2">(5)</a> to obtain
+<span class="math notranslate nohighlight">\(
+\epsilon_T \leq \tfrac{1}{2}\delta+\tfrac{1}{2}\delta=\delta.
+\)</span></p>
+</div>
+<p>It remains to prove <a class="reference internal" href="#sgdlem4">Lemma 10</a>.
+As a first step, we prove:</p>
+<div class="proof lemma admonition" id="sgdlem3">
+<p class="admonition-title"><span class="caption-number">Lemma 11 </span></p>
+<section class="lemma-content" id="proof-content">
+<div class="math notranslate nohighlight">
+\[
+\epsilon_{t+1}\leq\epsilon_t(1-\eta_t\mu)+\eta_t^2B
+\]</div>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. We start with</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\epsilon_{t+1} &amp;= 
+\expec_{1..t}\left[||w^{(t+1)}-w^*||^2\right] \\ 
+&amp; = \expec_{1..t}\left[||w^{(t)}-\eta_t\nabla L_{z_t}(w^{(t)})-w^*||^2\right] \\
+&amp; = \epsilon_t -2\eta_t\expec_{1..t}\left[\trsp{(w^{(t)}-w^*)}\nabla^{(t)}\right]+\eta_t^2 \expec_{1..t}[||\nabla^{(t)}||^2], 
+\end{align*}\]</div>
+<p>where we have abbreviated <span class="math notranslate nohighlight">\(\nabla L_{z_t}(w^{(t)})\)</span> to <span class="math notranslate nohighlight">\(\nabla^{(t)}\)</span>.
+With <a class="reference internal" href="#conii"><span class="std std-ref">condition 2</span></a> on <span class="math notranslate nohighlight">\(L\)</span>, we obtain</p>
+<div class="math notranslate nohighlight" id="equation-sgd1">
+<span class="eqno">(6)<a class="headerlink" href="#equation-sgd1" title="Link to this equation">#</a></span>\[\epsilon_{t+1} \leq \epsilon_t -2\eta_t\expec_{1..t}\left[\trsp{(w^{(t)}-w^*)}\nabla^{(t)}\right]+\eta_t^2 B\]</div>
+<p>We focus on the summand in the middle:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\expec_{1..t}\left[\trsp{(w^{(t)}-w^*)}\nabla^{(t)}\right] &amp; = 
+\expec_{1..t-1}\left[\expec_{z_t}[\trsp{(w^{(t)}-w^*)}\nabla^{(t)}]\right] \\
+&amp; = \expec_{1..t-1}\left[\trsp{(w^{(t)}-w^*)}\expec_{z_t}[\nabla^{(t)}]\right] \\
+&amp; = \expec_{1..t-1}\left[\trsp{(w^{(t)}-w^*)}\nabla L(w^{(t)})\right]
+\end{align*}\]</div>
+<p>We use <a class="reference internal" href="#strongdifflem">Lemma 9</a>, to see that</p>
+<div class="math notranslate nohighlight">
+\[
+\trsp{(w^{(t)}-w^*)}\nabla L(w^{(t)}) \geq L(w^{(t)})-L(w^*) + \tfrac{\mu}{2}||w^{(t)}-w^*||^2,
+\]</div>
+<p>which we plug right in:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\expec_{1..t}\left[\trsp{(w^{(t)}-w^*)}\nabla^{(t)}\right] &amp; \geq 
+\expec_{1..t-1}\left[
+L(w^{(t)})-L(w^*) + \tfrac{\mu}{2}||w^{(t)}-w^*||^2 
+\right] \\
+&amp; \geq 
+\expec_{1..t-1}\left[
+\tfrac{\mu}{2}||w^{(t)}-w^*||^2 
+\right] =  \tfrac{\mu}{2}\epsilon_t,
+\end{align*}\]</div>
+<p>as <span class="math notranslate nohighlight">\(L(w^*)\leq L(w^{(t)})\)</span> by choice of <span class="math notranslate nohighlight">\(w^*\)</span>.</p>
+<p>We use that in <a class="reference internal" href="#equation-sgd1">(6)</a>:</p>
+<div class="math notranslate nohighlight">
+\[
+\epsilon_{t+1} \leq \epsilon_t -2\eta_t\cdot\tfrac{\mu}{2}\epsilon_t
++\eta_t^2 B,
+\]</div>
+<p>which finishes the proof of the lemma.</p>
+</div>
+<p>Let’s finish the proof of <a class="reference internal" href="#sgdlem4">Lemma 10</a>.</p>
+<div class="proof admonition" id="proof">
+<p>Proof. For <span class="math notranslate nohighlight">\(k=0\)</span>, this is just <a class="reference internal" href="#sgdlem3">Lemma 11</a>. Now, we do induction and use <a class="reference internal" href="#sgdlem3">Lemma 11</a>
+again:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\epsilon_{T'+k+1}&amp;\leq \epsilon_{T'+k}(1-\eta_{T'+k}\mu)+\eta_{T'+k}^2B\\
+&amp;\leq (1-\eta_{T'+k}\mu)\left(\epsilon_{T'}\prod_{t=T'}^{T'+k-1}(1-\eta_t\mu)+\sum_{t=T'}^{T'+k-1}\eta_t^2B\right)
++\eta_{T'+k}^2B \\
+&amp; \leq \epsilon_{T'}\prod_{t=T'}^{T'+k}(1-\eta_t\mu)+\sum_{t=T'}^{T'+k}\eta_t^2B
+\end{align*}\]</div>
+<p>as <span class="math notranslate nohighlight">\((1-\eta_{T'+k}\mu)\leq 1\)</span> and <span class="math notranslate nohighlight">\((1-\eta_{T'+k}\mu)\geq 0\)</span>.</p>
+</div>
+</section>
+<section id="discussion-of-sgd">
+<h2>Discussion of SGD<a class="headerlink" href="#discussion-of-sgd" title="Link to this heading">#</a></h2>
+<p>Descent methods are old, simple and have apparently been observed
+to be ``slow and unreliable’’.<label for='sidenote-role-4' class='margin-toggle'><span id="id5">
+<sup>4</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-4' name='sidenote-role-4' class='margin-toggle'><span class="sidenote"><sup>4</sup><em>Deep learning</em>, p.~148</span> Moreover,
+in convex optimisation, when both algorithms are known to converge,
+SGD has even worse convergence rates than vanilla gradient descent.
+In fact, while the error <span class="math notranslate nohighlight">\(\epsilon\)</span>, the difference <span class="math notranslate nohighlight">\(f(x^{(t)})-f(x^*)\)</span>
+is known to drop exponentially for gradient descent, ie</p>
+<div class="math notranslate nohighlight">
+\[
+\log(1/\epsilon)\sim t \text{ or }\epsilon\sim e^{-t}
+\]</div>
+<p>the error decreases much more slowly for SGD, namely</p>
+<div class="math notranslate nohighlight">
+\[
+\epsilon \sim \tfrac{1}{\sqrt t} 
+\]</div>
+<p>See Bottou<label for='sidenote-role-5' class='margin-toggle'><span id="id6">
+<sup>5</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-5' name='sidenote-role-5' class='margin-toggle'><span class="sidenote"><sup>5</sup><em>Stochastic Gradient Descent Tricks</em>, L. Bottou (2012) and <em>Online Learning and Stochastic Approximations</em>, L. Bottou (1998)</span>
+for more details.</p>
+<p>Still, SGD powers much of machine learning. Well not quite. What
+is used in fact is <em>minibatch stochastic gradient descent</em>.
+Somewhat confusingly, gradient descent as discussed above is often referred
+to as <em>batch</em> gradient descent – probably because the whole <em>batch</em>
+of samples is used to compute the gradient. SGD, in contrast, is
+sometimes called <em>online</em> stochastic gradient descent, because the
+samples are fed one after another into the algorithm. Finally, in <em>minibatch</em>
+SGD in each iteration a small sample, say of size 32, or 128, of
+the training set is randomly chosen and then the gradient is computed with
+respect to this sample.</p>
+<p>To be more precise, as in <a class="reference internal" href="#sgdsec"><span class="std std-ref">Section Analysis of SGD</span></a> we assume
+the loss function to be
+<span class="math notranslate nohighlight">\(L(w)=\tfrac{1}{|S|}\sum_{(x,y)\in S}L_{(x,y)}(w)\)</span>, where <span class="math notranslate nohighlight">\(S\)</span> is the training set.
+Then, in each iteration a minibatch <span class="math notranslate nohighlight">\(M\subseteq S\)</span> is chosen and the gradient</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla L_M(w^{t)}) = \frac{1}{|M|} \sum_{(x,y)\in M} \nabla L_{(x,y)}(w^{(t)})
+\]</div>
+<p>is computed. Note that this minibatch gradient has the exact same form as the full
+(batch) gradient <span class="math notranslate nohighlight">\(\nabla L\)</span>.</p>
+<p>The advantage of a minibatch is that it provides a more accurate estimation of the
+full gradient than in (online) SGD.
+Moreover, modern hardware can quite efficiently handle the computation
+of a minibatch gradient in parallel, so that drawing only one sample would
+waste machine efficiency.</p>
+<p>But why now are modern neural networks trained with minibatch SGD, and not
+with (batch) gradient descent? Recall that, while we minimise the training error,
+our real aim is to achieve a small generalisation error <span class="math notranslate nohighlight">\(L_\mathcal D(w)\)</span>.
+In this way, we may see batch gradient, minibatch gradient and online gradient
+all as approximations of the <em>true</em> gradient, the gradient that points
+in the (opposite) direction of smaller generalisation error:</p>
+<div class="math notranslate nohighlight">
+\[
+\expec_{(x,y)\sim\mathcal D}\left[\nabla L_{(x,y)}(w)\right]
+\]</div>
+<p>Recall that, if <span class="math notranslate nohighlight">\(X_1,\ldots, X_n\)</span> are iid random variables with variance <span class="math notranslate nohighlight">\(\sigma^2\)</span>
+then their mean has variance <span class="math notranslate nohighlight">\(\sigma^2/n\)</span>, and also recall <em>Chebyshev’s inequality</em>:</p>
+<div class="math notranslate nohighlight">
+\[
+\proba\left[|X-\mu|\geq\tfrac{\sigma}{\sqrt{\epsilon}}\right]\leq \epsilon,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(X\)</span> is a random variable, <span class="math notranslate nohighlight">\(\mu\)</span> its expectation, <span class="math notranslate nohighlight">\(\sigma^2\)</span> the variance and <span class="math notranslate nohighlight">\(\epsilon&gt;0\)</span>.
+(In this form the inequality can be read as: with high probability <span class="math notranslate nohighlight">\(X\)</span> deviates from its expectation
+by at most <span class="math notranslate nohighlight">\(\sigma/\sqrt\epsilon\)</span>.)</p>
+<p>Now let’s apply that to the minibatch gradient. Denote with
+<span class="math notranslate nohighlight">\(\sigma^2\)</span> the variance of (some entry of the vector) <span class="math notranslate nohighlight">\(\nabla L_{(x,y)}\)</span>.
+Then a minibatch gradient of size <span class="math notranslate nohighlight">\(n\)</span> has variance <span class="math notranslate nohighlight">\(\sigma^2/n\)</span>, which means that Chebyshev’s inequality
+yields</p>
+<div class="math notranslate nohighlight">
+\[
+\proba\left[|\nabla L_M(w)-\mu|\geq\tfrac{\sigma}{\sqrt{n\epsilon}}\right]\leq \epsilon,
+\]</div>
+<p>We see that increasing the minibatch size (perhaps even up to the full size of the training set),
+yields sublinear returns: the difference of <span class="math notranslate nohighlight">\(\nabla L_M(w)\)</span> to the true gradient shrinks only with <span class="math notranslate nohighlight">\(1/\sqrt{n}\)</span>.
+The time to compute a minibatch gradient based on <span class="math notranslate nohighlight">\(n\)</span> samples, however, grows with <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<p>That means minibatch SGD can perform several iterations with a nearly as accurate gradient
+in the time batch gradient descent performs a single iteration. Consequently, minibatch SGD
+can move more quickly towards a smaller loss.</p>
+<p>There are also other advantages of (minibatch) SGD over gradient descent. For instance,
+the noisier gradient may make it less likely that the algorithm gets trapped in a local minimum.<label for='marginnote-role-6' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-6' name='marginnote-role-6' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/stochastic_gradient_descent/lrate.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>lrate</a></span></p>
+<figure class="align-default" id="gdtimefig">
+<a class="reference internal image-reference" href="../_images/sgd_time.png"><img alt="../_images/sgd_time.png" src="../_images/sgd_time.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Comparison of  logistic loss per running time for batch gradient descent,
+and online and minibatch gradient descent.
+All algorithms were applied to an artificial logistic regression problem. Minibatch size was equal
+to 20, total sample size was 5000. Online and minibatch SGD converge much faster than
+batch gradient descent. Note the different scales of the axes.</span><a class="headerlink" href="#gdtimefig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>If the training set is very large then picking a random minibatch in every iteration would actually
+be prohibitively expensive: in order to pick random samples it must be possible to at least access
+the whole dataset, which is computationally costly if the dataset is large. A common strategy around this
+is to randomly shuffle the dataset once before SGD is started and then to take always
+consecutive parts of the training set as minibatches. One pass through the whole dataset
+is called an <em>epoch</em> – the number of epochs is often a parameter when training a neural network.
+Once the epoch is over, the minibatches repeat. That is, the same 32 (or 128 or whatever) samples
+are chosen as a minibatch to compute the gradient. While, from a stochastic point of view, it
+would be more proper to shuffle the dataset again after an epoch, this is often avoided because
+of the computational burden.<label for='marginnote-role-7' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-7' name='marginnote-role-7' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/stochastic_gradient_descent/gdtimes.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>gdtimes</a></span></p>
+<p>In practice the simple version of SGD that I have presented is modified
+in various ways. In particular, the gradients and the learning rate are often modified.
+Common, and more efficient, variants of SGD are <em>Nesterov accelerated gradient</em>,
+<em>AdaGrad</em>, <em>RMSProp</em> and <em>Adam</em>.</p>
+</section>
 </section>
 <hr class="footnotes docutils" />
 
@@ -739,13 +1128,22 @@ simultanées</em>, A.L. Cauchy (1847)</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="mips.html"
+       href="../index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Maximum inner product search</p>
+        <p class="prev-next-title">A second test run</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="nets.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Neural networks</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -769,6 +1167,9 @@ simultanées</em>, A.L. Cauchy (1847)</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convex-functions">Convex functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#strong-convexity">Strong convexity</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-descent">Gradient descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sgdsec">Stochastic gradient descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-of-sgd">Analysis of SGD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discussion-of-sgd">Discussion of SGD</a></li>
 </ul>
   </nav></div>
 

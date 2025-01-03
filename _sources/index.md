@@ -2,6 +2,7 @@ A second test run
 ==========
 
 ```{toctree}
-contents/mips.md
 contents/convex.md
+contents/nets.md
+contents/mips.md
 ```
