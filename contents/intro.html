@@ -1,0 +1,903 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Predictors, classification and losses &#8212; A second test run  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css?v=ca93fcec" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=82609fe5" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contents/intro';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Stochastic gradient descent" href="convex.html" />
+    <link rel="prev" title="A second test run" href="../index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">A second test run  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Predictors, classification and losses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convex.html">Stochastic gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nets.html">Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mips.html">Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html">TEST</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/contents/intro.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Predictors, classification and losses</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tasks-in-ml">Tasks in ML</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vocabulary">Vocabulary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-predictors">Linear predictors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-errors">Training and errors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-predictors">Polynomial predictors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nearest-neighbour">Nearest neighbour</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  
+<style>
+  .ss-layout-default-AB { grid-template-areas: 'A B'; }
+@media (max-width: 576px) {
+  .ss-layout-sm-A_B { grid-template-areas: 'A' 'B'; }
+}
+</style>
+<p><span class="math notranslate nohighlight">\(\DeclareMathOperator{\sgn}{sgn}
+\newcommand{\trsp}[1]{#1^\intercal} % transpose
+\newcommand{\sigm}{\phi_{\text{sig}}} % logistic function
+\newcommand{\twovec}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\)</span></p>
+<section class="tex2jax_ignore mathjax_ignore" id="predictors-classification-and-losses">
+<h1>Predictors, classification and losses<a class="headerlink" href="#predictors-classification-and-losses" title="Link to this heading">#</a></h1>
+<p>Does a given picture show a dog or a cat?
+Should the applicant be granted a credit? Is the mail
+spam or ham? These are all examples of <em>classification</em> tasks, one of the
+principal domains in machine learning.</p>
+<p>A well-known classification tasks involves the MNIST data set.<label for='marginnote-role-1' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-1' name='marginnote-role-1' class='margin-toggle'><span class="marginnote"> MNIST is so well known that it has a <a class="reference external" href="https://en.wikipedia.org/wiki/MNIST_database">wikipedia</a> entry.</span>
+The MNIST data set contains 70000 handwritten digits as images of <span class="math notranslate nohighlight">\(28\times 28\)</span> pixels. The task is
+to decide whether a given image <span class="math notranslate nohighlight">\(x\)</span> shows a <span class="math notranslate nohighlight">\(0\)</span>, <span class="math notranslate nohighlight">\(1\)</span>, or perhaps a <span class="math notranslate nohighlight">\(7\)</span>. In machine learning
+this tasks is solved by letting an algorithm <em>learn</em> how to accomplish the tasks by
+giving it access to a large number of examples, the <em>training set</em>,
+together with the true classification.<label for='marginnote-role-2' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-2' name='marginnote-role-2' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/basic_algorithms_and_concepts/MNIST.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>MNIST</a></span>
+In the MNIST tasks that means that the algorithm not only
+receives perhaps 60000 images, each containing a handwritten digit, but also for each image
+the information which <em>class</em> it is, ie, which of the digits 0,1,…,9 is shown; see <a class="reference internal" href="#mnistfig"><span class="std std-numref">Fig. 1</span></a>.</p>
+<figure class="align-default" id="mnistfig">
+<a class="reference internal image-reference" href="../_images/mnist_row.png"><img alt="../_images/mnist_row.png" src="../_images/mnist_row.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">A small sample from the MNIST data set</span><a class="headerlink" href="#mnistfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Machine learning is part of the wider field of <em>artificial intelligence</em>. Early approaches to AI
+relied almost entirely on rules. For digit recognition, a number of rules could be formulated such as:</p>
+<ul class="simple">
+<li><p>if the digit contains an o-shape then it’s 0,6,8 or 9</p></li>
+<li><p>if the digit contains a long vertical stroke then it’s 1,4 or 7</p></li>
+<li><p>… (many many more rules)</p></li>
+</ul>
+<p>But how exactly do you identify an o-shape? That could be done by another rule. Sometimes, though, a 2
+might be written in such a way that there’s also a little “o” in the figure – how do you cope with that?
+Quite quickly hand-coded rules become very complicated. Ultimately, at least for tasks such as
+handwritten digit recognition a rules based approach is very tedious and not very
+successful.<label for='sidenote-role-3' class='margin-toggle'><span id="id3">
+<sup>3</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-3' name='sidenote-role-3' class='margin-toggle'><span class="sidenote"><sup>3</sup>Here’s a <a class="reference external" href="https://weneedtotalk.ai/">comic essay</a> that explains the basics of modern AI. It’s very nice.</span></p>
+<p>Machine learning pursues a different strategy: the algorithms are set up to improve, or learn,
+from experience (data). That is, a machine learning algorithm doesn’t directly perform the
+required task but instead uses (large amounts of) data to <em>learn</em> the actual algorithm, the <em>predictor</em>, that
+then does the task. For example, for the MNIST task
+the machine learning algorithm called <em>random forest</em>
+is fed many samples of handwritten digits together with the correct classification (this is a “7”)
+in order to devise the actual classification algorithm (that, confusingly, is also often called
+a random forest).</p>
+<figure class="align-default" id="gdtimefig">
+<a class="reference internal image-reference" href="../_images/learning.png"><img alt="../_images/learning.png" src="../_images/learning.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Learning an algorithm, the predictor</span><a class="headerlink" href="#gdtimefig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Consequently, machine learning typically works in two phases: the <em>learning or training phase</em>
+and the <em>inference or prediction phase</em>. During the training phase the prediction algorithm is learnt – this
+often takes a long time and requires expensive and extensive hardware. Then, in the prediction phase, we
+actually use the resulting predictor, ie, we point our smartphone at a menu in France and it seamlessly
+translates “crêpe” to “pancake”. The prediction phase is often much less computationally expensive
+than the training phase and might for some applications even work directly on your phone.</p>
+<p>We will mostly be concerned with <em>supervised learning</em>: there, during the training phase, the learner
+is fed the data together with the ground truth. That is, the input might consist
+of many pairs of a picture (as jpeg, say) and a single bit, where perhaps a 0 signifies that
+the picture shows a cat and a 1 that it shows a dog.
+In the prediction phase the algorithm obviously is input only a picture and is expected to tell
+whether the picture shows a cat or a dog.</p>
+<p>There is also <em>unsupervised learning</em>:<label for='marginnote-role-4' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-4' name='marginnote-role-4' class='margin-toggle'><span class="marginnote"> There’s also semi-supervised learning and more forms of learning.</span> a setting in which the learning algorithm does not
+have access to the (or some) ground truth during training.
+We use unsupervised learning to detect
+patterns in data or to learn some complicated probability distribution.
+So, for instance, an algorithm might learn how typical credit card transactions look like and
+then flag anomalous transactions because they might be fraudulent.</p>
+<section id="tasks-in-ml">
+<h2>Tasks in ML<a class="headerlink" href="#tasks-in-ml" title="Link to this heading">#</a></h2>
+<p>Some common tasks in machine learning are:</p>
+<ul>
+<li><p><em>Classification:</em> classify some input into a finite number of classes. Examples are
+recognition of handwritten letters, facial recognition etc.</p></li>
+<span class="sidenote"><sup>5</sup><em>Regression Towards Mediocrity in Hereditary Stature</em>, F. Galton (1886), <a class="reference external" href="https://www.jstor.org/stable/2841583?seq=1">jstor</a></span><li><p><em>Regression:</em>
+predict a numerical value from the input. This might be the price a house might fetch
+on the market, or the expected medical costs an insurance will need to pay out to a customer over the year.
+(Why the weird name? What is “regressing”
+in linear regression, ie,
+“returning to a former or less developed state” according to Oxford Languages? The short answer: nothing.
+The term apparently comes from the paper
+of Francis Galton (1886).<label for='sidenote-role-5' class='margin-toggle'><span id="id5">
+<sup>5</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-5' name='sidenote-role-5' class='margin-toggle'><span class="sidenote d-n"><sup>5</sup><em>Regression Towards Mediocrity in Hereditary Stature</em>, F. Galton (1886), <a class="reference external" href="https://www.jstor.org/stable/2841583?seq=1">jstor</a></span>)</p></li>
+</ul>
+<ul class="simple">
+<li><p><em>Machine Translation:</em> automatically translate from one language to another.</p></li>
+</ul>
+<ul class="simple">
+<li><p><em>Anomaly / novelty detection:</em> detect anomlies in signals; this could, for example, be a fraudulent credit card use.</p></li>
+<li><p><em>Imputation:</em> guess or deduce missing values in data.</p></li>
+<li><p><em>Denoising:</em> remove noise from images, videos, sound recordings.</p></li>
+<li><p><em>Recommender Systems:</em> recommend items, such as books, movies, music, to users based on their taste.</p></li>
+<li><p><em>Reinforcement Learning:</em> train intelligent agents to take the right action depending on
+the situation. Think chess programs and robots.</p></li>
+</ul>
+<p>There are more. A <em>generative AI</em>, for instance, may summarise research articles or produce images, sound or even movies.</p>
+<p>We will first concentrate on classification and, to a lesser extent, on regression.</p>
+</section>
+<section id="vocabulary">
+<h2>Vocabulary<a class="headerlink" href="#vocabulary" title="Link to this heading">#</a></h2>
+<p>In a classification task, we aim to train a classifier that assigns labels or a class to
+given input data.
+In the MNIST digit recognition task, the input consists of grey-scale images of size
+28<span class="math notranslate nohighlight">\(\times\)</span>28 pixels. This is the <em>domain set</em>,
+the set <span class="math notranslate nohighlight">\(\mathcal X\)</span> that contains all (possible) data points for the task at hand.
+Normally <span class="math notranslate nohighlight">\(\mathcal X\)</span> is a finite-dimensional vector space such as <span class="math notranslate nohighlight">\(\mathbb R^n\)</span>, or at least a
+subset of <span class="math notranslate nohighlight">\(\mathbb R^n\)</span>. In the MNIST task, we could set <span class="math notranslate nohighlight">\(\mathcal X=\{0,\ldots, 255\}^{28\times 28}\)</span>,
+if we assume that each pixel has a grey value in 0,…,255.</p>
+<p>The entries of a data point <span class="math notranslate nohighlight">\(x\in\mathcal X\)</span> are
+the <em>features</em> or <em>attributes</em> of <span class="math notranslate nohighlight">\(x\)</span>. This could be
+the grey value of a pixel or the income of a customer.</p>
+<p>The aim is to predict a <em>label</em> or <em>class</em> for each data point <span class="math notranslate nohighlight">\(x\in\mathcal X\)</span>.
+We denote the set of labels or classes by <span class="math notranslate nohighlight">\(\mathcal Y\)</span>. For MNIST, we have <span class="math notranslate nohighlight">\(\mathcal Y=\{0,1,\ldots, 9\}\)</span>.
+For spam-detection, <span class="math notranslate nohighlight">\(\mathcal Y\)</span> could be <span class="math notranslate nohighlight">\(\{0,1\}\)</span>, where 0 would perhaps mean that it’s spam, and
+1 would indicate not-spam. If <span class="math notranslate nohighlight">\(\mathcal Y\)</span> consists of only two classes, we talk of <em>binary classification</em>,
+and then we usually take <span class="math notranslate nohighlight">\(\mathcal Y\)</span> to be <span class="math notranslate nohighlight">\(\{0,1\}\)</span> or <span class="math notranslate nohighlight">\(\{-1,1\}\)</span>.
+In classification, <span class="math notranslate nohighlight">\(\mathcal Y\)</span> should be finite and is often relatively small. For regression tasks
+<span class="math notranslate nohighlight">\(\mathcal Y\)</span> is usually infinite, and often equal to <span class="math notranslate nohighlight">\(\mathbb R\)</span> or to some interval <span class="math notranslate nohighlight">\([a,b]\)</span>.
+There are also multidimensional regression problems, problems with <span class="math notranslate nohighlight">\(\mathcal Y=\mathbb R^n\)</span>.</p>
+<p>To solve a classification task, we devise a <em>classifier</em>, a function <span class="math notranslate nohighlight">\(h:\mathcal X\to\mathcal Y\)</span>.
+The training classifier is obtained as a product of the <em>learning algorithm</em>, an algorithm that
+takes as input training data and outputs a classifier.<br />
+Here, the <em>training set</em> is a finite subset of <span class="math notranslate nohighlight">\(\mathcal X\times\mathcal Y\)</span>.
+For MNIST the tuples <span class="math notranslate nohighlight">\((x,y)\)</span> in the training set would consist of the image~<span class="math notranslate nohighlight">\(x\)</span> of a digit and <span class="math notranslate nohighlight">\(y\in\{0,\ldots, 9\}\)</span>,
+the digit shown in the image. That is, <span class="math notranslate nohighlight">\(y\)</span> is the <em>true class</em> of <span class="math notranslate nohighlight">\(x\)</span>. (It should be noted, however,
+that there may be errors in the training set, and that sometimes the truth is ambiguous:
+of two credit applicants with the exact same financial data <span class="math notranslate nohighlight">\(x\)</span> one may have been deemed credit worthy
+and the other’s application may have been rejected.)</p>
+<p>When is a classifier good? This is a central question that needs a subtle answer that we’ll defer to
+later. A non-subtle answer, however, would be: if it classifies many data points correctly.
+More generally, a classification or regression task comes with a <em>loss function</em>,
+a function <span class="math notranslate nohighlight">\(\ell:\mathcal Y\times\mathcal Y\to\mathbb R_+\)</span> that fixes a penalty for
+misclassifying a data point. A very common loss function is the <em>zero-one loss</em></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\ell_{0-1}(y,y')=
+\begin{cases}
+0 &amp; \text{if }y=y'\\
+1 &amp; \text{if }y\neq y'
+\end{cases}
+\end{split}\]</div>
+<p>A loss function should not penalise correctly classified data points.
+That is,
+it should satisfy <span class="math notranslate nohighlight">\(\ell(y,y)=0\)</span> for all <span class="math notranslate nohighlight">\(y\in\mathcal Y\)</span>. Moreover, for classification
+tasks we assume that <span class="math notranslate nohighlight">\(\ell(y,y')\)</span> is upper-bounded<label for='sidenote-role-6' class='margin-toggle'><span id="id6">
+<sup>6</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-6' name='sidenote-role-6' class='margin-toggle'><span class="sidenote"><sup>6</sup>Why? Mostly for technical reasons: We will apply Hoeffding’s inequality later, where
+the range of the loss function matters.</span> by 1.</p>
+<p>With a loss function, we can define the <em>training error</em>:
+If <span class="math notranslate nohighlight">\(S\subseteq \mathcal X\times\mathcal Y\)</span> is the training set of size <span class="math notranslate nohighlight">\(m\)</span> then
+the training error of the classifier <span class="math notranslate nohighlight">\(h\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+L_S(h)=\frac{1}{m}\sum_{(x,y)\in S}\ell(y,h(x))
+\]</div>
+<p>This is simply the average of the loss function over the training set.
+For the zero-one loss, the training error is equal to the fraction of misclassified
+data points in the training set.
+Technically,
+the notation <span class="math notranslate nohighlight">\(L_S(h)\)</span> for the training error of classifier <span class="math notranslate nohighlight">\(h\)</span> would need to
+include the loss <span class="math notranslate nohighlight">\(\ell\)</span> as well, as different loss functions will result in
+different training errors. However, <span class="math notranslate nohighlight">\(L_{S,\ell}(h)\)</span> is too many symbols.
+If the loss is not clear from the context, I will specify it explicitly.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-success sd-bg-text-success">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-telescope" viewBox="0 0 16 16" aria-hidden="true"><path d="M14.184 1.143v-.001l1.422 2.464a1.75 1.75 0 0 1-.757 2.451L3.104 11.713a1.75 1.75 0 0 1-2.275-.702l-.447-.775a1.75 1.75 0 0 1 .53-2.32L11.682.573a1.748 1.748 0 0 1 2.502.57Zm-4.709 9.32h-.001l2.644 3.863a.75.75 0 1 1-1.238.848l-1.881-2.75v2.826a.75.75 0 0 1-1.5 0v-2.826l-1.881 2.75a.75.75 0 1 1-1.238-.848l2.049-2.992a.746.746 0 0 1 .293-.253l1.809-.87a.749.749 0 0 1 .944.252ZM9.436 3.92h-.001l-4.97 3.39.942 1.63 5.42-2.61Zm3.091-2.108h.001l-1.85 1.26 1.505 2.605 2.016-.97a.247.247 0 0 0 .13-.151.247.247 0 0 0-.022-.199l-1.422-2.464a.253.253 0 0 0-.161-.119.254.254 0 0 0-.197.038ZM1.756 9.157a.25.25 0 0 0-.075.33l.447.775a.25.25 0 0 0 .325.1l1.598-.769-.83-1.436-1.465 1Z"></path></svg></span><span class="sd-summary-text">Examples of classification tasks</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<dl class="simple myst">
+<dt>OCR</dt><dd><p class="sd-card-text">In <em>optical character recognition</em>, hand-written or printed text is transcribed. Applications are
+numerous. One of the earliest is automatic sorting of mail (of the paper kind).</p>
+</dd>
+<dt>iceberg monitoring</dt><dd><p class="sd-card-text">Icebergs may endanger offshore oil rigs and container ships. Machine learning can help
+to detect icebergs (and to differentiate them from ships and other features) on satellite data.</p>
+</dd>
+</dl>
+<dl class="simple myst">
+<dt>spam detection</dt><dd><p class="sd-card-text">Given an email is it spam or not?</p>
+</dd>
+<dt>fault detection</dt><dd><p class="sd-card-text">Painting and coating cars is a complex and time-consuming process. It is important to
+detect coating faults as early as possible as late detection may result in higher cost remedies.
+During the process high-dimensional sensor data is recorded, based on which a classifier recommends
+certain auto bodies for closer inspection. This application was developed and implemented in a
+Master’s thesis here in Ulm, and is now used at a major car maker.</p>
+</dd>
+<dt>high energy physics</dt><dd><p class="sd-card-text">The Large Hadron Collider at CERN produces every hour about as much data
+as Facebook collects in a year. The amount of data is much too large for human inspection. Instead a variety of machine learning algorithms
+are employed: some throw out uninteresting data; others categorise the data by the type of
+particle interaction.</p>
+</dd>
+</dl>
+<p class="sd-card-text">Note the different types of data and labels. In the first two examples, the input consists of image data. Spam
+detection is text-based. Fault detection in production processes is often based on time-series sensor data.
+The sensors could record electrical currents, magnetic fields or simple audio data.</p>
+<p class="sd-card-text">Iceberg challenge, <a class="reference external" href="https://www.kaggle.com/c/statoil-iceberg-classifier-challenge">kaggle</a><br/>
+<em>Machine learning at the energy and intensity frontiers of particle physics</em>, Radovic et al., Nature (2018)</p>
+</div>
+</details></section>
+<section id="linear-predictors">
+<h2>Linear predictors<a class="headerlink" href="#linear-predictors" title="Link to this heading">#</a></h2>
+<p>Let’s look at possible the simplest sort of classification algorithm, a <em>linear classifier</em>.</p>
+<p>We consider a binary classification task with domain set <span class="math notranslate nohighlight">\(\mathcal X\subseteq \mathbb R^d\)</span> and <span class="math notranslate nohighlight">\(\mathcal Y=\{-1,1\}\)</span>.
+A very simple classifier tries to separate the data points into different halfspaces. That is, we look for a halfspace
+<span class="math notranslate nohighlight">\(H=\{x\in\mathbb R^d: \trsp wx\geq 0\}\)</span> and then classify all points in <span class="math notranslate nohighlight">\(H\)</span> as <span class="math notranslate nohighlight">\(+1\)</span>, say, and all points
+in <span class="math notranslate nohighlight">\(\mathbb R^d\setminus H\)</span> as <span class="math notranslate nohighlight">\(-1\)</span>. More generally, we could use an affine hyperplane defined by <span class="math notranslate nohighlight">\(w\in\mathbb R^d\)</span>
+and <span class="math notranslate nohighlight">\(b\in\mathbb R\)</span> and then classify as follows</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+h(x)=\begin{cases}
++1&amp;\text{if }\trsp wx+b\geq 0\\
+-1&amp;\text{if }\trsp wx+b&lt;0
+\end{cases}
+\end{split}\]</div>
+<p>If we let <span class="math notranslate nohighlight">\(h_{w,b}\)</span> be the affine function <span class="math notranslate nohighlight">\(x\mapsto \trsp wx+b\)</span> then the classifier is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+\sgn\circ h_{w,b},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sgn\)</span> denotes the sign function, with the slightly non-standard convention that <span class="math notranslate nohighlight">\(0\)</span> is attributed sign <span class="math notranslate nohighlight">\(+1\)</span>.
+A classifier such as <span class="math notranslate nohighlight">\(\sgn\circ h_{w,b}\)</span> is a <em>linear predictor</em> or <em>linear classifier</em>; see <a class="reference internal" href="#linpredfig"><span class="std std-numref">Fig. 3</span></a>.
+The term <span class="math notranslate nohighlight">\(b\)</span> in <span class="math notranslate nohighlight">\(\sgn\circ h_{w,b}\)</span> is the <em>bias</em> of the linear predictor.</p>
+<figure class="align-default" id="linpredfig">
+<a class="reference internal image-reference" href="../_images/sep_and_non_sep.png"><img alt="../_images/sep_and_non_sep.png" src="../_images/sep_and_non_sep.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">The left dataset can be fit perfectly by a linear classifier, the one on the right cannot.</span><a class="headerlink" href="#linpredfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>By modifying the domain set slightly
+we can even omit the bias. Indeed, define <span class="math notranslate nohighlight">\(\tilde{\mathcal X}\)</span> as the set</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{\mathcal X}=\left\{\twovec{x}{1}:x\in\mathcal X\right\}
+\]</div>
+<p>Then <span class="math notranslate nohighlight">\(h_{w,b}(x)=1\)</span> if and only if</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde h_{\tilde w,0}\left(\twovec{x}{1}\right)=1,\, \text{where }\tilde w=\twovec{w}{b}
+\]</div>
+<p>The homogeneous case is often easier to handle.
+Then, we will also write <span class="math notranslate nohighlight">\(h_w\)</span> for <span class="math notranslate nohighlight">\(h_{w,0}\)</span>, that is</p>
+<div class="math notranslate nohighlight">
+\[
+h_w: x\mapsto \trsp wx
+\]</div>
+</section>
+<section id="logistic-regression">
+<span id="logregsec"></span><h2>Logistic regression<a class="headerlink" href="#logistic-regression" title="Link to this heading">#</a></h2>
+<p>How can we train a linear predictor? Ideally, we would minimise the training error directly.
+Let’s assume
+a homogeneous training set, which means that it suffices to
+learn a linear classifer of the form <span class="math notranslate nohighlight">\(h_w\)</span>, ie, one without a bias term.
+And let’s assume that the loss function is zero-one loss.
+Then, minimising the training error means solving the following optimisation problem:<label for='marginnote-role-7' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-7' name='marginnote-role-7' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/basic_algorithms_and_concepts/logreg.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>logreg</a></span></p>
+<div class="math notranslate nohighlight" id="equation-linzo">
+<span class="eqno">(1)<a class="headerlink" href="#equation-linzo" title="Link to this equation">#</a></span>\[\begin{split}\min_{w} L_S(h_w) &amp;= \min_w\frac{1}{|S|}\sum_{(x,y)\in S}\ell_{0-1}(y,\sgn\circ h_w(x)) \notag \\
+ &amp; =\min_{w}\frac{1}{|S|}\sum_{(x,y)\in S}\tfrac{1}{2}(1-y\sgn\trsp wx)\end{split}\]</div>
+<p>(Recall that <span class="math notranslate nohighlight">\(\ell_{0-1}\)</span> denotes the zero-one loss.)
+Unfortunately, this optimisation problem is a hard problem and also in practice not easily solvable.
+Why is it hard? It is not even smooth: A small change in <span class="math notranslate nohighlight">\(w\)</span> may flip <span class="math notranslate nohighlight">\(\sgn \trsp wx\)</span> from <span class="math notranslate nohighlight">\(+1\)</span> to <span class="math notranslate nohighlight">\(-1\)</span>.</p>
+<p>A common learner for linear predictors is <em>logistic regression</em>.<label for='marginnote-role-8' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-8' name='marginnote-role-8' class='margin-toggle'><span class="marginnote"> Everything is wrong about the name <em>logistic regression</em>. It doesn’t have anything to
+do with logistics and it’s not regression, it’s classification.</span>
+Logistic regression does not try to solve <a class="reference internal" href="#equation-linzo">(1)</a> directly but tries to solve
+a <em>surrogate</em> problem that is much easier.
+This surrogate problem is based on the <em>logistic function</em><label for='sidenote-role-9' class='margin-toggle'><span id="id9">
+<sup>9</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-9' name='sidenote-role-9' class='margin-toggle'><span class="sidenote"><sup>9</sup>By the way, as one can learn on <a class="reference external" href="https://en.wikipedia.org/wiki/Logistic_function">wikipedia</a> the logistic function has no relation to logistics at all. Rather, the first author to describe the function thought it resembled the <em>logarithmic</em> function.</span></p>
+<div class="math notranslate nohighlight">
+\[
+\sigm:\mathbb R\to\mathbb R_+,\quad z\mapsto \frac{1}{1+e^{-z}},
+\]</div>
+<p>which can also be seen in <a class="reference internal" href="#logisfig"><span class="std std-numref">Fig. 4</span></a>.</p>
+<figure class="align-default" id="logisfig">
+<a class="reference internal image-reference" href="../_images/logistic.png"><img alt="../_images/logistic.png" src="../_images/logistic.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">The logistic function</span><a class="headerlink" href="#logisfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The optimisation problem that logistic regression solves is:</p>
+<div class="math notranslate nohighlight" id="equation-logloss">
+<span class="eqno">(2)<a class="headerlink" href="#equation-logloss" title="Link to this equation">#</a></span>\[\min_{w} \frac{1}{|S|}\sum_{(x,y)\in S}-\log_2\left(\sigm(y\trsp wx)\right)\]</div>
+<p>Why is the surrogate problem easier?
+Because it is a smooth optimisation problem and thus can be solved with a number
+of numerical optimisation algorithms. In fact, it is even a <em>convex optimisation</em> problem,
+a particularly simple type of optimisation problem that we’ll
+discuss later in this course. For the moment
+let us simply observe that the zero-one loss in <a class="reference internal" href="#equation-linzo">(1)</a> is upper-bounded by
+the so called <em>logistic loss</em> in <a class="reference internal" href="#equation-logloss">(2)</a>:</p>
+<div class="proof lemma admonition" id="upperloglosslem">
+<p class="admonition-title"><span class="caption-number">Lemma 1 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>For all training sets <span class="math notranslate nohighlight">\(S\subset\mathbb R^d\times\{-1,1\}\)</span> and
+<span class="math notranslate nohighlight">\(w\in\mathbb R^d\)</span> it holds that</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{|S|}\sum_{(x,y)\in S}\ell_{0-1}(y,\sgn\circ h_w(x))
+\leq \frac{1}{|S|}\sum_{(x,y)\in S}-\log_2\left(\sigm(y\trsp wx)\right)
+\]</div>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. We show that for all <span class="math notranslate nohighlight">\((x,y)\in S\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+\ell_{0-1}(y,\sgn\circ h_w(x)) \leq -\log\left(\sigm(y\trsp wx)\right).
+\]</div>
+<p>First, assume that the zero-one loss of <span class="math notranslate nohighlight">\((x,y)\)</span> with respect to <span class="math notranslate nohighlight">\(h_w\)</span> is 0.
+Then  <span class="math notranslate nohighlight">\(y\trsp wx\geq 0\)</span> and</p>
+<div class="math notranslate nohighlight">
+\[
+-\log\left(\sigm(y\trsp wx)\right) = \log\left(1+e^{-y\trsp wx}\right) \geq \log(1) \geq 0=\ell_{0-1}(y,\sgn\circ h_w(x))
+\]</div>
+<p>Next, assume the zero-one loss is 1. Then <span class="math notranslate nohighlight">\(y\trsp wx\leq 0\)</span> and <span class="math notranslate nohighlight">\(\sigm(y\trsp wx)\leq \tfrac{1}{2}\)</span>,
+which implies</p>
+<div class="math notranslate nohighlight">
+\[
+-\log_2\left(\sigm(y\trsp wx)\right) \geq -\log_2(\tfrac{1}{2}) = 1 = \ell_{0-1}(y,\sgn\circ h_w(x))
+\]</div>
+</div>
+<p>As a consequence of the lemma, a decrease in the logistic loss will tend to decrease
+the the training error
+as well.</p>
+</section>
+<section id="training-and-errors">
+<h2>Training and errors<a class="headerlink" href="#training-and-errors" title="Link to this heading">#</a></h2>
+<p>So far, we have tried to minimise the training error. With the zero-one-loss, for instance,
+we tried to minimise the misclassification rate on the training set when fitting a logistic regression.<label for='marginnote-role-10' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-10' name='marginnote-role-10' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/basic_algorithms_and_concepts/errors.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>errors</a></span></p>
+<figure class="align-default" id="testerrfig">
+<a class="reference internal image-reference" href="../_images/testerr.png"><img alt="../_images/testerr.png" src="../_images/testerr.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Training, validation and test set.</span><a class="headerlink" href="#testerrfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The real question, however, is how well the algorithm performs on <em>new</em> data, on data it has not seen
+during training.
+A classifier is worthless if it fails on real, new data, however well it classifies the training set.</p>
+<p>Analysing the performance on the training set is easy, simply compute the training error —
+but how can we evaluate the real-life performance?</p>
+<p>In practice, we split our data into two parts, a training set and a <em>test set</em>. Typically,
+the training set is larger, perhaps 80% of the available data, because the algorithms learn better
+with more data. As before, the learning algorithm has access to the training set during the training
+phase. <em>It must not have access, in any way, to the test set.</em>
+It’s best to imagine that the test set is locked away in a high security
+vault and only retrieved when the classifier is completely learnt.</p>
+<p>In fact, the learning phase typically involves a bit (or rather, a lot) of fiddling. Most machine
+learning algorithms offer a number of knobs and buttons. To find the
+best set of settings the algorithms are trained with different settings (on the training set)
+and then evaluated, ie, their training error computed. (Or, if there’s data to spare, a sort of
+test set of the training set, sometimes called <em>validation set</em>, is used for evaluation.)</p>
+<p>Only when the algorithm is finished, we apply the classifier to the test set in order to compute
+the <em>test error</em>. More formally, if <span class="math notranslate nohighlight">\(\mathcal X\)</span> is the domain set, <span class="math notranslate nohighlight">\(\mathcal Y\)</span> the set of classes,
+<span class="math notranslate nohighlight">\(h\)</span> the classifier and <span class="math notranslate nohighlight">\(\mathcal T\subseteq \mathcal X\times\mathcal Y\)</span> the test set,
+then the test error is</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{|\mathcal T|}\sum_{(x,y)\in\mathcal T}\ell(y,h(x))
+\]</div>
+<p>The idea here is that, as the algorithm has never seen the test data, the test error approximates
+the error the classifier will make on real-life data.
+We will later also obtain some theoretical guarantees for the performance on new data.</p>
+<p>In practice the test error is always larger than the training error, and sometimes substantially larger.
+The aim therefore is to obtain first a relatively small training error, and then a small gap
+between training and test error.</p>
+</section>
+<section id="polynomial-predictors">
+<span id="polysec"></span><h2>Polynomial predictors<a class="headerlink" href="#polynomial-predictors" title="Link to this heading">#</a></h2>
+<p>Linear predictors are very simple and will often have a large training error.<label for='marginnote-role-11' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-11' name='marginnote-role-11' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/basic_algorithms_and_concepts/quadpred.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>quadpred</a></span>
+A classifier based on quadratic functions, or even higher polynomials,
+will certainly be more powerful and will often have smaller training error.
+For a quadratic classifier,
+we look for weights <span class="math notranslate nohighlight">\(u\in\mathbb R^{d\times d}\)</span>, <span class="math notranslate nohighlight">\(w\in\mathbb R^d\)</span> and <span class="math notranslate nohighlight">\(b\in\mathbb R\)</span>
+such that</p>
+<div class="math notranslate nohighlight">
+\[
+y=1 \text{ if and only if }\sum_{i,j=1}^nu_{ij}x_ix_j+\sum_{i=1}^dw_ix_i+b\geq 0 \text{ for every }(x,y)\in S
+\]</div>
+<p>Fortunately, this simply reduces to a linear predictor – if we are willing to modify our training set.
+Indeed, transform each <span class="math notranslate nohighlight">\(x\in\mathbb R^d\)</span> into a vector <span class="math notranslate nohighlight">\(\overline x\in\mathbb R^{d^2+d+1}\)</span> by
+putting</p>
+<div class="math notranslate nohighlight">
+\[
+\overline x=\trsp{(x_1x_1,x_1x_2,\ldots,x_1x_d,x_2x_1,x_2x_2,\ldots, x_dx_d,x_1,x_2,\ldots,x_d,1)}
+\]</div>
+<p>Then, with the new training set</p>
+<div class="math notranslate nohighlight">
+\[
+\overline S=\{(\overline x,y):(x,y)\in S\}
+\]</div>
+<p>a linear predictor is the same as a quadratic predictor on <span class="math notranslate nohighlight">\(S\)</span>. Obviously, we can do the same for
+higher polynomials.</p>
+<figure class="align-default" id="quadpredfig">
+<a class="reference internal image-reference" href="../_images/quadpred.png"><img alt="../_images/quadpred.png" src="../_images/quadpred.png" style="width: 8cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 6 </span><span class="caption-text">A quadratic classifier</span><a class="headerlink" href="#quadpredfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="nearest-neighbour">
+<h2>Nearest neighbour<a class="headerlink" href="#nearest-neighbour" title="Link to this heading">#</a></h2>
+<p>A classic and very simple algorithm is <em>nearest neighbour</em>.<label for='marginnote-role-12' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-12' name='marginnote-role-12' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/basic_algorithms_and_concepts/nearest.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>nearest</a></span>
+During training
+the algorithm simply memorises all training data points. When it is tasked to predict the
+class of a new data point it determines the closest training data point and outputs the class
+of the training data point. The idea is that two data points that have similar features are
+likely to have the same class.\movtip{neighbour}%</p>
+<p>As described the algorithm is very sensitive towards noise in the training set.
+A single erroneously classified data point in the training set, for instance, may lead to
+many bad predictions of new data. Because of that, a more robust variant is often used,
+<em><span class="math notranslate nohighlight">\(k\)</span>-nearest neighbour</em>: for each new data point the <span class="math notranslate nohighlight">\(k\)</span> closest data points of the
+training sets are determined, and the output is then most common class among these
+<span class="math notranslate nohighlight">\(k\)</span> data points. (Ties may be split randomly.)</p>
+<div class="proof algorithm admonition" id="nnalgo">
+<p class="admonition-title"><span class="caption-number">Algorithm 1 </span> (<span class="math notranslate nohighlight">\(k\)</span>-nearest neighbour)</p>
+<section class="algorithm-content" id="proof-content">
+<p><strong>Instance</strong> A training set <span class="math notranslate nohighlight">\(S\)</span>, a new data point <span class="math notranslate nohighlight">\(x\)</span>.<br />
+<strong>Output</strong> A predicted class for <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Set Determine the <span class="math notranslate nohighlight">\(k\)</span> closest points <span class="math notranslate nohighlight">\(s_1,\ldots,s_k\)</span> in <span class="math notranslate nohighlight">\(S\)</span> to <span class="math notranslate nohighlight">\(x\)</span>.</p></li>
+<li><p><strong>output</strong> the majority class of <span class="math notranslate nohighlight">\(s_1,\ldots, s_k\)</span>.</p></li>
+</ol>
+</section>
+</div><p>Some details in the algorithm are still vague. What, for instance, does “closest” mean?
+Here, several options are available and ultimately should be considered in context of the
+application. In the simplest case, we take the euclidean distance. Some preprocessing might be
+necessary, though, if the features have very different scales. Consider a data set
+of customers, where the features include age and yearly income. The age difference between
+two customers should, if we are generous, be at most a 100 years. The difference between
+two yearly incomes may easily surpass 10000€, and a yearly income difference of a 100€ is
+trivial. That is, if we do not rescale these two features such that they have similar
+magnitudes we will weigh an income difference of a 100€ as much more serious as an
+age difference of 50 years. A 15 year old, however, will have  interests that are quite different
+from the ones of a 65 year old person.
+However, there is very little difference between
+a yearly income of 45000€ and an income of 45100€.</p>
+<figure class="sphinx-subfigure align-default" id="knnfig">
+<div class="sphinx-subfigure-grid ss-layout-default-AB ss-layout-sm-A_B" style="display: grid; gap: 10px; grid-gap: 10px;">
+<div class="sphinx-subfigure-area" style="display: flex; flex-direction: column; justify-content: center; align-items: center; grid-area: A;">
+<a class="reference internal image-reference" href="../_images/one_nn.png"><img alt="one" src="../_images/one_nn.png" style="width: 6cm;" />
+</a>
+</div>
+<div class="sphinx-subfigure-area" style="display: flex; flex-direction: column; justify-content: center; align-items: center; grid-area: B;">
+<a class="reference internal image-reference" href="../_images/twenty_nn.png"><img alt="twenty" src="../_images/twenty_nn.png" style="width: 6cm;" />
+</a>
+</div>
+</div>
+<figcaption>
+<p><span class="caption-number">Fig. 7 </span><span class="caption-text">Algorithm <span class="math notranslate nohighlight">\(k\)</span>-nearest neighbour for <span class="math notranslate nohighlight">\(k=1\)</span> on the left and <span class="math notranslate nohighlight">\(k=20\)</span> on the right</span><a class="headerlink" href="#knnfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Feature scaling is not only a problem for <span class="math notranslate nohighlight">\(k\)</span>-nearest neighbour but also for many other
+machine learning algorithms.</p>
+<p>Next, how do we find the <span class="math notranslate nohighlight">\(k\)</span>-closest points in the training set? If the
+training set is large then going through all points in the training set in order to compute
+the distance to <span class="math notranslate nohighlight">\(x\)</span>  will be computationally expensive.
+There are some tricks that may speed up this step considerably. We may discuss these later.</p>
+<p>Nearest neighbour has the advantage that it is dead-simple. It’s also relatively easy to
+analyse from a theoretical point of view. In practice, it suffers from a number of
+drawbacks. The most obvious is that it is quite memory intensive: it has to store the
+whole training set!</p>
+</section>
+</section>
+<hr class="footnotes docutils" />
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">A second test run</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="convex.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Stochastic gradient descent</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tasks-in-ml">Tasks in ML</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vocabulary">Vocabulary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-predictors">Linear predictors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-errors">Training and errors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-predictors">Polynomial predictors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nearest-neighbour">Nearest neighbour</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Henning
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Henning.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

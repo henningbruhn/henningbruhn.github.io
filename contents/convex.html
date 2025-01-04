@@ -53,7 +53,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Neural networks" href="nets.html" />
-    <link rel="prev" title="A second test run" href="../index.html" />
+    <link rel="prev" title="Predictors, classification and losses" href="intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -144,9 +144,11 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Predictors, classification and losses</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Stochastic gradient descent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nets.html">Neural networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mips.html">Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html">TEST</a></li>
 </ul>
 
     </div>
@@ -339,7 +341,7 @@ between any two points in <span class="math notranslate nohighlight">\(C\)</span
 <figure class="align-default" id="convsetfig" style="width: 12cm">
 <img alt="../_images/convexsets.png" src="../_images/convexsets.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 1 </span><span class="caption-text">A convex set in  (a) and (b); the set in (c) is not convex</span><a class="headerlink" href="#convsetfig" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 8 </span><span class="caption-text">A convex set in  (a) and (b); the set in (c) is not convex</span><a class="headerlink" href="#convsetfig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Let <span class="math notranslate nohighlight">\(C\subseteq\mathbb R^n\)</span> be a convex set.
@@ -353,14 +355,14 @@ f(\lambda x+(1-\lambda) y)\leq \lambda f(x) + (1-\lambda) f(y)
 <figure class="align-default" id="convfunfig" style="width: 12cm">
 <img alt="../_images/convexconcave.png" src="../_images/convexconcave.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 2 </span><span class="caption-text">A convex function, a concave function (negative of a convex function), and a function that is neither convex nor concave.</span><a class="headerlink" href="#convfunfig" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 9 </span><span class="caption-text">A convex function, a concave function (negative of a convex function), and a function that is neither convex nor concave.</span><a class="headerlink" href="#convfunfig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The two notions of convexity, convex sets and convex functions, are related via the
 epigraph of a function. For a function <span class="math notranslate nohighlight">\(f:C\to\mathbb R\)</span>, the <em>epigraph</em>
 is defined as</p>
 <div class="math notranslate nohighlight" id="equation-convdef">
-<span class="eqno">(1)<a class="headerlink" href="#equation-convdef" title="Link to this equation">#</a></span>\[\text{epi}(f)=\{(x,y) : x\in C,y\geq f(x)\}\]</div>
+<span class="eqno">(3)<a class="headerlink" href="#equation-convdef" title="Link to this equation">#</a></span>\[\text{epi}(f)=\{(x,y) : x\in C,y\geq f(x)\}\]</div>
 <p>That means, the epigraph is simply the set of all points above the function graph.</p>
 <p>Convex sets and convex functions are now related as follows:</p>
 <div class="proof proposition admonition" id="proposition-0">
@@ -374,7 +376,7 @@ Then <span class="math notranslate nohighlight">\(f\)</span> is a convex functio
 <h2>Convex optimisation problems<a class="headerlink" href="#convex-optimisation-problems" title="Link to this heading">#</a></h2>
 <p>A <em>convex optimisation problem</em> is any problem of the form</p>
 <div class="math notranslate nohighlight" id="equation-convopt">
-<span class="eqno">(2)<a class="headerlink" href="#equation-convopt" title="Link to this equation">#</a></span>\[\inf f(x),\quad x\in K\]</div>
+<span class="eqno">(4)<a class="headerlink" href="#equation-convopt" title="Link to this equation">#</a></span>\[\inf f(x),\quad x\in K\]</div>
 <p>where <span class="math notranslate nohighlight">\(K\subseteq \mathbb R^n\)</span> is a convex set and <span class="math notranslate nohighlight">\(f:K\to\mathbb R\)</span>
 a convex function.</p>
 <p>A point <span class="math notranslate nohighlight">\(x^*\in K\)</span> is a <em>local minimum</em> if there is an open ball <span class="math notranslate nohighlight">\(B\)</span>
@@ -386,7 +388,7 @@ f(x^*)\leq f(x) \text{ for all }x\in B\cap K
 <div class="proof proposition admonition" id="proposition-1">
 <p class="admonition-title"><span class="caption-number">Proposition 2 </span></p>
 <section class="proposition-content" id="proof-content">
-<p>If <span class="math notranslate nohighlight">\(x^*\)</span> is a local minimum of <a class="reference internal" href="#equation-convopt">(2)</a> then it is also a
+<p>If <span class="math notranslate nohighlight">\(x^*\)</span> is a local minimum of <a class="reference internal" href="#equation-convopt">(4)</a> then it is also a
 global minimum.</p>
 </section>
 </div><div class="proof admonition" id="proof">
@@ -404,7 +406,7 @@ f(x_\lambda)\leq \lambda f(x^*)+(1-\lambda)f(z)&lt;f(x^*)
 being a local minimum.</p>
 </div>
 <p>Note that it makes a difference whether we aim to minimise or maximise a convex
-function over a convex set. Indeed, if we maximise the convex function in <a class="reference internal" href="#convfunfig"><span class="std std-numref">Figure 2</span></a>
+function over a convex set. Indeed, if we maximise the convex function in <a class="reference internal" href="#convfunfig"><span class="std std-numref">Figure 9</span></a>
 over the convex set <span class="math notranslate nohighlight">\([0,3]\)</span> we see that <span class="math notranslate nohighlight">\(x^*=0\)</span> is a local maximum but not  a
 global one (that would be <span class="math notranslate nohighlight">\(x=3\)</span>).</p>
 </section>
@@ -420,7 +422,7 @@ the triangle inequality implies:</p>
 <p>Recall that <span class="math notranslate nohighlight">\(\nabla f(x) = \trsp{\left(\frac{\partial f}{\partial x_1}(x),\ldots,\frac{\partial f}{\partial x_n}(x)\right)}\)</span>
 is the <em>gradient</em> of <span class="math notranslate nohighlight">\(f\)</span> at <span class="math notranslate nohighlight">\(x\)</span>.</p>
 <div class="proof lemma admonition" id="gradlem">
-<p class="admonition-title"><span class="caption-number">Lemma 1 </span></p>
+<p class="admonition-title"><span class="caption-number">Lemma 2 </span></p>
 <section class="lemma-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(f:C\to\mathbb R\)</span> be a differentiable function on an open convex set <span class="math notranslate nohighlight">\(C\subseteq \mathbb R^n\)</span>.
 Then <span class="math notranslate nohighlight">\(f\)</span> is convex if and only if</p>
@@ -461,7 +463,7 @@ and then apply the one-dimensional case. We omit the details.</p>
 <p>If a function is twice differentiable then whether it is convex can be read off
 its second derivative:</p>
 <div class="proof lemma admonition" id="twicelem">
-<p class="admonition-title"><span class="caption-number">Lemma 2 </span></p>
+<p class="admonition-title"><span class="caption-number">Lemma 3 </span></p>
 <section class="lemma-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(f:C\to\mathbb R\)</span> be a twice differentiable function
 on an open interval <span class="math notranslate nohighlight">\(C\subseteq \mathbb R\)</span>.  Then the following statements
@@ -485,7 +487,7 @@ f'(x)=\frac{e^x}{1+e^x}=\frac{1}{1+e^{-x}},
 <span class="math notranslate nohighlight">\(g:x\mapsto e^{-x}\)</span> are both convex, but <span class="math notranslate nohighlight">\(g\circ f:x\mapsto e^{-x^2}\)</span> is not. This is different if the
 inner function is affine.</p>
 <div class="proof lemma admonition" id="affconflem">
-<p class="admonition-title"><span class="caption-number">Lemma 3 </span></p>
+<p class="admonition-title"><span class="caption-number">Lemma 4 </span></p>
 <section class="lemma-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(g:\mathbb R\to\mathbb R\)</span> be convex, and let <span class="math notranslate nohighlight">\(w\in\mathbb R^n\)</span> and <span class="math notranslate nohighlight">\(b\in\mathbb R\)</span>.
 Then <span class="math notranslate nohighlight">\(f(x)=g(\trsp wx+b)\)</span> is also convex.</p>
@@ -505,7 +507,7 @@ function <span class="math notranslate nohighlight">\(f:\mathbb R^n\to\mathbb R\
 is convex.</p>
 <p>The following statement is almost trivial to prove:</p>
 <div class="proof lemma admonition" id="sumlem">
-<p class="admonition-title"><span class="caption-number">Lemma 4 </span></p>
+<p class="admonition-title"><span class="caption-number">Lemma 5 </span></p>
 <section class="lemma-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(C\subseteq\mathbb R^n\)</span> be a convex set, let <span class="math notranslate nohighlight">\(w_1,\ldots, w_m\geq 0\)</span>,
 and
@@ -515,7 +517,7 @@ is a convex function.</p>
 </div><p>Recall that  logistic regression works by minimising the logistic loss.
 As a consequence of the previous lemmas, we get:</p>
 <div class="proof lemma admonition" id="loglosslem">
-<p class="admonition-title"><span class="caption-number">Lemma 5 </span></p>
+<p class="admonition-title"><span class="caption-number">Lemma 6 </span></p>
 <section class="lemma-content" id="proof-content">
 <p>For every finite training set <span class="math notranslate nohighlight">\(S\subseteq \mathbb R^n\times\{-1,1\}\)</span>,
 the logistic loss function</p>
@@ -541,7 +543,7 @@ the positive factor <span class="math notranslate nohighlight">\(\tfrac{1}{|S|}\
 \frac{1}{|S|}\sum_{(x,y)\in S}-\log_2\left(\sigm(y\trsp wx)\right)
 = \frac{1}{|S|}\sum_{(x,y)\in S}\log_2\left(1+e^{-y\trsp wx}\right)
 \]</div>
-<p>Thus, it follows from <a class="reference internal" href="#sumlem">Lemma 4</a>
+<p>Thus, it follows from <a class="reference internal" href="#sumlem">Lemma 5</a>
 that the logistic loss function is convex.</p>
 </div>
 <p>Recall that when performing logistic regression we aim to find a linear classifier
@@ -552,7 +554,7 @@ by a <em>surrogate loss</em> function, the logistic loss: in contrast to zero-on
 the logistic loss function is convex!</p>
 <p>Let’s look at one more way to obtain a convex function.</p>
 <div class="proof lemma admonition" id="suplem">
-<p class="admonition-title"><span class="caption-number">Lemma 6 </span></p>
+<p class="admonition-title"><span class="caption-number">Lemma 7 </span></p>
 <section class="lemma-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(I\)</span> be some index set, let <span class="math notranslate nohighlight">\(C\)</span> be a convex set.
 Let <span class="math notranslate nohighlight">\(f_i:C\to\mathbb R\)</span>, <span class="math notranslate nohighlight">\(i\in I\)</span>, be a family of convex functions. Then
@@ -582,7 +584,7 @@ and usually these even exhibit a stronger notion of convexity that is called,
 well, <em>strong</em> convexity. The difference between convexity and strong convexity
 is basically the difference between an affine function such as <span class="math notranslate nohighlight">\(x\mapsto x\)</span> and a
 quadratic function such as <span class="math notranslate nohighlight">\(x\mapsto x^2\)</span>. Affine functions are convex but barely so:
-they satisfy the defining inequality of convexity <a class="reference internal" href="#equation-convdef">(1)</a> with equality. For
+they satisfy the defining inequality of convexity <a class="reference internal" href="#equation-convdef">(3)</a> with equality. For
 a strongly convex function this will never be the case.</p>
 <p>A function <span class="math notranslate nohighlight">\(f:K\to\mathbb R\)</span> on a convex set <span class="math notranslate nohighlight">\(K\subseteq\mathbb R^d\)</span> is
 <em><span class="math notranslate nohighlight">\(\mu\)</span>-strongly convex</em> for <span class="math notranslate nohighlight">\(\mu&gt;0\)</span> if for all <span class="math notranslate nohighlight">\(\lambda\in [0,1]\)</span>
@@ -596,7 +598,7 @@ and <span class="math notranslate nohighlight">\(x,y\in K\)</span> it holds that
 ||x-y||^2_2\)</span> that makes strong convexity a stronger notion than ordinary convexity.
 In particular, affine functions are convex but not <span class="math notranslate nohighlight">\(\mu\)</span>-strongly convex for any <span class="math notranslate nohighlight">\(\mu&gt;0\)</span>.</p>
 <div class="proof lemma admonition" id="strongnormlem">
-<p class="admonition-title"><span class="caption-number">Lemma 7 </span></p>
+<p class="admonition-title"><span class="caption-number">Lemma 8 </span></p>
 <section class="lemma-content" id="proof-content">
 <p>The function <span class="math notranslate nohighlight">\(\mathbb R^d\to\mathbb R\)</span>, <span class="math notranslate nohighlight">\(x\mapsto ||x||^2_2\)</span> is
 <span class="math notranslate nohighlight">\(2\)</span>-strongly convex.</p>
@@ -615,7 +617,7 @@ In particular, affine functions are convex but not <span class="math notranslate
 <p>Adding the two right-hand sides gives <span class="math notranslate nohighlight">\(\lambda ||x||^2+(1-\lambda)||y||^2\)</span>.</p>
 </div>
 <div class="proof lemma admonition" id="stronglem">
-<p class="admonition-title"><span class="caption-number">Lemma 8 </span></p>
+<p class="admonition-title"><span class="caption-number">Lemma 9 </span></p>
 <section class="lemma-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(g:K\to\mathbb R\)</span> be a <span class="math notranslate nohighlight">\(\mu\)</span>-strongly convex function on a convex set <span class="math notranslate nohighlight">\(K\subseteq\mathbb R^d\)</span>.
 Then</p>
@@ -633,7 +635,7 @@ to the loss function that penalises large weights. This is a common strategy, ca
 that we will treat later. A fortunate consequence is then that the new function <span class="math notranslate nohighlight">\(w\mapsto L(w)+\mu||w||_2^2\)</span>
 is even strongly convex.</p>
 <div class="proof lemma admonition" id="strongdifflem">
-<p class="admonition-title"><span class="caption-number">Lemma 9 </span></p>
+<p class="admonition-title"><span class="caption-number">Lemma 10 </span></p>
 <section class="lemma-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(f:K\to\mathbb R\)</span> be a differentiable
 function on an open convex set <span class="math notranslate nohighlight">\(K\subseteq\mathbb R^d\)</span>.
@@ -643,11 +645,11 @@ Then <span class="math notranslate nohighlight">\(f\)</span> is <span class="mat
 f(y)\geq f(x)+\nabla \trsp{f(x)} (y-x)+\frac{\mu}{2}||y-x||^2
 \]</div>
 </section>
-</div><p>The proof is an obvious modification of the proof of <a class="reference internal" href="#gradlem">Lemma 1</a>.</p>
+</div><p>The proof is an obvious modification of the proof of <a class="reference internal" href="#gradlem">Lemma 2</a>.</p>
 <p>We draw a simple consequence. If <span class="math notranslate nohighlight">\(x\)</span> is a global minimum of <span class="math notranslate nohighlight">\(f\)</span> then,
 as <span class="math notranslate nohighlight">\(\nabla f(x)=0\)</span> it follows that</p>
 <div class="math notranslate nohighlight" id="equation-strongmin2">
-<span class="eqno">(3)<a class="headerlink" href="#equation-strongmin2" title="Link to this equation">#</a></span>\[f(y)-f(x)\geq \frac{\mu}{2}||y-x||^2\]</div>
+<span class="eqno">(5)<a class="headerlink" href="#equation-strongmin2" title="Link to this equation">#</a></span>\[f(y)-f(x)\geq \frac{\mu}{2}||y-x||^2\]</div>
 </section>
 <section id="gradient-descent">
 <h2>Gradient descent<a class="headerlink" href="#gradient-descent" title="Link to this heading">#</a></h2>
@@ -656,7 +658,7 @@ How can we minimise them? With <em>stochastic gradient descent</em> – it is th
 algorithm (or one of its variants) that powers most of machine learning. Let’s understand
 simple <em>gradient descent</em> first.</p>
 <div class="proof algorithm admonition" id="gdalg">
-<p class="admonition-title"><span class="caption-number">Algorithm 1 </span> (gradient descent)</p>
+<p class="admonition-title"><span class="caption-number">Algorithm 2 </span> (gradient descent)</p>
 <section class="algorithm-content" id="proof-content">
 <p><strong>Instance</strong> A differentiable function <span class="math notranslate nohighlight">\(f:\mathbb R^n\to\mathbb R\)</span>, a first point <span class="math notranslate nohighlight">\(x^{(1)}\)</span>.<br />
 <strong>Output</strong> A point <span class="math notranslate nohighlight">\(x\)</span>.</p>
@@ -686,7 +688,7 @@ of view, the average <span class="math notranslate nohighlight">\(\tfrac{1}{T}\s
 <a class="reference internal image-reference" href="../_images/gd_etas.png"><img alt="../_images/gd_etas.png" src="../_images/gd_etas.png" style="width: 15cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Gradient descent with constant learning rates of different values.
+<p><span class="caption-number">Fig. 10 </span><span class="caption-text">Gradient descent with constant learning rates of different values.
 The function to be minimised is
 <span class="math notranslate nohighlight">\((x,y)\mapsto \tfrac{1}{2}(x^2+10y^2)\)</span>. Middle: small learning
 rate leads to slow convergence. Right: learning rate is too large, no
@@ -698,7 +700,7 @@ convergence.</span><a class="headerlink" href="#etafig" title="Link to this imag
 <section class="theorem-content" id="proof-content">
 <p>If <span class="math notranslate nohighlight">\(f:\mathbb R^n\to \mathbb R\)</span> is a convex and differentiable function and certain additional but
 mild conditions are satisfied, in particular with respect to the learning rate, then
-<a class="reference internal" href="#gdalg">Algorithm 1</a> will converge towards the global minimum:</p>
+<a class="reference internal" href="#gdalg">Algorithm 2</a> will converge towards the global minimum:</p>
 <div class="math notranslate nohighlight">
 \[
 x^{(t)}\to x^*,\text{ as }t\to\infty,
@@ -765,7 +767,7 @@ will in general by different from the full gradient <span class="math notranslat
 the key point exploited by SGD. Moreover, this can be generalised to arbitrary loss
 function, or empirical risks.<label for='marginnote-role-2' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-2' name='marginnote-role-2' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/stochastic_gradient_descent/sgd.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>sgd</a></span></p>
 <div class="proof algorithm admonition" id="sgdalg">
-<p class="admonition-title"><span class="caption-number">Algorithm 2 </span> (stochastic gradient descent)</p>
+<p class="admonition-title"><span class="caption-number">Algorithm 3 </span> (stochastic gradient descent)</p>
 <section class="algorithm-content" id="proof-content">
 <p><strong>Instance</strong> An empirical risk <span class="math notranslate nohighlight">\(L(w)=\tfrac{1}{|S|}\sum_{(x,y)\in S}L_{(x,y)}(w)\)</span>, a  point <span class="math notranslate nohighlight">\(w^{(1)}\)</span>.<br />
 <strong>Output</strong> A point <span class="math notranslate nohighlight">\(w\)</span>.</p>
@@ -785,7 +787,7 @@ function, or empirical risks.<label for='marginnote-role-2' class='margin-toggle
 <a class="reference internal image-reference" href="../_images/sgd_three_runs.png"><img alt="../_images/sgd_three_runs.png" src="../_images/sgd_three_runs.png" style="width: 15cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Three runs of SGD with same constant learning rate. The function to be minimised
+<p><span class="caption-number">Fig. 11 </span><span class="caption-text">Three runs of SGD with same constant learning rate. The function to be minimised
 is <span class="math notranslate nohighlight">\((x,y)\mapsto \tfrac{1}{2}(x^2+10y^2)\)</span>, which is not of the type that is typical in machine learning.
 To simulate SGD a normally distributed error is added to each gradient.</span><a class="headerlink" href="#setafig" title="Link to this image">#</a></p>
 </figcaption>
@@ -892,7 +894,7 @@ then</p>
 </section>
 </div><p>We need a key lemma for the proof:</p>
 <div class="proof lemma admonition" id="sgdlem4">
-<p class="admonition-title"><span class="caption-number">Lemma 10 </span></p>
+<p class="admonition-title"><span class="caption-number">Lemma 11 </span></p>
 <section class="lemma-content" id="proof-content">
 <div class="math notranslate nohighlight">
 \[
@@ -906,35 +908,35 @@ then</p>
 large enough  <span class="math notranslate nohighlight">\(T\)</span> it holds  that <span class="math notranslate nohighlight">\(\epsilon_T\leq\delta\)</span>.</p>
 <p>First, as <span class="math notranslate nohighlight">\(\sum_{t=1}^\infty\eta_t^2&lt;\infty\)</span> there is a <span class="math notranslate nohighlight">\(T'\)</span> such that</p>
 <div class="math notranslate nohighlight" id="equation-blubb1">
-<span class="eqno">(4)<a class="headerlink" href="#equation-blubb1" title="Link to this equation">#</a></span>\[B\sum_{t=T'}^\infty \eta_t^2\leq\tfrac{1}{2}\delta\]</div>
+<span class="eqno">(6)<a class="headerlink" href="#equation-blubb1" title="Link to this equation">#</a></span>\[B\sum_{t=T'}^\infty \eta_t^2\leq\tfrac{1}{2}\delta\]</div>
 <p>At the same time we can choose <span class="math notranslate nohighlight">\(T'\)</span> large enough such that <span class="math notranslate nohighlight">\(1-\eta_t\mu\geq 0\)</span> for all <span class="math notranslate nohighlight">\(t\geq T'\)</span>.</p>
 <p>Next, choose <span class="math notranslate nohighlight">\(k_0\)</span> large enough such that</p>
 <div class="math notranslate nohighlight" id="equation-blubb2">
-<span class="eqno">(5)<a class="headerlink" href="#equation-blubb2" title="Link to this equation">#</a></span>\[\text{exp}\left(\sum_{t=T'}^{T'+k_0}\eta_t\mu\right)\geq \frac{2\epsilon_{T'}}{\delta}\]</div>
+<span class="eqno">(7)<a class="headerlink" href="#equation-blubb2" title="Link to this equation">#</a></span>\[\text{exp}\left(\sum_{t=T'}^{T'+k_0}\eta_t\mu\right)\geq \frac{2\epsilon_{T'}}{\delta}\]</div>
 <p>This is possible as <span class="math notranslate nohighlight">\(\sum_{t=1}^\infty\eta_t=\infty\)</span>.
-Also note that then <a class="reference internal" href="#equation-blubb2">(5)</a> holds for every integer <span class="math notranslate nohighlight">\(k\geq k_0\)</span>.</p>
-<p>With <a class="reference internal" href="#sgdlem4">Lemma 10</a> we get for every <span class="math notranslate nohighlight">\(T=T'+k+1\)</span> with <span class="math notranslate nohighlight">\(k\geq k_0\)</span></p>
+Also note that then <a class="reference internal" href="#equation-blubb2">(7)</a> holds for every integer <span class="math notranslate nohighlight">\(k\geq k_0\)</span>.</p>
+<p>With <a class="reference internal" href="#sgdlem4">Lemma 11</a> we get for every <span class="math notranslate nohighlight">\(T=T'+k+1\)</span> with <span class="math notranslate nohighlight">\(k\geq k_0\)</span></p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 \epsilon_T &amp;\leq \epsilon_{T'}\prod_{t=T'}^{T'+k}(1-\eta_t\mu)+\sum_{t=T'}^{T'+k}\eta_t^2B\\
 &amp;\leq \epsilon_{T'}\prod_{t=T'}^{T'+k}e^{\ln(1-\eta_t\mu)} + \sum_{t=T'}^{\infty}\eta_t^2B\\
 &amp; \leq \epsilon_{T'}\text{exp}\left(\sum_{t=T'}^{T'+k}\ln(1-\eta_t\mu)\right) +\tfrac{1}{2}\delta,
 \end{align*}\]</div>
-<p>by <a class="reference internal" href="#equation-blubb1">(4)</a>. Next, we use <span class="math notranslate nohighlight">\(\ln(1-x)\leq -x\)</span>, which holds for any <span class="math notranslate nohighlight">\(x&lt;1\)</span>:</p>
+<p>by <a class="reference internal" href="#equation-blubb1">(6)</a>. Next, we use <span class="math notranslate nohighlight">\(\ln(1-x)\leq -x\)</span>, which holds for any <span class="math notranslate nohighlight">\(x&lt;1\)</span>:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 \epsilon_T 
 &amp; \leq \epsilon_{T'}\text{exp}\left(\sum_{t=T'}^{T'+k}-\eta_t\mu\right) +\tfrac{1}{2}\delta,
 \end{align*}\]</div>
-<p>and then <a class="reference internal" href="#equation-blubb2">(5)</a> to obtain
+<p>and then <a class="reference internal" href="#equation-blubb2">(7)</a> to obtain
 <span class="math notranslate nohighlight">\(
 \epsilon_T \leq \tfrac{1}{2}\delta+\tfrac{1}{2}\delta=\delta.
 \)</span></p>
 </div>
-<p>It remains to prove <a class="reference internal" href="#sgdlem4">Lemma 10</a>.
+<p>It remains to prove <a class="reference internal" href="#sgdlem4">Lemma 11</a>.
 As a first step, we prove:</p>
 <div class="proof lemma admonition" id="sgdlem3">
-<p class="admonition-title"><span class="caption-number">Lemma 11 </span></p>
+<p class="admonition-title"><span class="caption-number">Lemma 12 </span></p>
 <section class="lemma-content" id="proof-content">
 <div class="math notranslate nohighlight">
 \[
@@ -953,7 +955,7 @@ As a first step, we prove:</p>
 <p>where we have abbreviated <span class="math notranslate nohighlight">\(\nabla L_{z_t}(w^{(t)})\)</span> to <span class="math notranslate nohighlight">\(\nabla^{(t)}\)</span>.
 With <a class="reference internal" href="#conii"><span class="std std-ref">condition 2</span></a> on <span class="math notranslate nohighlight">\(L\)</span>, we obtain</p>
 <div class="math notranslate nohighlight" id="equation-sgd1">
-<span class="eqno">(6)<a class="headerlink" href="#equation-sgd1" title="Link to this equation">#</a></span>\[\epsilon_{t+1} \leq \epsilon_t -2\eta_t\expec_{1..t}\left[\trsp{(w^{(t)}-w^*)}\nabla^{(t)}\right]+\eta_t^2 B\]</div>
+<span class="eqno">(8)<a class="headerlink" href="#equation-sgd1" title="Link to this equation">#</a></span>\[\epsilon_{t+1} \leq \epsilon_t -2\eta_t\expec_{1..t}\left[\trsp{(w^{(t)}-w^*)}\nabla^{(t)}\right]+\eta_t^2 B\]</div>
 <p>We focus on the summand in the middle:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
@@ -962,7 +964,7 @@ With <a class="reference internal" href="#conii"><span class="std std-ref">condi
 &amp; = \expec_{1..t-1}\left[\trsp{(w^{(t)}-w^*)}\expec_{z_t}[\nabla^{(t)}]\right] \\
 &amp; = \expec_{1..t-1}\left[\trsp{(w^{(t)}-w^*)}\nabla L(w^{(t)})\right]
 \end{align*}\]</div>
-<p>We use <a class="reference internal" href="#strongdifflem">Lemma 9</a>, to see that</p>
+<p>We use <a class="reference internal" href="#strongdifflem">Lemma 10</a>, to see that</p>
 <div class="math notranslate nohighlight">
 \[
 \trsp{(w^{(t)}-w^*)}\nabla L(w^{(t)}) \geq L(w^{(t)})-L(w^*) + \tfrac{\mu}{2}||w^{(t)}-w^*||^2,
@@ -980,7 +982,7 @@ L(w^{(t)})-L(w^*) + \tfrac{\mu}{2}||w^{(t)}-w^*||^2
 \right] =  \tfrac{\mu}{2}\epsilon_t,
 \end{align*}\]</div>
 <p>as <span class="math notranslate nohighlight">\(L(w^*)\leq L(w^{(t)})\)</span> by choice of <span class="math notranslate nohighlight">\(w^*\)</span>.</p>
-<p>We use that in <a class="reference internal" href="#equation-sgd1">(6)</a>:</p>
+<p>We use that in <a class="reference internal" href="#equation-sgd1">(8)</a>:</p>
 <div class="math notranslate nohighlight">
 \[
 \epsilon_{t+1} \leq \epsilon_t -2\eta_t\cdot\tfrac{\mu}{2}\epsilon_t
@@ -988,9 +990,9 @@ L(w^{(t)})-L(w^*) + \tfrac{\mu}{2}||w^{(t)}-w^*||^2
 \]</div>
 <p>which finishes the proof of the lemma.</p>
 </div>
-<p>Let’s finish the proof of <a class="reference internal" href="#sgdlem4">Lemma 10</a>.</p>
+<p>Let’s finish the proof of <a class="reference internal" href="#sgdlem4">Lemma 11</a>.</p>
 <div class="proof admonition" id="proof">
-<p>Proof. For <span class="math notranslate nohighlight">\(k=0\)</span>, this is just <a class="reference internal" href="#sgdlem3">Lemma 11</a>. Now, we do induction and use <a class="reference internal" href="#sgdlem3">Lemma 11</a>
+<p>Proof. For <span class="math notranslate nohighlight">\(k=0\)</span>, this is just <a class="reference internal" href="#sgdlem3">Lemma 12</a>. Now, we do induction and use <a class="reference internal" href="#sgdlem3">Lemma 12</a>
 again:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
@@ -1091,7 +1093,7 @@ the noisier gradient may make it less likely that the algorithm gets trapped in 
 <a class="reference internal image-reference" href="../_images/sgd_time.png"><img alt="../_images/sgd_time.png" src="../_images/sgd_time.png" style="width: 15cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Comparison of  logistic loss per running time for batch gradient descent,
+<p><span class="caption-number">Fig. 12 </span><span class="caption-text">Comparison of  logistic loss per running time for batch gradient descent,
 and online and minibatch gradient descent.
 All algorithms were applied to an artificial logistic regression problem. Minibatch size was equal
 to 20, total sample size was 5000. Online and minibatch SGD converge much faster than
@@ -1128,12 +1130,12 @@ Common, and more efficient, variants of SGD are <em>Nesterov accelerated gradien
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../index.html"
+       href="intro.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">A second test run</p>
+        <p class="prev-next-title">Predictors, classification and losses</p>
       </div>
     </a>
     <a class="right-next"

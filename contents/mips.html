@@ -52,6 +52,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'contents/mips';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TEST" href="test.html" />
     <link rel="prev" title="Neural networks" href="nets.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -143,9 +144,11 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Predictors, classification and losses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="convex.html">Stochastic gradient descent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nets.html">Neural networks</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html">TEST</a></li>
 </ul>
 
     </div>
@@ -395,7 +398,7 @@ good approximation of <span class="math notranslate nohighlight">\(\trsp q_jx^{(
 let us assume that the queries <span class="math notranslate nohighlight">\(q\)</span> are drawn from some distribution <span class="math notranslate nohighlight">\(\mathcal D\)</span>.
 Then, arguably, we should choose <span class="math notranslate nohighlight">\(c_{j1},\ldots,c_{jk}\)</span> such that</p>
 <div class="math notranslate nohighlight" id="equation-vqobj">
-<span class="eqno">(7)<a class="headerlink" href="#equation-vqobj" title="Link to this equation">#</a></span>\[\expec_{q\sim\mathcal D}\left[\sum_{i=1}^n(\trsp q_jx^{(i)}_j-\trsp q_j\hat x^{(i)}_j)^2\right]\]</div>
+<span class="eqno">(21)<a class="headerlink" href="#equation-vqobj" title="Link to this equation">#</a></span>\[\expec_{q\sim\mathcal D}\left[\sum_{i=1}^n(\trsp q_jx^{(i)}_j-\trsp q_j\hat x^{(i)}_j)^2\right]\]</div>
 <p>is minimised. Let us rewrite that.</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
@@ -427,7 +430,7 @@ solve for the data <span class="math notranslate nohighlight">\(x^{(1)}_j,\ldots
 in the centres <span class="math notranslate nohighlight">\(c_{j1},\ldots,c_{jk}\)</span>; finally we replace each <span class="math notranslate nohighlight">\(x^{(i)}_j\)</span> with the nearest cluster centre <span class="math notranslate nohighlight">\(c_{js}\)</span>.</p>
 <p>Replacing vectors in a dataset by simpler vectors is  called <em>vector quantisation</em><label for='marginnote-role-2' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-2' name='marginnote-role-2' class='margin-toggle'><span class="marginnote"> vector quantisation</span>, and also used as a compression tool,
 for example, in video or audio codecs.</p>
-<p>The approach outlined here can be improved upon. Indeed, I’ve cheated with the objective <a class="reference internal" href="#equation-vqobj">(7)</a>: The objective
+<p>The approach outlined here can be improved upon. Indeed, I’ve cheated with the objective <a class="reference internal" href="#equation-vqobj">(21)</a>: The objective
 incorporates <em>all</em> scalar products <span class="math notranslate nohighlight">\(\trsp q\hat x^{(i)}\)</span>. In the applications, however, we just want to find
 the datapoint with largest scalar product with the query, or rather, the top-10 datapoints with largest scalar product.
 Thus, it does not matter if <span class="math notranslate nohighlight">\(\trsp q\hat x^{(i)}\)</span> deviates from <span class="math notranslate nohighlight">\(\trsp qx^{(i)}\)</span> as long as both scalar products
@@ -460,6 +463,15 @@ F. Chern and S. Kumar (2020), <a class="reference external" href="https://arxiv.
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">Neural networks</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="test.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">TEST</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>

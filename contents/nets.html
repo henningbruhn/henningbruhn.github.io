@@ -47,6 +47,8 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'contents/nets';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -142,9 +144,11 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Predictors, classification and losses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="convex.html">Stochastic gradient descent</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Neural networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mips.html">Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html">TEST</a></li>
 </ul>
 
     </div>
@@ -267,7 +271,9 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -283,6 +289,20 @@
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-propagation">Back propagation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-loss-function">The loss function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#softmax-and-loss">Softmax and loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-cross-entropy-loss">Why cross-entropy loss?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kullback-leibler-divergence">Kullback-Leibler divergence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-minima">Local minima</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#no-traps">No traps</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -292,10 +312,992 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="neural-networks">
+  <p><span class="math notranslate nohighlight">\(\newcommand{\bigO}{O}
+\newcommand{\trsp}[1]{#1^\intercal} % transpose
+\DeclareMathOperator*{\expec}{\mathbb{E}} % Expectation
+\DeclareMathOperator*{\proba}{\mathbb{P}}   % Probability
+\DeclareMathOperator*{\vari}{\mathbb{V}}   % Probability
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\newcommand{\sigm}{\phi_{\text{sig}}} % logistic function
+\newcommand{\bigOmega}{\Omega}
+\newcommand{\softmax}{\textsf{soft}}
+\newcommand{\KL}{\textrm{D}_\textrm{KL}} % Kullback-Leibler divergence
+\newcommand{\twovec}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\rank}{\text{rank}}
+\newcommand{\diag}{\text{diag}} % diagonal matrix
+\)</span></p>
+<section class="tex2jax_ignore mathjax_ignore" id="neural-networks">
 <h1>Neural networks<a class="headerlink" href="#neural-networks" title="Link to this heading">#</a></h1>
-<p>blubbb</p>
+<p>Let’s train a neural network.<label for='sidenote-role-1' class='margin-toggle'><span id="id1">
+<sup>1</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-1' name='sidenote-role-1' class='margin-toggle'><span class="sidenote"><sup>1</sup>A very good source for this – and other aspects of neural networks! – is Michael Nielsen’s <a class="reference external" href="http://neuralnetworksanddeeplearning.com">website</a></span>
+Normally, SGD or one of its more advanced cousins is used
+to train neural networks. The main issue is how to compute the gradient as efficiently as
+possible. But let’s not get ahead of ourselves.</p>
+<p>The neural network we consider has <span class="math notranslate nohighlight">\(K\)</span> layers, each layer <span class="math notranslate nohighlight">\(k\)</span> consisting of <span class="math notranslate nohighlight">\(n_k\)</span> nodes.
+The last layer may either consist of a single node (for binary classification) or
+of several nodes. Normally, the activation function of any hidden layer
+is ReLU (<span class="math notranslate nohighlight">\(x\mapsto \max(0,x)\)</span>) or leaky ReLU  <span class="math notranslate nohighlight">\((x\mapsto \max(\alpha x,x)\)</span> for <span class="math notranslate nohighlight">\(\alpha\in (0,1)\)</span>),
+while the activation layer for the output layer is either the logistic function
+(for a single output node) or softmax (for several output nodes). We will simply
+write <span class="math notranslate nohighlight">\(\sigma_k\)</span> for the activation function of layer <span class="math notranslate nohighlight">\(k\)</span>, and I will pretend
+that <span class="math notranslate nohighlight">\(\sigma_k\)</span> is differentiable – even though this is clearly a lie. Let me discuss
+this issue later.</p>
+<figure class="align-default" id="netfig">
+<a class="reference internal image-reference" href="../_images/net.png"><img alt="../_images/net.png" src="../_images/net.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 13 </span><span class="caption-text">A classfication ReLU-neural network</span><a class="headerlink" href="#netfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Set <span class="math notranslate nohighlight">\(f^{(0)}(x)=x\)</span>.
+For the layers <span class="math notranslate nohighlight">\(k=1,\ldots, K\)</span> we compute the input of the <span class="math notranslate nohighlight">\(k\)</span>th layer as</p>
+<div class="math notranslate nohighlight">
+\[
+g^{(k)}(x)=W^{(k)}f^{(k-1)}(x)+b^{(k)}
+\]</div>
+<p>and for <span class="math notranslate nohighlight">\(k=1,\ldots, L-1\)</span> the output as</p>
+<div class="math notranslate nohighlight">
+\[
+f^{(k)}(x)=\sigma_k(g^{(k)}(x)),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma_k\)</span> is applied componentwise.
+The output of the network is then <span class="math notranslate nohighlight">\(f^{(K)}(x)\)</span>.
+For simplicity, let’s assume a single output node, so that we have <span class="math notranslate nohighlight">\(f^{(K)}_1(x)\)</span>
+as output. Also, it’s safe to assume that the activation function of the output is logistic.</p>
+<section id="back-propagation">
+<span id="backpropsec"></span><h2>Back propagation<a class="headerlink" href="#back-propagation" title="Link to this heading">#</a></h2>
+<p>To train the neural network, we need to specify a loss function. Historically this was often the
+<em>square loss</em>. That is, given a training set <span class="math notranslate nohighlight">\(S\subseteq \mathcal X\times\mathcal Y\)</span>
+the empirical risk was taken to be</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{|S|}\sum_{(x,y)\in S}||f^{(K)}(x)-y||^2
+\]</div>
+<p>In modern networks, square loss has been replaced by other loss functions – but we will
+discuss that later. In any case, we assume that we have fixed some
+loss function that we will see as depending on the weights of the neural network, and that is
+the average of losses at specific data points in the training set:</p>
+<div class="math notranslate nohighlight" id="equation-netloss">
+<span class="eqno">(9)<a class="headerlink" href="#equation-netloss" title="Link to this equation">#</a></span>\[L(a)=\frac{1}{|S|}\sum_{(x,y)\in S}L_{(x,y)}(a)\]</div>
+<p>For SGD we now have to compute <span class="math notranslate nohighlight">\(\nabla L_{(x,y)}\)</span> given some randomly drawn <span class="math notranslate nohighlight">\((x,y)\in S\)</span>.
+How can this be done as efficiently as possible? With the <em>back propagation</em> algorithm!</p>
+<p>So, let’s fix some datapoint <span class="math notranslate nohighlight">\((x,y)\in S\)</span>. To simplify notation and because we are now interested
+in how the output of the network changes as a function of the <em>weights</em> and not
+as a function of the input, we drop the reference to the input <span class="math notranslate nohighlight">\(x\)</span> from the intermediate variables
+<span class="math notranslate nohighlight">\(f^{(k)}(x)\)</span> and <span class="math notranslate nohighlight">\(g^{(k)}(x)\)</span>. That is, we simply write  <span class="math notranslate nohighlight">\(f^{(k)}\)</span> and <span class="math notranslate nohighlight">\(g^{(k)}\)</span>.</p>
+<p>For \alg{SGD}, the quantity we have to compute is <span class="math notranslate nohighlight">\(\nabla_a L_{(x,y)}\)</span>, where the subscript <span class="math notranslate nohighlight">\(a\)</span>
+is meant to indicate that we take the gradient with respect to the weights <span class="math notranslate nohighlight">\(a\)</span>. In particular,
+if <span class="math notranslate nohighlight">\(w^{(k)}_{hi}\)</span> is the weight between the <span class="math notranslate nohighlight">\(h\)</span>th node of <span class="math notranslate nohighlight">\(k\)</span>th layer and the <span class="math notranslate nohighlight">\(i\)</span>th node
+of the <span class="math notranslate nohighlight">\(k-1\)</span>th layer and if <span class="math notranslate nohighlight">\(b^{(k)}_h\)</span> is the bias of the <span class="math notranslate nohighlight">\(h\)</span>th node of the <span class="math notranslate nohighlight">\(k\)</span>th layer,
+then we need to compute the quantities</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial L_{(x,y)}}{\partial w^{(k)}_{hi}}\text{ and }
+\frac{\partial L_{(x,y)}}{\partial b^{(k)}_{h}}
+\]</div>
+<p>Let’s start with the bias <span class="math notranslate nohighlight">\(b^{(K)}_1\)</span> of the output node and compute</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial L_{(x,y)}}{\partial b^{(K)}_{1}}.
+\]</div>
+<p>To do so we observe that <span class="math notranslate nohighlight">\(L_{(x,y)}\)</span> is a function of <span class="math notranslate nohighlight">\(f^{(K)}_1\)</span>, while <span class="math notranslate nohighlight">\(f^{(K)}_1\)</span> depends on <span class="math notranslate nohighlight">\(g^{(K)}_1\)</span>,
+which in turn is a function of <span class="math notranslate nohighlight">\(b^{(K)}_1\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+ f^{(K)}_1=\sigma_K(g^{(K)}_1) \text{ and }g^{(K)}=W^{(K)} f^{(K-1)}+b^{(K)}_1
+\]</div>
+<p>Using the chain rule of differentiation we get</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial L_{(x,y)}}{\partial b^{(K)}_{1}} = \frac{\partial L_{(x,y)}}{\partial f^{(K)}_{1}}
+\cdot  \frac{\partial f^{(K)}_{1}}{\partial g^{(K)}_1}
+\cdot  \frac{\partial g^{(K)}_1}{\partial b^{(K)}_1}
+\]</div>
+<p>In the same way, we get for the weights between the penultimate and the output layer</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial L_{(x,y)}}{\partial w^{(K)}_{1i}} = \frac{\partial L_{(x,y)}}{\partial f^{(K)}_{1}}
+\cdot  \frac{\partial f^{(K)}_{1}}{\partial g^{(K)}_1}
+\cdot  \frac{\partial g^{(K)}_1}{\partial w^{(K)}_{1i}}
+\]</div>
+<p>The two expressions contain a common factor that we call <span class="math notranslate nohighlight">\(\delta^{(K)}_1\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-deltak">
+<span class="eqno">(10)<a class="headerlink" href="#equation-deltak" title="Link to this equation">#</a></span>\[\delta^{(K)}_1:=\frac{\partial L_{(x,y)}}{\partial g^{(K)}_1} = 
+\frac{\partial L_{(x,y)}}{\partial f^{(K)}_{1}}
+\cdot  \frac{\partial f^{(K)}_{1}}{\partial g^{(K)}_1}
+= \frac{\partial L_{(x,y)}}{\partial f^{(K)}_{1}} \cdot \sigma_K'(g^{(K)}_1)\]</div>
+<p>We also calculate</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial g^{(K)}_1}{\partial b^{(K)}_1} = 1
+\text{ and }
+\frac{\partial g^{(K)}_1}{\partial w^{(K)}_{1i}} = f^{(K-1)}_{i}
+\]</div>
+<p>Thus</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial L_{(x,y)}}{\partial b^{(K)}_{1}} =
+\delta^{(K)}_1
+\text{ and }
+\frac{\partial L_{(x,y)}}{\partial w^{(K)}_{1i}}= \delta^{(K)}_1\cdot f^{(K-1)}_{i}
+\]</div>
+<p>As an illustration, we compute the relevant values for the square loss (and logistic activation at the output),
+ie, for <span class="math notranslate nohighlight">\(L_{(x,y)}(f^{(K)}_1)=(f^{(K)}_1-y)^2\)</span> and <span class="math notranslate nohighlight">\(\sigma_K=\sigm\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\delta^{(K)}_1=  \frac{\partial L_{(x,y)}}{\partial f^{(K)}_{1}} \cdot \sigma_K'(g^{(K)}_1)
+= 2( f^{(K)}_{1} -y ) \cdot \sigm'(g^{(K)}_1)
+\]</div>
+<p>Recall that</p>
+<div class="math notranslate nohighlight">
+\[
+\sigm(z)=\frac{1}{1+e^{-z}}
+\]</div>
+<p>With a little bit of manipulation, we may see that <span class="math notranslate nohighlight">\(\sigm'(z)=\sigm(z)(1-\sigm(z))\)</span> and thus</p>
+<div class="math notranslate nohighlight" id="equation-sqbw">
+<span class="eqno">(11)<a class="headerlink" href="#equation-sqbw" title="Link to this equation">#</a></span>\[\begin{split}\frac{\partial L_{(x,y)}}{\partial w^{(K)}_{1i}}
+ &amp; = 2( f^{(K)}_{1} -y )\cdot f^{(K)}_1(1-f^{(K)}_1) \cdot f^{(K-1)}_{i} \\
+\frac{\partial L_{(x,y)}}{\partial b^{(K)}_{1}} &amp; = 2( f^{(K)}_{1} -y )\cdot f^{(K)}_1(1-f^{(K)}_1) \end{split}\]</div>
+<p>Note that <span class="math notranslate nohighlight">\(\sigm(g^{(K)}_1)=f^{(K)}_1\)</span>.</p>
+<p>Now, how do we calculate the gradient by weights in earlier layers? Motivated by <a class="reference internal" href="#equation-deltak">(10)</a>
+let’s write</p>
+<div class="math notranslate nohighlight" id="equation-delta">
+<span class="eqno">(12)<a class="headerlink" href="#equation-delta" title="Link to this equation">#</a></span>\[\delta^{(k)}=\nabla_{g^{(k)}}L_{(x,y)} = \trsp{\left(
+\frac{\partial L_{(x,y)}}{\partial g^{(k)}_1},\ldots,\frac{\partial L_{(x,y)}}{\partial g^{(k)}_{n_k}}
+\right)}\]</div>
+<p>Why is that useful? Because we can express the gradient by weights in terms of <span class="math notranslate nohighlight">\(\delta^{(k)}\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-gradb">
+<span class="eqno">(13)<a class="headerlink" href="#equation-gradb" title="Link to this equation">#</a></span>\[\frac{\partial L_{(x,y)}}{\partial b^{(k)}_{h}} = 
+\frac{\partial L_{(x,y)}}{\partial g^{(k)}_{h}}\cdot 
+\frac{\partial g^{(k)}_{h}}{\partial b^{(k)}_{h}}
+= \delta^{(k)}_h\]</div>
+<p>as <span class="math notranslate nohighlight">\(g^{(k)}=W^{(k)}f^{(k-1)}+b^{(k)}\)</span>. In the same way we get</p>
+<div class="math notranslate nohighlight" id="equation-gradw">
+<span class="eqno">(14)<a class="headerlink" href="#equation-gradw" title="Link to this equation">#</a></span>\[\frac{\partial L_{(x,y)}}{\partial w^{(k)}_{hi}} = 
+\frac{\partial L_{(x,y)}}{\partial g^{(k)}_{h}}\cdot 
+\frac{\partial g^{(k)}_{h}}{\partial w^{(k)}_{hi}}
+= \delta^{(k)}_h\cdot f^{(k-1)}_i\]</div>
+<p>How can we compute <span class="math notranslate nohighlight">\(\delta^{(k)}\)</span> efficiently?</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\delta^{(k)}_h &amp; = \frac{\partial L_{(x,y)}}{\partial g^{(k)}_h}
+= \sum_{i=1}^{n_{k+1}} \frac{\partial L_{(x,y)}}{\partial g^{(k+1)}_i}\cdot 
+\frac{\partial g^{(k+1)}_i}{\partial g^{(k)}_h}\\
+&amp; = \sum_{i=1}^{n_{k+1}} \delta^{(k+1)}_i\cdot \frac{\partial g^{(k+1)}_i}{\partial g^{(k)}_h}
+\end{align*}\]</div>
+<p>Now, we observe that<label for='sidenote-role-2' class='margin-toggle'><span id="id2">
+<sup>2</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-2' name='sidenote-role-2' class='margin-toggle'><span class="sidenote"><sup>2</sup>for a matrix <span class="math notranslate nohighlight">\(A\)</span>, the notation <span class="math notranslate nohighlight">\(A_{i,\bullet}\)</span> denotes the <span class="math notranslate nohighlight">\(i\)</span>th row of <span class="math notranslate nohighlight">\(A\)</span>.</span>
+<span class="math notranslate nohighlight">\(g^{(k+1)}_i=W^{(k+1)}_{i,\bullet}f^{(k)}+b^{(k+1)}_i=W^{(k+1)}_{i,\bullet}\sigma_{k}(g^{(k)})+b^{(k+1)}_i\)</span>.
+It follows that</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial g^{(k+1)}_i}{\partial g^{(k)}_h} = w^{(k+1)}_{ih}\cdot \sigma'_k(g^{(k)}_h)
+\]</div>
+<p>Thus</p>
+<div class="math notranslate nohighlight" id="equation-updatedelta">
+<span class="eqno">(15)<a class="headerlink" href="#equation-updatedelta" title="Link to this equation">#</a></span>\[\delta^{(k)}_h = \sum_{i=1}^{n_{k+1}} w^{(k+1)}_{ih}\cdot \delta^{(k+1)}_i\cdot \sigma'_k(g^{(k)}_h)\]</div>
+<p>With the help of the <em>Hadamard product</em> we can write this in a more compact way.
+The Hadamard product of two matrices (or vectors) <span class="math notranslate nohighlight">\(A,B\)</span> of the same size
+gives the matrix obtained by element-wise multiplication. That is,
+the product is the matrix of same size defined by</p>
+<div class="math notranslate nohighlight">
+\[
+(A\odot B)_{ij}=A_{ij}\cdot B_{ij}
+\]</div>
+<p>Then</p>
+<div class="amsmath math notranslate nohighlight" id="equation-06956890-d404-480e-8501-230a171f3bcb">
+<span class="eqno">(16)<a class="headerlink" href="#equation-06956890-d404-480e-8501-230a171f3bcb" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\delta^{(k)}=\trsp{(W^{(k+1)})}\delta^{(k+1)}\odot \sigma'_k(g^{(k)})
+\end{equation}\]</div>
+<p>Using <a class="reference internal" href="#equation-deltak">(10)</a> and <a class="reference internal" href="#equation-gradb">(13)</a>–<a class="reference internal" href="#equation-updatedelta">(15)</a> we can formulate
+the <em>back propagation</em> algorithm. For greater generality, let us allow any number <span class="math notranslate nohighlight">\(n_K\)</span>
+of output nodes.</p>
+<div class="proof algorithm admonition" id="backprop">
+<p class="admonition-title"><span class="caption-number">Algorithm 4 </span> (back propagation)</p>
+<section class="algorithm-content" id="proof-content">
+<p><strong>Instance</strong> A neural network, a loss function <span class="math notranslate nohighlight">\(L_{(x,y)}\)</span> for a single datapoint <span class="math notranslate nohighlight">\((x,y)\)</span><br />
+<strong>Output</strong> The gradient of <span class="math notranslate nohighlight">\(L_{(x,y)}\)</span> by weights</p>
+<ol class="arabic simple">
+<li><p>Compute <span class="math notranslate nohighlight">\(\delta^{(K)}=\nabla_{f^{(K)}} L_{(x,y)}\odot \sigma_K'(g^{(K)})\)</span></p></li>
+<li><p>Set <span class="math notranslate nohighlight">\(\frac{\partial L_{(x,y)}}{\partial b^{(K)}_{h}} = \delta^{(K)}_h\)</span> for <span class="math notranslate nohighlight">\(h=1,\ldots, n_K\)</span></p></li>
+<li><p>Set <span class="math notranslate nohighlight">\(\frac{\partial L_{(x,y)}}{\partial w^{(K)}_{hi}} =  \delta^{(K)}_h\cdot f^{(K-1)}_i\)</span> for <span class="math notranslate nohighlight">\(h=1,\ldots, n_K\)</span>, <span class="math notranslate nohighlight">\(i=1,\ldots,n_{K-1}\)</span></p></li>
+<li><p><strong>for</strong> <span class="math notranslate nohighlight">\(k=K-1,\ldots, 1\)</span>:</p></li>
+<li><p>      Compute <span class="math notranslate nohighlight">\(\delta^{(k)}=\trsp{(W^{(k+1)})}\delta^{(k+1)}\odot \sigma'_k(g^{(k)})\)</span></p></li>
+<li><p>      Set <span class="math notranslate nohighlight">\(\frac{\partial L_{(x,y)}}{\partial b^{(k)}_{h}} = \delta^{(k)}_h\)</span> for <span class="math notranslate nohighlight">\(h=1,\ldots, n_k\)</span></p></li>
+<li><p>      Set <span class="math notranslate nohighlight">\(\frac{\partial L_{(x,y)}}{\partial w^{(k)}_{hi}} =  \delta^{(k)}_h\cdot f^{(k-1)}_i\)</span> for <span class="math notranslate nohighlight">\(h=1,\ldots, n_k\)</span>, <span class="math notranslate nohighlight">\(i=1,\ldots,n_{k-1}\)</span></p></li>
+<li><p><strong>output</strong> all <span class="math notranslate nohighlight">\(\frac{\partial L_{(x,y)}}{\partial w^{(k)}_{hi}}\)</span> and <span class="math notranslate nohighlight">\(\frac{\partial L_{(x,y)}}{\partial b^{(k)}_{h}}\)</span></p></li>
+</ol>
 </section>
+</div><p>We note that the algorithm is very efficient: for every layer (from last to first) the algorithm
+basically reduces to one matrix-vector multiplication (in Line 5).</p>
+<p>Training a neural network can often be sped-up if it’s done on a GPU (graphics processor unit)
+rather than on a CPU. GPU are highly specialised for graphics operations such as
+translations and rotations. In particular, they can perform matrix-vector operations very
+efficiently and, to some extent, in parallel. I believe this means that
+the gradient of a minibatch can be computed in parallel on a GPU – as long as the
+minibatch size is not too large. (I did not manage to find a credible source, though.)</p>
+<p>How is a neural network trained? With SGD (or one of its more advanced cousins)
+together with back propagation to compute the gradients.
+This is not the whole story, though – there are a lot of other aspects to consider. We will
+discuss some.</p>
+<p>This first easy issue concerns the most popular type of hidden units, the ReLU.
+It is not differentiable at 0 and therefore, at least formally, computing the gradient
+via back propagation makes no sense. However, that a the gradient of a ReLU
+needs to be evaluated at 0 is quite unlikely, and returning back the left-derivative,
+namely 0, will work fine. (The right-derivative would be equally good.)</p>
+<p>Note, moreover, that in line 5 the derivative of the activation function needs to be computed.
+For ReLU this is particularly simple:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\text{ReLU}'(z)=\begin{cases}
+1 &amp; z&gt;0\\
+0 &amp; z&lt;0
+\end{cases}
+\end{split}\]</div>
+<p>In contrast, traditional activation functions, such as logistic or tanh activation, have more
+complicated derivatives. As throughout training typically thousands of gradients need to be
+computed this may add up to a substantial increase in running time. This is a reason,
+why ReLU is nowadays preferred over logistic activation or tanh.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-success sd-bg-text-success">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-telescope" viewBox="0 0 16 16" aria-hidden="true"><path d="M14.184 1.143v-.001l1.422 2.464a1.75 1.75 0 0 1-.757 2.451L3.104 11.713a1.75 1.75 0 0 1-2.275-.702l-.447-.775a1.75 1.75 0 0 1 .53-2.32L11.682.573a1.748 1.748 0 0 1 2.502.57Zm-4.709 9.32h-.001l2.644 3.863a.75.75 0 1 1-1.238.848l-1.881-2.75v2.826a.75.75 0 0 1-1.5 0v-2.826l-1.881 2.75a.75.75 0 1 1-1.238-.848l2.049-2.992a.746.746 0 0 1 .293-.253l1.809-.87a.749.749 0 0 1 .944.252ZM9.436 3.92h-.001l-4.97 3.39.942 1.63 5.42-2.61Zm3.091-2.108h.001l-1.85 1.26 1.505 2.605 2.016-.97a.247.247 0 0 0 .13-.151.247.247 0 0 0-.022-.199l-1.422-2.464a.253.253 0 0 0-.161-.119.254.254 0 0 0-.197.038ZM1.756 9.157a.25.25 0 0 0-.075.33l.447.775a.25.25 0 0 0 .325.1l1.598-.769-.83-1.436-1.465 1Z"></path></svg></span><span class="sd-summary-text">How expensive is it to train a neural network?</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Training a large neural network is time consuming and requires substantial specialised hardware.
+Often the computing power to train a large network is bought from a cloud computing
+provider such as AWS, Google or Microsoft Azure. How much does that cost?
+That is difficult to say. A study of Stanford University reports a cost of below $10
+(and training time below 5mins)
+for an image recognition task and a network (ResNet50) that has about 25 million parameters.
+In contrast, for natural language recognition, a paper of Sharir et al. reports costs
+between $2500 and $50000 for a 110 million parameter model.
+Training of ChatGPT-3 is estimated to have cost more than $4 million, while Sam Altman claimed
+that the training of ChatGPT-4 resulted in costs of more than $100 million.<br />
+Increasingly, only the largest
+companies can afford to train the most advanced networks. (OpenAI, the maker of ChatGPT, is backed by
+Microsoft.)</p>
+<p class="sd-card-text"><a class="reference external" href="https://dawn.cs.stanford.edu/benchmark/">Stanford benchmark</a><br/>
+<em>The cost of training NLP models</em>, O. Sharir et al. (2020), <a class="reference external" href="https://arxiv.org/abs/2004.08900">arxiv:2004.08900</a><br/>
+<em>AI’s Smarts Now Come With a Big Price Tag</em>, <a class="reference external" href="https://www.wired.com/story/ai-smarts-big-price-tag/">Wired</a> (2021)<br/>
+<em>ChatGPT and generative AI are booming, but…</em>, <a class="reference external" href="https://www.cnbc.com/2023/03/13/chatgpt-and-generative-ai-are-booming-but-at-a-very-expensive-price.html">CNBC</a> (2023)</p>
+</div>
+</details></section>
+<section id="the-loss-function">
+<h2>The loss function<a class="headerlink" href="#the-loss-function" title="Link to this heading">#</a></h2>
+<p>Historically neural networks were trained with the square loss. Indeed, in a lot of applications
+we are interested in the mean square error, so why not use it for neural networks, too?
+It turns out that square loss might lead to slow learning – in classification.</p>
+<p>Recall that the square loss is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{|S|}\sum_{(x,y)\in S}||f^{(K)}(x)-y||^2,
+\]</div>
+<p>so that the loss for an individual data point would be</p>
+<div class="math notranslate nohighlight">
+\[
+L_{(x,y)} = |f_1^{(K)}(x)-y|^2
+\]</div>
+<p>Here, we assume binary classification and thus a single output node. Note also that <span class="math notranslate nohighlight">\(y\in\{0,1\}\)</span>.</p>
+<p>We have already computed, see <a class="reference internal" href="#equation-sqbw">(11)</a>, the gradient at the output layer as</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\frac{\partial L_{(x,y)}}{\partial w^{(K)}_{1i}}
+ &amp; = 2( f^{(K)}_{1} -y )\cdot f^{(K)}_1(1-f^{(K)}_1) \cdot f^{(K-1)}_{i} \\
+\frac{\partial L_{(x,y)}}{\partial b^{(K)}_{1}} &amp; = 2( f^{(K)}_{1} -y )\cdot f^{(K)}_1(1-f^{(K)}_1) 
+\end{align*}\]</div>
+<p>Mastering a skill is much harder than learning the first steps.
+Intuitively, learning should be fast when we’re very wrong, and much slower when we’re almost
+right.<br />
+Strikingly, this is not what is happening here.</p>
+<p>Being very wrong would mean that <span class="math notranslate nohighlight">\(y=1\)</span> and <span class="math notranslate nohighlight">\(f^{(K)}_1\approx 0\)</span>, or that <span class="math notranslate nohighlight">\(y=0\)</span> and <span class="math notranslate nohighlight">\(f^{(K)}_1\approx 1\)</span>.
+Then, the first factor in the equations above, <span class="math notranslate nohighlight">\(( f^{(K)}_{1} -y )\)</span>, would be close to 1 or -1, which is good.
+The second term, however, <span class="math notranslate nohighlight">\( f^{(K)}_1(1-f^{(K)}_1)\)</span> would be close to 0, which is bad.
+The gradient would be very small, and learning would be slow; see <a class="reference internal" href="#slowfig"><span class="std std-numref">Fig. 14</span></a>.
+This can be observed in practice.<label for='sidenote-role-3' class='margin-toggle'><span id="id3">
+<sup>3</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-3' name='sidenote-role-3' class='margin-toggle'><span class="sidenote"><sup>3</sup>At <a class="reference external" href="http://neuralnetworksanddeeplearning.com/chap3.html">Michael Nielsen’s website</a> there is a nice animation that illustrates this behaviour.</span></p>
+<figure class="align-default" id="slowfig">
+<a class="reference internal image-reference" href="../_images/slow.png"><img alt="../_images/slow.png" src="../_images/slow.png" style="height: 6cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 14 </span><span class="caption-text">Gradient <span class="math notranslate nohighlight">\(\frac{\partial L_{(x,y)}}{\partial b^{(K)}_{1}} \)</span> for square loss.
+We assume that <span class="math notranslate nohighlight">\(y=0\)</span>. Marked: gradient when the network is very wrong.</span><a class="headerlink" href="#slowfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p><em>Cross entropy</em> as a loss function fixes this. In general, cross entropy
+measures a sort of distance between two probability distributions <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(q\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+H(p,q)=-\sum_{\omega}p(\omega)\log q(\omega)
+\]</div>
+<p>As  loss function in binary classification, cross entropy takes the following form</p>
+<div class="math notranslate nohighlight">
+\[
+L=-\frac{1}{|S|}\sum_{(x,y)\in S}y \log(h(x)) + (1-y)\log(1-h(x)),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(h:\mathcal X\to[0,1]\)</span> is the binary classifier.
+Note here, that infinite loss may occur if <span class="math notranslate nohighlight">\(h(x)=0\)</span> or <span class="math notranslate nohighlight">\(h(x)=1\)</span>. In practice, however,
+classifiers will seldom return <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(1\)</span>, as there will always be some uncertainty.
+Note, moreover, that the loss is never negative.</p>
+<p>In the setting of a single output
+neural network cross entropy loss turns into:</p>
+<div class="math notranslate nohighlight">
+\[
+L=-\frac{1}{|S|}\sum_{(x,y)\in S}y \log(f^{(K)}_1(x)) + (1-y)\log(1-f^{(K)}_1(x)),
+\]</div>
+<p>and, for a single fixed datapoint <span class="math notranslate nohighlight">\((x,y)\)</span> in the training set, we get</p>
+<div class="math notranslate nohighlight">
+\[
+L_{(x,y)}=-(y \log(f^{(K)}_1(x)) + (1-y)\log(1-f^{(K)}_1(x))).
+\]</div>
+<p>Again, we compute the gradient at the output layer; see <a class="reference internal" href="#equation-deltak">(10)</a> and <a class="reference internal" href="#equation-gradb">(13)</a>,<a class="reference internal" href="#equation-gradw">(14)</a>.
+We start with</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\frac{\partial L_{(x,y)}}{\partial f^{(K)}_{1}}
+= -\frac{y}{f^{(K)}_1} + \frac{1-y}{1-f^{(K)}_1} = \frac{f^{(K)}_1-y}{f^{(K)}_1(1-f^{(K)}_1)}
+\end{align*}\]</div>
+<p>We also recall that the derivative of the logistic function, the activation at the output layer, has a peculiar form:
+<span class="math notranslate nohighlight">\(\sigm'(z)=\sigm(z)(1-\sigm(z))\)</span>. We get</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\frac{\partial L_{(x,y)}}{\partial b^{(K)}_{1}} &amp; = \frac{\partial L_{(x,y)}}{\partial f^{(K)}_{1}}\cdot
+\sigma'(g^{(K)}_1)
+=  \frac{f^{(K)}_1-y}{f^{(K)}_1(1-f^{(K)}_1)} \cdot f^{(K)}_1(1-f^{(K)}_1)\\
+&amp; = f^{(K)}_1-y
+\end{align*}\]</div>
+<p>In the same way, we get</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial L_{(x,y)}}{\partial w^{(K)}_{1i}} = (f^{(K)}_1-y)f^{(K-1)}_i
+\]</div>
+<p>We observe that the counter-intuitive behaviour of square loss has vanished:
+if the neural network is very wrong, ie, if <span class="math notranslate nohighlight">\(f^{(K)}_1\)</span> and <span class="math notranslate nohighlight">\(y\)</span> are very different,
+then the gradient will be (comparatively) large. Again, this can be seen
+in real networks.<label for='marginnote-role-4' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-4' name='marginnote-role-4' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/neural_networks/loss_compare.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>loss_compare</a></span></p>
+</section>
+<section id="softmax-and-loss">
+<h2>Softmax and loss<a class="headerlink" href="#softmax-and-loss" title="Link to this heading">#</a></h2>
+<p>The preceding discussion applied to binary classification and a single output
+node. What do we do when we have more classes? First, we’ll have more outputs, namely
+one for each class. Second, we’ll use a softmax layer at the output.</p>
+<p>Assume we do image classification
+with three classes: cat, pumpkin and bird. Then there will be three output neurons.
+If a training sample <span class="math notranslate nohighlight">\((x,y)\)</span> shows a cat, then the class vector <span class="math notranslate nohighlight">\(y\)</span> will be <span class="math notranslate nohighlight">\(y=(1,0,0\trsp )\)</span>.
+If the image shows a pumpkin, we’ll have <span class="math notranslate nohighlight">\(y=(0,1,0\trsp )\)</span>, and if it’s a bird then
+<span class="math notranslate nohighlight">\(y=(0,0,1\trsp )\)</span>. This way of encoding the classes even has a fancy name: <em>one-hot encoding</em>,
+because there is always just one bit that is <em>hot</em>, ie, equal to 1.</p>
+<p>A softmax layer outputs a probability distribution over the classes.
+That is, each output node <span class="math notranslate nohighlight">\(f^{(K)}_k\)</span> yields a value in <span class="math notranslate nohighlight">\([0,1]\)</span> and the sum over all
+outputs equals 1.
+So, an output might be <span class="math notranslate nohighlight">\((0.2,0.7,0.1\trsp )\)</span>, which we interpret as follows:
+with 20% confidence the image shows a cat, with 70% confidence it’s a pumpkin, and
+with 10% it’s a bird.</p>
+<p>The softmax layer works a little bit differently than the activation functions we’ve seen
+so far, as it is not a <em>scalar</em> function but a vector-valued function operating on
+vectors:</p>
+<div class="math notranslate nohighlight">
+\[
+\softmax:\mathbb R^{n_{K}}\to\mathbb R^{n_{K}}, g^{(K)}\mapsto f^{(K)}=\softmax(g^{(K)}),
+\]</div>
+<p>where the <span class="math notranslate nohighlight">\(k\)</span>th entry is equal to</p>
+<div class="math notranslate nohighlight">
+\[
+\softmax(g^{(K)}_k)=\frac{e^{g^{(K)}_k}}{\sum_{j=1}^{n_K}e^{g^{(K)}_j}}
+\]</div>
+<figure class="align-default" id="softfig">
+<a class="reference internal image-reference" href="../_images/soft.png"><img alt="../_images/soft.png" src="../_images/soft.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 15 </span><span class="caption-text">How a softmax output layer works</span><a class="headerlink" href="#softfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>For a final softmax layer, the <em>cross-entropy loss</em> is normally used, and then takes this form:</p>
+<div class="math notranslate nohighlight">
+\[
+L=-\frac{1}{|S|}\sum_{(x,y)\in S}\sum_{k=1}^{n_K}y_k\log \left(f^{(K)}_k(x) \right)
+\]</div>
+<p>In the same way that cross entropy prevents slow learning for a logistic output layer,
+it also prevents slow learning a final softmax layer.</p>
+<p>Softmax can lead to over- or underflow (or numerical instability) if one of <span class="math notranslate nohighlight">\({e^{g^{(K)}_k}}\)</span>
+is very large, or if the sum <span class="math notranslate nohighlight">\(\sum_{k=1}^K{e^{g^{(K)}_k}}\)</span> is very small. Fortunately,
+softmax is invariant under addition of a constant:</p>
+<p><label for='marginnote-role-5' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-5' name='marginnote-role-5' class='margin-toggle'><span class="marginnote"> What is the <span class="math notranslate nohighlight">\(1\)</span> doing after <span class="math notranslate nohighlight">\(\lambda\)</span>? That’s a vector with a 1 in every entry.</span></p>
+<div class="math notranslate nohighlight">
+\[\softmax(g) = \softmax(g+\lambda \cdot 1)\]</div>
+<p>Thus, a dominant <span class="math notranslate nohighlight">\(g^{(K)}_k\)</span> may be dealt with by substituting</p>
+<div class="math notranslate nohighlight">
+\[
+\softmax(g^{(K)})= \softmax(g^{(K)} - \max_{k} g^{(K)}_k\cdot 1)
+\]</div>
+<p>For regression tasks the activation function of the final layer is often
+simply the identity. We talk of a <em>linear output layer</em>. It turns out
+that, for a linear output layer, the square loss is actually appropriate.
+Slow learning, as in the case of a logistic output layer, does not occur.</p>
+</section>
+<section id="why-cross-entropy-loss">
+<h2>Why cross-entropy loss?<a class="headerlink" href="#why-cross-entropy-loss" title="Link to this heading">#</a></h2>
+<p>Cross-entropy loss seems to make sense and certainly increases the more bad predictions are made – still
+it may appear a bit arbitrary. It’s not. We take a step back and figure out where cross-entropy loss is coming from.</p>
+<p><em>Cross-entropy</em> and entropy more generally is a concept from information theory. Cross-entropy, in information
+theory, compares two probability distributions <span class="math notranslate nohighlight">\(p,q\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+H(p,q)=-\expec_p[\log q]
+\]</div>
+<p>(I am a bit vague here, as in other places too, as to what kind of logarithm I mean. The short answer: there’s both, the natural logarithm
+as well base 2. As both variants only differ by a constant factor, it does not matter much, which one it is. If you press me on the base,
+I will claim it’s base 2.)</p>
+<p>More concretely, if <span class="math notranslate nohighlight">\(p,q\)</span> are discrete probability functions on a sample space <span class="math notranslate nohighlight">\(\Omega\)</span> then</p>
+<div class="math notranslate nohighlight">
+\[
+H(p,q)=-\sum_{\omega\in\Omega}p(\omega)\log q(\omega)
+\]</div>
+<p>What is the connection to cross-entropy loss as used in machine learning? To keep things simple, let’s concentrate
+on binary classification. Then, for a classifier <span class="math notranslate nohighlight">\(h:\mathcal X\to [0,1]\)</span>, this could be a neural network with a single
+output and logistic activation at the output, the cross-entropy loss over the training set <span class="math notranslate nohighlight">\(S\subseteq \mathcal X\times\{0,1\}\)</span>
+would be</p>
+<div class="math notranslate nohighlight">
+\[
+L=-\frac{1}{|S|}\sum_{(x,y)\in S}y\log(h(x))+(1-y)\log(1-h(x))
+\]</div>
+<p>Recall that we model taking the samples for the training set with a probability distribution on <span class="math notranslate nohighlight">\(\mathcal X\times\{0,1\}\)</span>.
+Earlier, that was often called <span class="math notranslate nohighlight">\(\mathcal D\)</span>; let’s call that <span class="math notranslate nohighlight">\(p\)</span> here. Moreover, let’s define a conditional probability as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+q(y|x)=\begin{cases}
+h(x) &amp; \text{ if $y=1$}\\
+1-h(x) &amp; \text{ if $y=0$}
+\end{cases} \quad\text{for all }(x,y)\in\mathcal X\times\{0,1\}
+\end{split}\]</div>
+<p>We may interpret <span class="math notranslate nohighlight">\(q(y|x)\)</span> as the probability that, given <span class="math notranslate nohighlight">\(x\)</span>, our classifier <span class="math notranslate nohighlight">\(h\)</span> predicts class <span class="math notranslate nohighlight">\(y\)</span>.
+We use <span class="math notranslate nohighlight">\(q(y|x)\)</span> rightaway to rewrite the cross-entropy loss as</p>
+<div class="amsmath math notranslate nohighlight" id="equation-24be9d27-9786-476c-883e-aa8d61c63b9f">
+<span class="eqno">(17)<a class="headerlink" href="#equation-24be9d27-9786-476c-883e-aa8d61c63b9f" title="Permalink to this equation">#</a></span>\[\begin{equation}\label{ceq}
+L=-\frac{1}{|S|}\sum_{(x,y)\in S}\log(q(y|x))
+\end{equation}\]</div>
+<p>We also simply write <span class="math notranslate nohighlight">\(p(x)\)</span> for the <em>marginal probability</em></p>
+<div class="math notranslate nohighlight">
+\[
+p(x) = p((x,0))+p((x,1))\quad \text{for all }x\in\mathcal X
+\]</div>
+<p>What have we accomplished? We can now see that the cross-entropy loss <span class="math notranslate nohighlight">\(L\)</span> is a Monte-Carlo estimator<label for='marginnote-role-6' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-6' name='marginnote-role-6' class='margin-toggle'><span class="marginnote"> What is a <em>Monte-Carlo</em> estimator? That is just fancy speak for: Let’s take the mean of random samples.</span> for <span class="math notranslate nohighlight">\(H(p,q)\)</span>.
+For this, write <span class="math notranslate nohighlight">\(S=((x_1,y_1),\ldots, (x_m,y_m))\)</span>. Then</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\expec_{S\sim p^m}[L] &amp; = \expec_{(x_1,y_1)\sim p}\ldots\expec_{(x_m,y_m)\sim p}[L] \\
+&amp; = -\frac{1}{|S|} \sum_{i=1}^m\expec_{(x_i,y_i)\sim p}[\log q(y_i|x_i)] \\
+&amp; = -\frac{1}{|S|} \sum_{i=1}^m\expec_{(x,y)\sim p}[\log q(y|x)] \\
+&amp; = -\expec_{x\sim p}\expec_{y\sim p(\cdot |x)}[\log q(y|x)]  = \expec_{x\sim p}\left[ H(p(\cdot|x),q(\cdot|x))\right]
+\end{align*}\]</div>
+<p>(Here, I write <span class="math notranslate nohighlight">\(\expec_{x\sim p}\)</span> to denote the expectation with respect to drawing <span class="math notranslate nohighlight">\(x\)</span> with marginal probability <span class="math notranslate nohighlight">\(p(x)\)</span>.)</p>
+<p>As consequence, when we minimise cross-entropy loss (by searching for a better classifier <span class="math notranslate nohighlight">\(h\)</span>), we minimise, by proxy,</p>
+<div class="math notranslate nohighlight">
+\[
+\expec_{x\sim p}\left[ H(p(\cdot|x),q(\cdot|x))\right]
+\]</div>
+<p>where we range over different <span class="math notranslate nohighlight">\(q\)</span>. Why is that good? First, that quantity will be small, if for each <span class="math notranslate nohighlight">\(x\)</span>
+the quantity <span class="math notranslate nohighlight">\(H(p(\cdot|x),q(\cdot|x))\)</span> is small. Why would we want that?</p>
+<p>Fix an <span class="math notranslate nohighlight">\(x\in\mathcal X\)</span>.
+We note that</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+H(p(\cdot|x),q(\cdot|x)) &amp; = -\expec_{p(\cdot |x)}[\log q(\cdot|x)] + \expec_{p(\cdot |x)}[\log p(\cdot|x)] -\expec_{p(\cdot |x)}[\log p(\cdot|x)]\\ 
+&amp; = \underbrace{\expec_{p(\cdot |x)}\left[\log\frac{p(\cdot|x)}{q(\cdot|x)}\right]}_{=:\KL(p(\cdot|x)||q(\cdot|x))} 
++ \underbrace{\left(-\expec_{p(\cdot |x)}[\log p(\cdot|x)]\right)}_{=: H(p(\cdot|x))}
+\end{align*}\]</div>
+<p>The second summand <span class="math notranslate nohighlight">\(H(p(\cdot|x))\)</span> is called the <em>entropy</em> of <span class="math notranslate nohighlight">\(p(\cdot|x)\)</span> and crucially does not depend on <span class="math notranslate nohighlight">\(q\)</span>, or on the classifier <span class="math notranslate nohighlight">\(h\)</span>.
+The first summand is called the <em>Kullback-Leibler divergence</em>.
+The Kullback-Leibler divergence is a measure of how similar <span class="math notranslate nohighlight">\(p(\cdot|x)\)</span> and <span class="math notranslate nohighlight">\(q(\cdot|x)\)</span> are. In particular, as we will see below,
+the divergence is always non-negative, and it is only <span class="math notranslate nohighlight">\(0\)</span> if <span class="math notranslate nohighlight">\(p(\cdot|x)\)</span> and <span class="math notranslate nohighlight">\(q(\cdot|x)\)</span> are basically identical.</p>
+<p>What does that mean? If we minimise the cross-entropy loss, then, by proxy, we minimise <span class="math notranslate nohighlight">\(H(p(\cdot|x),q(\cdot|x))\)</span> and that is precisely the
+case when we minimise <span class="math notranslate nohighlight">\(\KL(p(\cdot|x)||q(\cdot|x))\)</span>. Thus, we force <span class="math notranslate nohighlight">\(q(\cdot|x)\)</span>, which determines which class <span class="math notranslate nohighlight">\(h\)</span> assigns to <span class="math notranslate nohighlight">\(x\)</span>,
+to become more and more similar to <span class="math notranslate nohighlight">\(p(\cdot|x)\)</span>. Why is that good? Because</p>
+<div class="math notranslate nohighlight">
+\[
+x\mapsto \argmax_{y\in\{0,1\}} p(y|x)
+\]</div>
+<p>is the Bayes classifier, the best classifier achievable, and if <span class="math notranslate nohighlight">\(q(\cdot|x)=p(\cdot|x)\)</span> for every <span class="math notranslate nohighlight">\(x\in\mathcal X\)</span>
+then the classifier <span class="math notranslate nohighlight">\(h\)</span> will be identical to the Bayes classifier.</p>
+<p>We now finish with our discussion of cross-entropy loss. In the next section, we check that the Kullback-Leibler is indeed
+a meaningful measure of how similar two probability distributions are.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-success sd-bg-text-success">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-telescope" viewBox="0 0 16 16" aria-hidden="true"><path d="M14.184 1.143v-.001l1.422 2.464a1.75 1.75 0 0 1-.757 2.451L3.104 11.713a1.75 1.75 0 0 1-2.275-.702l-.447-.775a1.75 1.75 0 0 1 .53-2.32L11.682.573a1.748 1.748 0 0 1 2.502.57Zm-4.709 9.32h-.001l2.644 3.863a.75.75 0 1 1-1.238.848l-1.881-2.75v2.826a.75.75 0 0 1-1.5 0v-2.826l-1.881 2.75a.75.75 0 1 1-1.238-.848l2.049-2.992a.746.746 0 0 1 .293-.253l1.809-.87a.749.749 0 0 1 .944.252ZM9.436 3.92h-.001l-4.97 3.39.942 1.63 5.42-2.61Zm3.091-2.108h.001l-1.85 1.26 1.505 2.605 2.016-.97a.247.247 0 0 0 .13-.151.247.247 0 0 0-.022-.199l-1.422-2.464a.253.253 0 0 0-.161-.119.254.254 0 0 0-.197.038ZM1.756 9.157a.25.25 0 0 0-.075.33l.447.775a.25.25 0 0 0 .325.1l1.598-.769-.83-1.436-1.465 1Z"></path></svg></span><span class="sd-summary-text">Information theory</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<figure class="align-left" id="id11">
+<a class="reference internal image-reference" href="../_images/information_small.png"><img alt="../_images/information_small.png" src="../_images/information_small.png" style="width: 6cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 16 </span><span class="caption-text">midjourney on information</span><a class="headerlink" href="#id11" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p class="sd-card-text">How can we measure information? That is a key question in information theory.
+One way to quantify information lies in compression: If some piece of data
+can be losslessly compressed to a small size then it only contains little
+information, but if even the best compression algorithm still returns a large
+file then information content will be high.</p>
+<p class="sd-card-text">To make this slightly more formal, consider a text message in English, and assume <span class="math notranslate nohighlight">\(p\)</span>
+to be the probability distribution on the words. So, <span class="math notranslate nohighlight">\(p\)</span>(“money”) will
+be comparably large but <span class="math notranslate nohighlight">\(p\)</span>(“altruism”) will likely be small. Shannon’s
+source coding theorem now asserts that the best compression algorithm
+will need, on average, about <span class="math notranslate nohighlight">\(H(p)\)</span> many bits per word, where <span class="math notranslate nohighlight">\(H(p)\)</span>
+is the entropy of <span class="math notranslate nohighlight">\(p\)</span>.
+In this way, the entropy <span class="math notranslate nohighlight">\(H(p)\)</span> can be seen to measure the average information
+content in an English word.
+(I am ignoring here the dependencies
+between the words in a text. For example, the word “hamster” rarely follows the word “cheese”.)</p>
+<p class="sd-card-text">Cross-entropy <span class="math notranslate nohighlight">\(H(p,q)\)</span>, by the way, is the average compressed size of a word if the word
+probability distribution is <span class="math notranslate nohighlight">\(p\)</span> but I mistakenly think that it is <span class="math notranslate nohighlight">\(q\)</span> and tailor the compression
+algorithm accordingly to be optimal for <span class="math notranslate nohighlight">\(q\)</span>.</p>
+<p class="sd-card-text"><em>Information Theory, Inference, and Learning Algorithms</em>,
+David J.C. MacKay (2003), <a class="reference external" href="https://www.inference.org.uk/itprnn/book.pdf">link to pdf</a></p>
+</div>
+</details></section>
+<section id="kullback-leibler-divergence">
+<span id="klsec"></span><h2>Kullback-Leibler divergence<a class="headerlink" href="#kullback-leibler-divergence" title="Link to this heading">#</a></h2>
+<p>The <em>Kullback-Leibler divergence</em> measures how different two probability distributions are.
+For the definition let us consider two discrete probability distributions <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(q\)</span>
+(the general case is similar but involves integrals and measure-theoretic caveats). Then
+the  Kullback-Leibler divergence between <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(q\)</span> is defined as</p>
+<div class="math notranslate nohighlight" id="equation-kldef">
+<span class="eqno">(18)<a class="headerlink" href="#equation-kldef" title="Link to this equation">#</a></span>\[\KL(p||q)=\sum_{x} p(x) \log\left(\frac{p(x)}{q(x)}\right)
+= \expec_p[\log p(x)] - \expec_p[\log q(x)]\]</div>
+<p>Here, the sum ranges over all events; and some authors take the natural logarithm while others take the logarithm base 2.
+(As the difference is a constant factor, it does not matter much which logarithm is chosen.)
+Moreover, we interpret <span class="math notranslate nohighlight">\(0\cdot \log 1/0\)</span> as <span class="math notranslate nohighlight">\(0\)</span>, so that <span class="math notranslate nohighlight">\(\KL(p||q)\)</span> is defined whenever <span class="math notranslate nohighlight">\(q(x)=0\)</span> implies <span class="math notranslate nohighlight">\(p(x)=0\)</span>.</p>
+<p>The Kullback-Leibler divergence behaves a bit like a metric:
+it is always non-negative and only zero if <span class="math notranslate nohighlight">\(p=q\)</span> (see below).
+However, it is not a metric as it does not satisfy the triangle inequality and as it is not even symmetric.
+That is, normally <span class="math notranslate nohighlight">\(\KL(p||q)\neq\KL(q||p)\)</span>.</p>
+<p>We consider a very simple example. Let <span class="math notranslate nohighlight">\(p\)</span> be the probability distribution of a fair coin toss
+(ie, heads with probability a half and tails equally with probability a half), and denote by <span class="math notranslate nohighlight">\(q\)</span>
+the probability distribution in which heads occurs with probability <span class="math notranslate nohighlight">\(\nu\)</span>.
+Then (taking the logarithm base~<span class="math notranslate nohighlight">\(2\)</span>)</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\KL(p||q) &amp; = \underbrace{\tfrac{1}{2}\log\left(\tfrac{1}{2}/\nu\right)}_{\text{heads}}
++ \underbrace{\tfrac{1}{2}\log\left(\tfrac{1}{2}/(1-\nu)\right)}_{\text{tails}} \\
+&amp; = \tfrac{2}{2}\log\left(\tfrac{1}{2}\right)- \tfrac{1}{2}\log \nu - \tfrac{1}{2}\log (1-\nu) \\
+&amp; = -1 - \tfrac{1}{2}\log\left(\nu-\nu^2\right)
+\end{align*}\]</div>
+<p>We immediately see that <span class="math notranslate nohighlight">\(\KL(p||q)=0\)</span> if <span class="math notranslate nohighlight">\(\nu=\tfrac{1}{2}\)</span>.</p>
+<p>We also calculate <span class="math notranslate nohighlight">\(\KL(q||p)\)</span>:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\KL(q||p) &amp; = \underbrace{\nu\log\left(2\nu\right)}_{\text{heads}}
++ \underbrace{(1-\nu)\log\left(2(1-\nu)\right)}_{\text{tails}} \\
+&amp; = \ldots = 1+\nu \log\nu + (1-\nu)\log(1-\nu)
+\end{align*}\]</div>
+<p>Evidently <span class="math notranslate nohighlight">\(\KL(p||q)\neq\KL(q||p)\)</span> unless <span class="math notranslate nohighlight">\(\nu=\tfrac{1}{2}\)</span>.</p>
+<figure class="align-default" id="klfig">
+<a class="reference internal image-reference" href="../_images/KL.png"><img alt="../_images/KL.png" src="../_images/KL.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 17 </span><span class="caption-text">Comparison of Kullback-Leibler divergence for varying values of coin toss probability <span class="math notranslate nohighlight">\(\nu\)</span>.
+Fair coin toss denoted by <span class="math notranslate nohighlight">\(p\)</span>, while under <span class="math notranslate nohighlight">\(q\)</span> head occurs with probability <span class="math notranslate nohighlight">\(\nu\)</span>.</span><a class="headerlink" href="#klfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Let us prove <em>Gibb’s inequality</em>:</p>
+<div class="proof theorem admonition" id="gibbsineq">
+<p class="admonition-title"><span class="caption-number">Theorem 3 </span></p>
+<section class="theorem-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(p,q\)</span> be two (discrete) probability distributions. Then
+it holds that <span class="math notranslate nohighlight">\(\KL(p||q)\geq 0\)</span>, and
+<span class="math notranslate nohighlight">\(\KL(p||q)=0\)</span> if and only if <span class="math notranslate nohighlight">\(p=q\)</span>.</p>
+</section>
+</div><p>Note: The theorem still holds for general probability distributions, with the only difference
+that a Kullback-Leibler divergence of zero only implies that <span class="math notranslate nohighlight">\(p=q\)</span> almost everywhere.</p>
+<div class="proof admonition" id="proof">
+<p>Proof. The proof rests on the observation that <span class="math notranslate nohighlight">\(z\mapsto -\log z\)</span> is a convex function.
+Thus, we may apply Jensen’s inequality.</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\KL(p||q) &amp; = \sum_x p(x) \left(-\log\left(\frac{q(x)}{p(x)}\right) \right) 
+ \geq -\log\left(\sum_x p(x) \frac{q(x)}{p(x)} \right) \\
+ &amp; = -\log\left(\sum_x q(x) \right) = -\log 1 = 0
+\end{align*}\]</div>
+<p>Indeed, <span class="math notranslate nohighlight">\(z\mapsto-\log z\)</span> is even strictly convex, which means that
+the inequality is strict unless <span class="math notranslate nohighlight">\(q(x)/p(x) = q(x')/p(x')\)</span> for all <span class="math notranslate nohighlight">\(x,x'\)</span>.</p>
+<p>Assume that <span class="math notranslate nohighlight">\(c=q(x)/p(x)\)</span> for all <span class="math notranslate nohighlight">\(x\)</span>. Then</p>
+<div class="math notranslate nohighlight">
+\[
+1=\sum_x q(x) = \sum_x cp(x) = c,
+\]</div>
+<p>and thus <span class="math notranslate nohighlight">\(q(x)=p(x)\)</span> for all <span class="math notranslate nohighlight">\(x\)</span>. Therefore <span class="math notranslate nohighlight">\(\KL(p||q)=0\)</span> implies <span class="math notranslate nohighlight">\(p=q\)</span>;
+the other direction is trivial.</p>
+</div>
+</section>
+<section id="local-minima">
+<h2>Local minima<a class="headerlink" href="#local-minima" title="Link to this heading">#</a></h2>
+<p>Neural networks are trained with SGD, or with a variant of SGD.
+Why does that work at all? The loss functions is highly
+non-convex. Indeed, because of the symmetries in the weights it is almost guaranteed that
+there will be many local minima: permuting the nodes of a layer (together with their weights)
+will turn one local minimum into another one.</p>
+<p>Why doesn’t SGD regularly become trapped in a local minimum that is far away from the
+global minimum?<br />
+Why are local minima not a problem?</p>
+<p>Empirically it is often observed that  local minima of large loss are rare. That is,
+local minima often have costs that are close to the global minimum. Indeed,
+saddle points and plateaus, where the loss does not change much, seem to be more
+of an issue. We will try to give some theoretical justification for this
+observation. We will see two pieces of evidence; both will need a leap of faith.</p>
+<p>First, there is the observation that in random functions of many variables
+critical points are usually saddle points. Indeed, a random polynomial in one variable will
+likely have local minima but for one in 12 variables this is unlikely. Let’s look at a very simple
+toy problem, a quadratic polynomial in one or two variables.</p>
+<p>Clearly, in one variable, the quadratic polynomial <span class="math notranslate nohighlight">\(x\mapsto ax^2+bx+c\)</span> will have a local minimum
+(that is also a global one) as long as <span class="math notranslate nohighlight">\(a&gt;0\)</span>.
+Thus, if we pick <span class="math notranslate nohighlight">\(a,b,c\)</span> according to a normal distribution with mean 0 and variance 1
+then the expected number of local minima is <span class="math notranslate nohighlight">\(\tfrac{1}{2}\)</span>.</p>
+<p>Now, let’s consider two variables:</p>
+<div class="math notranslate nohighlight">
+\[
+p:\:(x_1,x_2)\mapsto a_{11}x_1^2+a_{22}x_2^2+a_{12}x_1x_2+b_1x_1+b_2x_2+c
+\]</div>
+<p>We first compute the points with zero gradient:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+&amp;0 =\nabla p(x)=\twovec{\partial p(x)/\partial x_1}{\partial p(x)/\partial x_2} = 
+\twovec{2a_{11}x_1+a_{12}x_2+b_1}{2a_{22}x_2+a_{12}x_1+b_2} \\
+\Leftrightarrow  &amp; \begin{pmatrix}2a_{11} &amp; a_{12}\\a_{12} &amp; 2a_{22} 
+\end{pmatrix}\twovec{x_1}{x_2} = \twovec{-b_1}{-b_2}
+\end{align*}\]</div>
+<p>If the matrix is non-singular, which happens unless <span class="math notranslate nohighlight">\(4a_{11}a_{22}-a_{12}^2=0\)</span>,
+then there is therefore only one point with zero gradient. (And if we choose the coefficients
+again with a normal distribution then the probability that the matrix is singular is 0.)</p>
+<p>When is the single critical point a local minimum? When the Hessian is positive definite,
+ie, when its eigenvalues are positive. The Hessian is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{pmatrix}2a_{11} &amp; a_{12}\\a_{12} &amp; 2a_{22} 
+\end{pmatrix}
+\end{split}\]</div>
+<p>with eigenvalues determined by</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda=a_{11}+a_{22}\pm \sqrt{(a_{11}-a_{22})^2+a_{12}^2}
+\]</div>
+<p>Let’s again choose the coefficients according to a normal distribution with mean 0
+and variance 1. Then a quick numerical simulation indicates that the probability
+that both eigenvalues are positive is about 0.176. Thus, the expected number
+of local minima is <span class="math notranslate nohighlight">\(\approx 0.176\)</span>, which is already quite a bit smaller than the <span class="math notranslate nohighlight">\(\tfrac{1}{2}\)</span>
+for one variable.</p>
+<p>With a slightly different model for a random polynomial, Dedieu and Malajovich<label for='sidenote-role-7' class='margin-toggle'><span id="id7">
+<sup>7</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-7' name='sidenote-role-7' class='margin-toggle'><span class="sidenote"><sup>7</sup><em>On the number of minima of a random polynomial</em>, J.-P. Dedieu and G. Malajovich (2008)</span>
+proved:</p>
+<div class="proof theorem admonition" id="theorem-2">
+<p class="admonition-title"><span class="caption-number">Theorem 4 </span> (Dedieu and Malajovich (2008))</p>
+<section class="theorem-content" id="proof-content">
+<p>The expected number of extremal points of a random polynomial of degree d in <span class="math notranslate nohighlight">\(n\)</span> variables
+is bounded by <span class="math notranslate nohighlight">\(\bigO(\exp(-n^2+n\log(d))\)</span>.</p>
+</section>
+</div><p>In particular, for large <span class="math notranslate nohighlight">\(n\)</span> (and <span class="math notranslate nohighlight">\(\log d\ll n\)</span>) we do not expect <em>any</em> local minima or maxima.</p>
+<p>What can we deduce for the loss landscape of a neural network? Obviously, the loss
+function of a neural networks is not a polynomial (piecewise polynomial, though!).
+And, more importantly, the loss is non-negative, which makes it implausible to think
+that the eigenvalues of the Hessian behave in a random manner when the loss is close
+to 0: there is simply not much way to go down. Thus, there may be local minima!
+This
+argumentation, however, only works for small loss. Local minima
+of small loss are not a problem, though: A neural network with small loss is, after all,
+precisely what we want to compute.
+If the loss is larger then it’s not such a
+stretch to think that the eigenvalues of the  Hessian might behave in a somewhat random
+way, which would make local minima unlikely. Admittedly, this argumentation
+involves a lot of hand-waving.</p>
+</section>
+<section id="no-traps">
+<h2>No traps<a class="headerlink" href="#no-traps" title="Link to this heading">#</a></h2>
+<p>Let’s try again to argue that local minima are unlikely to trap
+SGD when training a neural network.
+In the setting we will consider, there are more weights, more parameters of the
+neural network, than points in the training set.
+This is not unusual. Alexnet, a well-known
+neural network for image recognition had about 60 million parameters but was trained
+on just 1.2 million datapoints.<label for='marginnote-role-8' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-8' name='marginnote-role-8' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/neural_networks/no_traps.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>no_traps</a></span></p>
+<figure class="align-default" id="trainvarfig">
+<a class="reference internal image-reference" href="../_images/locmin.png"><img alt="../_images/locmin.png" src="../_images/locmin.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 18 </span><span class="caption-text">Distribution of the training error for 100 runs of SGD in one hidden layer neural networks of
+different sizes. All neural networks were trained on Fashion MNIST with the same training set of size 5000.
+For over-parameterised
+networks (100 hidden nodes) training error shows smaller variance, while the variance
+is larger for fewer hidden nodes. Models were trained until training loss no longer improved.</span><a class="headerlink" href="#trainvarfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Normally, such a setup is in danger of overfitting. Empirically, this does not seem
+to be that much of a problem, and in case, there are a number of precautions against
+overfitting that are routinely taken. I will just name-drop two, <em>early stopping</em>
+and <em>dropout layers</em>, without explaining what they are.</p>
+<p>An over-parameterised neural network can learn the training set perfectly. Thus,
+to see that a local minimum is also a global one, we need to check that it has
+zero training error. We will succeed in doing so, provided an extra condition is imposed
+that might seem artificial and perhaps too far removed from reality.
+A similar phenomenon can be observed in practice: In <a class="reference internal" href="#trainvarfig"><span class="std std-numref">Fig. 18</span></a>, we see that
+over-parameterised neural networks are less likely to finish training with a training
+error that is far away from the optimum.</p>
+<p>For two matrices <span class="math notranslate nohighlight">\(A\in\mathbb R^{m\times n}\)</span> and <span class="math notranslate nohighlight">\(B\in\mathbb R^{k\times \ell}\)</span>
+the <em>Kronecker product</em> <span class="math notranslate nohighlight">\(A\otimes B\)</span> is defined as the matrix</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A\otimes B=\begin{pmatrix}
+A_{11}B &amp; A_{12}B &amp; \ldots &amp; A_{1n}B \\
+A_{21}B &amp; A_{22}B &amp; \ldots &amp; A_{2n}B \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+A_{m1}B &amp; A_{m2}B &amp; \ldots &amp; A_{mn}B 
+\end{pmatrix}\in\mathbb R^{mk\times n\ell}
+\end{split}\]</div>
+<p>The Kronecker product is the building block for a different product of matrices, the
+<em>Khatri-Rao product</em>. For this, let <span class="math notranslate nohighlight">\(A,B\)</span> have the same number of columns,
+ie, <span class="math notranslate nohighlight">\(A\in\mathbb R^{k\times N}\)</span> and <span class="math notranslate nohighlight">\(B\in\mathbb R^{\ell\times N}\)</span>. Then
+the Khatri-Rao product is the matrix of size <span class="math notranslate nohighlight">\(k\ell\times N\)</span> defined as</p>
+<div class="math notranslate nohighlight">
+\[
+A\circ B=(A_{\bullet,1}\otimes B_{\bullet,1},\ldots,A_{\bullet,N}\otimes B_{\bullet,N})
+\]</div>
+<p>(Technically, this here is a special form of the Khatri-Rao product – the general
+form operates on any two compatible block structures of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>.)</p>
+<p>Let <span class="math notranslate nohighlight">\(\phi(x)\)</span> be some statement that depends on <span class="math notranslate nohighlight">\(x\in\mathbb R^n\)</span>. For example,
+<span class="math notranslate nohighlight">\(\phi(x)\)</span> could be “the norm of <span class="math notranslate nohighlight">\(x\)</span> is <span class="math notranslate nohighlight">\(||x||\neq 42\)</span>”. Then we say that <span class="math notranslate nohighlight">\(\phi(x)\)</span>
+holds for <em>almost all</em> <span class="math notranslate nohighlight">\(x\in\mathbb R^n\)</span> if the set of exceptions</p>
+<div class="math notranslate nohighlight">
+\[
+\{x\in\mathbb R^n:\phi(x)\text{ false}\}
+\]</div>
+<p>has Lebesgue-measure zero, ie, is a null set.</p>
+<p>The following lemma is due to Allman et al.<label for='sidenote-role-9' class='margin-toggle'><span id="id9">
+<sup>9</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-9' name='sidenote-role-9' class='margin-toggle'><span class="sidenote"><sup>9</sup><em>Identifiability of parameters in latent structure models with many observed variables</em>, E.S. Allman, C. Matias, J.A. Rhodes (2009), <a class="reference external" href="https://arxiv.org/abs/0809.5032">arXiv:0809.5032</a></span></p>
+<div class="proof lemma admonition" id="otimeslem">
+<p class="admonition-title"><span class="caption-number">Lemma 13 </span> (Allman, Matias and Rhodes (2009))</p>
+<section class="lemma-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(k,\ell,N\)</span> be integers with <span class="math notranslate nohighlight">\(k\ell\geq N\)</span>. Then
+for almost all <span class="math notranslate nohighlight">\((A,B)\)</span> with
+<span class="math notranslate nohighlight">\(A\in\mathbb R^{k\times N}\)</span> and <span class="math notranslate nohighlight">\(B\in\mathbb R^{\ell\times N}\)</span>
+it holds for the Khatri-Rao product that</p>
+<div class="math notranslate nohighlight">
+\[
+\rank(A\circ B)=N
+\]</div>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. Note that, given <span class="math notranslate nohighlight">\(A,B\)</span>, the Khatri-Rao product <span class="math notranslate nohighlight">\(A\circ B\)</span> has dimensions <span class="math notranslate nohighlight">\(k\ell\times N\)</span>.
+As <span class="math notranslate nohighlight">\(k\ell\geq N\)</span>, the matrix <span class="math notranslate nohighlight">\(A\circ B\)</span> has not rank <span class="math notranslate nohighlight">\(N\)</span> if and only if
+for every choice of <span class="math notranslate nohighlight">\(N\)</span> rows from <span class="math notranslate nohighlight">\(A\circ B\)</span> the matrix <span class="math notranslate nohighlight">\(M\)</span> of these rows has determinant <span class="math notranslate nohighlight">\(\det M=0\)</span>.</p>
+<p>Let us fix a choice of rows, namely the first <span class="math notranslate nohighlight">\(N\)</span> rows of <span class="math notranslate nohighlight">\(A\circ B\)</span>.
+The determinant <span class="math notranslate nohighlight">\(\det M\)</span> is a polynomial in the entries of <span class="math notranslate nohighlight">\(A\circ B\)</span>, which in turn are poducts
+of entries in <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>. Thus, we can view <span class="math notranslate nohighlight">\(\det M\)</span> as a multivariate polynomial <span class="math notranslate nohighlight">\(p(A,B)\)</span>
+on the entries of <span class="math notranslate nohighlight">\(A,B\)</span>. Now the set of <span class="math notranslate nohighlight">\((A,B)\)</span> for which <span class="math notranslate nohighlight">\(A\circ B\)</span> does not have rank <span class="math notranslate nohighlight">\(N\)</span> is a
+subset of the set of roots of <span class="math notranslate nohighlight">\(p\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+\{(A,B):p(A,B)=0\}
+\]</div>
+<p>From analysis we know that the set of roots of a polynomial is a null set — unless the polynomial
+is~<span class="math notranslate nohighlight">\(0\)</span>. Thus, let us prove that <span class="math notranslate nohighlight">\(p\not\equiv 0\)</span>.</p>
+<p>To show that <span class="math notranslate nohighlight">\(p\not\equiv 0\)</span> it suffices to find some <span class="math notranslate nohighlight">\((A,B)\)</span> for which <span class="math notranslate nohighlight">\(p(A,B)\neq 0\)</span>.
+Pick distinct primes <span class="math notranslate nohighlight">\(a_1,\ldots, a_k\)</span> and <span class="math notranslate nohighlight">\(b_1,\ldots, b_\ell\)</span> and consider the
+Vandermonde matrices</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A=\begin{pmatrix}
+1 &amp; a_1 &amp; a_1^2 &amp; \ldots &amp; a_1^{N-1} \\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
+1 &amp; a_k &amp; a_k^2 &amp; \ldots &amp; a_k^{N-1}
+\end{pmatrix}
+\text{ and }
+B=\begin{pmatrix}
+1 &amp; b_1 &amp; b_1^2 &amp; \ldots &amp; b_1^{N-1} \\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
+1 &amp; b_\ell &amp; b_\ell^2 &amp; \ldots &amp; b_\ell^{N-1}
+\end{pmatrix}
+\end{split}\]</div>
+<p>From a beginner’s linear algebra
+course we may remember that a Vandermonde matrix, such as <span class="math notranslate nohighlight">\(A\)</span>, has full rank
+unless two of the rows are identical (which can only happen if <span class="math notranslate nohighlight">\(a_i=a_j\)</span> for some <span class="math notranslate nohighlight">\(i\neq j\)</span>).</p>
+<p>Now, <span class="math notranslate nohighlight">\(A\circ B\)</span> has the following form</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A\circ B = 
+\begin{pmatrix}
+1 &amp; a_1b_1 &amp; (a_1b_1)^2 &amp;  \ldots &amp;  (a_1b_1)^{N-1} \\
+1 &amp; a_1b_2 &amp; (a_1b_2)^2 &amp; \ldots &amp; (a_1b_2)^{N-1} \\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
+1 &amp; a_1b_\ell &amp; (a_1b_\ell)^2 &amp; \ldots &amp; (a_1b_\ell)^{N-1} \\
+1 &amp; a_2b_1 &amp; (a_2b_1)^2 &amp;  \ldots &amp;  (a_2b_1)^{N-1} \\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
+1 &amp; a_kb_\ell &amp; (a_kb_\ell)^2 &amp; \ldots &amp; (a_kb_\ell)^{N-1} 
+\end{pmatrix}
+\end{split}\]</div>
+<p>Obviously, <span class="math notranslate nohighlight">\(A\circ B\)</span> is again a Vandermonde matrix.
+By choice of <span class="math notranslate nohighlight">\(a_i,b_j\)</span> as distinct primes, all products <span class="math notranslate nohighlight">\(a_ib_j\)</span> are distinct, which means
+that the matrix consisting of the first <span class="math notranslate nohighlight">\(N\)</span> rows (or indeed any choice of <span class="math notranslate nohighlight">\(N\)</span> rows)
+has non-zero determinant, ie, that <span class="math notranslate nohighlight">\(p(A,B)\neq 0\)</span>.</p>
+</div>
+<p>Given a neural network and a loss function <span class="math notranslate nohighlight">\(L\)</span> over the training set, let us
+call a point <span class="math notranslate nohighlight">\(w\)</span> (a collection of weights) a <em>differentiable local minimum</em>,
+or <em>DLM</em>, if <span class="math notranslate nohighlight">\(L\)</span> is differentiable at <span class="math notranslate nohighlight">\(w\)</span>, and if <span class="math notranslate nohighlight">\(w\)</span> is a local minimum of <span class="math notranslate nohighlight">\(L\)</span>.
+Clearly, in a ReLU neural network <span class="math notranslate nohighlight">\(L\)</span> is not everywhere differentiable but these
+points are few (they form a null set) and it is at least plausible that most
+local minima in a typical neural network are differentiable.</p>
+<p>Let us consider a simple neural network with <span class="math notranslate nohighlight">\(n_0\)</span> inputs,  a single hidden layer
+of <span class="math notranslate nohighlight">\(n_1\)</span> nodes and a single
+output node. For technical reasons, we fix the activation function of the
+hidden layer to be leaky ReLU, let us say</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\textsf{leak}(z)=\begin{cases} z &amp; \text{if }z\geq 0\\ 0.1z &amp;\text{otherwise}\end{cases}
+\end{split}\]</div>
+<p>and for the output we use the identity as activation, i.e.\ the output layer is a linear layer.
+Let a training set be given that consists of <span class="math notranslate nohighlight">\(N\)</span> datapoints <span class="math notranslate nohighlight">\((x^{(n)},y^{(n)})\)</span>.</p>
+<p>As usual, we denote the weights between input layer and hidden layer by <span class="math notranslate nohighlight">\(W^{(1)}\)</span>
+and the weights between the hidden layer and the output layer by <span class="math notranslate nohighlight">\(W^{(2)}\)</span>.
+For simplicity, we omit biases.
+On input <span class="math notranslate nohighlight">\(x^{(n)}\)</span> we compute the input at the hidden layer as</p>
+<div class="math notranslate nohighlight">
+\[
+g^{(1)}(x^{(n)}) = W^{(1)}x^{(n)}
+\]</div>
+<p>Now, the output of the hidden layer then would be</p>
+<div class="math notranslate nohighlight">
+\[
+f^{(1)}(x^{(n)})=\textsf{leak}(W^{(1)}x^{(n)}) = \diag(a^{(n)}) \cdot W^{(1)}x^{(n)},
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+a^{(n)}_h=\begin{cases}
+1&amp; \text{if }(W^{(1)}x^{(n)})_h\geq 0\\
+0.1&amp; \text{otherwise} 
+\end{cases}
+\end{split}\]</div>
+<p>The overall output of the neural network, on input <span class="math notranslate nohighlight">\(x^{(n)}\)</span>, then is</p>
+<div class="math notranslate nohighlight">
+\[
+W^{(2)}\diag(a^{(n)}) \cdot W^{(1)}x^{(n)}
+\]</div>
+<p>Now we do something that is non-standard and normally not part of the learning process.
+We perturb the activation function. That is, we replace <span class="math notranslate nohighlight">\(a^{(n)}\)</span> by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+a^{(n)}_h = \epsilon_h^{(n)}\cdot\begin{cases}
+1&amp; \text{if }(W^{(1)}x^{(n)})_h\geq 0\\
+0.1&amp; \text{otherwise} 
+\end{cases}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathcal E=(\epsilon^{(1)}\ldots \epsilon^{(N)})\)</span> is a matrix that should be thought of as
+a small perturbation of the activation function.</p>
+<p>We also collect all datapoints into a matrix <span class="math notranslate nohighlight">\(X=(x^{(1)},\ldots, x^{(N)})\)</span>,
+and prescribe (mean) square loss as loss function</p>
+<div class="math notranslate nohighlight" id="equation-mselss">
+<span class="eqno">(19)<a class="headerlink" href="#equation-mselss" title="Link to this equation">#</a></span>\[\text{MSE}=\frac{1}{N}\sum_{n=1}^N (y^{(n)}-W^{(2)}\diag(a^{(n)}) \cdot W^{(1)}x^{(n)} )^2\]</div>
+<p>We now get to a main insight due to Soudry and Carmon:<label for='sidenote-role-10' class='margin-toggle'><span id="id10">
+<sup>10</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-10' name='sidenote-role-10' class='margin-toggle'><span class="sidenote"><sup>10</sup><em>Data independent training error guarantees for multilayer neural networks</em>, D. Soudry and Y. Carmon (2016), <a class="reference external" href="https://arxiv.org/abs/1605.08361">arXiv:1605.08361</a></span></p>
+<div class="proof theorem admonition" id="scthm">
+<p class="admonition-title"><span class="caption-number">Theorem 5 </span> (Soudry and Carmon)</p>
+<section class="theorem-content" id="proof-content">
+<p>If <span class="math notranslate nohighlight">\(n_0n_1\geq N\)</span> then all differentiable local minima of~\eqref{mselss} are global
+minima with <span class="math notranslate nohighlight">\(\text{MSE}=0\)</span> for almost all <span class="math notranslate nohighlight">\((X,\mathcal E)\)</span>.</p>
+</section>
+</div><p>The theorem does not imply that (almost) every local minimum is a global one.
+The additional assumption that we need in order to prove the theorem
+are simply to restrictive. However, the conditions are realistic enough
+that we plausibly may conclude that typically there few high training error local minima.</p>
+<div class="proof admonition" id="proof">
+<p>Proof. Consider <a class="reference internal" href="#equation-mselss">(19)</a> and observe that <span class="math notranslate nohighlight">\(W^{(2)}\)</span> is a row vector as there is only one output node.
+That means we can swap it with the diagonal matrix <span class="math notranslate nohighlight">\(\diag(a^{(n)})\)</span> that succeeds it
+such that we get</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\text{MSE} &amp;=\frac{1}{N}\sum_{n=1}^N (y^{(n)}-W^{(2)}\diag(a^{(n)}) W^{(1)}x^{(n)} )^2\\
+&amp; =  \frac{1}{N}\sum_{n=1}^N (y^{(n)}-\trsp{(a^{(n)})}\diag(W^{(2)})  W^{(1)}x^{(n)} )^2
+\end{align*}\]</div>
+<p>We now write <span class="math notranslate nohighlight">\(W=\diag(W^{(2)}) \cdot W^{(1)}\)</span> in order to simplify:</p>
+<div class="math notranslate nohighlight" id="equation-mselss2">
+<span class="eqno">(20)<a class="headerlink" href="#equation-mselss2" title="Link to this equation">#</a></span>\[\text{MSE} =\frac{1}{N}\sum_{n=1}^N (y^{(n)}-\trsp{(a^{(n)})} Wx^{(n)} )^2\]</div>
+<p>We note that <span class="math notranslate nohighlight">\((W^{(1)},W^{(2)})\)</span> is a DLM of~\eqref{mselss} if and only if <span class="math notranslate nohighlight">\(W\)</span> is a DLM
+of <a class="reference internal" href="#equation-mselss2">(20)</a>.</p>
+<p>Now let’s consider a DLM of <a class="reference internal" href="#equation-mselss2">(20)</a>. In particular, the gradient is 0:</p>
+<div class="math notranslate nohighlight">
+\[
+0=\nabla_W \text{MSE} = \frac{1}{N}\sum_{n=1}^N \nabla_W(y^{(n)}-\trsp{(a^{(n)})} Wx^{(n)} )^2
+\]</div>
+<p>Setting the error at <span class="math notranslate nohighlight">\(W\)</span> to</p>
+<div class="math notranslate nohighlight">
+\[
+e^{(n)}=y^{(n)}-\trsp{(a^{(n)})} Wx^{(n)}\in\mathbb R 
+\]</div>
+<p>we get for all <span class="math notranslate nohighlight">\(i,j\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+0=\frac{1}{N}\sum_{n=1}^N\frac{\partial}{\partial W_{ij}} (y^{(n)}-\trsp{(a^{(n)})} Wx^{(n)} )^2
+=-\frac{2}{N}\sum_{n=1}^N  e^{(n)} a^{(n)}_i x^{(n)}_j
+\]</div>
+<p>This is the same as</p>
+<div class="math notranslate nohighlight">
+\[
+0=\frac{2}{N}\sum_{n=1}^N e^{(n)} a^{(n)}\otimes x^{(n)} = \frac{2}{N} (A\circ X) e,
+\]</div>
+<p>for <span class="math notranslate nohighlight">\(A=(a^{(1)},\ldots,a^{(N)})\)</span> and <span class="math notranslate nohighlight">\(e=\trsp{(e^{(1)},\ldots,e^{(n)})}\)</span>.</p>
+<p>If <span class="math notranslate nohighlight">\(\rank(A\circ X)=N\)</span> then, as <span class="math notranslate nohighlight">\(e\in\mathbb R^{N}\)</span>, this would only be possible if <span class="math notranslate nohighlight">\(e=0\)</span>, that
+is, if MSE <span class="math notranslate nohighlight">\(=0\)</span>. Obviously, that means a perfect classification of the training set, and in turn,
+that the local minimum is also a global one.</p>
+<p>Thus our task consists in showing that the set of <span class="math notranslate nohighlight">\(A\circ X\)</span> with <span class="math notranslate nohighlight">\(\rank(A\circ X)&lt;N\)</span>
+is a null set. We cannot apply directly <a class="reference internal" href="#otimeslem">Lemma 13</a> as <span class="math notranslate nohighlight">\(A\)</span> implicitly depends on <span class="math notranslate nohighlight">\(X\)</span>:
+indeed, whether <span class="math notranslate nohighlight">\((W^{(1)}x^{(n)})_h\geq 0\)</span> or <span class="math notranslate nohighlight">\((W^{(1)}x^{(n)})_h&lt;0\)</span> determines whether
+<span class="math notranslate nohighlight">\(a^{(n)}_h=\epsilon^{(n)}_h\)</span> or whether <span class="math notranslate nohighlight">\(a^{(n)}_h=0.1\epsilon^{(n)}_h\)</span>. However, for each <span class="math notranslate nohighlight">\(n,h\)</span> there are
+only two options, which means that, given <span class="math notranslate nohighlight">\(\mathcal E\)</span>, there are only <span class="math notranslate nohighlight">\(2^{Nn_1}\)</span> different possible matrices <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p>More precisely, there are <span class="math notranslate nohighlight">\(2^{Nn_1}\)</span> different matrices <span class="math notranslate nohighlight">\(P\)</span> with each entry either <span class="math notranslate nohighlight">\(0.1\)</span> or <span class="math notranslate nohighlight">\(1\)</span>
+such that <span class="math notranslate nohighlight">\(A=P\odot\mathcal E\)</span>, ie, such that <span class="math notranslate nohighlight">\(A\)</span> is the Hadamard product of <span class="math notranslate nohighlight">\(P\)</span> and <span class="math notranslate nohighlight">\(\mathcal E\)</span>.
+Now, if for some fixed such <span class="math notranslate nohighlight">\(P\)</span> it holds that <span class="math notranslate nohighlight">\(\rank(A\circ X)=N\)</span>
+for almost all <span class="math notranslate nohighlight">\(X,A\)</span> then it also holds for almost all <span class="math notranslate nohighlight">\(X,\mathcal E\)</span>. Since the union of finitely
+many null sets is still a null set, we deduce that for almost all <span class="math notranslate nohighlight">\(X,\mathcal E\)</span> it holds that<br />
+<span class="math notranslate nohighlight">\(\rank(A\circ X)=N\)</span>.</p>
+</div>
+<p>Soudry and Carmon extend the theorem to deep neural networks but the proof becomes more complicated.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-success sd-bg-text-success">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-telescope" viewBox="0 0 16 16" aria-hidden="true"><path d="M14.184 1.143v-.001l1.422 2.464a1.75 1.75 0 0 1-.757 2.451L3.104 11.713a1.75 1.75 0 0 1-2.275-.702l-.447-.775a1.75 1.75 0 0 1 .53-2.32L11.682.573a1.748 1.748 0 0 1 2.502.57Zm-4.709 9.32h-.001l2.644 3.863a.75.75 0 1 1-1.238.848l-1.881-2.75v2.826a.75.75 0 0 1-1.5 0v-2.826l-1.881 2.75a.75.75 0 1 1-1.238-.848l2.049-2.992a.746.746 0 0 1 .293-.253l1.809-.87a.749.749 0 0 1 .944.252ZM9.436 3.92h-.001l-4.97 3.39.942 1.63 5.42-2.61Zm3.091-2.108h.001l-1.85 1.26 1.505 2.605 2.016-.97a.247.247 0 0 0 .13-.151.247.247 0 0 0-.022-.199l-1.422-2.464a.253.253 0 0 0-.161-.119.254.254 0 0 0-.197.038ZM1.756 9.157a.25.25 0 0 0-.075.33l.447.775a.25.25 0 0 0 .325.1l1.598-.769-.83-1.436-1.465 1Z"></path></svg></span><span class="sd-summary-text">What is the Kronecker product good for?</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<figure class="align-left" id="id12">
+<a class="reference internal image-reference" href="../_images/blurry_Leopold_Kronecker_1865.jpg"><img alt="../_images/blurry_Leopold_Kronecker_1865.jpg" src="../_images/blurry_Leopold_Kronecker_1865.jpg" style="width: 6cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 19 </span><span class="caption-text">blurry Kronecker</span><a class="headerlink" href="#id12" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p class="sd-card-text">A common challenge in image processing lies in recovering a sharp image from an out of focus, blurred photograph.
+Such a <em>deconvolution</em> problem can in some situations be modelled as a
+matrix equation</p>
+<div class="math notranslate nohighlight">
+\[
+AXB=I,
+\]</div>
+<p class="sd-card-text">where <span class="math notranslate nohighlight">\(A,B\)</span> are matrices that represent the blurring, where <span class="math notranslate nohighlight">\(I\)</span> is the blurred image and where <span class="math notranslate nohighlight">\(X\)</span> is the unknown
+sharp image. With the Kronecker product this can be rewritten as a simple system of linear equations</p>
+<div class="math notranslate nohighlight">
+\[
+(\trsp B\otimes A)\text{vec}(X)=\text{vec}(I),
+\]</div>
+<p class="sd-card-text">where <span class="math notranslate nohighlight">\(\text{vec}(\cdot)\)</span> turns a matrix into a vector by stacking the columns on top of each other.
+This view then informs  theoretical insights.</p>
+<p class="sd-card-text">The Kronecker, or tensor, product also plays a prominent role in quantum computing.</p>
+<p class="sd-card-text"><em>Deconvolution and regularization with Toeplitz matrices</em>, P.C. Hansen (2002)<br/>
+<em>An introduction to quantum computing</em>, N.S. Yanovsky (2007), <a class="reference external" href="https://arxiv.org/abs/0708.0261">arXiv:0708.0261</a></p>
+</div>
+</details></section>
+</section>
+<hr class="footnotes docutils" />
 
 
                 </article>
@@ -332,6 +1334,28 @@
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-propagation">Back propagation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-loss-function">The loss function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#softmax-and-loss">Softmax and loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-cross-entropy-loss">Why cross-entropy loss?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kullback-leibler-divergence">Kullback-Leibler divergence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-minima">Local minima</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#no-traps">No traps</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
