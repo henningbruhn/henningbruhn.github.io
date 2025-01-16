@@ -1,0 +1,737 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2. PAC learning &#8212; Mathematics of Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css?v=ca93fcec" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=82609fe5" />
+    <link rel="stylesheet" type="text/css" href="../_static/tippy.css?v=2687f39f" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
+    <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
+    <script defer="defer" src="../_static/tippy/contents/pac.560c1313-4238-49c1-8265-b48b4608fb49.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contents/pac';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Stochastic gradient descent" href="convex.html" />
+    <link rel="prev" title="1. Predictors, classification and losses" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/robot_reading_small.png" class="logo__image only-light" alt="Mathematics of Machine Learning - Home"/>
+    <img src="../_static/robot_reading_small.png" class="logo__image only-dark pst-js-only" alt="Mathematics of Machine Learning - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Predictors, classification and losses</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. PAC learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convex.html">3. Stochastic gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nets.html">4. Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netsprops.html">5. Properties of neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loss.html">6. Loss functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl.html">7. Reinforcement learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mips.html">8. Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html">9. TEST</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/contents/pac.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>PAC learning</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-risk-minimisation">2.1. Empirical risk minimisation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-error-and-generalisation-error">2.2. Test error and generalisation error</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overfitting-and-underfitting">2.3. Overfitting and underfitting</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><span class="math notranslate nohighlight">\(\newcommand{\bigO}{O}
+\newcommand{\trsp}[1]{#1^\intercal} % transpose
+\DeclareMathOperator*{\expec}{\mathbb{E}} % Expectation
+\DeclareMathOperator*{\proba}{\mathbb{P}}   % Probability
+\DeclareMathOperator*{\vari}{\mathbb{V}}   % Probability
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\newcommand{\sigm}{\phi_{\text{sig}}} % logistic function
+\newcommand{\bigOmega}{\Omega}
+\)</span></p>
+<section class="tex2jax_ignore mathjax_ignore" id="pac-learning">
+<span id="pacsec"></span><h1><span class="section-number">2. </span>PAC learning<a class="headerlink" href="#pac-learning" title="Link to this heading">#</a></h1>
+<p>Let’s imagine we urgently need a good classifier that distinguishes cat pictures from dog pictures.<label for='sidenote-role-1' class='margin-toggle'><span id="id1">
+<sup>1</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-1' name='sidenote-role-1' class='margin-toggle'><span class="sidenote"><sup>1</sup>Much of the material is based on <em>Understanding Machine Learning</em> by Shai Shalev-Shwartz and Shai Ben-David</span>
+How do we go about this? We perhaps decide that a neural network will be suitable and we
+prepare a training set: we collect cat and dog pictures and we label each picture as either
+a cat picture or a dog picture. Once we have done that we run an optimisation algorithm
+to adapt the weights of the neural network so that the training error, the
+misclassification rate on the training set, is as small as possible. (We will discuss
+such optimisation algorithms in a later chapter.) What concerns us here is:
+Why can we expect a neural network with small training error to perform well on new data?</p>
+<p>Recall: We do not care about the training set. We already know which picture in the training
+set is a cat and which is a dog. What we care about is performance on new data, ie,
+we strive for a small generalisation error.
+Does a small training error <em>guarantee</em> a small generalisation error?
+In short: No.</p>
+<p>Here is an example with zero training error but large generalisation error.
+We imagine a binary classification task with domain set  <span class="math notranslate nohighlight">\(\mathcal X=[0,1]\times [0,1]\)</span>,
+in which
+every point <span class="math notranslate nohighlight">\(x\in\mathcal X\)</span> in the upper half
+is in class 1, and every point in the (open) lower half is in -1, and every point in <span class="math notranslate nohighlight">\(\mathcal X\)</span> is equally likely.
+That is, the <em>marginal</em> distribution over <span class="math notranslate nohighlight">\(\mathcal X\)</span> is uniform. We use zero-one loss.
+We draw a training set <span class="math notranslate nohighlight">\(S\)</span>.</p>
+<p>We can easily devise a classifier with <em>zero</em> training error:</p>
+<div class="math notranslate nohighlight" id="memalgo">
+\[\begin{split}\text{Mem}(x)=
+\begin{cases}
+y &amp;\text{if }(x,y)\in S\\
+1 &amp;\text{else}
+\end{cases}\end{split}\]</div>
+<p>This algorithm <em>memorises</em> the training set and returns a default label, <span class="math notranslate nohighlight">\(1\)</span> in this case, for
+datapoints outside the training set. Clearly, it is rubbish.</p>
+<p>In fact, the Bayes error is 0 in our example (the class is fully determined by the domain set),
+the classifier Mem, however, only achieves a generalisation error of <span class="math notranslate nohighlight">\(\tfrac{1}{2}\)</span>.
+By <a class="reference internal" href="intro.html#equation-zorisk">(1.4)</a> we have:</p>
+<div class="math notranslate nohighlight">
+\[
+L_{\mathcal D}(\text{Mem})=\proba[x\text{ in upper half}]\cdot 0+\proba[x\text{ in lower half}]\cdot 1
+=\tfrac{1}{2}
+\]</div>
+<p>Note, here, that taken over the infinite unit square, the finite sample <span class="math notranslate nohighlight">\(S\)</span> has probability weight 0,
+and so does not appear in the calculations.</p>
+<figure class="align-default" id="decoverfig">
+<a class="reference internal image-reference" href="../_images/dec_overfit.png"><img alt="../_images/dec_overfit.png" src="../_images/dec_overfit.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.1 </span><span class="caption-text">Datapoints in top half are class +$ with 90% probability,
+in lower half they are class -1 with 90% probability. Shown are
+four trained predictors, each time with training set and decision boundary.
+Top left: Neural network with one hidden layer of 10 neurons. Top right: Neural network
+with two hidden layers of 100 neurons each. Lower left: Decision tree of depth 1 (ie, a single decision rule).
+Lower right: Decision tree grown to full height (with zero training error).
+The simpler predictors, in the left column, show better generalisation than the more
+powerful ones in the right column.</span><a class="headerlink" href="#decoverfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The example clearly appears contrived and may be seen as cheating.
+<a class="reference internal" href="#memalgo"><span class="std std-ref">Mem</span></a> is completely artificial. Nobody would use it in practice.
+Yet, similar outcomes may be observed with commonly used predictors.
+Consider a distribution with domain set <span class="math notranslate nohighlight">\([0,1]^2\)</span> that assigns the label 1 with probability <span class="math notranslate nohighlight">\(90\%\)</span>
+to datapoints in the upper half, and label -1 with probability 90% to points
+in the lower half.
+In <a class="reference internal" href="#decoverfig"><span class="std std-numref">Fig. 2.1</span></a> two neural networks (top row) and
+two decision trees (bottom row) are fit to a training set
+from that distribution. The predictors in the left column are fairly simple, the ones in the
+right column are more powerful: The neural network on the left is set up to have one hidden layer
+with 10 neurons, the one on the right has two hidden layers with 100 neurons each. The decision tree
+on the left consists of a single decision rule (depth 1), while the one the right was allowed
+to grow to an arbitrary depth and thus can fit the training set perfectly. While
+the more powerful predictors on the right have smaller training error, they
+have larger generalisation error than the simpler predictors on the left.
+We say that the predictors in the right column are <em>overfitting</em>: they adapt very well to the
+training set but learn less about the hidden distribution.</p>
+<p>What is the reason for overfitting? Overfitting may occur if the classifier has a large degree of freedom
+compared to the size and complexity
+of the training set. What, however, is the degree of freedom of the classifier, how can
+we measure it and how does it impact the generalisation error? This is what we’ll try to figure out in this chapter.</p>
+<section id="empirical-risk-minimisation">
+<h2><span class="section-number">2.1. </span>Empirical risk minimisation<a class="headerlink" href="#empirical-risk-minimisation" title="Link to this heading">#</a></h2>
+<p>How do we train a classifier?
+Given a domain set <span class="math notranslate nohighlight">\(\mathcal X\)</span> and a set of classes <span class="math notranslate nohighlight">\(\mathcal Y\)</span>, and
+a (hidden) distribution <span class="math notranslate nohighlight">\(\mathcal D\)</span> on <span class="math notranslate nohighlight">\(\mathcal X\times\mathcal Y\)</span>, we
+draw a training set <span class="math notranslate nohighlight">\(S\)</span> of size <span class="math notranslate nohighlight">\(m\)</span> from the distribution <span class="math notranslate nohighlight">\(\mathcal D\)</span>.
+We write <span class="math notranslate nohighlight">\(S\sim\mathcal D^m\)</span> to denote that we draw <span class="math notranslate nohighlight">\(m\)</span> samples from <span class="math notranslate nohighlight">\(S\)</span>
+indepedently of each other.  Observe that it might happen that we draw a given point twice or even more
+often.
+How now should we choose a classifier <span class="math notranslate nohighlight">\(h:\mathcal X\to\mathcal Y\)</span>? It should have low training error.
+Often, in this context, the training error is also called \defi{empirical risk}:</p>
+<div class="math notranslate nohighlight">
+\[
+L_S(h)=\frac{1}{|S|}\sum_{(x,y)\in S}\ell(y,h(x))
+\]</div>
+<p>(Here, and below, <span class="math notranslate nohighlight">\(\ell\)</span> will be a loss function. When in doubt, assume that it is zero-one loss.)</p>
+<p>In practice, we do not choose a classifier from the set of <em>all</em> possible
+classifiers. In fact, we would not know how to do that. Instead, we have an
+algorithm to compute a decision tree, and we have a (different)
+algorithm to train a neural network and so on. When we train a classifier we therefore
+choose a classifier that is best, in some sense, within a <em>restricted</em> class. Perhaps
+we compute the best decision tree of depth at most 10, or the best linear classifier.</p>
+<p>Fix a set <span class="math notranslate nohighlight">\(\mathcal H\)</span>  of classifiers <span class="math notranslate nohighlight">\(h:\mathcal X\to\mathcal Y\)</span>.
+How do we now choose
+a classifier from <span class="math notranslate nohighlight">\(\mathcal H\)</span>?
+With the help of a suitable optimisation algorithm,
+we choose a classifier <span class="math notranslate nohighlight">\(h_S\)</span> in <span class="math notranslate nohighlight">\(\mathcal H\)</span> with
+smallest training error (empirical risk) within the class <span class="math notranslate nohighlight">\(\mathcal H\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-ermparadigm">
+<span class="eqno">(2.2)<a class="headerlink" href="#equation-ermparadigm" title="Link to this equation">#</a></span>\[h_S=\argmin_{h\in\mathcal H} L_S(h)\]</div>
+<p>This procedure is called <em>empirical risk minimisation</em> (ERM) paradigm.</p>
+<p>Before we go on, a little bit of fineprint. I am neglecting here something: in practice, we do not
+necessarily find the perfect minimiser as in <a class="reference internal" href="#equation-ermparadigm">(2.2)</a> but will need to make do with an
+approximation. In fact, we do not know how to efficiently compute the decision tree (of limited depth, say)
+with smallest empirical risk, and even for linear classifiers we might need to contend ourselves
+with a classifier that is only very close to being optimal. However, to keep things a bit simpler
+we will pretend for the moment that we can compute <span class="math notranslate nohighlight">\(h_S\)</span> as in <a class="reference internal" href="#equation-ermparadigm">(2.2)</a>.</p>
+<p>Below I will keep using the notation <span class="math notranslate nohighlight">\(h_S\)</span> to denote the (or rather, <em>a</em>) classifier
+returned by the ERM paradigm for a training set <span class="math notranslate nohighlight">\(S\)</span>. Let me stress that <span class="math notranslate nohighlight">\(h_S\)</span> also depends
+on the loss function <span class="math notranslate nohighlight">\(\ell\)</span> and on the set <span class="math notranslate nohighlight">\(\mathcal H\)</span> of classifiers, even though <span class="math notranslate nohighlight">\(\ell\)</span> and <span class="math notranslate nohighlight">\(\mathcal H\)</span>
+do not appear in the notation <span class="math notranslate nohighlight">\(h_S\)</span>. (And indeed, <span class="math notranslate nohighlight">\(h_{S,\ell,\mathcal H}\)</span> would really be quite
+cumbersome.)</p>
+</section>
+<section id="test-error-and-generalisation-error">
+<h2><span class="section-number">2.2. </span>Test error and generalisation error<a class="headerlink" href="#test-error-and-generalisation-error" title="Link to this heading">#</a></h2>
+<p>We have introduced the test set as a stand-in for new data. Let’s see
+what the test error can tell us about the generalisation error.</p>
+<p>We need a <em>measure concentration</em> inequality, an inequality that
+asserts that the mean of certain random variables is, with high probability,
+very close to the expected value – provided a number of mild conditions are satisfied.<label for='marginnote-role-2' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-2' name='marginnote-role-2' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/pac_learning/concentration.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>concentration</a></span></p>
+<div class="proof theorem admonition" id="hoeffthm">
+<p class="admonition-title"><span class="caption-number">Theorem 2.1 </span> (Hoeffding’s inequality)</p>
+<section class="theorem-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(\epsilon&gt;0\)</span>,
+and let <span class="math notranslate nohighlight">\(X_1,\ldots, X_m\)</span> be independent random variables with values in <span class="math notranslate nohighlight">\([a,b]\)</span>
+such that <span class="math notranslate nohighlight">\(\mu=\expec[X_i]\)</span> for all <span class="math notranslate nohighlight">\(i=1,\ldots, m\)</span>. Then</p>
+<div class="math notranslate nohighlight">
+\[
+\proba\left[\left|\tfrac{1}{m}\sum_{i=1}^mX_i-\mu\right|\geq\epsilon\right]\leq 2e^{-\frac{2m\epsilon^2}{(b-a)^2}}
+\]</div>
+</section>
+</div><p>Consider a <em>fixed</em> classifier <span class="math notranslate nohighlight">\(h\in\mathcal H\)</span> and draw a random sample <span class="math notranslate nohighlight">\(S\)</span> from
+the hidden distribution on <span class="math notranslate nohighlight">\(\mathcal X\times\mathcal Y\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+S=((x_1,y_1),\ldots, (x_m,y_m)).
+\]</div>
+<p>(This could be the training set, it could the test set or some other set.)
+We can then, for <span class="math notranslate nohighlight">\(i=1,\ldots,m\)</span>, consider <span class="math notranslate nohighlight">\(X_i=\ell(y_i,h(x_i))\)</span> as a random variable.
+Since the sample <span class="math notranslate nohighlight">\(S\)</span> is drawn in <em>iid</em> fashion, the random variables <span class="math notranslate nohighlight">\(X_1,\ldots, X_m\)</span>
+are independent and identically distributed. In particular, they all have the same expectation</p>
+<div class="math notranslate nohighlight">
+\[
+\expec[X_i]=\expec_{(x,y)\sim\mathcal D}[\ell(y,h(x))],
+\]</div>
+<p>which is nothing else than the true risk <span class="math notranslate nohighlight">\(L_{\mathcal D}(h)\)</span>! Moreover, we defined the <span class="math notranslate nohighlight">\(X_i\)</span>
+such that their average</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{m}\sum_{i=1}^mX_i=L_S(h)
+\]</div>
+<p>coincides with the empirical risk.
+Earlier, we had required of a loss function (in a classification task)
+to take its values in <span class="math notranslate nohighlight">\([0,1]\)</span>. Keeping this in mind,  we may apply Hoeffding’s inequality
+to obtain:</p>
+<div class="math notranslate nohighlight" id="equation-oneh">
+<span class="eqno">(2.3)<a class="headerlink" href="#equation-oneh" title="Link to this equation">#</a></span>\[\proba\left[|L_\mathcal D(h)-L_S(h)|\geq\epsilon\right]\leq 2e^{-{2m\epsilon^2}}\]</div>
+<p>As a consequence, for at least moderately large <span class="math notranslate nohighlight">\(m\)</span>,
+the training error of <span class="math notranslate nohighlight">\(h\)</span> will not differ much from the generalisation error.
+Does this also mean that the generalisation error of <span class="math notranslate nohighlight">\(h_S\)</span>, the minimiser in <a class="reference internal" href="#equation-ermparadigm">(2.2)</a>, is
+close to its empirical risk (with high probability)?
+No – this estimation holds only if <span class="math notranslate nohighlight">\(h\)</span> is fixed <em>before</em>
+we draw the sample <span class="math notranslate nohighlight">\(S\)</span>. The classifier <span class="math notranslate nohighlight">\(h_S\)</span>, however, depends on <span class="math notranslate nohighlight">\(S\)</span>.</p>
+<p>The estimation <a class="reference internal" href="#equation-oneh">(2.3)</a> <em>can</em>, however, be directly applied to the
+<em>test</em> error, the average loss on the test set <span class="math notranslate nohighlight">\(T\)</span>.
+The classifier <span class="math notranslate nohighlight">\(h_S\)</span> does not depend on <span class="math notranslate nohighlight">\(T\)</span>. Indeed,
+one of the holy rules in machine learning is that the test set cannot be used in any form
+when learning the classifier. Therefore</p>
+<div class="math notranslate nohighlight" id="equation-testoneh">
+<span class="eqno">(2.4)<a class="headerlink" href="#equation-testoneh" title="Link to this equation">#</a></span>\[\proba\left[|L_\mathcal D(h_S)-L_T(h_S)|\geq\epsilon\right]\leq 2e^{-{2|T|\epsilon^2}}\]</div>
+<p>The probability obviously becomes very small for large test set size.</p>
+<p>Let us rewrite this as</p>
+<div class="math notranslate nohighlight">
+\[
+\delta= 2e^{-2|T|\epsilon^2} \Rightarrow \epsilon=\sqrt{\frac{\ln(2/\delta)}{2|T|}}
+\]</div>
+<div class="proof theorem admonition" id="testerrthm">
+<p class="admonition-title"><span class="caption-number">Theorem 2.2 </span></p>
+<section class="theorem-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(h\)</span> be some classifier, let <span class="math notranslate nohighlight">\(\delta&gt;0\)</span>, and let <span class="math notranslate nohighlight">\(T\)</span> be a test set. Then
+with probability at least <span class="math notranslate nohighlight">\(1-\delta\)</span> (over the choice of <span class="math notranslate nohighlight">\(T\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[
+L_{\mathcal D}(h)\leq L_T(h)+\sqrt{\frac{\ln(2/\delta)}{2|T|}}
+\]</div>
+</section>
+</div><p>In particular, the theorem holds for <span class="math notranslate nohighlight">\(h_S\)</span>, the classifier that minimises the empirical risk.
+As an illustration, with a probability of <span class="math notranslate nohighlight">\(95\%\)</span> if we draw a test set of 10000 data points,
+then the test error will differ from the true risk by at most 1.4%. <label for='marginnote-role-3' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-3' name='marginnote-role-3' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/pac_learning/testerr.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>testerr</a></span></p>
+<p>In <a class="reference internal" href="#testerrvarfig"><span class="std std-numref">Fig. 2.2</span></a> the variability of the test error is illustrated. A decision tree was trained
+on the MNIST task. Then 100 disjoint test sets of size 500 each were drawn and their test error computed.
+The test error shows a significant spread. While this is due to the size of the test set, which
+is clearly severely undersized, a simimlar phenomenon must also be anticipated for more reasonably sized
+test sets. In particular, when comparing different predictors by their test error, we need to check whether
+a better test error of one algorithm actually means that the predictor is better, or whether
+the test error is simply a statistical fluctuation.</p>
+<p>How can this be checked? For instance, by repeating the comparison on a newly shuffled dataset. That is,
+from the whole dataset draw a new training and test set, retrain the algorithms, and redo the comparison,
+and repeat this several times. Even better is to compare the predictors on a number of different datasets.</p>
+<figure class="align-default" id="testerrvarfig">
+<a class="reference internal image-reference" href="../_images/testerr_var.png"><img alt="../_images/testerr_var.png" src="../_images/testerr_var.png" style="width: 8cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.2 </span><span class="caption-text">Test errors of a decision tree on the MNIST task. Training set size was 20000 samples.
+The remaining data was partitioned into 100 test sets of size 500 each. The histogram shows the
+distribution of errors on these tests sets.</span><a class="headerlink" href="#testerrvarfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Often in articles of the field one may see a comparison of a predictor developed in the article
+with several predictors that were previously known. Usually, the authors then compute the test errors,
+the new predictor comes out ahead, and the authors then argue that their algorithm is superior
+to the others.
+If done carefully, and
+as long as the statistical fluctuation of the test error is taken into account there
+is not much wrong with this approach. This changes if such a comparison is used to pick the
+“best” predictor.</p>
+<p>Why is that? Imagine training a homogeneous linear classifier on data from <span class="math notranslate nohighlight">\(\mathbb R^2\)</span>, and
+assume that the machine precision is so low each of the two weights can only take one of 256 values
+(ie, the weights are bytes). That means there are only <span class="math notranslate nohighlight">\(256^2=65536\)</span> different such linear classifiers.
+If we now compare all those classifiers by their test error, then we effectively train a linear
+classifier on the test set as training set. The test set <em>becomes</em> the training set.
+What is the consequence? The test error is no longer a good estimator for the true risk.</p>
+<p>Clearly, this is an artificial example. It illustrates, however, a situation that may occur in
+practical applications. Neural networks, for instance, have many degrees of freedom.
+There are certainly the weights, that are adjusted during training, but also the whole architecture:
+How many hidden layers does the neural network have? How many nodes in each layer? What
+activation function is chosen? The actual training, the optimisation process, introduces more
+decisions: Which optimisation algorithm is chosen? How are the parameters that govern the optimisation
+process chosen?</p>
+<p>Often the parameters other than the weights that are fixed during training
+are called <em>hyperparameters</em>. As there are many possible settings for the hyperparameters
+it is common to train many instantiations of the same predictor with different hyperparameters.
+If then
+the best setting is chosen by comparison of the test errors, information on the test set
+leaches into the design of the predictor. As a consequence, the test error no longer
+faithfully approximates the true risk. This phenomenon can be observed in practice. <label for='marginnote-role-4' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-4' name='marginnote-role-4' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/pac_learning/selection.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>selection</a></span></p>
+<p>Therefore:</p>
+<blockquote>
+<div><p>don’t use the test error for model selection!</p>
+</div></blockquote>
+<p>How should model selection, the selection of the best predictor, be done instead? With a
+third dataset, the <em>validation set</em>. Ideally, there is enough data to furnish a training
+set, a validation set for hyperparameter tuning and model selection, and a test set
+for an unbiased estimate of the true risk.</p>
+</section>
+<section id="overfitting-and-underfitting">
+<h2><span class="section-number">2.3. </span>Overfitting and underfitting<a class="headerlink" href="#overfitting-and-underfitting" title="Link to this heading">#</a></h2>
+<figure class="align-default" id="gengapfig">
+<a class="reference internal image-reference" href="../_images/gengap.png"><img alt="../_images/gengap.png" src="../_images/gengap.png" style="height: 8cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.3 </span><span class="caption-text">More training data, smaller generalisation gap. MNIST data set, decision tree
+with max depth fixed to 10.```</span><a class="headerlink" href="#gengapfig" title="Link to this image">#</a></p>
+<div class="legend">
+<p>Given a training set <span class="math notranslate nohighlight">\(S\)</span> and test set <span class="math notranslate nohighlight">\(T\)</span> we can decompose the true risk of <span class="math notranslate nohighlight">\(h_S\)</span> as follows:</p>
+<div class="math notranslate nohighlight" id="equation-geneq">
+<span class="eqno">(2.5)<a class="headerlink" href="#equation-geneq" title="Link to this equation">#</a></span>\[L_{\mathcal D}(h_S)=\underbrace{\left(L_{\mathcal D}(h_S)-L_{T}(h_S)\right)}_{\text{small}}+
+\underbrace{\left(L_{T}(h_S)-L_{S}(h_S)\right)}_{\text{generalisation gap}}+
+\underbrace{L_{S}(h_S)}_{\text{training error}}\]</div>
+</div>
+</figcaption>
+</figure>
+<p>By <a class="reference internal" href="#testerrthm">Theorem 2.2</a>, the first part can be seen to be reasonably small, and the last part is
+simply the training error, aka, the empirical risk. The difference between test and training error
+is also called the \defi{generalisation gap}. A large generalisation gap
+means that the classifier learns the training set and not the underlying distribution <span class="math notranslate nohighlight">\(\mathcal D\)</span>.
+In other words, the classifier is <em>overfitting</em>. Often this is the case because the classifier
+(or rather the class <span class="math notranslate nohighlight">\(\mathcal H\)</span>) has too many degrees of freedom.
+If the training error is large then
+the classifier is not flexible enough to accomodate the training set — it is said to <em>underfit</em>; see <a class="reference internal" href="#underfitfig"><span class="std std-numref">Fig. 2.4</span></a>.</p>
+<figure class="align-default" id="underfitfig">
+<a class="reference internal image-reference" href="../_images/underfit.png"><img alt="../_images/underfit.png" src="../_images/underfit.png" style="width: 12cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.4 </span><span class="caption-text">The linear predictor on the left underfits the training set. The quadratic predictor on the
+right fits the training set perfectly.</span><a class="headerlink" href="#underfitfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Test and training error vary with increasing training set size. A typical relationship is shown
+in <a class="reference internal" href="#gengapfig"><span class="std std-numref">Fig. 2.3</span></a>: the generalisation gap decreases with larger traininig set size, while
+the training error increases.</p>
+<p>Let me note, that some authors mean the difference</p>
+<div class="math notranslate nohighlight" id="equation-ggengap">
+<span class="eqno">(2.6)<a class="headerlink" href="#equation-ggengap" title="Link to this equation">#</a></span>\[L_{\mathcal D}(h_S)-L_{S}(h_S),\]</div>
+<p>when they talk about the generalisation gap. This quantity is obviously of much interest:
+we optimise against the training error but want a small generalisation error.
+However, we cannot compute <a class="reference internal" href="#equation-ggengap">(2.6)</a> directly but we can measure
+<span class="math notranslate nohighlight">\(L_{T}(h_S)-L_{S}(h_S)\)</span>. As long as the test set is large enough it makes not much
+difference which of the two quantities we consider as they are very close to each other.</p>
+</section>
+</section>
+<hr class="footnotes docutils" />
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Predictors, classification and losses</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="convex.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Stochastic gradient descent</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-risk-minimisation">2.1. Empirical risk minimisation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-error-and-generalisation-error">2.2. Test error and generalisation error</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overfitting-and-underfitting">2.3. Overfitting and underfitting</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Henning.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

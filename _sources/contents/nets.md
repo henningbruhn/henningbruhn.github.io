@@ -12,6 +12,7 @@ $\newcommand{\bigO}{O}
 \newcommand{\twovec}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
 \newcommand{\rank}{\text{rank}}
 \newcommand{\diag}{\text{diag}} % diagonal matrix
+\newcommand{\ph}[1]{\mathsf{#1}} % general polyhedron
 $
 
 Neural networks 
@@ -448,6 +449,7 @@ in real networks.[^losscomp]
 
 [^losscomp]: {-} [{{ codeicon }}loss_compare](https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/neural_networks/loss_compare.ipynb)
 
+(softmaxsec)=
 Softmax and loss
 ----------------
 % nice illustration of softmax and log likelyhood at
@@ -697,7 +699,7 @@ That is, normally $\KL(p||q)\neq\KL(q||p)$.
 We consider a very simple example. Let $p$ be the probability distribution of a fair coin toss 
 (ie, heads with probability a half and tails equally with probability a half), and denote by $q$
 the probability distribution in which heads occurs with probability $\nu$. 
-Then (taking the logarithm base~$2$)
+Then (taking the logarithm base 2)
 \begin{align*}
 \KL(p||q) & = \underbrace{\tfrac{1}{2}\log\left(\tfrac{1}{2}/\nu\right)}_{\text{heads}}
 + \underbrace{\tfrac{1}{2}\log\left(\tfrac{1}{2}/(1-\nu)\right)}_{\text{tails}} \\
@@ -966,7 +968,7 @@ $$
 $$
 
 From analysis we know that the set of roots of a polynomial is a null set --- unless the polynomial 
-is~$0$. Thus, let us prove that $p\not\equiv 0$.
+is 0. Thus, let us prove that $p\not\equiv 0$.
 
 To show that $p\not\equiv 0$ it suffices to find some $(A,B)$ for which $p(A,B)\neq 0$. 
 Pick distinct primes $a_1,\ldots, a_k$ and $b_1,\ldots, b_\ell$ and consider the 
@@ -1087,7 +1089,7 @@ We now get to a main insight due to Soudry and Carmon:[^SC16]
 ```{prf:Theorem} Soudry and Carmon
 :label: scthm
 
-If $n_0n_1\geq N$ then all differentiable local minima of~\eqref{mselss} are global
+If $n_0n_1\geq N$ then all differentiable local minima of {eq}`mselss` are global
 minima with $\text{MSE}=0$ for almost all $(X,\mathcal E)$.
 ```
 
@@ -1110,7 +1112,7 @@ We now write $W=\diag(W^{(2)}) \cdot W^{(1)}$ in order to simplify:
 :label: mselss2
 \text{MSE} =\frac{1}{N}\sum_{n=1}^N (y^{(n)}-\trsp{(a^{(n)})} Wx^{(n)} )^2
 ```
-We note that $(W^{(1)},W^{(2)})$ is a DLM of~\eqref{mselss} if and only if $W$ is a DLM
+We note that $(W^{(1)},W^{(2)})$ is a DLM of {eq}`mselss` if and only if $W$ is a DLM
 of {eq}`mselss2`.
 
 Now let's consider a DLM of {eq}`mselss2`. In particular, the gradient is 0:
@@ -1196,5 +1198,4 @@ The Kronecker, or tensor, product also plays a prominent role in quantum computi
 
 %The ubiquitous Kronecker product, Charles F. Van Loan
 ````
-
 

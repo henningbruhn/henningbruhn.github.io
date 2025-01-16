@@ -1,0 +1,1168 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5. Properties of neural networks &#8212; Mathematics of Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css?v=ca93fcec" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=82609fe5" />
+    <link rel="stylesheet" type="text/css" href="../_static/tippy.css?v=2687f39f" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
+    <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
+    <script defer="defer" src="../_static/tippy/contents/netsprops.dc7d83d3-42a2-4e3f-821b-69a997dfbca3.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contents/netsprops';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6. Loss functions" href="loss.html" />
+    <link rel="prev" title="4. Neural networks" href="nets.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/robot_reading_small.png" class="logo__image only-light" alt="Mathematics of Machine Learning - Home"/>
+    <img src="../_static/robot_reading_small.png" class="logo__image only-dark pst-js-only" alt="Mathematics of Machine Learning - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Predictors, classification and losses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pac.html">2. PAC learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convex.html">3. Stochastic gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nets.html">4. Neural networks</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Properties of neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loss.html">6. Loss functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl.html">7. Reinforcement learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mips.html">8. Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html">9. TEST</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/contents/netsprops.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Properties of neural networks</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relu-networks-and-piecewise-affine-functions">5.1. ReLU networks and piecewise affine functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#universal-approximators">5.2. Universal approximators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-saw-tooth-function">5.3. The saw tooth function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-networks-are-sometimes-overconfident">5.4. Neural networks are sometimes overconfident</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><span class="math notranslate nohighlight">\(\newcommand{\bigO}{O}
+\newcommand{\trsp}[1]{#1^\intercal} % transpose
+\DeclareMathOperator*{\expec}{\mathbb{E}} % Expectation
+\DeclareMathOperator*{\proba}{\mathbb{P}}   % Probability
+\DeclareMathOperator*{\vari}{\mathbb{V}}   % Probability
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\newcommand{\sigm}{\phi_{\text{sig}}} % logistic function
+\newcommand{\bigOmega}{\Omega}
+\newcommand{\softmax}{\textsf{soft}}
+\newcommand{\KL}{\textrm{D}_\textrm{KL}} % Kullback-Leibler divergence
+\newcommand{\twovec}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\newcommand{\rank}{\text{rank}}
+\newcommand{\diag}{\text{diag}} % diagonal matrix
+\newcommand{\ph}[1]{\mathsf{#1}} % general polyhedron
+\)</span></p>
+<section class="tex2jax_ignore mathjax_ignore" id="properties-of-neural-networks">
+<h1><span class="section-number">5. </span>Properties of neural networks<a class="headerlink" href="#properties-of-neural-networks" title="Link to this heading">#</a></h1>
+<section id="relu-networks-and-piecewise-affine-functions">
+<h2><span class="section-number">5.1. </span>ReLU networks and piecewise affine functions<a class="headerlink" href="#relu-networks-and-piecewise-affine-functions" title="Link to this heading">#</a></h2>
+<p>We’ve trained and studied neural networks – but what kind of functions do they actually encode?
+It turns out, ReLU networks encode quite simple functions, namely piecewise affine functions.</p>
+<p>A function <span class="math notranslate nohighlight">\(f:\mathbb R^n\to\mathbb R^m\)</span> is <em>piecewise affine</em> if there
+are finitely many polyhedra <span class="math notranslate nohighlight">\(\ph Q_1,\ldots,\ph Q_s\subseteq\mathbb R^n\)</span>
+such that <span class="math notranslate nohighlight">\(\mathbb R^n=\bigcup_{i=1}^s\ph Q_i\)</span> and <span class="math notranslate nohighlight">\(f|_{\ph Q_i}\)</span>
+is an affine function for every <span class="math notranslate nohighlight">\(i=1,\ldots, s\)</span>. The
+polyhedra <span class="math notranslate nohighlight">\(\ph Q_i\)</span> are the <em>pieces</em> of <span class="math notranslate nohighlight">\(f\)</span>.
+The smallest number of pieces <span class="math notranslate nohighlight">\(\ph Q_1,\ldots,\ph Q_s\)</span>
+such that <span class="math notranslate nohighlight">\(f|_{\ph Q_i}\)</span> is affine for every <span class="math notranslate nohighlight">\(i=1,\ldots,s\)</span>
+is the <em>piece-number</em> of <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<div class="proof theorem admonition" id="theorem-0">
+<p class="admonition-title"><span class="caption-number">Theorem 5.1 </span></p>
+<section class="theorem-content" id="proof-content">
+<p>The function computed by
+a (leaky) ReLU neural network with linear (or ReLU, or leaky ReLU) output layer
+is a continuous piecewise affine function.</p>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. The function <span class="math notranslate nohighlight">\(f\)</span> computed by
+a (leaky) ReLU neural network with linear output layer of depth <span class="math notranslate nohighlight">\(k\)</span> can be written as the concatenation
+of affine functions <span class="math notranslate nohighlight">\(L_1,\ldots, L_k\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+f=L_k\circ \sigma \circ L_{k-1} \circ \ldots \circ \sigma \circ L_1,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma\)</span> is the (leaky) ReLU function. We immediately see that <span class="math notranslate nohighlight">\(f\)</span> is continuous as it
+is a concatenation of continuous functions.</p>
+<p>We do induction on the depth <span class="math notranslate nohighlight">\(k\)</span> of the network. For <span class="math notranslate nohighlight">\(k=1\)</span>, the network is simply an affine function.
+So, consider a depth <span class="math notranslate nohighlight">\(k&gt;1\)</span>. Then</p>
+<div class="math notranslate nohighlight">
+\[
+g=L_{k-1} \circ \sigma\circ \ldots \circ \sigma \circ L_1
+\]</div>
+<p>is piecewise affine with pieces <span class="math notranslate nohighlight">\(\ph Q_1,\ldots, \ph Q_M\)</span>.</p>
+<p>Consider a piece <span class="math notranslate nohighlight">\(\ph Q_i\)</span>. Restricted to <span class="math notranslate nohighlight">\(\ph Q_i\)</span> the function <span class="math notranslate nohighlight">\(g:\mathbb R^n\to\mathbb R^m\)</span> can be expressed
+as <span class="math notranslate nohighlight">\(x\mapsto Ax+b\)</span> for some matrix <span class="math notranslate nohighlight">\(A\)</span> and vector <span class="math notranslate nohighlight">\(b\)</span>.
+For each subset <span class="math notranslate nohighlight">\(S\subseteq \{1,\ldots,m\}\)</span>
+we split <span class="math notranslate nohighlight">\(\ph Q_i\)</span> into parts <span class="math notranslate nohighlight">\(\ph Q^{(S)}_i\)</span> defined as</p>
+<div class="math notranslate nohighlight">
+\[
+\ph Q_i^{(S)}=\{x\in\ph Q_i:(Ax+b)_s\geq 0\text{ for }s\in S\text{ and }
+(Ax+b)_t\leq 0\text{ for }t\notin S\}
+\]</div>
+<p>Note that each <span class="math notranslate nohighlight">\(Q_i^{(S)}\)</span> is a polyhedron since <span class="math notranslate nohighlight">\(\ph Q_i\)</span> is one.
+Moreover, <span class="math notranslate nohighlight">\(\sigma\circ g\)</span> restricted to <span class="math notranslate nohighlight">\(\ph Q_i^{(S)}\)</span> is an affine
+function, and then so is <span class="math notranslate nohighlight">\(f=L_k\circ\sigma\circ g\)</span>. Thus we see that <span class="math notranslate nohighlight">\(f\)</span> is piecewise
+affine with pieces <span class="math notranslate nohighlight">\(\ph Q_i^{(S)}\)</span>.</p>
+</div>
+<p>How many pieces does the function computed by a neural network have? Let’s find out.</p>
+<div class="proof lemma admonition" id="pacomplem">
+<p class="admonition-title"><span class="caption-number">Lemma 5.1 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(f,g:\mathbb R\to\mathbb R\)</span> be piecewise affine functions, and let
+<span class="math notranslate nohighlight">\(f\)</span> have piece-number <span class="math notranslate nohighlight">\(k\)</span>, and let <span class="math notranslate nohighlight">\(g\)</span> have piece-number <span class="math notranslate nohighlight">\(\ell\)</span>. Then</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(f+h\)</span> has piece-number at most <span class="math notranslate nohighlight">\(k+\ell\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(f\circ g\)</span> has piece-number at most <span class="math notranslate nohighlight">\(k\ell\)</span>.</p></li>
+</ol>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. 1. Consider the endpoints of the <span class="math notranslate nohighlight">\(k\)</span> pieces of <span class="math notranslate nohighlight">\(f\)</span> and <span class="math notranslate nohighlight">\(\ell\)</span> pieces of <span class="math notranslate nohighlight">\(g\)</span>,
+order their union <span class="math notranslate nohighlight">\(p_1&lt;p_2&lt;\ldots &lt; p_s\)</span>  by size. As <span class="math notranslate nohighlight">\(f\)</span> has <span class="math notranslate nohighlight">\(k-1\)</span> such points, and <span class="math notranslate nohighlight">\(g\)</span> has <span class="math notranslate nohighlight">\(\ell-1\)</span> such points,
+it follows that <span class="math notranslate nohighlight">\(s\leq k+\ell-2\)</span>. (Why the <span class="math notranslate nohighlight">\(-1\)</span>? Because the first piece and the last piece
+of <span class="math notranslate nohighlight">\(f\)</span> and of <span class="math notranslate nohighlight">\(g\)</span> are infinite intervals.) Then <span class="math notranslate nohighlight">\(f+g\)</span> is affine on <span class="math notranslate nohighlight">\([p_i,p_{i+1}]\)</span>
+for each <span class="math notranslate nohighlight">\(i=0,\ldots, s\)</span>, where we put <span class="math notranslate nohighlight">\(p_0=-\infty\)</span> and <span class="math notranslate nohighlight">\(p_{s+1}=\infty\)</span>.</p>
+<ol class="arabic simple" start="2">
+<li><p>Let <span class="math notranslate nohighlight">\(J\)</span> be one the <span class="math notranslate nohighlight">\(\ell\)</span> pieces of <span class="math notranslate nohighlight">\(g\)</span>, and let <span class="math notranslate nohighlight">\(I_1,\ldots, I_k\)</span> be the
+<span class="math notranslate nohighlight">\(k\)</span> pieces of <span class="math notranslate nohighlight">\(f\)</span>. Then <span class="math notranslate nohighlight">\(g|J\)</span> is an affine function, and thus</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+J\cap g^{-1}(I_1),\ldots, J\cap g^{-1}(I_k)
+\]</div>
+<p>is a partition of <span class="math notranslate nohighlight">\(J\)</span> into at most <span class="math notranslate nohighlight">\(k\)</span> intervals. On each of these <span class="math notranslate nohighlight">\(f\circ g\)</span> is affine.
+In total there are at most <span class="math notranslate nohighlight">\(k\ell\)</span> such intervals.</p>
+</div>
+<div class="proof theorem admonition" id="nnpiecesthm">
+<p class="admonition-title"><span class="caption-number">Theorem 5.2 </span></p>
+<section class="theorem-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(\mathcal N\)</span> be a (leaky) ReLU network with one input, one output node and <span class="math notranslate nohighlight">\(L-1\)</span> hidden layers such that
+layer <span class="math notranslate nohighlight">\(\ell\)</span> has <span class="math notranslate nohighlight">\(n_\ell\)</span> neurons. Set <span class="math notranslate nohighlight">\(\overline n=\sum_{\ell=1}^Ln_\ell\)</span>.
+Then <span class="math notranslate nohighlight">\(\mathcal N\)</span> compute a piecewise affine function with
+piece-number at most</p>
+<div class="math notranslate nohighlight">
+\[
+2^L\prod_{\ell=1}^Ln_\ell \leq \left(\frac{2\overline n}{L}\right)^L
+\]</div>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. We proceed by induction over the number of layers. The induction start, with <span class="math notranslate nohighlight">\(L=0\)</span>, is trivial.
+For the induction step, assume the result to be proved for <span class="math notranslate nohighlight">\(L-1\)</span>.</p>
+<p>Then, each of the <span class="math notranslate nohighlight">\(n_\ell\)</span> neurons in the penultimate layer computes a piecewise affine function
+with at most</p>
+<div class="math notranslate nohighlight">
+\[
+2^{L-1}\prod_{\ell=1}^{L-1}n_\ell 
+\]</div>
+<p>pieces. By <a class="reference internal" href="#pacomplem">Lemma 5.1</a> 2., this implies that</p>
+<div class="math notranslate nohighlight">
+\[
+g^{(L)}:x\mapsto W^{(L)}f^{(L-1)}(x)+b^{(L)}
+\]</div>
+<p>is a piecewise affine function with at most</p>
+<div class="math notranslate nohighlight">
+\[
+n_L\cdot 2^{L-1}\prod_{\ell=1}^{L-1}n_\ell 
+\]</div>
+<p>many pieces. Next, we observe that the leaky ReLU function <span class="math notranslate nohighlight">\(\sigma\)</span> is piecewise affine with two pieces. Thus,
+<a class="reference internal" href="#pacomplem">Lemma 5.1</a> 2. yields that <span class="math notranslate nohighlight">\(f^{(L)}(x)=\sigma(g^{(L)}(x))\)</span> is piecewise affine with at most</p>
+<div class="math notranslate nohighlight">
+\[
+2n_L\cdot 2^{L-1}\prod_{\ell=1}^{L-1}n_\ell = 2^L\prod_{\ell=1}^Ln_\ell
+\]</div>
+<p>pieces.</p>
+<p>Finally, the upper bound in the statement  follows directly from the inequality of the arithmetic and the
+geometric mean.</p>
+</div>
+<div class="proof theorem admonition" id="CPWLthm">
+<p class="admonition-title"><span class="caption-number">Theorem 5.3 </span></p>
+<section class="theorem-content" id="proof-content">
+<p>A function <span class="math notranslate nohighlight">\(f:\mathbb R^n\to\mathbb R\)</span> is continuous piecewise affine if and only
+if there are affine functions <span class="math notranslate nohighlight">\(g_i,h_i\)</span>, <span class="math notranslate nohighlight">\(i=1,\ldots,N\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[
+f(x)=\max_{i=1,\ldots,N}g_i(x)-\max_{j=1,\ldots,N}h_j(x)\text{ for all }x\in\mathbb R^n
+\]</div>
+</section>
+</div><figure class="align-default" id="pwafffig">
+<a class="reference internal image-reference" href="../_images/pw_aff.png"><img alt="../_images/pw_aff.png" src="../_images/pw_aff.png" style="width: 12cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 5.1 </span><span class="caption-text">An illustration of <a class="reference internal" href="#CPWLthm">Theorem 5.3</a>: The piecewise affine function <span class="math notranslate nohighlight">\(f\)</span>
+can be expressed as the sum of the concave function <span class="math notranslate nohighlight">\(g\)</span> and the convex function <span class="math notranslate nohighlight">\(h\)</span>. The
+convex function <span class="math notranslate nohighlight">\(h\)</span> is the pointwise max of two affine functions (dashed), while the concave
+function <span class="math notranslate nohighlight">\(h\)</span> is the min of two affine functions (dashed). Note that <span class="math notranslate nohighlight">\(-g\)</span> is a convex
+function and that <span class="math notranslate nohighlight">\(-g\)</span> can then be seen as the max of two affine functions.</span><a class="headerlink" href="#pwafffig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<div class="proof admonition" id="proof">
+<p>Proof. We will only do the proof of the <span class="math notranslate nohighlight">\(\Leftarrow\)</span>-direction. The other direction
+follows, for instance, from a result of Wang and Sun (2005).</p>
+<p>First, we note that if <span class="math notranslate nohighlight">\(g,h\)</span> are continuous piecewise affine functions then
+this is also the case for <span class="math notranslate nohighlight">\(g-h\)</span>. Thus, by
+induction, it suffices to prove that:
+if <span class="math notranslate nohighlight">\(g_1,g_2:\mathbb R^n\to\mathbb R\)</span>
+are continuous piecewise affine, then <span class="math notranslate nohighlight">\(g:x\mapsto \max\{g_1(x),g_2(x)\}\)</span> is
+continuous and piecewise affine, too. That <span class="math notranslate nohighlight">\(g\)</span> is contiuous is elementary – we only
+prove that <span class="math notranslate nohighlight">\(g\)</span> is piecewise affine.</p>
+<p>For this, let <span class="math notranslate nohighlight">\(\ph Q_1^1,\ldots, \ph Q_k^1\)</span> be the pieces of <span class="math notranslate nohighlight">\(g_1\)</span>, and let
+<span class="math notranslate nohighlight">\(\ph Q_1^2,\ldots, \ph Q_\ell^2\)</span> be the ones of <span class="math notranslate nohighlight">\(g_2\)</span>. We first note that each <span class="math notranslate nohighlight">\(\ph Q_i^1\cap \ph Q_j^2\)</span>
+is again a polyhedron (this is a simple fact about polyhedra), and that each of <span class="math notranslate nohighlight">\(g_1\)</span> and
+<span class="math notranslate nohighlight">\(g_2\)</span> is affine on <span class="math notranslate nohighlight">\(\ph P'_{ij}=\ph Q_i^1\cap \ph Q_j^2\)</span>. We split each <span class="math notranslate nohighlight">\(\ph P'_{ij}\)</span>
+into two parts:</p>
+<div class="math notranslate nohighlight">
+\[
+\ph P_{ij1}=\{x\in \ph P'_{ij}: g_1(x)\geq g_2(x)\}\text { and }
+\ph P_{ij2}=\{x\in \ph P'_{ij}: g_1(x)\leq g_2(x)\}
+\]</div>
+<p>As <span class="math notranslate nohighlight">\(g_1,g_2\)</span> are affine on <span class="math notranslate nohighlight">\(P'_{ij}\)</span>, both <span class="math notranslate nohighlight">\(\ph P_{ij1}\)</span> and <span class="math notranslate nohighlight">\(\ph P_{ij2}\)</span> are polyhedra.
+(Again, this is a basic fact about polyhedra.) As <span class="math notranslate nohighlight">\(f|{\ph P_{ij1}}=g_1|{\ph P_{ij1}}\)</span>
+and <span class="math notranslate nohighlight">\(f|{\ph P_{ij2}}=g_2|{\ph P_{ij2}}\)</span>, it follows that <span class="math notranslate nohighlight">\(f\)</span> restricted to each <span class="math notranslate nohighlight">\(\ph P_{ijr}\)</span>
+is affine, which proves <span class="math notranslate nohighlight">\(f\)</span> to be piecewise affine.</p>
+</div>
+<p>The number <span class="math notranslate nohighlight">\(N\)</span> may be seen as a measure of how complex the piecewise affine function <span class="math notranslate nohighlight">\(f\)</span> is.
+It would be nice to put <span class="math notranslate nohighlight">\(N\)</span> in relation with the number of pieces (and perhaps the dimension <span class="math notranslate nohighlight">\(n\)</span>)
+but at the moment I do not see a good way how to do that.
+Note, moreover, that each of <span class="math notranslate nohighlight">\(\max_{i=1,\ldots,N}g_i(x)\)</span> and <span class="math notranslate nohighlight">\(\max_{j=1,\ldots,N}h_j(x)\)</span>
+is a convex function. (Recall <a class="reference internal" href="convex.html#suplem">Lemma 3.6</a>.)</p>
+</section>
+<section id="universal-approximators">
+<h2><span class="section-number">5.2. </span>Universal approximators<a class="headerlink" href="#universal-approximators" title="Link to this heading">#</a></h2>
+<p>How expressive are neural networks? We have already seen above that every Boolean function
+can be realised as a ReLU network. What about more complicated functions? Since ReLU networks
+encode piecewise affine functions such a network cannot reproduce any function that is not
+piecewise affine – but can every piecewise affine function be realised? Yes!</p>
+<p>Let’s define the <em>depth of a neural network</em> as the number of its layers not counting the input
+layer. For example, a shallow neural network with input layer, one hidden layer and output layer
+has depth 2. Let’s say that the neural network has <em>width</em> at most <span class="math notranslate nohighlight">\(d\)</span> if no layer,
+except possibly for the input layer,
+has more than <span class="math notranslate nohighlight">\(d\)</span> neurons.<label for='sidenote-role-1' class='margin-toggle'><span id="id1">
+<sup>1</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-1' name='sidenote-role-1' class='margin-toggle'><span class="sidenote"><sup>1</sup><em>Universal function approximation by deep neural nets with bounded width
+and ReLU activation</em>, B. Hanin (2017), <a class="reference external" href="https://arxiv.org/abs/1708.02691">arXiv:1708.02691</a></span></p>
+<div class="proof theorem admonition" id="Haninthm">
+<p class="admonition-title"><span class="caption-number">Theorem 5.4 </span> (Hanin (2017))</p>
+<section class="theorem-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(f:\mathbb R^n\to\mathbb R\)</span> be a continuous piecewise affine function.
+If</p>
+<div class="math notranslate nohighlight">
+\[
+f(x)=\max_{i=1,\ldots,N}g_i(x)-\max_{j=1,\ldots,N}h_j(x)\text{ for all }x\in\mathbb R^n,
+\]</div>
+<p>where the <span class="math notranslate nohighlight">\(g_i\)</span> and <span class="math notranslate nohighlight">\(h_j\)</span> are affine functions,
+then exists a ReLU neural network <span class="math notranslate nohighlight">\(F\)</span> with linear output layer of depth at most <span class="math notranslate nohighlight">\(3N\)</span>
+and width <span class="math notranslate nohighlight">\(4n+12\)</span> such that <span class="math notranslate nohighlight">\(F(x)=f(x)\)</span> for all <span class="math notranslate nohighlight">\(x\in\mathbb R^n\)</span>.</p>
+</section>
+</div><p>What is remarkable about this theorem?
+A thin but deep network can express every function that any ReLU network, of whatever width,
+can ever compute, and modern neural networks are precisely of that type: relatively thin but with many layers.</p>
+<p>For the following lemmas, I will write <em>ReLU network</em> to mean
+<em>ReLU neural network with linear output layer</em>.
+Consider a neural network of the form</p>
+<div class="math notranslate nohighlight">
+\[
+L^{(k)}\circ\sigma^{(k-1)}\circ L^{(k-1)}\circ \ldots L^{(1)}
+\]</div>
+<p>where each <span class="math notranslate nohighlight">\(L^{(i)}\)</span> is an affine function, and each <span class="math notranslate nohighlight">\(\sigma^{(i)}:\mathbb R^{n_i}\to\mathbb R^{n_i}\)</span>
+is the activation function of layer <span class="math notranslate nohighlight">\(i\)</span>. For this section, let us call <span class="math notranslate nohighlight">\(\sigma^{(i)}\)</span>
+a \ndefi{linear/ReLU} activation function if each entry of the vector function
+is the identity or the ReLU function. If each activation function is linear/ReLU
+(except for the output, where we require no activation) then we call the network
+a <em>linear/ReLU network</em>. (Yes, that is clunky, but we’ll only use the name here.)</p>
+<p>We can always get rid of linear activation in hidden layers without
+increasing the size of the neural network too much.</p>
+<div class="proof lemma admonition" id="replacelem">
+<p class="admonition-title"><span class="caption-number">Lemma 5.2 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(\mathcal N\)</span> be a linear/ReLU network of depth <span class="math notranslate nohighlight">\(d\)</span> and width <span class="math notranslate nohighlight">\(w\)</span>.
+Then there is a ReLU network <span class="math notranslate nohighlight">\(\mathcal N'\)</span> of depth <span class="math notranslate nohighlight">\(d\)</span> and width at most <span class="math notranslate nohighlight">\(2w\)</span>
+that computes the same function.</p>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. Consider a neuron of <span class="math notranslate nohighlight">\(\mathcal N\)</span>, not in the output layer, with linear activation.
+Then the neuron computes an affine function <span class="math notranslate nohighlight">\(x\mapsto \trsp wx+\beta\)</span>, where <span class="math notranslate nohighlight">\(w\)</span> is a vector
+of <span class="math notranslate nohighlight">\(\beta\)</span> a number. Then</p>
+<div class="math notranslate nohighlight">
+\[
+x\mapsto \text{ReLU}(\trsp wx+\beta)-\text{ReLU}(-\trsp wx-\beta)
+\]</div>
+<p>represents the same function <span class="math notranslate nohighlight">\(x\mapsto \trsp wx+\beta\)</span>. Thus, each neuron in <span class="math notranslate nohighlight">\(\mathcal N\)</span>
+in each hidden layer with linear activation can be replaced by two ReLU neurons, without
+changing the computed function.</p>
+</div>
+<p>Next, we need to think about how to compose smaller networks into a larger network.</p>
+<div class="proof lemma admonition" id="NNaddlem">
+<p class="admonition-title"><span class="caption-number">Lemma 5.3 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(f_1,f_2:\mathbb R^n\to\mathbb R^m\)</span> be two functions that can be computed by
+linear/ReLU networks of depth <span class="math notranslate nohighlight">\(k\)</span> and width <span class="math notranslate nohighlight">\(\ell\)</span>. Then <span class="math notranslate nohighlight">\(f_1+f_2\)</span> can be computed
+by a linear/ReLU network of depth <span class="math notranslate nohighlight">\(k\)</span> and width <span class="math notranslate nohighlight">\(2\ell\)</span>.</p>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. Put the networks for <span class="math notranslate nohighlight">\(f_1,f_2\)</span> in parallel, with input and output layer identified.
+Set the weights between the two networks to <span class="math notranslate nohighlight">\(0\)</span>.</p>
+</div>
+<div class="proof lemma admonition" id="NNcomplem">
+<p class="admonition-title"><span class="caption-number">Lemma 5.4 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(f_1:\mathbb R^n\to\mathbb R^m\)</span> be a function that can be computed by a linear/ReLU
+network of depth <span class="math notranslate nohighlight">\(k_1\)</span> and width <span class="math notranslate nohighlight">\(\ell_1\)</span>, and
+let <span class="math notranslate nohighlight">\(f_2:\mathbb R^m\to\mathbb R^d\)</span> be a function that can be computed by a linear/ReLU
+network of depth <span class="math notranslate nohighlight">\(k_2\)</span> and width <span class="math notranslate nohighlight">\(\ell_2\)</span>. Then <span class="math notranslate nohighlight">\(f_2\circ f_1\)</span> can be computed by a linear/ReLU
+network of depth <span class="math notranslate nohighlight">\(k_1+k_2\)</span> and width <span class="math notranslate nohighlight">\(\max\{\ell_1,\ell_2\}\)</span>.</p>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. We simply concatenate the two networks.</p>
+</div>
+<div class="proof lemma admonition" id="smallmaxlem">
+<p class="admonition-title"><span class="caption-number">Lemma 5.5 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>The function</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb R^2\to\mathbb R,\,
+\twovec{x_1}{x_2}\mapsto \max(x_1,x_2)
+\]</div>
+<p>can be computed by a ReLU network of depth <span class="math notranslate nohighlight">\(2\)</span> and width <span class="math notranslate nohighlight">\(3\)</span>.</p>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. The network…</p>
+<a class="reference internal image-reference" href="../_images/smallmax.png"><img alt="../_images/smallmax.png" class="align-center" src="../_images/smallmax.png" style="width: 8cm;" />
+</a>
+<p>…realises <span class="math notranslate nohighlight">\((x_1,x_2)\mapsto \text{ReLU}(x_1-x_2)+\text{ReLU}(x_2)-\text{ReLU}(-x_2)\)</span>.</p>
+</div>
+<div class="proof lemma admonition" id="NNmaxlem">
+<p class="admonition-title"><span class="caption-number">Lemma 5.6 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(g_1,\ldots,g_N:\mathbb R^n\to\mathbb R\)</span> be  functions that can be computed by
+linear/ReLU networks of depth <span class="math notranslate nohighlight">\(k\)</span> and width <span class="math notranslate nohighlight">\(\ell\)</span>. Then <span class="math notranslate nohighlight">\(\max_{i=1,\ldots, N} g_i(x)\)</span> can be computed
+by a linear/ReLU network of depth <span class="math notranslate nohighlight">\(N(k+2)\)</span> and width <span class="math notranslate nohighlight">\(\max\{n+3,n+\ell+2\}\)</span>.</p>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. Below, let <span class="math notranslate nohighlight">\(x\in\mathbb R^n\)</span>, and let greek letters denote real numbers.
+Define</p>
+<div class="math notranslate nohighlight">
+\[
+g'_1:\mathbb R^n\to\mathbb R^{n+1},\,
+x\mapsto\twovec{x}{g_1(x)}
+\]</div>
+<p>and for <span class="math notranslate nohighlight">\(2=1,\ldots,N\)</span> define</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+g'_i:\mathbb R^{n+1}\to\mathbb R^{n+2},\,
+\twovec{x}{\alpha}\mapsto \begin{pmatrix}x\\\alpha\\g_i(x)\end{pmatrix}
+\end{split}\]</div>
+<p>and observe that <span class="math notranslate nohighlight">\(g'_i\)</span> can be realised by a linear/ReLU network of depth <span class="math notranslate nohighlight">\(k\)</span> and width <span class="math notranslate nohighlight">\(n+\ell+2\)</span>.
+Define, moreover</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+{\max}':\mathbb R^{n+2}\to\mathbb R^{n+1},\,
+\begin{pmatrix}x\\\alpha\\\beta\end{pmatrix}\mapsto\twovec{x}{\max\{\alpha,\beta\}},
+\end{split}\]</div>
+<p>and observe that, by <a class="reference internal" href="#smallmaxlem">Lemma 5.5</a>, <span class="math notranslate nohighlight">\({\max}'\)</span> can be realised by a linear/ReLU network
+of depth 2 and width <span class="math notranslate nohighlight">\(n+3\)</span>.</p>
+<p>We also note that <span class="math notranslate nohighlight">\({\max}'\circ g'_2\circ g_1'\)</span> computes the function</p>
+<div class="math notranslate nohighlight">
+\[
+x\mapsto (x,\max\{g_1(x),g_2(x)\}\trsp ),
+\]</div>
+<p>and that, more generally</p>
+<div class="math notranslate nohighlight">
+\[
+{\max}'\circ g'_N\circ{\max}'\circ \ldots {\max}'\circ g'_2\circ g_1'
+\]</div>
+<p>computes the function <span class="math notranslate nohighlight">\(x\mapsto (x,\max_{i=1,\ldots,N}g_i(x)\trsp )\)</span>.</p>
+<p>With <a class="reference internal" href="#NNcomplem">Lemma 5.4</a>, we deduce that this can be realised by a linear/ReLU network
+of depth <span class="math notranslate nohighlight">\(N(k+2)\)</span> and width <span class="math notranslate nohighlight">\(\max\{n+3,n+\ell+2\}\)</span>.</p>
+</div>
+<p>We can now finish the proof of <a class="reference internal" href="#Haninthm">Theorem 5.4</a>:</p>
+<div class="proof admonition" id="proof">
+<p>Proof. Each <span class="math notranslate nohighlight">\(g_i,h_j\)</span> is an affine function and can therefore be computed by a ReLU network
+of depth 1 and width 1. (Note that we do not count the input layer for the width.)
+By <a class="reference internal" href="#NNmaxlem">Lemma 5.6</a>, each of <span class="math notranslate nohighlight">\(\max_{i=1,\ldots,N}g_i\)</span> and <span class="math notranslate nohighlight">\(\max_{j=1,\ldots,N}h_j\)</span>
+can thus be realised by a ReLU network of depth <span class="math notranslate nohighlight">\(3N\)</span> and width <span class="math notranslate nohighlight">\(n+3\)</span>.</p>
+<p>Applying <a class="reference internal" href="#NNaddlem">Lemma 5.3</a> and <a class="reference internal" href="#replacelem">Lemma 5.2</a> finishes the proof.</p>
+</div>
+<p>We now use <a class="reference internal" href="#Haninthm">Theorem 5.4</a> to convince ourselves that neural networks
+are <em>universal approximators</em>: they can approximate every continuous function
+very well, at least on a compact set.</p>
+<div class="proof theorem admonition" id="univthm">
+<p class="admonition-title"><span class="caption-number">Theorem 5.5 </span></p>
+<section class="theorem-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(f:\mathbb R^n\to\mathbb R\)</span> be a continuous function, and let <span class="math notranslate nohighlight">\(C\subseteq\mathbb R^n\)</span> be compact.
+Then, for every <span class="math notranslate nohighlight">\(\epsilon&gt;0\)</span>, there is a ReLU neural network with linear output layer that computes
+a function <span class="math notranslate nohighlight">\(F:\mathbb R^n\to\mathbb R\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[
+\max_{x\in C}|f(x)-F(x)|&lt;\epsilon
+\]</div>
+</section>
+</div><p>The theorem is a direct consequence of <a class="reference internal" href="#Haninthm">Theorem 5.4</a> and the theorem of Stone-Weierstrass:</p>
+<div class="proof theorem admonition" id="theorem-11">
+<p class="admonition-title"><span class="caption-number">Theorem 5.6 </span> (Stone-Weierstrass)</p>
+<section class="theorem-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(f:\mathbb R^n\to\mathbb R\)</span> be a continuous function, and let <span class="math notranslate nohighlight">\(C\subseteq\mathbb R^n\)</span> be compact.
+Then for every <span class="math notranslate nohighlight">\(\epsilon&gt;0\)</span> there is a continuous piecewise affine function <span class="math notranslate nohighlight">\(F\)</span>
+such that</p>
+<div class="math notranslate nohighlight">
+\[
+\max_{x\in C}|f(x)-F(x)|&lt;\epsilon
+\]</div>
+</section>
+</div><p>There are also versions for non-continuous functions. Moreover,
+deep neural ReLU networks do not need to have very large width (size of layers)
+to approximate a (non-crazy) function:<label for='sidenote-role-2' class='margin-toggle'><span id="id2">
+<sup>2</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-2' name='sidenote-role-2' class='margin-toggle'><span class="sidenote"><sup>2</sup><em>The Expressive Power of Neural Networks: A View
+from the Width</em>, Zh. Lu, H. Pu, F. Wang, Zh. Hu and L. Wan (2017)</span></p>
+<div class="proof theorem admonition" id="univ2thm">
+<p class="admonition-title"><span class="caption-number">Theorem 5.7 </span> (Lu et al.)</p>
+<section class="theorem-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(f:\mathbb R^n\to\mathbb R\)</span> be a Lebesque-measurable function and let <span class="math notranslate nohighlight">\(\epsilon&gt;0\)</span>. Then there is a
+fully connected ReLU network of maximum width at most <span class="math notranslate nohighlight">\(n+4\)</span> (but possibly large depth) such that
+the function <span class="math notranslate nohighlight">\(N\)</span> represented by the network achieves</p>
+<div class="math notranslate nohighlight">
+\[
+\int_{\mathbb R^n}|f(x)-N(x)|dx\leq \epsilon
+\]</div>
+</section>
+</div><p>What can we deduce from <a class="reference internal" href="#univthm">Theorem 5.5</a> and <a class="reference internal" href="#univ2thm">Theorem 5.7</a>? They are good news: for any classification
+or regression task that is based on some non-crazy function it is possible to devise a neural network
+with very small approximation error.</p>
+<p>We should, however, not get overly excited about these insights. The theorems make no statement about the size
+of the network, and it’s also unclear how hard it is to train the neural network. That is, it could well be
+that even some easy tasks need very large networks that are virtually impossible to train. Fortunately,
+this does not seem to be the case.</p>
+<p>That neural networks are universal approximators is known for a long time now. The classic results, however,
+were about shallow but wide neural networks. The results above, in contrast, show that also narrow but deep networks
+achieve the same. In fact, deep networks seem to be more powerful. A first indication comes from
+<code class="xref prf prf-ref docutils literal notranslate"><span class="pre">vcnetthm</span></code> (or rather the matching lower bound):
+the VC-dimension of neural networks increases with the number of layers.</p>
+</section>
+<section id="the-saw-tooth-function">
+<h2><span class="section-number">5.3. </span>The saw tooth function<a class="headerlink" href="#the-saw-tooth-function" title="Link to this heading">#</a></h2>
+<p>Deeper neural networks are more powerful than shallow networks with the same number
+of parameters. An easy example of this is the <em>saw tooth function</em>: it can be
+computed by a deep network with only a few neurons; any shallow network, however,
+will need a very large number of neurons.<label for='sidenote-role-3' class='margin-toggle'><span id="id3">
+<sup>3</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-3' name='sidenote-role-3' class='margin-toggle'><span class="sidenote"><sup>3</sup>I am following here <a class="reference external" href="https://mjt.cs.illinois.edu/dlt/">lecture notes</a> of Telgarsky, who also proved
+the main result in this section.</span></p>
+<p>What is the saw tooth function? It is the iteration of the simple function</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} 
+\Delta:\mathbb R\to\mathbb R,\quad x\mapsto 
+\begin{cases}
+2x &amp; \text{ if }x\in[0,\tfrac{1}{2}]\\
+2-2x &amp; \text{ if }x\in[\tfrac{1}{2},1]\\
+0 &amp; \text{ if }x\notin[0,1]
+\end{cases}
+\end{split}\]</div>
+<p>The function <span class="math notranslate nohighlight">\(\Delta\)</span> is obviously piecewise affine with four pieces. It is, moreover, symmetric around <span class="math notranslate nohighlight">\(\tfrac{1}{2}\)</span>,
+ie, <span class="math notranslate nohighlight">\(\Delta(x)=\Delta(1-x)\)</span> for all <span class="math notranslate nohighlight">\(x\in\mathbb R\)</span>.</p>
+<figure class="align-default" id="sawfig">
+<a class="reference internal image-reference" href="../_images/sawtooth.png"><img alt="../_images/sawtooth.png" src="../_images/sawtooth.png" style="width: 12cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 5.2 </span><span class="caption-text"><span class="math notranslate nohighlight">\(\Delta\)</span>, on the left. On the right: <span class="math notranslate nohighlight">\(\Delta\)</span> iterated three times.</span><a class="headerlink" href="#sawfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Iterating <span class="math notranslate nohighlight">\(\Delta\)</span> results in a saw tooth pattern; see <a class="reference internal" href="#sawfig"><span class="std std-numref">Fig. 5.2</span></a>.
+Let us prove that:</p>
+<div class="proof lemma admonition" id="sawtoothlem">
+<p class="admonition-title"><span class="caption-number">Lemma 5.7 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>For every integer <span class="math notranslate nohighlight">\(\ell\geq 1\)</span> it holds that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} 
+\Delta^\ell(x)=\begin{cases}
+2^\ell x-k+1 &amp; \text{ if }x\in\left[(k-1)\tfrac{1}{2^\ell},k\tfrac{1}{2^\ell}\right]\text{ for odd }k\in\{1,\ldots,2^\ell\}\\
+-2^\ell x+k+1 &amp; \text{ if }x\in\left[(k-1)\tfrac{1}{2^\ell},k\tfrac{1}{2^\ell}\right]\text{ for even }k\in\{1,\ldots,2^\ell\}\\
+0 &amp; \text{ if }x\notin[0,1]
+\end{cases}
+\end{split}\]</div>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. We proceed by induction on <span class="math notranslate nohighlight">\(\ell\)</span>. Assume that the lemma is already verified for <span class="math notranslate nohighlight">\(\ell-1\)</span>. Then,
+as <span class="math notranslate nohighlight">\(\Delta\)</span> is symmetric around <span class="math notranslate nohighlight">\(\tfrac{1}{2}\)</span>, it suffices to consider an <span class="math notranslate nohighlight">\(x\in[0,\tfrac{1}{2}]\)</span>.</p>
+<p>Furthermore, let <span class="math notranslate nohighlight">\(k\in\{1,\ldots,2^\ell\}\)</span> be such that <span class="math notranslate nohighlight">\(x\in\left[(k-1)\tfrac{1}{2^\ell},k\tfrac{1}{2^\ell}\right]\)</span>.
+As <span class="math notranslate nohighlight">\(x\leq\tfrac{1}{2}\)</span>, it actually follows that <span class="math notranslate nohighlight">\(k\leq 2^{\ell-1}\)</span>.</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\Delta^\ell(x) &amp; = \Delta^{\ell-1}(\Delta(x)) = \Delta^{\ell-1}(2x) 
+\end{align*}\]</div>
+<p>Note that <span class="math notranslate nohighlight">\(2x\)</span> lies in</p>
+<div class="math notranslate nohighlight">
+\[ 
+\left[(k-1)\tfrac{1}{2^{\ell-1}},k\tfrac{1}{2^{\ell-1}}\right],
+\]</div>
+<p>which means that we can apply the induction hypothesis to <span class="math notranslate nohighlight">\(2x\)</span>:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\Delta^\ell(x) &amp; =  \Delta^{\ell-1}(2x)  = \begin{cases}
+2^{\ell-1}\cdot 2x-k+1 &amp; \text{ if $k$ odd }\\
+-2^{\ell-1}\cdot 2x+k+1 &amp; \text{ if $k$ even }
+\end{cases}
+\end{align*}\]</div>
+<p>That is precisely what we needed to prove.</p>
+</div>
+<p>We immediately note an important consequence:</p>
+<div class="proof lemma admonition" id="sawpieceslem">
+<p class="admonition-title"><span class="caption-number">Lemma 5.8 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>The saw tooth function <span class="math notranslate nohighlight">\(\Delta^\ell\)</span> is a piecewise affine function with piece-number <span class="math notranslate nohighlight">\(2^\ell+2\)</span>.</p>
+</section>
+</div><p>It is easy to realise the saw tooth function with a neural network. In fact</p>
+<div class="math notranslate nohighlight" id="equation-sawrelu">
+<span class="eqno">(5.1)<a class="headerlink" href="#equation-sawrelu" title="Link to this equation">#</a></span>\[\Delta(x) = 2(\text{ReLU}(x)-2\text{ReLU}(x-\tfrac{1}{2}) + \text{ReLU}(x-1))\]</div>
+<p>This follows from a straightforward check.
+Indeed, if <span class="math notranslate nohighlight">\(x\leq 0\)</span> then</p>
+<div class="math notranslate nohighlight">
+\[
+2(\text{ReLU}(x)-2\text{ReLU}(x-\tfrac{1}{2}) + \text{ReLU}(x-1)) = 2(0-2\cdot 0+0) = 0
+\]</div>
+<p>If <span class="math notranslate nohighlight">\(x\geq 1\)</span> then</p>
+<div class="math notranslate nohighlight">
+\[
+2(\text{ReLU}(x)-2\text{ReLU}(x-\tfrac{1}{2}) + \text{ReLU}(x-1)) = 2(x-2(x-\tfrac{1}{2})+x-1) = 0
+\]</div>
+<p>and so on.</p>
+<p>As a consequence, <span class="math notranslate nohighlight">\(\Delta\)</span> can be expressed as a small ReLU network like this:</p>
+<a class="reference internal image-reference" href="../_images/sawnet.png"><img alt="one" class="align-center" src="../_images/sawnet.png" style="width: 6cm;" />
+</a>
+<p>(Here the weights are drawn on the edges, while the biases are put close to their neuron.)</p>
+<p>By concatenating these nets we get:</p>
+<div class="proof lemma admonition" id="lemma-15">
+<p class="admonition-title"><span class="caption-number">Lemma 5.9 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>For every integer <span class="math notranslate nohighlight">\(\ell\geq 1\)</span>, the function <span class="math notranslate nohighlight">\(\Delta^\ell\)</span> can be realised by a ReLU network
+with <span class="math notranslate nohighlight">\(2\ell\)</span> layers and <span class="math notranslate nohighlight">\(4\ell\)</span> neurons.</p>
+</section>
+</div><p>(I do not count the input node.)</p>
+<div class="proof admonition" id="proof">
+<p>Proof. <span class="math notranslate nohighlight">\(\,\)</span></p>
+<a class="reference internal image-reference" href="../_images/sawnet2.png"><img alt="one" class="align-center" src="../_images/sawnet2.png" style="width: 12cm;" />
+</a>
+<p>(Yes, with a bit more care, we can get rid of <span class="math notranslate nohighlight">\(\ell-1\)</span> neurons.)</p>
+</div>
+<p>We can observe that deeper networks are indeed more powerful than shallow ones.<label for='sidenote-role-4' class='margin-toggle'><span id="id4">
+<sup>4</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-4' name='sidenote-role-4' class='margin-toggle'><span class="sidenote"><sup>4</sup><em>Benefits of depth in neural networks</em>, M. Telgarsky (2016), <a class="reference external" href="https://arxiv.org/abs/1602.04485">arXiv:1602.04485</a></span></p>
+<div class="proof theorem admonition" id="theorem-16">
+<p class="admonition-title"><span class="caption-number">Theorem 5.8 </span> (Telgarsky)</p>
+<section class="theorem-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(L\geq 2\)</span> be an integer, and set <span class="math notranslate nohighlight">\(\ell=L^2+4\)</span>. Then</p>
+<ol class="arabic simple">
+<li><p>There is a ReLU network with <span class="math notranslate nohighlight">\(2L^2+8\)</span> layers and at most <span class="math notranslate nohighlight">\(4L^2+16\)</span> neurons that computes the saw tooth function <span class="math notranslate nohighlight">\(\Delta^{\ell}\)</span>.</p></li>
+<li><p>Let <span class="math notranslate nohighlight">\(\mathcal N\)</span> be a ReLU network with at most <span class="math notranslate nohighlight">\(L\)</span> layers and at most <span class="math notranslate nohighlight">\(2^L\)</span> neurons. Then</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\int_{[0,1]} |\mathcal N(x)-\Delta^{\ell}(x)|dx \geq \tfrac{1}{32}
+\]</div>
+</section>
+</div><p>As a consequence, any ReLU network with at most <span class="math notranslate nohighlight">\(L\)</span> layers that computes <span class="math notranslate nohighlight">\(\Delta^{L^2+4}\)</span> needs to have at least <span class="math notranslate nohighlight">\(2^L\)</span> neurons –
+quite a lot more than the <span class="math notranslate nohighlight">\(\bigO(L^2)\)</span> neurons a deeper network needs.</p>
+<div class="proof admonition" id="proof">
+<p>Proof. 1. This is a direct consequence of <a class="reference internal" href="#equation-sawrelu">(5.1)</a>.</p>
+<p>2.
+Consider the saw tooth function <span class="math notranslate nohighlight">\(\Delta^\ell\)</span>, and draw a horizontal line at height <span class="math notranslate nohighlight">\(y=\tfrac{1}{2}\)</span>.
+Between that line and the saw tooth function there are <span class="math notranslate nohighlight">\(2^{\ell}-1\)</span> small triangles of area <span class="math notranslate nohighlight">\(\tfrac{1}{2^{\ell+2}}\)</span>,
+shown in grey here:</p>
+<a class="reference internal image-reference" href="../_images/sawtooth2.png"><img alt="one" class="align-center" src="../_images/sawtooth2.png" style="width: 12cm;" />
+</a>
+<p>We denote the set of these triangles by <span class="math notranslate nohighlight">\(\mathcal T\)</span>.
+We note for later:</p>
+<div class="math notranslate nohighlight" id="equation-numtrigs">
+<span class="eqno">(5.2)<a class="headerlink" href="#equation-numtrigs" title="Link to this equation">#</a></span>\[|\mathcal T|=2^\ell-1=2^{L^2+4}-1&gt;2^{L^2+3}\]</div>
+<p>Let <span class="math notranslate nohighlight">\(f:\mathbb R\to\mathbb R\)</span> be some function (perhaps <span class="math notranslate nohighlight">\(\mathcal N\)</span>, the function computed by the neural network),
+and consider one of the triangles <span class="math notranslate nohighlight">\(T\in\mathcal T\)</span>,
+and denote by <span class="math notranslate nohighlight">\(I\)</span> the interval of <span class="math notranslate nohighlight">\(x\)</span>-values, where <span class="math notranslate nohighlight">\(T\)</span> intersects the <span class="math notranslate nohighlight">\(\tfrac{1}{2}\)</span>-line (its shadow on the <span class="math notranslate nohighlight">\(x\)</span>-axis).
+We say that <span class="math notranslate nohighlight">\(f\)</span> <em>misses</em> <span class="math notranslate nohighlight">\(T\)</span> if <span class="math notranslate nohighlight">\(T\)</span> lies above the <span class="math notranslate nohighlight">\(\tfrac{1}{2}\)</span>-line and if <span class="math notranslate nohighlight">\(f|I\leq \tfrac{1}{2}\)</span>, or if <span class="math notranslate nohighlight">\(T\)</span> lies
+below the <span class="math notranslate nohighlight">\(\tfrac{1}{2}\)</span>-line and <span class="math notranslate nohighlight">\(f|I\geq \tfrac{1}{2}\)</span>. Otherwise, we say that <span class="math notranslate nohighlight">\(f\)</span> <em>hits</em> <span class="math notranslate nohighlight">\(T\)</span>.
+Triangles missed by <span class="math notranslate nohighlight">\(\mathcal N\)</span> yield a lower bound as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+\int_{[0,1]}|\mathcal N(x)-\Delta^{\ell}(x)|dx \geq \#\text{missed triangles}\cdot\text{triangle area}
+\]</div>
+<p>We have computed the triangle area. To get an estimate for the number of missed triangles,
+we will upper-bound the number of triangles that are hit by <span class="math notranslate nohighlight">\(\mathcal N\)</span>.</p>
+<figure class="align-default" id="fig-sawtrigs">
+<a class="reference internal image-reference" href="../_images/sawtooth3.png"><img alt="../_images/sawtooth3.png" src="../_images/sawtooth3.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 5.3 </span><span class="caption-text">Triangles missed by second affine function in grey. Function realised by <span class="math notranslate nohighlight">\(\mathcal N\)</span> in red.</span><a class="headerlink" href="#fig-sawtrigs" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>By <a class="reference internal" href="#nnpiecesthm">Theorem 5.2</a>, the neural network <span class="math notranslate nohighlight">\(\mathcal N\)</span> computes a piecewise
+affine function with piece-number at most</p>
+<div class="math notranslate nohighlight">
+\[
+\left(\frac{2\cdot 2^L}{L}\right)^L\leq 2^{L^2}
+\]</div>
+<p>Let the number of pieces be <span class="math notranslate nohighlight">\(p\leq 2^{L^2}\)</span>, and let
+<span class="math notranslate nohighlight">\(I_1,\ldots, I_p\)</span> be the pieces.
+Consider a piece <span class="math notranslate nohighlight">\(I_j\)</span>, and denote by <span class="math notranslate nohighlight">\(\mathcal T_j\)</span> those triangles in <span class="math notranslate nohighlight">\(\mathcal T\)</span>
+that have their leftmost vertex in <span class="math notranslate nohighlight">\(I_j\)</span>. To make all the sets <span class="math notranslate nohighlight">\(\mathcal T_i,\mathcal T_j\)</span>
+pairwise disjoint, we shrink <span class="math notranslate nohighlight">\(I_1,\ldots, I_t\)</span> to disjoint, half-open intervals that partition <span class="math notranslate nohighlight">\(\mathbb R\)</span>.
+Then <span class="math notranslate nohighlight">\(\sum_{j=1}^p|\mathcal T_j|=|\mathcal T|\)</span>.</p>
+<p>How many of the triangles in <span class="math notranslate nohighlight">\(\mathcal T_j\)</span> are hit by the affine function <span class="math notranslate nohighlight">\(f:=\mathcal N|_{I_j}\)</span>?
+Say <span class="math notranslate nohighlight">\(f\)</span> hits <span class="math notranslate nohighlight">\(r\)</span> of the triangles that lie above the <span class="math notranslate nohighlight">\(\tfrac{1}{2}\)</span>-line, then it will miss
+at least <span class="math notranslate nohighlight">\(r-1\)</span> triangles below that line. Likewise, if <span class="math notranslate nohighlight">\(f\)</span> hits <span class="math notranslate nohighlight">\(s\)</span> triangles below the line
+it will miss at least <span class="math notranslate nohighlight">\(s-1\)</span> triangles above. Thus <span class="math notranslate nohighlight">\(|\mathcal T_j|\geq 2r-1+2s-1\)</span>,
+and the number of triangles hit by <span class="math notranslate nohighlight">\(f\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+r+s =\frac{2(r+s)-2}{2}+1\leq \frac{|\mathcal T_j|}{2}+1
+\]</div>
+<p>At the right end of <span class="math notranslate nohighlight">\(I_j\)</span> there may be a triangle in <span class="math notranslate nohighlight">\(\mathcal T_j\)</span> that is not hit by <span class="math notranslate nohighlight">\(f\)</span> but
+by the subsequent affine function, ie, is hit by <span class="math notranslate nohighlight">\(\mathcal N\)</span> but not by <span class="math notranslate nohighlight">\(f\)</span>.<br />
+We will be genereous and simple assume that, in the worst, case
+all these triangles are hit. That is, if <span class="math notranslate nohighlight">\(h_j\)</span> is the number of triangle in <span class="math notranslate nohighlight">\(\mathcal T_j\)</span> hit by <span class="math notranslate nohighlight">\(\mathcal N\)</span>
+then</p>
+<div class="math notranslate nohighlight">
+\[
+h_j\leq \frac{|\mathcal T_j|}{2}+2
+\]</div>
+<p>As a consequence, we get that the total number of triangles hit by <span class="math notranslate nohighlight">\(\mathcal N\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_{j=1}^p h_j \leq \sum_{j=1}^p\left(\frac{|\mathcal T_j|}{2}+2\right)=\frac{|\mathcal T|}{2}+2p
+\]</div>
+<p>Thus, the number of triangles missed by <span class="math notranslate nohighlight">\(\mathcal N\)</span> is at least:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\#\text{missed triangles} &amp;\geq |\mathcal T|-\left(\frac{|\mathcal T|}{2}+2p\right)
+= \frac{|\mathcal T|}{2}-2p \\
+&amp;\geq \frac{2^{L^2+3}}{2}-2\cdot 2^{L^2} = 2^{L^2+2}-2^{L^2+1} = 2^{L^2+1},
+\end{align*}\]</div>
+<p>where we have used <a class="reference internal" href="#equation-numtrigs">(5.2)</a> and that <span class="math notranslate nohighlight">\(p\leq 2^{L^2}\)</span>.</p>
+<p>We finish with</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\int_{[0,1]}|\mathcal N(x)-\Delta^{\ell}(x)|dx &amp; \geq \#\text{missed triangles}\cdot\text{triangle area}\\
+&amp; \geq 2^{L^2+1}\cdot \tfrac{1}{2^{L^2+6}} = \frac{1}{32}
+\end{align*}\]</div>
+</div>
+</section>
+<section id="neural-networks-are-sometimes-overconfident">
+<h2><span class="section-number">5.4. </span>Neural networks are sometimes overconfident<a class="headerlink" href="#neural-networks-are-sometimes-overconfident" title="Link to this heading">#</a></h2>
+<p><label for='marginnote-role-5' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-5' name='marginnote-role-5' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/neural_networks/fool.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>fool</a></span>
+In practice it is sometimes observed that neural networks confidently
+classify some image data, with confidence levels approaching 100%,
+even though the input data is just white noise. That is, in MNIST for
+example, it is possible to generate noise pictures that a neural network
+will happily claim show a ‘7’, and that with 99.8% certainty.</p>
+<figure class="align-default" id="foolfig">
+<a class="reference internal image-reference" href="../_images/fool.png"><img alt="../_images/fool.png" src="../_images/fool.png" style="width: 12cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 5.4 </span><span class="caption-text">A neural network was trained on the MNIST data set. It recognises the ‘3’ on the left correctly,
+and with high confidence. It also recognises noise and the picture of a shoe as a ‘3’, again with high confidence.</span><a class="headerlink" href="#foolfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Hein et al. (2019)<label for='sidenote-role-6' class='margin-toggle'><span id="id6">
+<sup>6</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-6' name='sidenote-role-6' class='margin-toggle'><span class="sidenote"><sup>6</sup><em>Why ReLU networks yield high-confidence predictions far away from
+the training data and how to mitigate the problem</em>, M. Hein, M. Andriushchenko and J. Bitterwolf (2019), <a class="reference external" href="https://arxiv.org/abs/1812.05720">arXiv:1812.05720</a></span>
+offer an explanation, why this is not surprising and actually should be
+expected in many applications.</p>
+<div class="proof lemma admonition" id="raylem">
+<p class="admonition-title"><span class="caption-number">Lemma 5.10 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>Let  <span class="math notranslate nohighlight">\(f:\mathbb R^n\to\mathbb R^m\)</span> be a  piecewise affine function
+with pieces <span class="math notranslate nohighlight">\(\ph Q_1,\ldots, \ph Q_s\)</span>.
+For every <span class="math notranslate nohighlight">\(x\in\mathbb R^n\)</span> there is an <span class="math notranslate nohighlight">\(\alpha\geq 1\)</span> and a
+piece <span class="math notranslate nohighlight">\(\ph Q_t\)</span>
+such that <span class="math notranslate nohighlight">\(\beta x\in\ph Q_t\)</span> for all <span class="math notranslate nohighlight">\(\beta\geq\alpha\)</span>.</p>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. Put <span class="math notranslate nohighlight">\(R=\{\gamma x:\gamma\geq 1\}\)</span>. For every <span class="math notranslate nohighlight">\(\ph Q_i\)</span> that
+meets <span class="math notranslate nohighlight">\(R\)</span> pick some <span class="math notranslate nohighlight">\(\alpha_i\geq 1\)</span> such that <span class="math notranslate nohighlight">\(\alpha_i x\in\ph Q_i\)</span>.</p>
+<p>Suppose that the conclusion of the lemma is false.
+Then, for every <span class="math notranslate nohighlight">\(vQ_i\)</span> that meets <span class="math notranslate nohighlight">\(R\)</span> there must be some <span class="math notranslate nohighlight">\(\beta_i&gt;\alpha_i\)</span>
+with <span class="math notranslate nohighlight">\(\beta_i x\notin \ph Q_i\)</span>. Let <span class="math notranslate nohighlight">\(\beta^*=\max_i\beta_i\)</span>.</p>
+<p>The point <span class="math notranslate nohighlight">\(\beta^*x\)</span> must lie in some <span class="math notranslate nohighlight">\(\ph Q_j\)</span>. Thus <span class="math notranslate nohighlight">\(\ph Q_j\)</span> meets <span class="math notranslate nohighlight">\(R\)</span>, and <span class="math notranslate nohighlight">\(\alpha_j\)</span> is defined.
+In particular, <span class="math notranslate nohighlight">\(\alpha_j&lt;\beta_j&lt;\beta^*\)</span>. Then, however, <span class="math notranslate nohighlight">\(\alpha_jx,\beta^*x\in \ph Q_j\)</span>
+but <span class="math notranslate nohighlight">\(\beta_jx\notin \ph Q_j\)</span>, which contradicts that <span class="math notranslate nohighlight">\(\ph Q_j\)</span> is convex.</p>
+</div>
+<div class="proof theorem admonition" id="foolthm">
+<p class="admonition-title"><span class="caption-number">Theorem 5.9 </span></p>
+<section class="theorem-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(N\)</span> be  a ReLU network with  softmax output layer, and
+let <span class="math notranslate nohighlight">\(f:\mathbb R^n\to\mathbb R^K\)</span> be the piecewise affine function
+such that <span class="math notranslate nohighlight">\(N\)</span> computes the function <span class="math notranslate nohighlight">\(\softmax\circ f\)</span>, where <span class="math notranslate nohighlight">\(\softmax\)</span> is the
+softmax function.
+Let <span class="math notranslate nohighlight">\(\ph Q_1,\ldots, \ph Q_s\)</span> be the pieces of <span class="math notranslate nohighlight">\(f\)</span>, and let
+<span class="math notranslate nohighlight">\(f|_{\ph Q_t}\)</span> be described by the affine function <span class="math notranslate nohighlight">\(x\mapsto A^{(t)}x+b^{(t)}\)</span>.
+If, for all <span class="math notranslate nohighlight">\(t=1,\ldots, s\)</span>, the matrix <span class="math notranslate nohighlight">\(A^{(t)}\)</span> does not have identical
+rows then for almost every <span class="math notranslate nohighlight">\(x\in\mathbb R^n\)</span> there exists
+a class <span class="math notranslate nohighlight">\(k\in\{1,\ldots,K\}\)</span> such that
+the confidence of <span class="math notranslate nohighlight">\(N\)</span> that <span class="math notranslate nohighlight">\(\alpha x\)</span> lies in <span class="math notranslate nohighlight">\(k\)</span> tends to 1
+as <span class="math notranslate nohighlight">\(\alpha\to\infty\)</span>, ie</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{\alpha\to\infty}\frac{e^{f_k(\alpha x)}}{\sum_{\ell=1}^Ke^{f_\ell(\alpha x)}} = 1
+\]</div>
+</section>
+</div><p>Here, <em>almost every</em> means <em>except for a subset of Lebesgue measure 0</em>.</p>
+<p>Now, the theorem makes a good number of assumptions.
+Some are uncritical: indeed, we know that a ReLU network minus its softmax output
+layer simply computes a piecewise affine function. What about the assumption
+on the affine functions <span class="math notranslate nohighlight">\(x\mapsto A^{(t)}x+b^{(t)}\)</span> on the pieces?
+If two rows of <span class="math notranslate nohighlight">\(A^{(t)}\)</span> are identical that means that
+on the whole corresponding piece <span class="math notranslate nohighlight">\(\ph Q_t\)</span>, the network cannot effectively
+distinguish between the classes associated with the duplicated rows: the
+probability assigned to one class will be a multiple of the probability
+assigned to the other class – over the whole piece. This seems a very special
+situation and, according to Hein et al., is practically never observed.</p>
+<p>Why should we interpret the classification of <span class="math notranslate nohighlight">\(\alpha x\)</span>, with <span class="math notranslate nohighlight">\(\alpha\)</span> becoming
+larger and larger, as bogus? First, <span class="math notranslate nohighlight">\(x\)</span> can be taken to contain just noise,
+ie, random values. Thus, <span class="math notranslate nohighlight">\(\alpha x\)</span> will just be noise amplified to
+very large values: clearly, not a cat picture.</p>
+<p>Let’s do the proof of <a class="reference internal" href="#foolthm">Theorem 5.9</a>.</p>
+<div class="proof admonition" id="proof">
+<p>Proof. For every <span class="math notranslate nohighlight">\(t\)</span> and distinct row numbers <span class="math notranslate nohighlight">\(i,j\)</span> the set of all <span class="math notranslate nohighlight">\(x\in\mathbb R^n\)</span>
+with <span class="math notranslate nohighlight">\(A^{(t)}_{i,\bullet} x=A^{(t)}_{j,\bullet}x\)</span> has Lebesgue measure 0.
+Since there are only finitely many such triples <span class="math notranslate nohighlight">\(t,i,j\)</span> we deduce
+that, except on a null set <span class="math notranslate nohighlight">\(\mathcal N\)</span>,
+we always have <span class="math notranslate nohighlight">\(A^{(t)}_{i,\bullet} x\neq A^{(t)}_{j,\bullet}x\)</span>.</p>
+<p>Now consider some <span class="math notranslate nohighlight">\(x\in\mathbb R^n\setminus\mathcal N\)</span> and apply <a class="reference internal" href="#raylem">Lemma 5.10</a>
+to <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(f\)</span>. Thus, there is some <span class="math notranslate nohighlight">\(\alpha^*\geq 1\)</span> and <span class="math notranslate nohighlight">\(t\)</span> such that
+<span class="math notranslate nohighlight">\(\beta x\in\ph Q_t\)</span> for all <span class="math notranslate nohighlight">\(\beta\geq \alpha^*\)</span>. Since <span class="math notranslate nohighlight">\(x\notin\mathcal N\)</span>
+there is a row number <span class="math notranslate nohighlight">\(k\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[
+A^{(t)}_{k,\bullet} x&gt;A^{(t)}_{i,\bullet} x\text{ for all }i\neq k
+\]</div>
+<p>Thus</p>
+<div class="math notranslate nohighlight">
+\[
+A^{(t)}_{i,\bullet} (\beta x)+b^{(t)}_i-(A^{(t)}_{k,\bullet} (\beta x)+b^{(t)}_k)\to -\infty
+\text{ as }\beta\to\infty
+\]</div>
+<p>As a consequence we get</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\lim_{\alpha\to\infty}\frac{e^{f_k(\alpha x)}}{\sum_{\ell=1}^Ke^{f_\ell(\alpha x)}} &amp; = 
+\lim_{\alpha\to\infty}\frac{e^{A^{(t)}_{k,\bullet} \alpha x+b^{(t)}_k}}
+{ \sum_{\ell=1}^Ke^{ A^{(t)}_{\ell,\bullet} \alpha x+b^{(t)}_\ell} } \\
+&amp; =  
+\lim_{\alpha\to\infty}\frac{1}
+{1+ \sum_{\ell\neq k}e^{ A^{(t)}_{\ell,\bullet} \alpha x+b^{(t)}_\ell
+-(A^{(t)}_{k,\bullet} \alpha x+b^{(t)}_k)} } \to 1,
+\end{align*}\]</div>
+<p>as the exponent in the exponential function tends to <span class="math notranslate nohighlight">\(-\infty\)</span>.</p>
+</div>
+<p>So, how well does the theorem explain overconfident predictions?
+The theorem (and its proof) hinges on the fact that we can move <span class="math notranslate nohighlight">\(x\)</span> away
+from the origin as far as we like: the theorem makes a statement
+on <span class="math notranslate nohighlight">\(\alpha x\)</span> with large <span class="math notranslate nohighlight">\(\alpha\)</span>. In practically all applications,
+the data is constrained to limited values: pixels have grey value in <span class="math notranslate nohighlight">\([0,1]\)</span>,
+the weight of humans is never larger than 500kg (and never negative),
+and even the wealthiest human being doesn’t have a net worth measuring in the trillions.</p>
+<p>Often, however, overconfident predictions also occur for data
+that is subject to the same constraints as legit input data; see
+Nguyen et al. (2015).<label for='sidenote-role-7' class='margin-toggle'><span id="id7">
+<sup>7</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-7' name='sidenote-role-7' class='margin-toggle'><span class="sidenote"><sup>7</sup><em>Deep Neural Networks are Easily Fooled:
+High Confidence Predictions for Unrecognizable Images</em>,
+A. Nguyen, J. Yosinski and J. Clune (2015), <a class="reference external" href="https://arxiv.org/abs/1412.1897">arXiv:1412.1897</a></span></p>
+</section>
+</section>
+<hr class="footnotes docutils" />
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="nets.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Neural networks</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="loss.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>Loss functions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relu-networks-and-piecewise-affine-functions">5.1. ReLU networks and piecewise affine functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#universal-approximators">5.2. Universal approximators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-saw-tooth-function">5.3. The saw tooth function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-networks-are-sometimes-overconfident">5.4. Neural networks are sometimes overconfident</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Henning.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

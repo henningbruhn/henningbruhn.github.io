@@ -30,7 +30,7 @@ $$
 
     
 ```{figure} pix/convexsets.png
-:figwidth: 12 cm
+:figwidth: 15cm
 :name: convsetfig
 
 A convex set in  (a) and (b); the set in (c) is not convex
@@ -46,7 +46,7 @@ $$
 Obviously, a linear function is always convex. 
 
 ```{figure} pix/convexconcave.png
-:figwidth: 12 cm
+:figwidth: 15cm
 :name: convfunfig
     
 A convex function, a concave function (negative of a convex function), and a function that is neither convex nor concave.

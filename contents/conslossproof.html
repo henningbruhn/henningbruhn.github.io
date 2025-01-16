@@ -1,0 +1,602 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Proof of consistency theorem &#8212; Mathematics of Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css?v=ca93fcec" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=82609fe5" />
+    <link rel="stylesheet" type="text/css" href="../_static/tippy.css?v=2687f39f" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
+    <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
+    <script defer="defer" src="../_static/tippy/contents/conslossproof.9b2a9f45-01bc-47d7-965f-2f9ce1623ffb.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contents/conslossproof';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/robot_reading_small.png" class="logo__image only-light" alt="Mathematics of Machine Learning - Home"/>
+    <img src="../_static/robot_reading_small.png" class="logo__image only-dark pst-js-only" alt="Mathematics of Machine Learning - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Predictors, classification and losses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pac.html">2. PAC learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convex.html">3. Stochastic gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nets.html">4. Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netsprops.html">5. Properties of neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loss.html">6. Loss functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl.html">7. Reinforcement learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mips.html">8. Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html">9. TEST</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/contents/conslossproof.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Proof of consistency theorem</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><span class="math notranslate nohighlight">\(\newcommand{\trsp}[1]{#1^\intercal} % transpose
+\DeclareMathOperator*{\expec}{\mathbb{E}} % Expectation
+\DeclareMathOperator*{\proba}{\mathbb{P}}   % Probability
+\DeclareMathOperator*{\vari}{\mathbb{V}}   % Probability
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\newcommand{\sigm}{\phi_{\text{sig}}} % logistic function
+\newcommand{\softmax}{\textsf{soft}}
+\DeclareMathOperator{\sgn}{sgn}
+\newcommand{\bayes}{h_{\text{Bayes}}} % the Bayes classifier
+\newcommand{\bayerr}{\epsilon_\text{Bayes}} % the Bayes error
+\)</span></p>
+<section id="proof-of-consistency-theorem">
+<span id="consproofsec"></span><h1>Proof of consistency theorem<a class="headerlink" href="#proof-of-consistency-theorem" title="Link to this heading">#</a></h1>
+<p>We prove <a class="reference internal" href="loss.html#consistencythm">Theorem 6.1</a><label for='sidenote-role-1' class='margin-toggle'><span id="id1">
+<sup>1</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-1' name='sidenote-role-1' class='margin-toggle'><span class="sidenote"><sup>1</sup><em>Convexity, Classification, and Risk Bounds</em>, P.L. Bartlett, M.I. Jordan and J.D. MacAuliffe (2003)</span> by establishing a number of claims.
+We repeat the theorem here:</p>
+<div class="proof theorem admonition" id="consistencythmX">
+<p class="admonition-title"><span>Theorem </span> (Bartlett, Jordan and MacAuliffe)</p>
+<section class="theorem-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(\phi:\mathbb R\to \mathbb R_+\)</span> be convex, continuous and differentiable at 0 with <span class="math notranslate nohighlight">\(\phi'(0)&lt;0\)</span>.
+Then <span class="math notranslate nohighlight">\(\phi\)</span> is Bayes-consistent.</p>
+</section>
+</div><p>We define the probability that a given <span class="math notranslate nohighlight">\(x\in\mathcal X\)</span> is class 1 as
+<span class="math notranslate nohighlight">\(\eta(x)=\proba[y=1|x]\)</span>. We claim that:</p>
+<div class="math notranslate nohighlight" id="equation-cons1">
+<span class="eqno">()<a class="headerlink" href="#equation-cons1" title="Link to this equation">#</a></span>\[L(f)-\bayerr = \expec_x[1_{\sgn f(x)\neq\sgn (2\eta(x)-1)}|2\eta(x)-1|]\]</div>
+<p>To prove the claim,
+we first note that</p>
+<div class="math notranslate nohighlight">
+\[
+h_\text{Bayes}:\mathcal X\to\{-1,1\},\, x\mapsto \sgn(2\eta(x)-1)
+\]</div>
+<p>is a Bayes classifier; see <a class="reference internal" href="intro.html#equation-bayclass">(1.5)</a> in <a class="reference internal" href="intro.html#sec-bayeserr"><span class="std std-ref">Section Bayes Error</span></a>.
+To compute the true risk I will pretend that the distribution <span class="math notranslate nohighlight">\(\mathcal D\)</span> is discrete; for
+a continuous distribution the computation is very similar.</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+L(f)-\bayerr &amp; = \sum_{(x,y)\in\mathcal X\times\{-1,1\}} \proba[(x,y)] \\
+&amp;\qquad\qquad\qquad\qquad \cdot\left(\ell_{0-1}(y,\sgn f(x))-\ell_{0-1}(y,h_\text{Bayes}(x))\right) \\
+&amp; = \sum_{x\in\mathcal X} \proba[x] \\
+&amp;\qquad\quad \cdot\Big(\eta(x)\left(\ell_{0-1}(1,\sgn f(x))-\ell_{0-1}(1,h_\text{Bayes}(x))\right) \\
+&amp;\qquad\quad +(1-\eta(x))\left(\ell_{0-1}(-1,\sgn f(x))-\ell_{0-1}(-1,h_\text{Bayes}(x))\right) \Big)
+\end{align*}\]</div>
+<p>Here, we have used that <span class="math notranslate nohighlight">\(1-\eta(x)=\proba[y=-1|x]\)</span>. Also note that the sum needs to range only
+over those <span class="math notranslate nohighlight">\(x\in\mathcal X\)</span>, for which the Bayes classifier and <span class="math notranslate nohighlight">\(\sgn \circ f\)</span> yield different
+predictions. That is, we only need to range over <span class="math notranslate nohighlight">\(x\in\mathcal X\)</span> with <span class="math notranslate nohighlight">\(\sgn f(x)\neq\sgn (2\eta(x)-1)\)</span>.</p>
+<p>Next, consider a fixed <span class="math notranslate nohighlight">\(x\in\mathcal X\)</span> and first consider the case that <span class="math notranslate nohighlight">\(\sgn(2\eta(x)-1)=1\)</span>.
+Then, <span class="math notranslate nohighlight">\(h_\text{Bayes}(x)=1\)</span> and <span class="math notranslate nohighlight">\(f\)</span> only yields a different prediction if <span class="math notranslate nohighlight">\(\sgn f(x)=-1\)</span>. Thus, the
+summand for <span class="math notranslate nohighlight">\(x\)</span> above gives</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+&amp;\eta(x)\left(\ell_{0-1}(1,-1) - \ell_{0-1}(1,1)\right)+(1-\eta(x))\left(\ell_{0-1}(-1,-1) - \ell_{0-1}(-1,1)\right) \\
+= &amp; \eta(x) -(1-\eta(x)) = 2\eta(x) -1 = |2\eta(x)-1|,
+\end{align*} \]</div>
+<p>as <span class="math notranslate nohighlight">\(2\eta(x)-1\geq 0\)</span>.</p>
+<p>Now consider the case when <span class="math notranslate nohighlight">\(\sgn(2\eta(x)-1)=-1\)</span>. Then the summand becomes</p>
+<div class="math notranslate nohighlight">
+\[
+\eta(x) (0-1)+ (1-\eta(x))(1-0) = 1-2\eta(x) = |2\eta(x)-1|,
+\]</div>
+<p>as <span class="math notranslate nohighlight">\(1-2\eta(x)\geq 0\)</span>.</p>
+<p>Returning back to <span class="math notranslate nohighlight">\(L(f)-\bayerr\)</span>, we get</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+L(f)-\bayerr &amp; = \sum_{x\in\mathcal X} \proba[x] 1_{\sgn f(x)\neq\sgn(2\eta(x)-1)} |2\eta(x)-1| \\
+&amp;= \expec_x[1_{\sgn f(x)\neq\sgn (2\eta(x)-1)}|2\eta(x)-1|]
+\end{align*}\]</div>
+<p>This finishes the proof of <a class="reference internal" href="#equation-cons1">()</a>.</p>
+<p>For the next claim, define for numbers <span class="math notranslate nohighlight">\(\alpha\in\mathbb R\)</span> and <span class="math notranslate nohighlight">\(\mu\in [0,1]\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+C_\mu(\alpha) = \mu\phi(\alpha) + (1-\mu) \phi(-\alpha)
+\]</div>
+<p>We claim that:</p>
+<div class="math notranslate nohighlight" id="equation-cons2">
+<span class="eqno">()<a class="headerlink" href="#equation-cons2" title="Link to this equation">#</a></span>\[L_\phi(f) - \epsilon_\phi = \expec_x[C_{\eta(x)}(f(x))-\inf_\alpha C_{\eta(x)}(\alpha)]\]</div>
+<p>For the proof observe that</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+L_\phi(f) &amp; = \expec_{(x,y)\sim\mathcal D} \phi(yf(x)) \\
+&amp; = \sum_{x\in\mathcal X} \proba[x]\sum_{y\in\{-1,1\}} \proba[y|x] \phi(yf(x)) \\
+&amp; = \expec_x \left[\eta(x)\phi(f(x)) +(1-\eta(x))\phi(-f(x))\right] = \expec_x[C_{\eta(x)}(f(x))]
+\end{align*}\]</div>
+<p>In a similar way, we get</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\epsilon_\phi &amp; = \inf_g L_\phi(g) \\
+&amp; = \inf_g \expec_x\left[\eta(x)\phi(g(x)) +(1-\eta(x))\phi(-g(x))\right]
+\end{align*}\]</div>
+<p>For each <span class="math notranslate nohighlight">\(x\)</span> the last expression is minimised if <span class="math notranslate nohighlight">\(g(x)\)</span> is chosen such that
+<span class="math notranslate nohighlight">\(\eta(x)\phi(g(x)) +(1-\eta(x))\phi(-g(x))\)</span> is as small as possible.
+Thus</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\epsilon_\phi &amp; = \expec_x\left[\inf_\alpha\eta(x)\phi(\alpha) +(1-\eta(x))\phi(-\alpha)\right] \\
+&amp; = \expec_x[\inf_\alpha C_{\eta(x)}(\alpha)]
+\end{align*}\]</div>
+<p>This completes the proof of <a class="reference internal" href="#equation-cons2">()</a>.</p>
+<p>Next, we claim that:</p>
+<div class="math notranslate nohighlight" id="equation-cons3">
+<span class="eqno">()<a class="headerlink" href="#equation-cons3" title="Link to this equation">#</a></span>\[\inf_\alpha C_\mu(\alpha) =  \inf_\alpha C_{1-\mu}(\alpha)\quad\text{for all }\mu\in [0,1]\]</div>
+<p>This is easy. Note that for every <span class="math notranslate nohighlight">\(\mu\in[0,1]\)</span> and <span class="math notranslate nohighlight">\(\alpha\in\mathbb R\)</span>:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+C_\mu(\alpha) &amp; = \mu\phi(\alpha) + (1-\mu)\phi(-\alpha) \\
+&amp; =(1-\mu)\phi(-\alpha) + (1-(1-\mu))\phi(-(-\alpha))\\&amp; = C_{1-\mu}(-\alpha) 
+\end{align*}\]</div>
+<p>Taking the infimum on both sides yields <a class="reference internal" href="#equation-cons3">()</a>.</p>
+<p>We define a somewhat arbitrary looking function <span class="math notranslate nohighlight">\(\psi:[0,1] \to\mathbb R\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[
+\psi(\theta) = \phi(0) -\inf_\alpha C_{\frac{1+\theta}{2}}(\alpha)
+\]</div>
+<p>We note that:</p>
+<div class="math notranslate nohighlight" id="equation-cons4">
+<span class="eqno">()<a class="headerlink" href="#equation-cons4" title="Link to this equation">#</a></span>\[\text{$\psi$ is continuous and convex}\]</div>
+<p>That <span class="math notranslate nohighlight">\(\psi\)</span> is continuous follows from the fact that <span class="math notranslate nohighlight">\((\mu,\alpha) \mapsto C_\mu(\alpha)\)</span>
+is continuous. To see that <span class="math notranslate nohighlight">\(\psi\)</span> is convex, it suffices to see that</p>
+<div class="math notranslate nohighlight">
+\[
+\theta\mapsto \sup_\alpha \left(-C_{\frac{1+\theta}{2}}(\alpha)\right) 
+\]</div>
+<p>is convex. By <a class="reference internal" href="convex.html#suplem">Lemma 3.6</a> this is the case, as for every <span class="math notranslate nohighlight">\(\alpha\)</span> the function <span class="math notranslate nohighlight">\(\theta\mapsto -C_{\frac{1+\theta}{2}}(\alpha)\)</span>
+is affine and thus convex.</p>
+<p>Next claim:</p>
+<div class="math notranslate nohighlight" id="equation-cons5">
+<span class="eqno">()<a class="headerlink" href="#equation-cons5" title="Link to this equation">#</a></span>\[\psi(\theta)&gt;0\quad\text{whenever }0&lt;\theta\leq 1 \]</div>
+<p>For this claim we need  a basic calculus lemma that essentially says that whenever a differentiable
+function has a point with negative derivative then there is a point to the right of the first point with
+smaller function value; see <code class="xref prf prf-ref docutils literal notranslate"><span class="pre">basiccalclem</span></code> in the appendix.</p>
+<p>Consider a fixed <span class="math notranslate nohighlight">\(\theta\in (0,1]\)</span> and put <span class="math notranslate nohighlight">\(\mu=\tfrac{1+\theta}{2}\)</span>. Then <span class="math notranslate nohighlight">\(\tfrac{1}{2}&lt;\mu\leq 1\)</span>
+and <span class="math notranslate nohighlight">\(\psi(\theta) = \phi(0)-\inf_\alpha C_\mu(\alpha)\)</span>.
+Moreover,</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+C'_{\mu}(\alpha) &amp; = \frac{\partial}{\partial\alpha}\left( \mu\phi(\alpha)+(1-\mu)\phi(-\alpha)\right) \\
+&amp; =  \mu\phi'(\alpha) - (1-\mu) \phi'(-\alpha) 
+\end{align*}\]</div>
+<p>and thus <span class="math notranslate nohighlight">\(C'_{\mu}(0) = (2\mu-1) \phi'(0) &lt;0 \)</span> as <span class="math notranslate nohighlight">\(2\mu-1&gt;0\)</span> and <span class="math notranslate nohighlight">\(\phi'(0)&lt;0\)</span> by assumption.</p>
+<p>Now we use the basic calculus <code class="xref prf prf-ref docutils literal notranslate"><span class="pre">basiccalclem</span></code> to deduce that there is an <span class="math notranslate nohighlight">\(\alpha_0&gt;0\)</span> with</p>
+<div class="math notranslate nohighlight">
+\[
+C_\mu(\alpha_0)\leq C_\mu(0)+\tfrac{\alpha_0}{2}C'_\mu(0) &lt; C_\mu(0)
+\]</div>
+<p>On the other hand,</p>
+<div class="math notranslate nohighlight">
+\[
+C_\mu(0) = \mu\phi(0) + (1-\mu) \phi(-0) = \phi(0)
+\]</div>
+<p>Thus, we get <span class="math notranslate nohighlight">\(C_\mu(\alpha_0) &lt; \phi(0)\)</span> and therefore <span class="math notranslate nohighlight">\(\inf_\alpha C_\mu(\alpha)&lt;\phi(0)\)</span>,
+which means that</p>
+<div class="math notranslate nohighlight">
+\[
+\psi(0) = \phi(0)- \inf_\alpha C_\mu(\alpha) &gt; \phi(0)-\phi(0) = 0
+\]</div>
+<p>This proves <a class="reference internal" href="#equation-cons5">()</a>.</p>
+<p>We come to the first major result in the proof:</p>
+<div class="math notranslate nohighlight" id="equation-cons6">
+<span class="eqno">()<a class="headerlink" href="#equation-cons6" title="Link to this equation">#</a></span>\[\text{for any }\theta_1,\theta_2,\ldots \in[0,1]\text{ with }\psi(\theta_i)\to 0
+\text{ it follows that }\theta_i\to 0\]</div>
+<p>Suppose that <span class="math notranslate nohighlight">\(\theta_i\not\to 0\)</span>. Then by going to a subsequence we may assume
+that <span class="math notranslate nohighlight">\(\theta_i\to c&gt;0\)</span>. As <span class="math notranslate nohighlight">\(\psi\)</span> is continuous</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{i\to\infty} \psi(\theta_i) = \psi\left(\lim_{i\to\infty}\theta_i\right) =\psi(c) &gt;0,
+\]</div>
+<p>where the last inequality is <a class="reference internal" href="#equation-cons5">()</a>. This, however, is a contradiction to <span class="math notranslate nohighlight">\(\psi(\theta_i)\to 0\)</span>.</p>
+<p>Next we claim for every <span class="math notranslate nohighlight">\(\alpha\in\mathbb R\)</span> and <span class="math notranslate nohighlight">\(\mu\in [0,1]\)</span> that</p>
+<div class="math notranslate nohighlight" id="equation-cons7">
+<span class="eqno">()<a class="headerlink" href="#equation-cons7" title="Link to this equation">#</a></span>\[C_\mu(\alpha)\geq \phi(0) \text{ if }\sgn(\alpha)\neq \sgn(2\mu-1)\]</div>
+<p>As <span class="math notranslate nohighlight">\(\phi\)</span> is convex and differentiable at 0 it follows from <a class="reference internal" href="convex.html#gradlem">Lemma 3.1</a> that</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\phi(0)+\alpha \phi'(0) &amp; \leq \phi(\alpha) \\
+\phi(0)-\alpha \phi'(0) &amp; \leq \phi(-\alpha) 
+\end{align*}\]</div>
+<p>This yields</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+C_\mu(\alpha) &amp; = \mu\phi(\alpha) + (1-\mu) \phi(-\alpha) \\
+&amp; \geq \phi(0) + \alpha (2\mu-1) \phi'(0) \geq \phi(0),
+\end{align*}\]</div>
+<p>as <span class="math notranslate nohighlight">\(\alpha (2\mu-1)\leq 0\)</span> by assumption, and <span class="math notranslate nohighlight">\(\phi'(0)&lt;0\)</span>.
+This finishes the proof of <a class="reference internal" href="#equation-cons7">()</a>.</p>
+<p>The final claim before we can finish the proof:</p>
+<div class="math notranslate nohighlight" id="equation-cons8">
+<span class="eqno">()<a class="headerlink" href="#equation-cons8" title="Link to this equation">#</a></span>\[\psi\left(L(f)-\bayerr\right)\leq L_\phi(f)-\epsilon_\phi\quad\text{for all }f:\mathcal X\to\mathbb R\]</div>
+<p>We use <a class="reference internal" href="#equation-cons1">()</a> and convexity <a class="reference internal" href="#equation-cons4">()</a> of <span class="math notranslate nohighlight">\(\psi\)</span> and <a class="reference external" href="https://en.wikipedia.org/wiki/Jensen%27s_inequality">Jensen’s inequality</a> to see that</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\psi(L(f) -\bayerr) &amp; = \psi\left(\expec_x[1_{\sgn f(x)\neq\sgn (2\eta(x)-1)}|2\eta(x)-1|]\right) \\
+&amp; \leq \expec_x[1_{\sgn f(x)\neq\sgn (2\eta(x)-1)}\psi(|2\eta(x)-1|)]
+\end{align*}\]</div>
+<p>What can we say about <span class="math notranslate nohighlight">\(\psi(|2\eta(x)-1|)\)</span>?
+We use that <span class="math notranslate nohighlight">\(\inf_\alpha C_\eta(\alpha)\)</span> is symmetric around <span class="math notranslate nohighlight">\(\tfrac{1}{2}\)</span>, see <a class="reference internal" href="#equation-cons3">()</a>, to write</p>
+<div class="math notranslate nohighlight">
+\[
+\psi(|2\eta(x)-1|) = \phi(0)- \inf_\alpha C_{\eta(x)}(\alpha)
+\]</div>
+<p>Moreover, for every <span class="math notranslate nohighlight">\(x\)</span> with <span class="math notranslate nohighlight">\(\sgn f(x)\neq\sgn(2\eta(x)-1)\)</span> we know, by <a class="reference internal" href="#equation-cons7">()</a>, that
+<span class="math notranslate nohighlight">\(C_{\eta(x)}(f(x))\geq \phi(0)\)</span> and thus</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\psi(L(f) -\bayerr)&amp; \leq \expec_x[1_{\sgn f(x)\neq\sgn (2\eta(x)-1)} (\phi(0)- \inf_\alpha C_{\eta(x)}(\alpha)) ]\\
+&amp; \leq \expec_x[1_{\sgn f(x)\neq\sgn (2\eta(x)-1)} (C_{\eta(x)}(f(x)) - \inf_\alpha C_{\eta(x)}(\alpha)) ] \\
+&amp; \leq \expec_x[ C_{\eta(x)}(f(x)) - \inf_\alpha C_{\eta(x)}(\alpha) ] \\
+&amp; = L_\phi(f) -\epsilon_\phi,
+\end{align*}\]</div>
+<p>where the last equality is due to <a class="reference internal" href="#equation-cons2">()</a>.</p>
+<p>We can finally complete the proof of <a class="reference internal" href="loss.html#consistencythm">Theorem 6.1</a>.
+Let a sequence <span class="math notranslate nohighlight">\(f_1,f_2,\ldots \)</span> of functions <span class="math notranslate nohighlight">\(f_i:\mathcal X\to\mathbb R\)</span> with</p>
+<div class="math notranslate nohighlight">
+\[
+L_\phi(f_i)\to \epsilon_\phi\text{ as }i\to\infty
+\]</div>
+<p>be given. Define <span class="math notranslate nohighlight">\(\theta_i=L(f_i)-\bayerr\)</span>, and note that <span class="math notranslate nohighlight">\(\theta_i\in[0,1]\)</span> as the zero-one loss
+is either <span class="math notranslate nohighlight">\(1\)</span> or <span class="math notranslate nohighlight">\(0\)</span>.
+Then, by <a class="reference internal" href="#equation-cons8">()</a>, <span class="math notranslate nohighlight">\(\psi(\theta_i)\leq L_\phi(f_i)-\epsilon_\phi\to 0\)</span>.
+By <a class="reference internal" href="#equation-cons6">()</a> this implies <span class="math notranslate nohighlight">\(\theta_i\to 0\)</span>, ie, <span class="math notranslate nohighlight">\(L(f_i)\to\bayerr\)</span>.</p>
+</section>
+<hr class="footnotes docutils" />
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Henning.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

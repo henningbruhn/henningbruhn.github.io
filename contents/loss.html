@@ -1,0 +1,1078 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>6. Loss functions &#8212; Mathematics of Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css?v=ca93fcec" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=82609fe5" />
+    <link rel="stylesheet" type="text/css" href="../_static/tippy.css?v=2687f39f" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
+    <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
+    <script defer="defer" src="../_static/tippy/contents/loss.0ee5e565-4fec-43c2-a21b-33bf95911741.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contents/loss';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7. Reinforcement learning" href="rl.html" />
+    <link rel="prev" title="5. Properties of neural networks" href="netsprops.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/robot_reading_small.png" class="logo__image only-light" alt="Mathematics of Machine Learning - Home"/>
+    <img src="../_static/robot_reading_small.png" class="logo__image only-dark pst-js-only" alt="Mathematics of Machine Learning - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Predictors, classification and losses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pac.html">2. PAC learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convex.html">3. Stochastic gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nets.html">4. Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netsprops.html">5. Properties of neural networks</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. Loss functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl.html">7. Reinforcement learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mips.html">8. Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html">9. TEST</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/contents/loss.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Loss functions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-functions-in-classification">6.1. Loss functions in classification</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-consistent-loss-functions">6.2. Bayes consistent loss functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-loss-functions-in-regression">6.3. Common loss functions in regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imbalanced-classes">6.4. Imbalanced classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trade-off-between-true-positive-and-false-positive-rate">6.5. Trade-off between true positive and false positive rate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-weights-in-losses">6.6. Class weights in losses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-consistency-and-arbitrary-classification-losses">6.7. Bayes consistency and arbitrary classification losses</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><span class="math notranslate nohighlight">\(\newcommand{\trsp}[1]{#1^\intercal} % transpose
+\DeclareMathOperator*{\expec}{\mathbb{E}} % Expectation
+\DeclareMathOperator*{\proba}{\mathbb{P}}   % Probability
+\DeclareMathOperator*{\vari}{\mathbb{V}}   % Probability
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\newcommand{\sigm}{\phi_{\text{sig}}} % logistic function
+\newcommand{\softmax}{\textsf{soft}}
+\DeclareMathOperator{\sgn}{sgn}
+\newcommand{\bayes}{h_{\text{Bayes}}} % the Bayes classifier
+\newcommand{\bayerr}{\epsilon_\text{Bayes}} % the Bayes error
+\)</span></p>
+<section class="tex2jax_ignore mathjax_ignore" id="loss-functions">
+<h1><span class="section-number">6. </span>Loss functions<a class="headerlink" href="#loss-functions" title="Link to this heading">#</a></h1>
+<p>Loss functions play a major role in classification as well as in regression.
+That role, however, is not the same. Let us first examine how loss functions
+determine the quality of a classifier. At the end of this section, we
+consider different loss functions for regression.</p>
+<section id="loss-functions-in-classification">
+<h2><span class="section-number">6.1. </span>Loss functions in classification<a class="headerlink" href="#loss-functions-in-classification" title="Link to this heading">#</a></h2>
+<p>A key metric of interest in classification is the misclassification rate, ie,
+zero-one loss. Directly minimising zero-one loss, however, is usually
+computationally infeasible. Instead, we minimise <em>surrogate</em> losses, losses
+that are better behaved. What are common losses?</p>
+<p>In a <em>binary classification</em> problem, with classes -1 and 1, we often compute
+a classifier of the type <span class="math notranslate nohighlight">\(h:x\in\mathcal X\mapsto \sgn\circ f(x)\)</span>, where
+<span class="math notranslate nohighlight">\(f:\mathcal X\to\mathbb R\)</span> is some function. That is, if <span class="math notranslate nohighlight">\(f(x)&lt;0\)</span> then
+we classify <span class="math notranslate nohighlight">\(x\)</span> as class -1, and if <span class="math notranslate nohighlight">\(f(x)\geq 0\)</span> then <span class="math notranslate nohighlight">\(x\)</span> is predicted
+to have class 1. In a neural network, or in logistic regression,
+<span class="math notranslate nohighlight">\(f\)</span> is passed further through the logistic function, so that the classifier
+ultimately computes a probability estimate in <span class="math notranslate nohighlight">\([0,1]\)</span>, how likely it is that the sample is class 1.</p>
+<p>In this setting a number of loss functions <span class="math notranslate nohighlight">\(\ell\)</span> are common. Examples are:</p>
+<ul>
+<li><p><em>logistic loss</em> as used in logistic regression:</p>
+<div class="math notranslate nohighlight">
+\[
+    \ell(y,f(x)) = -\log\left(\frac{1}{1+e^{-yf(x)}}\right)
+    \]</div>
+</li>
+<li><p><em>square loss</em>:</p>
+<div class="math notranslate nohighlight">
+\[
+    \ell(y,f(x))=(y-f(x))^2
+    \]</div>
+</li>
+<li><p><em>exponential loss</em> as used in AdaBoost, a learning algorithm
+based on an ensemble of decision trees:</p>
+<div class="math notranslate nohighlight">
+\[
+    \ell(y,f(x))= e^{-yf(x)}
+    \]</div>
+</li>
+</ul>
+<p>Cross-entropy loss appears to be missing in this list. Cross-entropy loss, in a neural network, is normally used in conjunction with a logistic
+layer. That is, the neural network computes <span class="math notranslate nohighlight">\(f:\mathcal X\to\mathbb R\)</span>, passes the result through logistic activation
+and then applies cross-entropy loss. For a sample <span class="math notranslate nohighlight">\((x,y)\)</span> this results in</p>
+<div class="math notranslate nohighlight">
+\[
+x\mapsto -\log\left(\frac{1}{1+e^{-yf(x)}}\right),
+\]</div>
+<p>which is nothing else then logistic loss. In two of theses losses, we see that the true class <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(f(x)\)</span>, the output of the predictor,
+appear as a product <span class="math notranslate nohighlight">\(yf(x)\)</span>. This is in fact also the case for square loss. Indeed</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\ell(y,f(x))=(y-f(x))^2 = \begin{cases}
+(1-f(x))^2 = (1-yf(x))^2&amp; \text{ if }y=1\\
+(-1-f(x))^2 = (1-yf(x))^2&amp; \text{ if }y=-1
+\end{cases}
+\end{split}\]</div>
+<p>We can also rewrite zero-one loss in this way. For this, we adapt zero-one loss a bit, so that it also accepts abitrary inputs <span class="math notranslate nohighlight">\(f(x)\)</span>,
+with the understanding that the ultimate prediction is <span class="math notranslate nohighlight">\(\sgn\circ f(x)\)</span>:</p>
+<div class="math notranslate nohighlight" id="equation-zeroonephi">
+<span class="eqno">(6.1)<a class="headerlink" href="#equation-zeroonephi" title="Link to this equation">#</a></span>\[\begin{split}\begin{align}
+\ell_{0-1}(y,f(x)) &amp; =\begin{cases}
+0 &amp;\text{ if }\sgn f(x)=y\Leftrightarrow\sgn yf(x)=1\\
+1 &amp;\text{ if }\sgn f(x)\neq y\Leftrightarrow\sgn yf(x)=-1
+\end{cases} \notag \\
+&amp; = 1_{\sgn yf(x)=-1}, 
+\end{align}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(1_A\)</span> is the characteristic function of a set <span class="math notranslate nohighlight">\(A\)</span>, ie, the function that equals 1 if the argument is in <span class="math notranslate nohighlight">\(A\)</span>
+and 0 otherwise.</p>
+<figure class="align-default" id="lossfunsfig">
+<a class="reference internal image-reference" href="../_images/loss_functions.png"><img alt="../_images/loss_functions.png" src="../_images/loss_functions.png" style="width: 12cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 6.1 </span><span class="caption-text">Some loss functions used in classification. Shown is <span class="math notranslate nohighlight">\(\phi:\mathbb R\to \mathbb R_+\)</span>, if the
+loss written as <span class="math notranslate nohighlight">\(\ell(y,f(x)) = \phi(yf(x))\)</span>.</span><a class="headerlink" href="#lossfunsfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p><label for='marginnote-role-1' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-1' name='marginnote-role-1' class='margin-toggle'><span class="marginnote"> Again, this assumes binary classification.</span>
+Because many loss functions only involve the product <span class="math notranslate nohighlight">\(yf(x)\)</span>, we focus on loss functions of the form</p>
+<div class="math notranslate nohighlight">
+\[
+\ell(y,f(x)) = \phi(yf(x)),
+\]</div>
+<p>for some function <span class="math notranslate nohighlight">\(\phi:\mathbb R\to\mathbb R_+\)</span>.</p>
+</section>
+<section id="bayes-consistent-loss-functions">
+<h2><span class="section-number">6.2. </span>Bayes consistent loss functions<a class="headerlink" href="#bayes-consistent-loss-functions" title="Link to this heading">#</a></h2>
+<p>What properties should a good loss function satisfy? Recall that logistic, exponential and square loss are <em>surrogate</em> loss
+functions: We are not really interested in a small logistic loss or a small square loss – rather, our aim
+is to minimise true risk, ie, expected zero-one loss. Zero-one loss, however, is not smooth and because of that difficult to minimise directly.
+The surrogate losses discussed in the previous section are all smooth and thus easier to minimise.</p>
+<p>As can be seen in <a class="reference internal" href="#lossfunsfig"><span class="std std-numref">Fig. 6.1</span></a>, each of logistic, square and exponential loss upper-bounds zero-one loss.
+That is good, because it means that when the surrogate loss becomes smaller then, usually, zero-loss will decrease as well.</p>
+<p>Is that really enough, though? An admittedly contrived loss function
+that assigns a loss of 42 whatever the true class, and whatever we predict, is also an upper bound on zero-one loss,
+but obviously does not help in finding a classifier with small true risk.
+Why is a loss function such as logistic loss better? Let’s have a look.</p>
+<p>We assume that all classifiers <span class="math notranslate nohighlight">\(h:\mathcal X\to\{-1,1\}\)</span> are based on functions <span class="math notranslate nohighlight">\(f:\mathcal X\to\mathbb R\)</span>,
+in the sense that they simply output the sign of <span class="math notranslate nohighlight">\(f\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+h(x)=\sgn(f(x))\text{ for all }x\in\mathcal X
+\]</div>
+<p>Assuming that the data is generated by hidden distribution <span class="math notranslate nohighlight">\(\mathcal D\)</span> on <span class="math notranslate nohighlight">\(\mathcal X\times\{-1,1\}\)</span>,
+we write the true risk as a functional of <span class="math notranslate nohighlight">\(f\)</span>, where we drop the reference to <span class="math notranslate nohighlight">\(\mathcal D\)</span> to simplify notation:</p>
+<div class="math notranslate nohighlight">
+\[
+L(f):=L_\mathcal D(\sgn\circ f) = \expec_{(x,y)\sim\mathcal D}[\ell_{0-1}(y,\sgn(f(x)))]
+\]</div>
+<p>The smallest possible true risk is the <em>Bayes error</em>, which is achieved by a <em>Bayes classifier</em>:</p>
+<div class="math notranslate nohighlight">
+\[
+\bayerr=\inf_g L(g)
+\]</div>
+<p>Given a loss function <span class="math notranslate nohighlight">\(\ell\)</span> defined by a function <span class="math notranslate nohighlight">\(\phi:\mathbb R\to\mathbb R_+\)</span> by <span class="math notranslate nohighlight">\(\ell(y,f(x))=\phi(yf(x))\)</span>,
+we define in a similar way the expected loss</p>
+<div class="math notranslate nohighlight">
+\[
+L_\phi(f):=\expec_{(x,y)\sim \mathcal D}[\phi(yf(x))]
+\]</div>
+<p>and also the smallest achievable loss</p>
+<div class="math notranslate nohighlight">
+\[
+\epsilon_\phi=\inf_g L_\phi(g)
+\]</div>
+<p>(Should you worry whether these infimums are well-defined: they are understood to range over all measurable functions <span class="math notranslate nohighlight">\(g:\mathcal X\to\mathbb R\)</span>.)</p>
+<p>What now would be an undesirable outcome of learning with a surrogate loss function <span class="math notranslate nohighlight">\(\phi\)</span>?
+That we find a <span class="math notranslate nohighlight">\(f^*\)</span> that minimises surrogate loss, ie, <span class="math notranslate nohighlight">\(L_\phi(f^*)=\epsilon_\phi\)</span> but not
+true risk: <span class="math notranslate nohighlight">\(L(f^*)&gt;\bayerr\)</span>. Then, <span class="math notranslate nohighlight">\(f^*\)</span> would not be a Bayes classifier.</p>
+<p>Let us call a loss function <span class="math notranslate nohighlight">\(\phi\)</span> Bayes-consistent if that never happens. More formally,
+<span class="math notranslate nohighlight">\(\phi:\mathbb R\to\mathbb R_+\)</span> is <em>Bayes-consistent</em> if for every sequence <span class="math notranslate nohighlight">\(f_1,f_2,\ldots\)</span>
+of functions <span class="math notranslate nohighlight">\(f_i:\mathcal X\to\mathbb R\)</span> with</p>
+<div class="math notranslate nohighlight">
+\[
+L_\phi(f_i)\to \epsilon_\phi\text{ for }i\to\infty
+\]</div>
+<p>it follows that also</p>
+<div class="math notranslate nohighlight">
+\[
+L(f_i)\to \bayerr\text{ for }i\to\infty
+\]</div>
+<p>Which loss functions are Bayes-consistent? It turns out that already rather mild conditions
+guarantee Bayes-consistency:</p>
+<div class="proof theorem admonition" id="consistencythm">
+<p class="admonition-title"><span class="caption-number">Theorem 6.1 </span> (Bartlett, Jordan and MacAuliffe)</p>
+<section class="theorem-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(\phi:\mathbb R\to \mathbb R_+\)</span> be convex, continuous and differentiable at 0 with <span class="math notranslate nohighlight">\(\phi'(0)&lt;0\)</span>.
+Then <span class="math notranslate nohighlight">\(\phi\)</span> is Bayes-consistent.</p>
+</section>
+</div><p>The theorem is a special case of a result by Bartlett et al.<label for='sidenote-role-2' class='margin-toggle'><span id="id2">
+<sup>2</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-2' name='sidenote-role-2' class='margin-toggle'><span class="sidenote"><sup>2</sup><em>Convexity, Classification, and Risk Bounds</em>, P.L. Bartlett, M.I. Jordan and J.D. MacAuliffe (2003)</span>
+that gives a full characterisation
+of Bayes-consistent loss function that also works for non-convex functions.</p>
+<p>With the theorem
+it is easy to check that  logistic, square and exponential loss are all Bayes-consistent.</p>
+<p>How valuable is the theorem? On the one hand, it does seem very valuable: The conditions on <span class="math notranslate nohighlight">\(\phi\)</span>
+are quite natural, only convexity is debatable – but in that case we could turn to the
+full version of Bartlett et al.\ of the theorem. Moreover, the theorem provides reassurance that all commonly used
+loss functions allow, in principle, to find the best classifier possible, a Bayes classifier.</p>
+<p>On the other hand, we have to take into account that Bayes-consistency is really the <em>bare minimum</em>
+we could demand of a loss function.
+Bayes-consistency only tells us that a sequence <span class="math notranslate nohighlight">\(f_1,f_2,\ldots\)</span> of classifiers with
+a surrogate loss <span class="math notranslate nohighlight">\(L_\phi(f_i)\)</span> that converges to the smallest loss will <em>eventually</em>
+converge towards a Bayes classifier. We do not get any information, however, how fast that happens.
+It could even be the case that in some step surrogate loss decreases, <span class="math notranslate nohighlight">\(L_\phi(f_{i+1})&lt;L_\phi(f_i)\)</span>,
+but true risk increases, ie, <span class="math notranslate nohighlight">\(L(f_{i+1})&gt;L(f_i)\)</span>. There are some results, though, that relate
+surrogate loss to true risk; see, eg, Zhang (2004).<label for='sidenote-role-3' class='margin-toggle'><span id="id3">
+<sup>3</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-3' name='sidenote-role-3' class='margin-toggle'><span class="sidenote"><sup>3</sup><em>Statistical behavior and consistency of classification methods based on convex risk minimization</em>, T. Zhang (2004)</span></p>
+<p>On top of that, the theorem is, in some sense, too strong. It does not help us
+to distinguish between different loss functions as all
+reasonable loss functions, and some unreasonable ones, turn out to be Bayes-consistent.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="conslossproof.html#consproofsec"><span class="std std-ref">Proof of consistency theorem</span></a></p>
+</div>
+</section>
+<section id="common-loss-functions-in-regression">
+<h2><span class="section-number">6.3. </span>Common loss functions in regression<a class="headerlink" href="#common-loss-functions-in-regression" title="Link to this heading">#</a></h2>
+<p>In classification we ultimately aim to minimise the expected number of misclassified samples.
+Because it is not computationally feasible to
+directly minimise zero-one loss, we use surrogate loss functions.</p>
+<p>In regression, we normally do not need to deal with computationally infeasible loss functions.
+Often we minimise directly the metric that we are interested in. In contrast, however,
+it is not obvious anymore what the key metric is. Depending on the data and on the task at
+hand, different metrics may be appropriate to measure the quality of the regressor.</p>
+<p>Here is a list of commonly used metrics, or loss functions, in regression. Each time we assume that <span class="math notranslate nohighlight">\(y^*\)</span>
+is the true value, while <span class="math notranslate nohighlight">\(y\)</span> is the prediction of the regressor. During training, we
+take the mean of all the losses over the training set – that is the reason why
+we normally talk about <em>mean</em> square error, or <em>mean</em> absolute error.
+Since that is so common, I list the metrics below with <em>mean</em> in the name, even though
+the formulas only concern a single sample.</p>
+<figure class="align-default" id="reglossfunsfig">
+<a class="reference internal image-reference" href="../_images/regression_losses.png"><img alt="../_images/regression_losses.png" src="../_images/regression_losses.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 6.2 </span><span class="caption-text">Square error, absolute error and Huber loss, shown as functions
+of the prediction error <span class="math notranslate nohighlight">\(y^*-y\)</span>.</span><a class="headerlink" href="#reglossfunsfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ul>
+<li><p><em>mean square error</em> (MSE)</p>
+<div class="math notranslate nohighlight">
+\[
+    (y^*-y)^2
+    \]</div>
+<p>The MSE is probably the most popular metric. If you do not have a good reason
+for another loss, use MSE.</p>
+</li>
+<li><p><em>mean absolute error</em> (MAE)</p>
+<div class="math notranslate nohighlight">
+\[
+    |y^*-y|
+    \]</div>
+<p>One good reason to avoid MSE: Large errors will easily dominate the MSE.
+This may happen
+if the training data is noisy, or may contain large outliers. In that case
+it may be better to use mean absolute error.</p>
+</li>
+<li><p><em>Huber loss</em></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    %\text{Huber}(y^*,y)=
+    \begin{cases}
+    \tfrac{1}{2}(y^*-y)^2 &amp; \text{ for }|y^*-y|\leq\delta\\
+    \delta|y^*-y| &amp; \text{ for }|y^*-y|\geq\delta
+    \end{cases}
+    \end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\delta&gt;0\)</span> is a parameter that the user chooses. Huber loss
+combines MSE and MAE. In the interval <span class="math notranslate nohighlight">\([-\delta,\delta]\)</span> it is MSE, outside
+it is MAE. That means, Huber loss is as robust as MAE against outliers but still
+shares the advantages of MSE. What are these? Often it is more important to
+reduce an error from <span class="math notranslate nohighlight">\(0.9\)</span> to <span class="math notranslate nohighlight">\(0.8\)</span> than reduce an error of <span class="math notranslate nohighlight">\(0.2\)</span> to <span class="math notranslate nohighlight">\(0.1\)</span>.
+For MAE both of these are the same, while MSE has a preference for the former.</p>
+</li>
+<li><p><em>mean absolute percentage error</em> (MAPE)</p>
+<div class="math notranslate nohighlight">
+\[
+    \frac{|y^*-y|}{y^*}
+    \]</div>
+<p>First observation: MAPE only works for positive true values <span class="math notranslate nohighlight">\(y^*\)</span>.
+(MAPE could be extended to all non-zero <span class="math notranslate nohighlight">\(y^*\)</span> by taking the absolute value <span class="math notranslate nohighlight">\(|y^*|\)</span>
+in the denominator. It seems doubtful, though, whether MAPE is the right metric in such a setting.)</p>
+<p>When is MAPE appropriate? Suppose we aim to predict the profit of different investments.
+If the true profit of an investment is €1 million then a prediction error of €10000
+is probably not serious; if, on the other hand, the true profit is €20000 then a prediction error of €10000
+is a serious issue. MSE, and MAE and Huber loss, would weight the prediction error the same in both
+cases, MAPE would yield an error of <span class="math notranslate nohighlight">\(\tfrac{1}{100}\)</span> in the first case, and an error of <span class="math notranslate nohighlight">\(\tfrac{1}{2}\)</span>
+in the second case. In short, MAPE yields relative errors, and is perhaps appropriate when
+the true values are not all of the same order magnitude.</p>
+<p>A warning: If some true values are very small then predictions for these values may
+dominate MAPE, and indeed, result in an astronomical value for MAPE.</p>
+</li>
+<li><p><em>mean squared log error</em></p>
+<div class="math notranslate nohighlight">
+\[
+    \left(\log(y^*+1)-\log(y+1)\right)^2
+    \]</div>
+<p>Mean squared log error may only be used for non-negative values. (The +1 is in there, so that the application
+of <span class="math notranslate nohighlight">\(\log\)</span> always yields a non-negative result.) Looking closely we see that this is just MSE for log-scaled
+values. When is that appropriate? When the values span several orders of magnitude.</p>
+<p>Assume, for instance, we want to predict the GDP of different countries. Now, in 2021 the GDP
+of China was $17.7 trillion, while the GDP of Andorra was $3.3 billion.
+If we use MSE then it basically does not matter what we predict for Andorra ($10 billion, perhaps?)
+as the MSE will be dominated by the prediction error for China, as that will likely be
+on the order of $100 billion. Squared log error corrects that, at least somewhat.
+(It is questionable, however, whether we should use the same regressor for Andorra and China – these
+two countries do not have much in common.)</p>
+</li>
+</ul>
+<p>The list is not exhaustive. Specialised applications may call for specialised loss functions.
+There are, for instance, <a class="reference external" href="https://uk.mathworks.com/help/images/image-quality-metrics.html">error metrics</a> for image data that try to capture whether
+images <em>look</em> differently to humans or not.</p>
+</section>
+<section id="imbalanced-classes">
+<h2><span class="section-number">6.4. </span>Imbalanced classes<a class="headerlink" href="#imbalanced-classes" title="Link to this heading">#</a></h2>
+<p>Not all classes will always have the same importance in classification. A prime example is a spam filter: It is merely annoying if a spam email is not
+detected, an important mail, however, that is banished to the spam folder may cause some grief. We’d prefer if the
+spam filter is more cautious when classifying emails as spam.</p>
+<p>A somewhat similar issue may arise when the classes are not present in equal numbers in the training set. Say, we try to classify cat and dog pictures.
+Scraping the internet results in 90000 cat pictures but only 10000 dog pictures. For whatever reasons, we may still insist that our classifier perform
+equally well for cat and dog pictures – and that’s a problem, as a classifier that always outputs `cat’ will likely achieve an accuracy
+of around 90%.</p>
+<p>To measure the performance of classifiers in a more fine-grained manner a number of metrics have been introduced. Most of these apply
+to binary classification. Then, it is customary to designate one class as the <em>positive</em> class, and the other as the <em>negative</em> class.
+Let’s say that <em>ham</em> is the positive class, and <em>spam</em>, the negative class.
+Given a test set, we then count</p>
+<ul class="simple">
+<li><p><em>tp</em>, the <em>true positives</em>, the number of samples of positive class that were correctly classified as positive;</p></li>
+<li><p><em>fp</em>, the <em>false positives</em>, the number of samples of negative class that were incorrectly classified as positive;</p></li>
+<li><p><em>tn</em>, the <em>true negatives</em>, the number of samples of negative class that were correctly classified as negative; and</p></li>
+<li><p><em>fn</em>, the <em>false negatives</em>, the number of samples of positive class that were incorrectly classified as negative.</p></li>
+</ul>
+<p>The simplest metrics are now the detection rates in each class:</p>
+<ul>
+<li><p><em>true positive rate</em></p>
+<div class="math notranslate nohighlight">
+\[
+    \frac{tp}{tp+fn},
+    \]</div>
+<p>ie, what percentage of ham emails is recognised as ham?
+Depending on the context, the true positive rate may also be called <em>recall</em> or <em>sensitivity</em>.</p>
+</li>
+<li><p><em>true negative rate</em></p>
+<div class="math notranslate nohighlight">
+\[
+    \frac{tn}{tn+fp},
+    \]</div>
+<p>ie, what percentage of spam is recognised as spam?
+The true negative rate is also called <em>specificity</em>.</p>
+</li>
+</ul>
+<p>A third type of metric is:</p>
+<ul>
+<li><p><em>precision</em></p>
+<div class="math notranslate nohighlight">
+\[
+    \frac{tp}{tp+fp},
+    \]</div>
+<p>ie, the rate of actual ham emails among all as ham classified emails.</p>
+</li>
+</ul>
+<p>It is easy to check that from any two of these metrics we can compute the third (assuming that we know
+how many positive and how many negative samples are present in the dataset).</p>
+<p>Going back to the spam filter, it seems that true positive rate should be more important than true negative rate and precision.
+In the example of imbalanced cat and dog pictures, we may aim for true positive and true negative rates of similar
+value.</p>
+<p>How now may we influence true positive rate, true negative rate and precision? There are two approaches, one that applies
+during training and one that applies after training. Let’s do the latter one first.</p>
+</section>
+<section id="trade-off-between-true-positive-and-false-positive-rate">
+<h2><span class="section-number">6.5. </span>Trade-off between true positive and false positive rate<a class="headerlink" href="#trade-off-between-true-positive-and-false-positive-rate" title="Link to this heading">#</a></h2>
+<p><label for='marginnote-role-4' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-4' name='marginnote-role-4' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/losses/lendingclub.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>lendingclub</a></span>
+For binary classification, we can express a different importance of the classes as
+differing preferences for true positive and negative rate. That is, we may specify
+a target true negative rate of 90% and then optimise the true positive rate as much as possible.</p>
+<figure class="align-default" id="rocfig">
+<a class="reference internal image-reference" href="../_images/roc.png"><img alt="../_images/roc.png" src="../_images/roc.png" style="height: 6cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 6.3 </span><span class="caption-text">A ROC curve.</span><a class="headerlink" href="#rocfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>How can we achieve that? Most classifiers compute more than just the prediction, ie, +1 or -1, or ‘cat’ or ‘dog’.
+In almost all cases, the classifier computes a confidence level in <span class="math notranslate nohighlight">\([0,1]\)</span> to express
+how likely it is that the current sample belongs to class 1. Even those classifiers
+that don’t do that, normally output a score in <span class="math notranslate nohighlight">\(\mathbb R\)</span>, where a positive value
+would indicate class 1, and negative value class -1. In both cases, there is a
+<em>threshold</em> <span class="math notranslate nohighlight">\(t\)</span> such that if the classifier <span class="math notranslate nohighlight">\(h\)</span> outputs a value above <span class="math notranslate nohighlight">\(t\)</span> for a sample <span class="math notranslate nohighlight">\(x\)</span>,
+ie, if <span class="math notranslate nohighlight">\(h(x)&gt;t\)</span>, then we’d predict class 1, and class -1 otherwise.
+For a classifier that outputs a confidence level in <span class="math notranslate nohighlight">\([0,1]\)</span> the threshold
+would be <span class="math notranslate nohighlight">\(t=\tfrac{1}{2}\)</span>.</p>
+<p>What happens if we artificially increase <span class="math notranslate nohighlight">\(t\)</span>? Then it becomes harder for a sample
+to be classified as 1. Consequently, the number of true positives, <em>tp</em>, would decrease,
+as would the number of false positives, <em>fp</em>. In contrast, the number of true negatives, <em>tn</em>,
+and the number of false negatives, <em>fn</em>,
+would increase. As a result, the true positive rate would decrease, while the true negative rate would increase.</p>
+<p>Thus, we can systematically vary the threshold, compute true positive and negative rates and then
+pick the pair that is most suitable to us.
+The plot of the pairs of true positive rate and <em>false positive rate</em>, the complement of the
+true negative rate, ie, <span class="math notranslate nohighlight">\(1-tnr\)</span>, is called <em>ROC curve</em>, or <em>receiver operating characteristic curve</em>.<label for='marginnote-role-5' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-5' name='marginnote-role-5' class='margin-toggle'><span class="marginnote"> Why the odd name? According to <a class="reference external" href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic#History">Wikipedia</a>,
+ROC curves were invented during World War II in order to
+fine-tune the procedures to detect enemy fighter planes by radar. The receiver probably denotes the radar that captures the
+radar waves.</span></p>
+<p>A similar approach, systematically increasing the threshold, also allows to pick
+the best balance between precision and recall. The corresponding curve, the precision-recall curve,
+however, may be slightly less well behaved. Indeed, while recall never increases with larger threshold,
+precision will occasionally increase even if, typically, it decreases with larger threshold.</p>
+<p>There are two drawbacks to fine-tuning the performance for the different classes
+after the classifier has been trained. First, a minority class may be more or less be overlooked
+during training, in which case it is quite hard to force a classifier to pay attention to it afterwards.
+Better, to put some more weight on it already during training. Second, the trade-off between true positive
+and negative rate, or between precision and recall is quite straightforward when there are only two
+classes. When there are more, it is less clear how best to strike the balance between the classes.</p>
+</section>
+<section id="class-weights-in-losses">
+<h2><span class="section-number">6.6. </span>Class weights in losses<a class="headerlink" href="#class-weights-in-losses" title="Link to this heading">#</a></h2>
+<p>We return to, potentially, multi-class classification.
+Often, the key metric in classification is simply <em>zero-one loss</em>, ie</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\ell_{0-1}(y,y')=
+\begin{cases}
+0 &amp; \text{if }y=y'\\
+1 &amp; \text{if }y\neq y'
+\end{cases}
+\end{split}\]</div>
+<p>When we have classes of differing importance, then misclassifying one class for another may be
+of different seriousness. Sending an important mail to the spam folder is more serious
+then letting a Viagra ad pass through the filter. In such a case, we may weigh the loss
+depending on the true class. That is, we specify a weight function <span class="math notranslate nohighlight">\(w:\mathcal Y\to\mathbb R_+\)</span>,
+and define a loss</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\ell^*(y,y')=
+\begin{cases}
+0 &amp; \text{if }y=y'\\
+w(y) &amp; \text{if }y\neq y'
+\end{cases}
+\end{split}\]</div>
+<p>For the spam filter, we would perhaps set <span class="math notranslate nohighlight">\(w(\textsf{ham})=10\)</span> and <span class="math notranslate nohighlight">\(w(\textsf{spam})=1\)</span>, in order to
+signal that classifying a ham email as spam is ten times as bad as the other way round.</p>
+<p>We note rightaway that</p>
+<div class="math notranslate nohighlight">
+\[
+\ell^*(y,y') = w(y) \ell_{0-1}(y,y')\quad\text{for all }y,y'\in\mathcal Y,
+\]</div>
+<p>which we abbreviate to <span class="math notranslate nohighlight">\(\ell^*=w\ell_{0-1}\)</span>.</p>
+<p>Once we’ve decided on a loss, we obtain a target quantity, namely the expected loss,
+that should be minimised:</p>
+<div class="math notranslate nohighlight">
+\[
+L_{\mathcal D,\ell}(h) = \expec_{(x,y)\sim\mathcal D}[\ell(y,h(x))]
+\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(\mathcal D\)</span> is the distribution on <span class="math notranslate nohighlight">\(\mathcal X\times\mathcal Y\)</span> that descibes the
+classification problem, and <span class="math notranslate nohighlight">\(h:\mathcal X\to\mathcal Y\)</span> is a classifier.</p>
+<div class="proof lemma admonition" id="distlem">
+<p class="admonition-title"><span class="caption-number">Lemma 6.1 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(w:\mathcal Y\to\mathbb R_+\)</span> be a class weighting. Then for every
+distribution <span class="math notranslate nohighlight">\(\mathcal D_1\)</span> there is a distribution <span class="math notranslate nohighlight">\(\mathcal D_2\)</span> and a constant <span class="math notranslate nohighlight">\(Z&gt;0\)</span>
+such that for all loss function <span class="math notranslate nohighlight">\(\ell_1\)</span> and <span class="math notranslate nohighlight">\(\ell_2\)</span> with <span class="math notranslate nohighlight">\(\ell_1=w\ell_2\)</span>
+it holds that</p>
+<div class="math notranslate nohighlight">
+\[
+L_{\mathcal D_1,\ell_1}(h) = ZL_{\mathcal D_2,\ell_2}(h)
+\]</div>
+<p>for every classifier <span class="math notranslate nohighlight">\(h:\mathcal X\to\mathcal Y\)</span>.</p>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. For simplicity, we assume <span class="math notranslate nohighlight">\(\mathcal D_1\)</span> to be discrete.
+We start calculating</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+L_{\mathcal D_1,\ell_1}(h) &amp; = \sum_{(x,y)\in\mathcal X\times\mathcal Y}\proba_{\mathcal D_1}[(x,y)] \ell_1(y,h(x)) \\
+&amp; = \sum_{(x,y)\in\mathcal X\times\mathcal Y}\proba_{\mathcal D_1}[(x,y)]w(y) \ell_2(y,h(x))
+\end{align*}\]</div>
+<p>Putting</p>
+<div class="math notranslate nohighlight">
+\[
+Z=\sum_{(x,y)\in\mathcal X\times\mathcal Y}\proba_{\mathcal D_1}[(x,y)]w(y),
+\]</div>
+<p>we see that <span class="math notranslate nohighlight">\(Z&gt;0\)</span> is the normalisation factor that turns</p>
+<div class="math notranslate nohighlight">
+\[
+\proba_{\mathcal D_2}[(x,y)] = \frac{1}{Z}\proba_{\mathcal D_1}[(x,y)]w(y)\quad\text{for }(x,y)\in\mathcal X\times\mathcal Y
+\]</div>
+<p>into a probability distribution on <span class="math notranslate nohighlight">\(\mathcal X\times\mathcal Y\)</span>.</p>
+<p>We finish with</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+L_{\mathcal D_1,\ell_1}(h) &amp; = Z\sum_{(x,y)\in\mathcal X\times\mathcal Y}\proba_{\mathcal D_2}[(x,y)] \ell_2(y,h(x)) \\
+&amp; = ZL_{\mathcal D_2,\ell_2}(h)
+\end{align*}\]</div>
+<p>Note that <span class="math notranslate nohighlight">\(\mathcal D_2\)</span> as well as <span class="math notranslate nohighlight">\(Z\)</span> only depend on <span class="math notranslate nohighlight">\(\mathcal D_1\)</span> and <span class="math notranslate nohighlight">\(w\)</span>, but not on <span class="math notranslate nohighlight">\(\ell_1\)</span> or <span class="math notranslate nohighlight">\(\ell_2\)</span>.</p>
+</div>
+<p>For later use, we extract from the proof that</p>
+<div class="math notranslate nohighlight" id="equation-xd1d2">
+<span class="eqno">(6.2)<a class="headerlink" href="#equation-xd1d2" title="Link to this equation">#</a></span>\[\proba_{\mathcal D_2}[(x,y)]=\frac{1}{Z}w(y)\proba_{\mathcal D_1}[(x,y)]\quad\text{for all }(x,y)\in\mathcal X\times\mathcal Y,\]</div>
+<p>where <span class="math notranslate nohighlight">\(Z\)</span> is just a normalisation factor that guarantees that all probabilities add to 1.
+We also calculate:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\proba_{\mathcal D_2}[y|x]&amp;=\frac{\proba_{\mathcal D_2}[(x,y)]}{\proba_{\mathcal D_2}[x]} 
+= \frac{w(y)\proba_{\mathcal D_1}[(x,y)]}{Z}\cdot\frac{1}{\sum_{y'\in\mathcal Y}\proba_{\mathcal D_2}[(x,y')]} \\
+&amp; = \frac{w(y)\proba_{\mathcal D_1}[(x,y)]}{Z}\cdot\frac{Z}{\sum_{y'\in\mathcal Y}\proba_{\mathcal D_1}[(x,y')]w(y')} \\
+&amp;= \frac{w(y)\proba_{\mathcal D_1}[x]\cdot\proba_{\mathcal D_1}[y|x]}{\sum_{y'\in\mathcal Y}\proba_{\mathcal D_1}[x]\cdot\proba_{\mathcal D_1}[y'|x]w(y')}
+= \frac{w(y)\proba_{\mathcal D_1}[y|x]}{\sum_{y'\in\mathcal Y}\proba_{\mathcal D_1}[y'|x]w(y')}
+\end{align*}\]</div>
+<p>We get:</p>
+<div class="math notranslate nohighlight" id="equation-d1d2">
+<span class="eqno">(6.3)<a class="headerlink" href="#equation-d1d2" title="Link to this equation">#</a></span>\[\proba_{\mathcal D_2}[y|x]=\frac{w(y)\proba_{\mathcal D_1}[y|x]}{\sum_{y'\in\mathcal Y}\proba_{\mathcal D_1}[y'|x]w(y')}\]</div>
+<p>Why is that interesting? Because it immediately indicates a strategy how to cope with
+a loss function with class weights. Recall the example of the spam filter, where we had
+weights <span class="math notranslate nohighlight">\(w(\textsf{ham})=10\)</span> and <span class="math notranslate nohighlight">\(w(\textsf{spam})=1\)</span>, and a loss function <span class="math notranslate nohighlight">\(\ell^*\)</span> that is simply
+a weighted version of the zero-one loss. The lemma implies that if we change the distribution
+accordingly then we can minimise zero-one loss, as usual. How do we change the distribution?
+We make it 10 times (because <span class="math notranslate nohighlight">\(w(\textsf{ham})=10\)</span>) more likely that ham emails are picked
+for the training set, which we can simulate by adding 9 copies of every ham email to the training set.</p>
+<p>A Bayes-classifier reaches the smallest possible loss. We extend the definition to
+arbitrary loss functions: Given a loss <span class="math notranslate nohighlight">\(\ell^*\)</span> and a distribution <span class="math notranslate nohighlight">\(\mathcal D\)</span>
+on <span class="math notranslate nohighlight">\(\mathcal X\times\mathcal Y\)</span>, we call a classifier <span class="math notranslate nohighlight">\(h^*\)</span>
+a <em>Bayes-classifier for <span class="math notranslate nohighlight">\(\mathcal D,\ell^*\)</span></em> if</p>
+<div class="math notranslate nohighlight">
+\[
+L_{\mathcal D,\ell^*}(h^*)=\inf_h L_{\mathcal D,\ell^*}(h)
+\]</div>
+<p>With the help of the previous lemma, we can compute the Bayes-classifier for the loss <span class="math notranslate nohighlight">\(\mathcal D,\ell^*\)</span>.
+Because the statement is nicer, we only determine the Bayes-classifier for binary classification.</p>
+<div class="proof theorem admonition" id="wghbaythm">
+<p class="admonition-title"><span class="caption-number">Theorem 6.2 </span></p>
+<section class="theorem-content" id="proof-content">
+<p>Let a binary classification problem be defined by a distribution <span class="math notranslate nohighlight">\(\mathcal D\)</span> on  <span class="math notranslate nohighlight">\(\mathcal X\times \{-1,1\}\)</span>,
+let <span class="math notranslate nohighlight">\(w(1),w(-1)\)</span> define a class weighting,  and let <span class="math notranslate nohighlight">\(\ell^*=w\ell_{0-1}\)</span> be the
+correspoding loss function. Then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+h^*(x) = \begin{cases}
+1&amp; \text{ if }\proba_\mathcal D[1|x]\geq \frac{w(-1)}{w(1)+w(-1)}\\
+-1 &amp; \text{ otherwise}
+\end{cases}
+\end{split}\]</div>
+<p>is a Bayes-classifier for <span class="math notranslate nohighlight">\(\mathcal D,\ell^*\)</span>.</p>
+</section>
+</div><p>As an illustration, consider a picture that has a 10% chance of showing a cat, and a 90% chance
+of showing a dog. (Why the uncertainty? Think of a very grainy picture, taken at night. From a distance.
+By someone with very unsteady hands.) An unweighted Bayes-classifier would output ‘dog’. As everybody knows, however, cats
+are ten times as important as dogs. Accordingly, we set weights to <span class="math notranslate nohighlight">\(w(\mathsf{dog})=1\)</span> and  <span class="math notranslate nohighlight">\(w(\mathsf{cat})=10\)</span>,
+resulting in a probability threshold of</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{w(\mathsf{dog})}{w(\mathsf{cat})+w(\mathsf{dog})}\cdot 100\% = \frac{1}{10+1}\cdot 100\% \approx 9.1\%
+\]</div>
+<p>Thus, with only a 10% probability that the grainy picture shows a cat, the weighted Bayes-classifier would still
+return ‘cat’.</p>
+<div class="proof admonition" id="proof">
+<p>Proof. Let <span class="math notranslate nohighlight">\(\mathcal D_2\)</span> and <span class="math notranslate nohighlight">\(Z\)</span> be as in <a class="reference internal" href="#distlem">Lemma 6.1</a> for <span class="math notranslate nohighlight">\(\mathcal D\)</span>, the class weighting <span class="math notranslate nohighlight">\(w\)</span>
+and <span class="math notranslate nohighlight">\(\ell^*=w\ell_{0-1}\)</span>.
+Then</p>
+<div class="math notranslate nohighlight">
+\[
+\inf_h L_{\mathcal D,\ell^*}(h) = Z\inf_h L_{\mathcal D_2,\ell_{0-1}}(h)
+\]</div>
+<p>and, thus, a Bayes-classifier <span class="math notranslate nohighlight">\(h^*\)</span> for <span class="math notranslate nohighlight">\(\mathcal D_2,\ell_{0-1}\)</span> will be a Bayes-classifier for <span class="math notranslate nohighlight">\(\mathcal D,\ell^*\)</span>.
+Then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+h^*(x)=\begin{cases}
+1 &amp; \text{ if }\proba_{\mathcal D_2}[1|x]\geq \tfrac{1}{2}\\
+-1 &amp; \text{ otherwise}
+\end{cases}
+\end{split}\]</div>
+<p>is a Bayes-classifier for <span class="math notranslate nohighlight">\(\mathcal D_2,\ell_{0-1}\)</span> and thus also for for <span class="math notranslate nohighlight">\(\mathcal D,\ell^*\)</span>.</p>
+<p>With <a class="reference internal" href="#equation-d1d2">(6.3)</a> we may express this in the original distribution as follows.
+We write <span class="math notranslate nohighlight">\(\eta(x)=\proba_{\mathcal D}[1|x]\)</span>. Then</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+&amp; \proba_{\mathcal D_2}[1|x]\geq \tfrac{1}{2} \\
+\Leftrightarrow\quad &amp; \frac{\eta(x)w(1)}{\eta(x)w(1)+(1-\eta(x))w(-1)} \geq \tfrac{1}{2}\\
+\Leftrightarrow\quad &amp; 2\eta(x)w(1) \geq \eta(x)w(1)+(1-\eta(x))w(-1)\\
+\Leftrightarrow\quad &amp; \eta(x)\geq \frac{w(-1)}{w(1)+w(-1)}
+\end{align*}\]</div>
+</div>
+</section>
+<section id="bayes-consistency-and-arbitrary-classification-losses">
+<h2><span class="section-number">6.7. </span>Bayes consistency and arbitrary classification losses<a class="headerlink" href="#bayes-consistency-and-arbitrary-classification-losses" title="Link to this heading">#</a></h2>
+<p>Surrogate loss functions are computationally feasible loss function that can be minimised
+instead of zero-one loss. If the loss function is Bayes-consistent, then the minimiser
+of the surrogate loss function will be a Bayes-classifier. How do we need to adapt
+the surrogate losses if we aim for a different loss than zero-one loss?</p>
+<p>Let <span class="math notranslate nohighlight">\(\ell^*:\mathcal Y\times\mathcal Y\to\mathbb R_+\)</span> be a loss function.
+A (surrogate) loss function <span class="math notranslate nohighlight">\(\ell:\mathcal Y\times\mathcal Y\to\mathbb R_+\)</span>
+is <em>Bayes-consistent for <span class="math notranslate nohighlight">\(\ell^*\)</span></em> if for every distribution <span class="math notranslate nohighlight">\(\mathcal D\)</span> on
+<span class="math notranslate nohighlight">\(\mathcal X\times\mathcal Y\)</span> and
+for every sequence
+<span class="math notranslate nohighlight">\(h_1,h_2,\ldots:\mathcal X\to\mathcal Y\)</span> of classifiers with</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{i\to\infty} L_{\mathcal D,\ell}(h_i) = \inf_h L_{\mathcal D,\ell}(h)
+\]</div>
+<p>it follows that</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{i\to\infty} L_{\mathcal D,\ell^*}(h_i) = \inf_h L_{\mathcal D,\ell^*}(h)
+\]</div>
+<div class="proof theorem admonition" id="theorem-3">
+<p class="admonition-title"><span class="caption-number">Theorem 6.3 </span></p>
+<section class="theorem-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(w:\mathcal Y\to\mathbb R_+\)</span> be a class weighting, and let <span class="math notranslate nohighlight">\(\ell:\mathcal Y\times\mathcal Y\to\mathbb R_+\)</span>
+be a Bayes-consistent loss function for the zero-one loss <span class="math notranslate nohighlight">\(\ell_{0-1}\)</span>.
+If <span class="math notranslate nohighlight">\(\ell^*=w\ell_{0-1}\)</span> then <span class="math notranslate nohighlight">\(\overline\ell=w\ell\)</span> is Bayes-consistent for <span class="math notranslate nohighlight">\(\ell^*\)</span>.</p>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. Let <span class="math notranslate nohighlight">\(\mathcal D\)</span> be a distribution on <span class="math notranslate nohighlight">\(\mathcal X\times\mathcal Y\)</span>, and let <span class="math notranslate nohighlight">\(h_1,h_2,\ldots\)</span> be
+a sequence of classifiers <span class="math notranslate nohighlight">\(\mathcal X\to\mathcal Y\)</span> with</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{i\to\infty} L_{\mathcal D,\overline\ell}(h_i) = \inf_h L_{\mathcal D,\overline\ell}(h)
+\]</div>
+<p>By <a class="reference internal" href="#distlem">Lemma 6.1</a>, there is a distribution <span class="math notranslate nohighlight">\(\mathcal D_2\)</span> and a constant <span class="math notranslate nohighlight">\(Z&gt;0\)</span> such that
+<span class="math notranslate nohighlight">\(L_{\mathcal D,\ell_1}(h)=ZL_{\mathcal D_2,\ell_2}(h)\)</span> for every pair of loss functions
+with <span class="math notranslate nohighlight">\(\ell_1=w\ell_2\)</span> and every classifier <span class="math notranslate nohighlight">\(h:\mathcal X\to\mathcal Y\)</span>.</p>
+<p>Then, it holds that also</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{i\to\infty} L_{\mathcal D_2,\ell}(h_i) = \inf_h L_{\mathcal D_2,\ell}(h)
+\]</div>
+<p>As <span class="math notranslate nohighlight">\(\ell\)</span> is Bayes-consistent for <span class="math notranslate nohighlight">\(\ell_{0-1}\)</span> it follows that</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{i\to\infty} L_{\mathcal D_2,\ell_{0-1}}(h_i) = \inf_h L_{\mathcal D_2,\ell_{0-1}}(h)
+\]</div>
+<p>Using the conclusion of <a class="reference internal" href="#distlem">Lemma 6.1</a> again, we obtain that</p>
+<div class="math notranslate nohighlight">
+\[
+\lim_{i\to\infty} L_{\mathcal D,\ell^*}(h_i) = \inf_h L_{\mathcal D,\ell^*}(h),
+\]</div>
+<p>and we see that <span class="math notranslate nohighlight">\(\ell\)</span> is Bayes-consistent for <span class="math notranslate nohighlight">\(\ell^*\)</span>.</p>
+</div>
+<p>Let us consider the spam filter again. There, we may fix as target loss</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\ell^*(y,y')=\begin{cases}
+0 &amp; \text{ if }y=y'\\
+1 &amp; \text{ if }y=\textsf{spam},\,y\neq y'\\
+10 &amp; \text{ if }y=\textsf{ham},\,y\neq y'
+\end{cases}
+\end{split}\]</div>
+<p>The logistic loss function</p>
+<div class="math notranslate nohighlight">
+\[
+\ell(y,y')=\log\left(1+e^{-1yy'}\right)
+\]</div>
+<p>is known to be Bayes-consistent for the zero-one loss. The theorem now implies that, for loss <span class="math notranslate nohighlight">\(\ell^*\)</span>,
+we should adapt the logistic loss, and use</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\overline\ell(y,y')=w(y)\ell(y,y'),\text{ with }
+w(y)=\begin{cases}
+1 &amp; \text{ if }y=\textsf{spam}\\
+10 &amp; \text{ if }y=\textsf{ham}
+\end{cases}
+\end{split}\]</div>
+<p>instead.<label for='marginnote-role-6' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-6' name='marginnote-role-6' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/structured_data/imbalanced_data.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>imbalanced</a></span></p>
+<p>If we train a neural network with <a class="reference internal" href="convex.html#sgdsec"><span class="std std-ref">SGD</span></a>, or one of its variants, then we can calculate the gradients
+as for zero-one loss and then, at the end, multiply the gradient with the class weight <span class="math notranslate nohighlight">\(w(y)\)</span>.</p>
+</section>
+</section>
+<hr class="footnotes docutils" />
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="netsprops.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Properties of neural networks</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="rl.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">7. </span>Reinforcement learning</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-functions-in-classification">6.1. Loss functions in classification</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-consistent-loss-functions">6.2. Bayes consistent loss functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-loss-functions-in-regression">6.3. Common loss functions in regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imbalanced-classes">6.4. Imbalanced classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trade-off-between-true-positive-and-false-positive-rate">6.5. Trade-off between true positive and false positive rate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#class-weights-in-losses">6.6. Class weights in losses</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-consistency-and-arbitrary-classification-losses">6.7. Bayes consistency and arbitrary classification losses</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Henning.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

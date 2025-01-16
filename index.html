@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>A second test run &#8212; A second test run  documentation</title>
+    <title>Mathematics of Machine Learning &#8212; Mathematics of Machine Learning</title>
   
   
   
@@ -35,6 +35,7 @@
     <link rel="stylesheet" type="text/css" href="_static/proof.css?v=ca93fcec" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css?v=82609fe5" />
+    <link rel="stylesheet" type="text/css" href="_static/tippy.css?v=2687f39f" />
   
   <!-- So that users can add custom icons -->
   <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -47,12 +48,15 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
+    <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
+    <script defer="defer" src="_static/tippy/index.ab8b0004-a13d-4821-8f29-1353f03fbd46.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Predictors, classification and losses" href="contents/intro.html" />
+    <link rel="next" title="1. Predictors, classification and losses" href="contents/intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -131,8 +135,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="_static/robot_reading_small.png" class="logo__image only-light" alt="Mathematics of Machine Learning - Home"/>
+    <img src="_static/robot_reading_small.png" class="logo__image only-dark pst-js-only" alt="Mathematics of Machine Learning - Home"/>
   
-    <p class="title logo__title">A second test run  documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -144,12 +154,17 @@
 </button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="contents/intro.html">Predictors, classification and losses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/convex.html">Stochastic gradient descent</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/nets.html">Neural networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/mips.html">Maximum inner product search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/test.html">TEST</a></li>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="contents/intro.html">1. Predictors, classification and losses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/pac.html">2. PAC learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/convex.html">3. Stochastic gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/nets.html">4. Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/netsprops.html">5. Properties of neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/loss.html">6. Loss functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/rl.html">7. Reinforcement learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/mips.html">8. Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/test.html">9. TEST</a></li>
 </ul>
 
     </div>
@@ -283,7 +298,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>A second test run</h1>
+    <h1>Mathematics of Machine Learning</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -297,46 +312,95 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="a-second-test-run">
-<h1>A second test run<a class="headerlink" href="#a-second-test-run" title="Link to this heading">#</a></h1>
-<div class="toctree-wrapper compound">
+  <section class="tex2jax_ignore mathjax_ignore" id="mathematics-of-machine-learning">
+<h1>Mathematics of Machine Learning<a class="headerlink" href="#mathematics-of-machine-learning" title="Link to this heading">#</a></h1>
+<p>What is this? This is a trial run to see how I can best publish my lecture notes publicly. It’s very much in an
+alpha stage, with lots of errors, incongruities and omissions.</p>
+<div class="toctree-wrapper compound" id="contentspage">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="contents/intro.html">Predictors, classification and losses</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#tasks-in-ml">Tasks in ML</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#vocabulary">Vocabulary</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#linear-predictors">Linear predictors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#logistic-regression">Logistic regression</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#training-and-errors">Training and errors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#polynomial-predictors">Polynomial predictors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#nearest-neighbour">Nearest neighbour</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/intro.html">1. Predictors, classification and losses</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#tasks-in-ml">1.1. Tasks in ML</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#vocabulary">1.2. Vocabulary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#linear-predictors">1.3. Linear predictors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#logistic-regression">1.4. Logistic regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#training-and-errors">1.5. Training and errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#polynomial-predictors">1.6. Polynomial predictors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#nearest-neighbour">1.7. Nearest neighbour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#decision-trees">1.8. Decision trees</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#neural-networks">1.9. Neural networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#loss-functions">1.10. Loss functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#regression">1.11. Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#a-statistical-model">1.12. A statistical model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/intro.html#bayes-error">1.13. Bayes error</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="contents/convex.html">Stochastic gradient descent</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="contents/convex.html#convexity">Convexity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/convex.html#convex-optimisation-problems">Convex optimisation problems</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/convex.html#convex-functions">Convex functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/convex.html#strong-convexity">Strong convexity</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/convex.html#gradient-descent">Gradient descent</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/convex.html#sgdsec">Stochastic gradient descent</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/convex.html#analysis-of-sgd">Analysis of SGD</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/convex.html#discussion-of-sgd">Discussion of SGD</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/pac.html">2. PAC learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contents/pac.html#empirical-risk-minimisation">2.1. Empirical risk minimisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/pac.html#test-error-and-generalisation-error">2.2. Test error and generalisation error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/pac.html#overfitting-and-underfitting">2.3. Overfitting and underfitting</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="contents/nets.html">Neural networks</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="contents/nets.html#back-propagation">Back propagation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/nets.html#the-loss-function">The loss function</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/nets.html#softmax-and-loss">Softmax and loss</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/nets.html#why-cross-entropy-loss">Why cross-entropy loss?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/nets.html#kullback-leibler-divergence">Kullback-Leibler divergence</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/nets.html#local-minima">Local minima</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/nets.html#no-traps">No traps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/convex.html">3. Stochastic gradient descent</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contents/convex.html#convexity">3.1. Convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/convex.html#convex-optimisation-problems">3.2. Convex optimisation problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/convex.html#convex-functions">3.3. Convex functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/convex.html#strong-convexity">3.4. Strong convexity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/convex.html#gradient-descent">3.5. Gradient descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/convex.html#sgdsec">3.6. Stochastic gradient descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/convex.html#analysis-of-sgd">3.7. Analysis of SGD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/convex.html#discussion-of-sgd">3.8. Discussion of SGD</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="contents/mips.html">Maximum inner product search</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="contents/mips.html#vector-quantisation">Vector quantisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/nets.html">4. Neural networks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contents/nets.html#back-propagation">4.1. Back propagation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/nets.html#the-loss-function">4.2. The loss function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/nets.html#softmax-and-loss">4.3. Softmax and loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/nets.html#why-cross-entropy-loss">4.4. Why cross-entropy loss?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/nets.html#kullback-leibler-divergence">4.5. Kullback-Leibler divergence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/nets.html#local-minima">4.6. Local minima</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/nets.html#no-traps">4.7. No traps</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="contents/test.html">TEST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/netsprops.html">5. Properties of neural networks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contents/netsprops.html#relu-networks-and-piecewise-affine-functions">5.1. ReLU networks and piecewise affine functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/netsprops.html#universal-approximators">5.2. Universal approximators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/netsprops.html#the-saw-tooth-function">5.3. The saw tooth function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/netsprops.html#neural-networks-are-sometimes-overconfident">5.4. Neural networks are sometimes overconfident</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contents/loss.html">6. Loss functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contents/loss.html#loss-functions-in-classification">6.1. Loss functions in classification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/loss.html#bayes-consistent-loss-functions">6.2. Bayes consistent loss functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/loss.html#common-loss-functions-in-regression">6.3. Common loss functions in regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/loss.html#imbalanced-classes">6.4. Imbalanced classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/loss.html#trade-off-between-true-positive-and-false-positive-rate">6.5. Trade-off between true positive and false positive rate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/loss.html#class-weights-in-losses">6.6. Class weights in losses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/loss.html#bayes-consistency-and-arbitrary-classification-losses">6.7. Bayes consistency and arbitrary classification losses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contents/rl.html">7. Reinforcement learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#markov-decision-processes">7.1. Markov decision processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#pole-balancing">7.2. Pole balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#what-is-known-about-the-environment">7.3. What is known about the environment?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#returns">7.4. Returns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#policies">7.5. Policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#value-functions">7.6. Value functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#policy-improvement-theorem">7.7. Policy improvement theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#q-learning">7.8. <span class="math notranslate nohighlight">\(q\)</span>-learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#parameterised-policies">7.9. Parameterised policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#policy-gradient-method">7.10. Policy gradient method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#baselines">7.11. Baselines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#on-and-off-policy">7.12. On- and off-policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#reinforcement-learning-and-llms">7.13. Reinforcement learning and LLMs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#what-else-is-there">7.14. What else is there?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contents/mips.html">8. Maximum inner product search</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contents/mips.html#vector-quantisation">8.1. Vector quantisation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contents/test.html">9. TEST</a></li>
 </ul>
 </div>
 </section>
@@ -357,7 +421,7 @@
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Predictors, classification and losses</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Predictors, classification and losses</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -376,10 +440,6 @@
   
   <div class="footer-item">
     
-<p class="component-author">
-By Henning
-</p>
-
   </div>
   
   <div class="footer-item">

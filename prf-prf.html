@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Proof Index &#8212; A second test run  documentation</title>
+    <title>Proof Index &#8212; Mathematics of Machine Learning</title>
   
   
   
@@ -34,6 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/proof.css?v=ca93fcec" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css?v=82609fe5" />
+    <link rel="stylesheet" type="text/css" href="_static/tippy.css?v=2687f39f" />
   
   <!-- So that users can add custom icons -->
   <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -134,8 +135,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="_static/robot_reading_small.png" class="logo__image only-light" alt="Mathematics of Machine Learning - Home"/>
+    <img src="_static/robot_reading_small.png" class="logo__image only-dark pst-js-only" alt="Mathematics of Machine Learning - Home"/>
   
-    <p class="title logo__title">A second test run  documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -147,12 +154,17 @@
 </button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="contents/intro.html">Predictors, classification and losses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/convex.html">Stochastic gradient descent</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/nets.html">Neural networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/mips.html">Maximum inner product search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/test.html">TEST</a></li>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="contents/intro.html">1. Predictors, classification and losses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/pac.html">2. PAC learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/convex.html">3. Stochastic gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/nets.html">4. Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/netsprops.html">5. Properties of neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/loss.html">6. Loss functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/rl.html">7. Reinforcement learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/mips.html">8. Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/test.html">9. TEST</a></li>
 </ul>
 
     </div>
@@ -256,33 +268,114 @@
    <h1>Proof Index</h1>
 
    <div class="modindex-jumpbox">
+   <a href="#cap-CPWLthm"><strong>CPWLthm</strong></a> | 
+   <a href="#cap-Haninthm"><strong>Haninthm</strong></a> | 
+   <a href="#cap-NNaddlem"><strong>NNaddlem</strong></a> | 
+   <a href="#cap-NNcomplem"><strong>NNcomplem</strong></a> | 
+   <a href="#cap-NNmaxlem"><strong>NNmaxlem</strong></a> | 
    <a href="#cap-affconflem"><strong>affconflem</strong></a> | 
    <a href="#cap-backprop"><strong>backprop</strong></a> | 
+   <a href="#cap-bayesprop"><strong>bayesprop</strong></a> | 
+   <a href="#cap-consistencythm"><strong>consistencythm</strong></a> | 
+   <a href="#cap-consistencythmX"><strong>consistencythmX</strong></a> | 
+   <a href="#cap-dectreealgo"><strong>dectreealgo</strong></a> | 
+   <a href="#cap-distlem"><strong>distlem</strong></a> | 
+   <a href="#cap-eglplem"><strong>eglplem</strong></a> | 
+   <a href="#cap-epsgreedyalg"><strong>epsgreedyalg</strong></a> | 
+   <a href="#cap-foolthm"><strong>foolthm</strong></a> | 
    <a href="#cap-gdalg"><strong>gdalg</strong></a> | 
    <a href="#cap-gibbsineq"><strong>gibbsineq</strong></a> | 
    <a href="#cap-gradlem"><strong>gradlem</strong></a> | 
+   <a href="#cap-growalgo"><strong>growalgo</strong></a> | 
+   <a href="#cap-hoeffthm"><strong>hoeffthm</strong></a> | 
+   <a href="#cap-lemma-15"><strong>lemma-15</strong></a> | 
    <a href="#cap-loglosslem"><strong>loglosslem</strong></a> | 
    <a href="#cap-nnalgo"><strong>nnalgo</strong></a> | 
+   <a href="#cap-nnpiecesthm"><strong>nnpiecesthm</strong></a> | 
    <a href="#cap-otimeslem"><strong>otimeslem</strong></a> | 
+   <a href="#cap-pacomplem"><strong>pacomplem</strong></a> | 
+   <a href="#cap-pgmalg"><strong>pgmalg</strong></a> | 
+   <a href="#cap-polgrad2thm"><strong>polgrad2thm</strong></a> | 
+   <a href="#cap-polgradthm"><strong>polgradthm</strong></a> | 
+   <a href="#cap-polimpthm"><strong>polimpthm</strong></a> | 
+   <a href="#cap-polimpthm2"><strong>polimpthm2</strong></a> | 
+   <a href="#cap-polimpthm3"><strong>polimpthm3</strong></a> | 
    <a href="#cap-proposition-0"><strong>proposition-0</strong></a> | 
    <a href="#cap-proposition-1"><strong>proposition-1</strong></a> | 
+   <a href="#cap-qlearnalg"><strong>qlearnalg</strong></a> | 
+   <a href="#cap-qlthm"><strong>qlthm</strong></a> | 
+   <a href="#cap-qoptthm"><strong>qoptthm</strong></a> | 
+   <a href="#cap-raylem"><strong>raylem</strong></a> | 
+   <a href="#cap-replacelem"><strong>replacelem</strong></a> | 
+   <a href="#cap-sawpieceslem"><strong>sawpieceslem</strong></a> | 
+   <a href="#cap-sawtoothlem"><strong>sawtoothlem</strong></a> | 
    <a href="#cap-scthm"><strong>scthm</strong></a> | 
    <a href="#cap-sgdalg"><strong>sgdalg</strong></a> | 
    <a href="#cap-sgdlem3"><strong>sgdlem3</strong></a> | 
    <a href="#cap-sgdlem4"><strong>sgdlem4</strong></a> | 
    <a href="#cap-sgdthm"><strong>sgdthm</strong></a> | 
+   <a href="#cap-smallmaxlem"><strong>smallmaxlem</strong></a> | 
    <a href="#cap-strongdifflem"><strong>strongdifflem</strong></a> | 
    <a href="#cap-stronglem"><strong>stronglem</strong></a> | 
    <a href="#cap-strongnormlem"><strong>strongnormlem</strong></a> | 
    <a href="#cap-sumlem"><strong>sumlem</strong></a> | 
    <a href="#cap-suplem"><strong>suplem</strong></a> | 
+   <a href="#cap-testerrthm"><strong>testerrthm</strong></a> | 
+   <a href="#cap-theorem-0"><strong>theorem-0</strong></a> | 
+   <a href="#cap-theorem-11"><strong>theorem-11</strong></a> | 
    <a href="#cap-theorem-12"><strong>theorem-12</strong></a> | 
+   <a href="#cap-theorem-16"><strong>theorem-16</strong></a> | 
    <a href="#cap-theorem-2"><strong>theorem-2</strong></a> | 
+   <a href="#cap-theorem-3"><strong>theorem-3</strong></a> | 
+   <a href="#cap-theorem-4"><strong>theorem-4</strong></a> | 
    <a href="#cap-twicelem"><strong>twicelem</strong></a> | 
-   <a href="#cap-upperloglosslem"><strong>upperloglosslem</strong></a>
+   <a href="#cap-univ2thm"><strong>univ2thm</strong></a> | 
+   <a href="#cap-univthm"><strong>univthm</strong></a> | 
+   <a href="#cap-upperloglosslem"><strong>upperloglosslem</strong></a> | 
+   <a href="#cap-wghbaythm"><strong>wghbaythm</strong></a>
    </div>
 
    <table class="indextable modindextable">
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-CPWLthm"><td></td><td>
+       <strong>CPWLthm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#CPWLthm"><code class="xref">CPWLthm</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-Haninthm"><td></td><td>
+       <strong>Haninthm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#Haninthm"><code class="xref">Haninthm</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-NNaddlem"><td></td><td>
+       <strong>NNaddlem</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#NNaddlem"><code class="xref">NNaddlem</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>lemma</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-NNcomplem"><td></td><td>
+       <strong>NNcomplem</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#NNcomplem"><code class="xref">NNcomplem</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>lemma</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-NNmaxlem"><td></td><td>
+       <strong>NNmaxlem</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#NNmaxlem"><code class="xref">NNmaxlem</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>lemma</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-affconflem"><td></td><td>
        <strong>affconflem</strong></td><td></td></tr>
@@ -299,6 +392,70 @@
        <td>
        <a href="contents/nets.html#backprop"><code class="xref">backprop</code></a> <em>(contents/nets)</em></td><td>
        <em>algorithm</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-bayesprop"><td></td><td>
+       <strong>bayesprop</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/intro.html#bayesprop"><code class="xref">bayesprop</code></a> <em>(contents/intro)</em></td><td>
+       <em>proposition</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-consistencythm"><td></td><td>
+       <strong>consistencythm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/loss.html#consistencythm"><code class="xref">consistencythm</code></a> <em>(contents/loss)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-consistencythmX"><td></td><td>
+       <strong>consistencythmX</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/conslossproof.html#consistencythmX"><code class="xref">consistencythmX</code></a> <em>(contents/conslossproof)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-dectreealgo"><td></td><td>
+       <strong>dectreealgo</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/intro.html#dectreealgo"><code class="xref">dectreealgo</code></a> <em>(contents/intro)</em></td><td>
+       <em>algorithm</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-distlem"><td></td><td>
+       <strong>distlem</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/loss.html#distlem"><code class="xref">distlem</code></a> <em>(contents/loss)</em></td><td>
+       <em>lemma</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-eglplem"><td></td><td>
+       <strong>eglplem</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/rl.html#eglplem"><code class="xref">eglplem</code></a> <em>(contents/rl)</em></td><td>
+       <em>lemma</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-epsgreedyalg"><td></td><td>
+       <strong>epsgreedyalg</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/rl.html#epsgreedyalg"><code class="xref">epsgreedyalg</code></a> <em>(contents/rl)</em></td><td>
+       <em>algorithm</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-foolthm"><td></td><td>
+       <strong>foolthm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#foolthm"><code class="xref">foolthm</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>theorem</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-gdalg"><td></td><td>
        <strong>gdalg</strong></td><td></td></tr>
@@ -324,6 +481,30 @@
        <a href="contents/convex.html#gradlem"><code class="xref">gradlem</code></a> <em>(contents/convex)</em></td><td>
        <em>lemma</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-growalgo"><td></td><td>
+       <strong>growalgo</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/intro.html#growalgo"><code class="xref">growalgo</code></a> <em>(contents/intro)</em></td><td>
+       <em>algorithm</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-hoeffthm"><td></td><td>
+       <strong>hoeffthm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/pac.html#hoeffthm"><code class="xref">hoeffthm</code></a> <em>(contents/pac)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-lemma-15"><td></td><td>
+       <strong>lemma-15</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#lemma-15"><code class="xref">lemma-15</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>lemma</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-loglosslem"><td></td><td>
        <strong>loglosslem</strong></td><td></td></tr>
      <tr>
@@ -340,6 +521,14 @@
        <a href="contents/intro.html#nnalgo"><code class="xref">nnalgo</code></a> <em>(contents/intro)</em></td><td>
        <em>algorithm</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-nnpiecesthm"><td></td><td>
+       <strong>nnpiecesthm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#nnpiecesthm"><code class="xref">nnpiecesthm</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-otimeslem"><td></td><td>
        <strong>otimeslem</strong></td><td></td></tr>
      <tr>
@@ -347,6 +536,62 @@
        <td>
        <a href="contents/nets.html#otimeslem"><code class="xref">otimeslem</code></a> <em>(contents/nets)</em></td><td>
        <em>lemma</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-pacomplem"><td></td><td>
+       <strong>pacomplem</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#pacomplem"><code class="xref">pacomplem</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>lemma</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-pgmalg"><td></td><td>
+       <strong>pgmalg</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/rl.html#pgmalg"><code class="xref">pgmalg</code></a> <em>(contents/rl)</em></td><td>
+       <em>algorithm</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-polgrad2thm"><td></td><td>
+       <strong>polgrad2thm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/rl.html#polgrad2thm"><code class="xref">polgrad2thm</code></a> <em>(contents/rl)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-polgradthm"><td></td><td>
+       <strong>polgradthm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/rl.html#polgradthm"><code class="xref">polgradthm</code></a> <em>(contents/rl)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-polimpthm"><td></td><td>
+       <strong>polimpthm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/rl.html#polimpthm"><code class="xref">polimpthm</code></a> <em>(contents/rl)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-polimpthm2"><td></td><td>
+       <strong>polimpthm2</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/rl.html#polimpthm2"><code class="xref">polimpthm2</code></a> <em>(contents/rl)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-polimpthm3"><td></td><td>
+       <strong>polimpthm3</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/rl.html#polimpthm3"><code class="xref">polimpthm3</code></a> <em>(contents/rl)</em></td><td>
+       <em>theorem</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-proposition-0"><td></td><td>
        <strong>proposition-0</strong></td><td></td></tr>
@@ -363,6 +608,62 @@
        <td>
        <a href="contents/convex.html#proposition-1"><code class="xref">proposition-1</code></a> <em>(contents/convex)</em></td><td>
        <em>proposition</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-qlearnalg"><td></td><td>
+       <strong>qlearnalg</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/rl.html#qlearnalg"><code class="xref">qlearnalg</code></a> <em>(contents/rl)</em></td><td>
+       <em>algorithm</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-qlthm"><td></td><td>
+       <strong>qlthm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/rl.html#qlthm"><code class="xref">qlthm</code></a> <em>(contents/rl)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-qoptthm"><td></td><td>
+       <strong>qoptthm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/rl.html#qoptthm"><code class="xref">qoptthm</code></a> <em>(contents/rl)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-raylem"><td></td><td>
+       <strong>raylem</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#raylem"><code class="xref">raylem</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>lemma</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-replacelem"><td></td><td>
+       <strong>replacelem</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#replacelem"><code class="xref">replacelem</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>lemma</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-sawpieceslem"><td></td><td>
+       <strong>sawpieceslem</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#sawpieceslem"><code class="xref">sawpieceslem</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>lemma</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-sawtoothlem"><td></td><td>
+       <strong>sawtoothlem</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#sawtoothlem"><code class="xref">sawtoothlem</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>lemma</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-scthm"><td></td><td>
        <strong>scthm</strong></td><td></td></tr>
@@ -404,6 +705,14 @@
        <a href="contents/convex.html#sgdthm"><code class="xref">sgdthm</code></a> <em>(contents/convex)</em></td><td>
        <em>theorem</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-smallmaxlem"><td></td><td>
+       <strong>smallmaxlem</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#smallmaxlem"><code class="xref">smallmaxlem</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>lemma</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-strongdifflem"><td></td><td>
        <strong>strongdifflem</strong></td><td></td></tr>
      <tr>
@@ -444,12 +753,44 @@
        <a href="contents/convex.html#suplem"><code class="xref">suplem</code></a> <em>(contents/convex)</em></td><td>
        <em>lemma</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-testerrthm"><td></td><td>
+       <strong>testerrthm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/pac.html#testerrthm"><code class="xref">testerrthm</code></a> <em>(contents/pac)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-theorem-0"><td></td><td>
+       <strong>theorem-0</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#theorem-0"><code class="xref">theorem-0</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-theorem-11"><td></td><td>
+       <strong>theorem-11</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#theorem-11"><code class="xref">theorem-11</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-theorem-12"><td></td><td>
        <strong>theorem-12</strong></td><td></td></tr>
      <tr>
        <td></td>
        <td>
        <a href="contents/convex.html#theorem-12"><code class="xref">theorem-12</code></a> <em>(contents/convex)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-theorem-16"><td></td><td>
+       <strong>theorem-16</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#theorem-16"><code class="xref">theorem-16</code></a> <em>(contents/netsprops)</em></td><td>
        <em>theorem</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-theorem-2"><td></td><td>
@@ -460,6 +801,22 @@
        <a href="contents/nets.html#theorem-2"><code class="xref">theorem-2</code></a> <em>(contents/nets)</em></td><td>
        <em>theorem</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-theorem-3"><td></td><td>
+       <strong>theorem-3</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/loss.html#theorem-3"><code class="xref">theorem-3</code></a> <em>(contents/loss)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-theorem-4"><td></td><td>
+       <strong>theorem-4</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/rl.html#theorem-4"><code class="xref">theorem-4</code></a> <em>(contents/rl)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-twicelem"><td></td><td>
        <strong>twicelem</strong></td><td></td></tr>
      <tr>
@@ -468,6 +825,22 @@
        <a href="contents/convex.html#twicelem"><code class="xref">twicelem</code></a> <em>(contents/convex)</em></td><td>
        <em>lemma</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-univ2thm"><td></td><td>
+       <strong>univ2thm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#univ2thm"><code class="xref">univ2thm</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-univthm"><td></td><td>
+       <strong>univthm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/netsprops.html#univthm"><code class="xref">univthm</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-upperloglosslem"><td></td><td>
        <strong>upperloglosslem</strong></td><td></td></tr>
      <tr>
@@ -475,6 +848,14 @@
        <td>
        <a href="contents/intro.html#upperloglosslem"><code class="xref">upperloglosslem</code></a> <em>(contents/intro)</em></td><td>
        <em>lemma</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-wghbaythm"><td></td><td>
+       <strong>wghbaythm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/loss.html#wghbaythm"><code class="xref">wghbaythm</code></a> <em>(contents/loss)</em></td><td>
+       <em>theorem</em></td></tr>
    </table>
 
 
@@ -503,10 +884,6 @@
   
   <div class="footer-item">
     
-<p class="component-author">
-By Henning
-</p>
-
   </div>
   
   <div class="footer-item">

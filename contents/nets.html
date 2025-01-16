@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Neural networks &#8212; A second test run  documentation</title>
+    <title>4. Neural networks &#8212; Mathematics of Machine Learning</title>
   
   
   
@@ -35,6 +35,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/proof.css?v=ca93fcec" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=82609fe5" />
+    <link rel="stylesheet" type="text/css" href="../_static/tippy.css?v=2687f39f" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -47,13 +48,16 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
+    <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
+    <script defer="defer" src="../_static/tippy/contents/nets.8910da8e-ba4d-476c-b331-b2992e6c9517.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'contents/nets';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Maximum inner product search" href="mips.html" />
-    <link rel="prev" title="Stochastic gradient descent" href="convex.html" />
+    <link rel="next" title="5. Properties of neural networks" href="netsprops.html" />
+    <link rel="prev" title="3. Stochastic gradient descent" href="convex.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -130,8 +134,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/robot_reading_small.png" class="logo__image only-light" alt="Mathematics of Machine Learning - Home"/>
+    <img src="../_static/robot_reading_small.png" class="logo__image only-dark pst-js-only" alt="Mathematics of Machine Learning - Home"/>
   
-    <p class="title logo__title">A second test run  documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -143,12 +153,17 @@
 </button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Predictors, classification and losses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="convex.html">Stochastic gradient descent</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Neural networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mips.html">Maximum inner product search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html">TEST</a></li>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Predictors, classification and losses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pac.html">2. PAC learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convex.html">3. Stochastic gradient descent</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netsprops.html">5. Properties of neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loss.html">6. Loss functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl.html">7. Reinforcement learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mips.html">8. Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html">9. TEST</a></li>
 </ul>
 
     </div>
@@ -294,13 +309,13 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-propagation">Back propagation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-loss-function">The loss function</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#softmax-and-loss">Softmax and loss</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-cross-entropy-loss">Why cross-entropy loss?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kullback-leibler-divergence">Kullback-Leibler divergence</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-minima">Local minima</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#no-traps">No traps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-propagation">4.1. Back propagation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-loss-function">4.2. The loss function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#softmax-and-loss">4.3. Softmax and loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-cross-entropy-loss">4.4. Why cross-entropy loss?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kullback-leibler-divergence">4.5. Kullback-Leibler divergence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-minima">4.6. Local minima</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#no-traps">4.7. No traps</a></li>
 </ul>
             </nav>
         </div>
@@ -326,9 +341,10 @@
 \newcommand{\twovec}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
 \newcommand{\rank}{\text{rank}}
 \newcommand{\diag}{\text{diag}} % diagonal matrix
+\newcommand{\ph}[1]{\mathsf{#1}} % general polyhedron
 \)</span></p>
 <section class="tex2jax_ignore mathjax_ignore" id="neural-networks">
-<h1>Neural networks<a class="headerlink" href="#neural-networks" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">4. </span>Neural networks<a class="headerlink" href="#neural-networks" title="Link to this heading">#</a></h1>
 <p>Let’s train a neural network.<label for='sidenote-role-1' class='margin-toggle'><span id="id1">
 <sup>1</sup></span>
 
@@ -349,7 +365,7 @@ this issue later.</p>
 <a class="reference internal image-reference" href="../_images/net.png"><img alt="../_images/net.png" src="../_images/net.png" style="width: 15cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 13 </span><span class="caption-text">A classfication ReLU-neural network</span><a class="headerlink" href="#netfig" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 4.1 </span><span class="caption-text">A classfication ReLU-neural network</span><a class="headerlink" href="#netfig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Set <span class="math notranslate nohighlight">\(f^{(0)}(x)=x\)</span>.
@@ -368,7 +384,7 @@ The output of the network is then <span class="math notranslate nohighlight">\(f
 For simplicity, let’s assume a single output node, so that we have <span class="math notranslate nohighlight">\(f^{(K)}_1(x)\)</span>
 as output. Also, it’s safe to assume that the activation function of the output is logistic.</p>
 <section id="back-propagation">
-<span id="backpropsec"></span><h2>Back propagation<a class="headerlink" href="#back-propagation" title="Link to this heading">#</a></h2>
+<span id="backpropsec"></span><h2><span class="section-number">4.1. </span>Back propagation<a class="headerlink" href="#back-propagation" title="Link to this heading">#</a></h2>
 <p>To train the neural network, we need to specify a loss function. Historically this was often the
 <em>square loss</em>. That is, given a training set <span class="math notranslate nohighlight">\(S\subseteq \mathcal X\times\mathcal Y\)</span>
 the empirical risk was taken to be</p>
@@ -381,7 +397,7 @@ discuss that later. In any case, we assume that we have fixed some
 loss function that we will see as depending on the weights of the neural network, and that is
 the average of losses at specific data points in the training set:</p>
 <div class="math notranslate nohighlight" id="equation-netloss">
-<span class="eqno">(9)<a class="headerlink" href="#equation-netloss" title="Link to this equation">#</a></span>\[L(a)=\frac{1}{|S|}\sum_{(x,y)\in S}L_{(x,y)}(a)\]</div>
+<span class="eqno">(4.1)<a class="headerlink" href="#equation-netloss" title="Link to this equation">#</a></span>\[L(a)=\frac{1}{|S|}\sum_{(x,y)\in S}L_{(x,y)}(a)\]</div>
 <p>For SGD we now have to compute <span class="math notranslate nohighlight">\(\nabla L_{(x,y)}\)</span> given some randomly drawn <span class="math notranslate nohighlight">\((x,y)\in S\)</span>.
 How can this be done as efficiently as possible? With the <em>back propagation</em> algorithm!</p>
 <p>So, let’s fix some datapoint <span class="math notranslate nohighlight">\((x,y)\in S\)</span>. To simplify notation and because we are now interested
@@ -425,7 +441,7 @@ which in turn is a function of <span class="math notranslate nohighlight">\(b^{(
 \]</div>
 <p>The two expressions contain a common factor that we call <span class="math notranslate nohighlight">\(\delta^{(K)}_1\)</span>:</p>
 <div class="math notranslate nohighlight" id="equation-deltak">
-<span class="eqno">(10)<a class="headerlink" href="#equation-deltak" title="Link to this equation">#</a></span>\[\delta^{(K)}_1:=\frac{\partial L_{(x,y)}}{\partial g^{(K)}_1} = 
+<span class="eqno">(4.2)<a class="headerlink" href="#equation-deltak" title="Link to this equation">#</a></span>\[\delta^{(K)}_1:=\frac{\partial L_{(x,y)}}{\partial g^{(K)}_1} = 
 \frac{\partial L_{(x,y)}}{\partial f^{(K)}_{1}}
 \cdot  \frac{\partial f^{(K)}_{1}}{\partial g^{(K)}_1}
 = \frac{\partial L_{(x,y)}}{\partial f^{(K)}_{1}} \cdot \sigma_K'(g^{(K)}_1)\]</div>
@@ -458,25 +474,25 @@ ie, for <span class="math notranslate nohighlight">\(L_{(x,y)}(f^{(K)}_1)=(f^{(K
 \]</div>
 <p>With a little bit of manipulation, we may see that <span class="math notranslate nohighlight">\(\sigm'(z)=\sigm(z)(1-\sigm(z))\)</span> and thus</p>
 <div class="math notranslate nohighlight" id="equation-sqbw">
-<span class="eqno">(11)<a class="headerlink" href="#equation-sqbw" title="Link to this equation">#</a></span>\[\begin{split}\frac{\partial L_{(x,y)}}{\partial w^{(K)}_{1i}}
+<span class="eqno">(4.3)<a class="headerlink" href="#equation-sqbw" title="Link to this equation">#</a></span>\[\begin{split}\frac{\partial L_{(x,y)}}{\partial w^{(K)}_{1i}}
  &amp; = 2( f^{(K)}_{1} -y )\cdot f^{(K)}_1(1-f^{(K)}_1) \cdot f^{(K-1)}_{i} \\
 \frac{\partial L_{(x,y)}}{\partial b^{(K)}_{1}} &amp; = 2( f^{(K)}_{1} -y )\cdot f^{(K)}_1(1-f^{(K)}_1) \end{split}\]</div>
 <p>Note that <span class="math notranslate nohighlight">\(\sigm(g^{(K)}_1)=f^{(K)}_1\)</span>.</p>
-<p>Now, how do we calculate the gradient by weights in earlier layers? Motivated by <a class="reference internal" href="#equation-deltak">(10)</a>
+<p>Now, how do we calculate the gradient by weights in earlier layers? Motivated by <a class="reference internal" href="#equation-deltak">(4.2)</a>
 let’s write</p>
 <div class="math notranslate nohighlight" id="equation-delta">
-<span class="eqno">(12)<a class="headerlink" href="#equation-delta" title="Link to this equation">#</a></span>\[\delta^{(k)}=\nabla_{g^{(k)}}L_{(x,y)} = \trsp{\left(
+<span class="eqno">(4.4)<a class="headerlink" href="#equation-delta" title="Link to this equation">#</a></span>\[\delta^{(k)}=\nabla_{g^{(k)}}L_{(x,y)} = \trsp{\left(
 \frac{\partial L_{(x,y)}}{\partial g^{(k)}_1},\ldots,\frac{\partial L_{(x,y)}}{\partial g^{(k)}_{n_k}}
 \right)}\]</div>
 <p>Why is that useful? Because we can express the gradient by weights in terms of <span class="math notranslate nohighlight">\(\delta^{(k)}\)</span>:</p>
 <div class="math notranslate nohighlight" id="equation-gradb">
-<span class="eqno">(13)<a class="headerlink" href="#equation-gradb" title="Link to this equation">#</a></span>\[\frac{\partial L_{(x,y)}}{\partial b^{(k)}_{h}} = 
+<span class="eqno">(4.5)<a class="headerlink" href="#equation-gradb" title="Link to this equation">#</a></span>\[\frac{\partial L_{(x,y)}}{\partial b^{(k)}_{h}} = 
 \frac{\partial L_{(x,y)}}{\partial g^{(k)}_{h}}\cdot 
 \frac{\partial g^{(k)}_{h}}{\partial b^{(k)}_{h}}
 = \delta^{(k)}_h\]</div>
 <p>as <span class="math notranslate nohighlight">\(g^{(k)}=W^{(k)}f^{(k-1)}+b^{(k)}\)</span>. In the same way we get</p>
 <div class="math notranslate nohighlight" id="equation-gradw">
-<span class="eqno">(14)<a class="headerlink" href="#equation-gradw" title="Link to this equation">#</a></span>\[\frac{\partial L_{(x,y)}}{\partial w^{(k)}_{hi}} = 
+<span class="eqno">(4.6)<a class="headerlink" href="#equation-gradw" title="Link to this equation">#</a></span>\[\frac{\partial L_{(x,y)}}{\partial w^{(k)}_{hi}} = 
 \frac{\partial L_{(x,y)}}{\partial g^{(k)}_{h}}\cdot 
 \frac{\partial g^{(k)}_{h}}{\partial w^{(k)}_{hi}}
 = \delta^{(k)}_h\cdot f^{(k-1)}_i\]</div>
@@ -500,7 +516,7 @@ It follows that</p>
 \]</div>
 <p>Thus</p>
 <div class="math notranslate nohighlight" id="equation-updatedelta">
-<span class="eqno">(15)<a class="headerlink" href="#equation-updatedelta" title="Link to this equation">#</a></span>\[\delta^{(k)}_h = \sum_{i=1}^{n_{k+1}} w^{(k+1)}_{ih}\cdot \delta^{(k+1)}_i\cdot \sigma'_k(g^{(k)}_h)\]</div>
+<span class="eqno">(4.7)<a class="headerlink" href="#equation-updatedelta" title="Link to this equation">#</a></span>\[\delta^{(k)}_h = \sum_{i=1}^{n_{k+1}} w^{(k+1)}_{ih}\cdot \delta^{(k+1)}_i\cdot \sigma'_k(g^{(k)}_h)\]</div>
 <p>With the help of the <em>Hadamard product</em> we can write this in a more compact way.
 The Hadamard product of two matrices (or vectors) <span class="math notranslate nohighlight">\(A,B\)</span> of the same size
 gives the matrix obtained by element-wise multiplication. That is,
@@ -510,15 +526,15 @@ the product is the matrix of same size defined by</p>
 (A\odot B)_{ij}=A_{ij}\cdot B_{ij}
 \]</div>
 <p>Then</p>
-<div class="amsmath math notranslate nohighlight" id="equation-06956890-d404-480e-8501-230a171f3bcb">
-<span class="eqno">(16)<a class="headerlink" href="#equation-06956890-d404-480e-8501-230a171f3bcb" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-de8ea2f2-bfce-4a66-bcfb-21227aeb2a64">
+<span class="eqno">(4.8)<a class="headerlink" href="#equation-de8ea2f2-bfce-4a66-bcfb-21227aeb2a64" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \delta^{(k)}=\trsp{(W^{(k+1)})}\delta^{(k+1)}\odot \sigma'_k(g^{(k)})
 \end{equation}\]</div>
-<p>Using <a class="reference internal" href="#equation-deltak">(10)</a> and <a class="reference internal" href="#equation-gradb">(13)</a>–<a class="reference internal" href="#equation-updatedelta">(15)</a> we can formulate
+<p>Using <a class="reference internal" href="#equation-deltak">(4.2)</a> and <a class="reference internal" href="#equation-gradb">(4.5)</a>–<a class="reference internal" href="#equation-updatedelta">(4.7)</a> we can formulate
 the <em>back propagation</em> algorithm. For greater generality, let us allow any number <span class="math notranslate nohighlight">\(n_K\)</span>
 of output nodes.</p>
 <div class="proof algorithm admonition" id="backprop">
-<p class="admonition-title"><span class="caption-number">Algorithm 4 </span> (back propagation)</p>
+<p class="admonition-title"><span class="caption-number">Algorithm 4.1 </span> (back propagation)</p>
 <section class="algorithm-content" id="proof-content">
 <p><strong>Instance</strong> A neural network, a loss function <span class="math notranslate nohighlight">\(L_{(x,y)}\)</span> for a single datapoint <span class="math notranslate nohighlight">\((x,y)\)</span><br />
 <strong>Output</strong> The gradient of <span class="math notranslate nohighlight">\(L_{(x,y)}\)</span> by weights</p>
@@ -586,7 +602,7 @@ Microsoft.)</p>
 </div>
 </details></section>
 <section id="the-loss-function">
-<h2>The loss function<a class="headerlink" href="#the-loss-function" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.2. </span>The loss function<a class="headerlink" href="#the-loss-function" title="Link to this heading">#</a></h2>
 <p>Historically neural networks were trained with the square loss. Indeed, in a lot of applications
 we are interested in the mean square error, so why not use it for neural networks, too?
 It turns out that square loss might lead to slow learning – in classification.</p>
@@ -601,7 +617,7 @@ It turns out that square loss might lead to slow learning – in classification.
 L_{(x,y)} = |f_1^{(K)}(x)-y|^2
 \]</div>
 <p>Here, we assume binary classification and thus a single output node. Note also that <span class="math notranslate nohighlight">\(y\in\{0,1\}\)</span>.</p>
-<p>We have already computed, see <a class="reference internal" href="#equation-sqbw">(11)</a>, the gradient at the output layer as</p>
+<p>We have already computed, see <a class="reference internal" href="#equation-sqbw">(4.3)</a>, the gradient at the output layer as</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 \frac{\partial L_{(x,y)}}{\partial w^{(K)}_{1i}}
@@ -615,7 +631,7 @@ Strikingly, this is not what is happening here.</p>
 <p>Being very wrong would mean that <span class="math notranslate nohighlight">\(y=1\)</span> and <span class="math notranslate nohighlight">\(f^{(K)}_1\approx 0\)</span>, or that <span class="math notranslate nohighlight">\(y=0\)</span> and <span class="math notranslate nohighlight">\(f^{(K)}_1\approx 1\)</span>.
 Then, the first factor in the equations above, <span class="math notranslate nohighlight">\(( f^{(K)}_{1} -y )\)</span>, would be close to 1 or -1, which is good.
 The second term, however, <span class="math notranslate nohighlight">\( f^{(K)}_1(1-f^{(K)}_1)\)</span> would be close to 0, which is bad.
-The gradient would be very small, and learning would be slow; see <a class="reference internal" href="#slowfig"><span class="std std-numref">Fig. 14</span></a>.
+The gradient would be very small, and learning would be slow; see <a class="reference internal" href="#slowfig"><span class="std std-numref">Fig. 4.2</span></a>.
 This can be observed in practice.<label for='sidenote-role-3' class='margin-toggle'><span id="id3">
 <sup>3</sup></span>
 
@@ -624,7 +640,7 @@ This can be observed in practice.<label for='sidenote-role-3' class='margin-togg
 <a class="reference internal image-reference" href="../_images/slow.png"><img alt="../_images/slow.png" src="../_images/slow.png" style="height: 6cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 14 </span><span class="caption-text">Gradient <span class="math notranslate nohighlight">\(\frac{\partial L_{(x,y)}}{\partial b^{(K)}_{1}} \)</span> for square loss.
+<p><span class="caption-number">Fig. 4.2 </span><span class="caption-text">Gradient <span class="math notranslate nohighlight">\(\frac{\partial L_{(x,y)}}{\partial b^{(K)}_{1}} \)</span> for square loss.
 We assume that <span class="math notranslate nohighlight">\(y=0\)</span>. Marked: gradient when the network is very wrong.</span><a class="headerlink" href="#slowfig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
@@ -654,7 +670,7 @@ L=-\frac{1}{|S|}\sum_{(x,y)\in S}y \log(f^{(K)}_1(x)) + (1-y)\log(1-f^{(K)}_1(x)
 \[
 L_{(x,y)}=-(y \log(f^{(K)}_1(x)) + (1-y)\log(1-f^{(K)}_1(x))).
 \]</div>
-<p>Again, we compute the gradient at the output layer; see <a class="reference internal" href="#equation-deltak">(10)</a> and <a class="reference internal" href="#equation-gradb">(13)</a>,<a class="reference internal" href="#equation-gradw">(14)</a>.
+<p>Again, we compute the gradient at the output layer; see <a class="reference internal" href="#equation-deltak">(4.2)</a> and <a class="reference internal" href="#equation-gradb">(4.5)</a>,<a class="reference internal" href="#equation-gradw">(4.6)</a>.
 We start with</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
@@ -681,7 +697,7 @@ then the gradient will be (comparatively) large. Again, this can be seen
 in real networks.<label for='marginnote-role-4' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-4' name='marginnote-role-4' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/neural_networks/loss_compare.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>loss_compare</a></span></p>
 </section>
 <section id="softmax-and-loss">
-<h2>Softmax and loss<a class="headerlink" href="#softmax-and-loss" title="Link to this heading">#</a></h2>
+<span id="softmaxsec"></span><h2><span class="section-number">4.3. </span>Softmax and loss<a class="headerlink" href="#softmax-and-loss" title="Link to this heading">#</a></h2>
 <p>The preceding discussion applied to binary classification and a single output
 node. What do we do when we have more classes? First, we’ll have more outputs, namely
 one for each class. Second, we’ll use a softmax layer at the output.</p>
@@ -713,7 +729,7 @@ vectors:</p>
 <a class="reference internal image-reference" href="../_images/soft.png"><img alt="../_images/soft.png" src="../_images/soft.png" style="width: 15cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 15 </span><span class="caption-text">How a softmax output layer works</span><a class="headerlink" href="#softfig" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 4.3 </span><span class="caption-text">How a softmax output layer works</span><a class="headerlink" href="#softfig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>For a final softmax layer, the <em>cross-entropy loss</em> is normally used, and then takes this form:</p>
@@ -740,7 +756,7 @@ that, for a linear output layer, the square loss is actually appropriate.
 Slow learning, as in the case of a logistic output layer, does not occur.</p>
 </section>
 <section id="why-cross-entropy-loss">
-<h2>Why cross-entropy loss?<a class="headerlink" href="#why-cross-entropy-loss" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.4. </span>Why cross-entropy loss?<a class="headerlink" href="#why-cross-entropy-loss" title="Link to this heading">#</a></h2>
 <p>Cross-entropy loss seems to make sense and certainly increases the more bad predictions are made – still
 it may appear a bit arbitrary. It’s not. We take a step back and figure out where cross-entropy loss is coming from.</p>
 <p><em>Cross-entropy</em> and entropy more generally is a concept from information theory. Cross-entropy, in information
@@ -776,8 +792,8 @@ h(x) &amp; \text{ if $y=1$}\\
 \end{split}\]</div>
 <p>We may interpret <span class="math notranslate nohighlight">\(q(y|x)\)</span> as the probability that, given <span class="math notranslate nohighlight">\(x\)</span>, our classifier <span class="math notranslate nohighlight">\(h\)</span> predicts class <span class="math notranslate nohighlight">\(y\)</span>.
 We use <span class="math notranslate nohighlight">\(q(y|x)\)</span> rightaway to rewrite the cross-entropy loss as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-24be9d27-9786-476c-883e-aa8d61c63b9f">
-<span class="eqno">(17)<a class="headerlink" href="#equation-24be9d27-9786-476c-883e-aa8d61c63b9f" title="Permalink to this equation">#</a></span>\[\begin{equation}\label{ceq}
+<div class="amsmath math notranslate nohighlight" id="equation-3cd400ee-1806-459d-8b0c-2dbcd8664cb0">
+<span class="eqno">(4.9)<a class="headerlink" href="#equation-3cd400ee-1806-459d-8b0c-2dbcd8664cb0" title="Permalink to this equation">#</a></span>\[\begin{equation}\label{ceq}
 L=-\frac{1}{|S|}\sum_{(x,y)\in S}\log(q(y|x))
 \end{equation}\]</div>
 <p>We also simply write <span class="math notranslate nohighlight">\(p(x)\)</span> for the <em>marginal probability</em></p>
@@ -832,7 +848,7 @@ a meaningful measure of how similar two probability distributions are.</p>
 <a class="reference internal image-reference" href="../_images/information_small.png"><img alt="../_images/information_small.png" src="../_images/information_small.png" style="width: 6cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 16 </span><span class="caption-text">midjourney on information</span><a class="headerlink" href="#id11" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 4.4 </span><span class="caption-text">midjourney on information</span><a class="headerlink" href="#id11" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p class="sd-card-text">How can we measure information? That is a key question in information theory.
@@ -858,13 +874,13 @@ David J.C. MacKay (2003), <a class="reference external" href="https://www.infere
 </div>
 </details></section>
 <section id="kullback-leibler-divergence">
-<span id="klsec"></span><h2>Kullback-Leibler divergence<a class="headerlink" href="#kullback-leibler-divergence" title="Link to this heading">#</a></h2>
+<span id="klsec"></span><h2><span class="section-number">4.5. </span>Kullback-Leibler divergence<a class="headerlink" href="#kullback-leibler-divergence" title="Link to this heading">#</a></h2>
 <p>The <em>Kullback-Leibler divergence</em> measures how different two probability distributions are.
 For the definition let us consider two discrete probability distributions <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(q\)</span>
 (the general case is similar but involves integrals and measure-theoretic caveats). Then
 the  Kullback-Leibler divergence between <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(q\)</span> is defined as</p>
 <div class="math notranslate nohighlight" id="equation-kldef">
-<span class="eqno">(18)<a class="headerlink" href="#equation-kldef" title="Link to this equation">#</a></span>\[\KL(p||q)=\sum_{x} p(x) \log\left(\frac{p(x)}{q(x)}\right)
+<span class="eqno">(4.10)<a class="headerlink" href="#equation-kldef" title="Link to this equation">#</a></span>\[\KL(p||q)=\sum_{x} p(x) \log\left(\frac{p(x)}{q(x)}\right)
 = \expec_p[\log p(x)] - \expec_p[\log q(x)]\]</div>
 <p>Here, the sum ranges over all events; and some authors take the natural logarithm while others take the logarithm base 2.
 (As the difference is a constant factor, it does not matter much which logarithm is chosen.)
@@ -876,7 +892,7 @@ That is, normally <span class="math notranslate nohighlight">\(\KL(p||q)\neq\KL(
 <p>We consider a very simple example. Let <span class="math notranslate nohighlight">\(p\)</span> be the probability distribution of a fair coin toss
 (ie, heads with probability a half and tails equally with probability a half), and denote by <span class="math notranslate nohighlight">\(q\)</span>
 the probability distribution in which heads occurs with probability <span class="math notranslate nohighlight">\(\nu\)</span>.
-Then (taking the logarithm base~<span class="math notranslate nohighlight">\(2\)</span>)</p>
+Then (taking the logarithm base 2)</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 \KL(p||q) &amp; = \underbrace{\tfrac{1}{2}\log\left(\tfrac{1}{2}/\nu\right)}_{\text{heads}}
@@ -897,13 +913,13 @@ Then (taking the logarithm base~<span class="math notranslate nohighlight">\(2\)
 <a class="reference internal image-reference" href="../_images/KL.png"><img alt="../_images/KL.png" src="../_images/KL.png" style="width: 15cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 17 </span><span class="caption-text">Comparison of Kullback-Leibler divergence for varying values of coin toss probability <span class="math notranslate nohighlight">\(\nu\)</span>.
+<p><span class="caption-number">Fig. 4.5 </span><span class="caption-text">Comparison of Kullback-Leibler divergence for varying values of coin toss probability <span class="math notranslate nohighlight">\(\nu\)</span>.
 Fair coin toss denoted by <span class="math notranslate nohighlight">\(p\)</span>, while under <span class="math notranslate nohighlight">\(q\)</span> head occurs with probability <span class="math notranslate nohighlight">\(\nu\)</span>.</span><a class="headerlink" href="#klfig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Let us prove <em>Gibb’s inequality</em>:</p>
 <div class="proof theorem admonition" id="gibbsineq">
-<p class="admonition-title"><span class="caption-number">Theorem 3 </span></p>
+<p class="admonition-title"><span class="caption-number">Theorem 4.1 </span></p>
 <section class="theorem-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(p,q\)</span> be two (discrete) probability distributions. Then
 it holds that <span class="math notranslate nohighlight">\(\KL(p||q)\geq 0\)</span>, and
@@ -932,7 +948,7 @@ the other direction is trivial.</p>
 </div>
 </section>
 <section id="local-minima">
-<h2>Local minima<a class="headerlink" href="#local-minima" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.6. </span>Local minima<a class="headerlink" href="#local-minima" title="Link to this heading">#</a></h2>
 <p>Neural networks are trained with SGD, or with a variant of SGD.
 Why does that work at all? The loss functions is highly
 non-convex. Indeed, because of the symmetries in the weights it is almost guaranteed that
@@ -993,7 +1009,7 @@ for one variable.</p>
 </label><input type='checkbox' id='sidenote-role-7' name='sidenote-role-7' class='margin-toggle'><span class="sidenote"><sup>7</sup><em>On the number of minima of a random polynomial</em>, J.-P. Dedieu and G. Malajovich (2008)</span>
 proved:</p>
 <div class="proof theorem admonition" id="theorem-2">
-<p class="admonition-title"><span class="caption-number">Theorem 4 </span> (Dedieu and Malajovich (2008))</p>
+<p class="admonition-title"><span class="caption-number">Theorem 4.2 </span> (Dedieu and Malajovich (2008))</p>
 <section class="theorem-content" id="proof-content">
 <p>The expected number of extremal points of a random polynomial of degree d in <span class="math notranslate nohighlight">\(n\)</span> variables
 is bounded by <span class="math notranslate nohighlight">\(\bigO(\exp(-n^2+n\log(d))\)</span>.</p>
@@ -1014,7 +1030,7 @@ way, which would make local minima unlikely. Admittedly, this argumentation
 involves a lot of hand-waving.</p>
 </section>
 <section id="no-traps">
-<h2>No traps<a class="headerlink" href="#no-traps" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.7. </span>No traps<a class="headerlink" href="#no-traps" title="Link to this heading">#</a></h2>
 <p>Let’s try again to argue that local minima are unlikely to trap
 SGD when training a neural network.
 In the setting we will consider, there are more weights, more parameters of the
@@ -1026,7 +1042,7 @@ on just 1.2 million datapoints.<label for='marginnote-role-8' class='margin-togg
 <a class="reference internal image-reference" href="../_images/locmin.png"><img alt="../_images/locmin.png" src="../_images/locmin.png" style="width: 15cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 18 </span><span class="caption-text">Distribution of the training error for 100 runs of SGD in one hidden layer neural networks of
+<p><span class="caption-number">Fig. 4.6 </span><span class="caption-text">Distribution of the training error for 100 runs of SGD in one hidden layer neural networks of
 different sizes. All neural networks were trained on Fashion MNIST with the same training set of size 5000.
 For over-parameterised
 networks (100 hidden nodes) training error shows smaller variance, while the variance
@@ -1041,7 +1057,7 @@ and <em>dropout layers</em>, without explaining what they are.</p>
 to see that a local minimum is also a global one, we need to check that it has
 zero training error. We will succeed in doing so, provided an extra condition is imposed
 that might seem artificial and perhaps too far removed from reality.
-A similar phenomenon can be observed in practice: In <a class="reference internal" href="#trainvarfig"><span class="std std-numref">Fig. 18</span></a>, we see that
+A similar phenomenon can be observed in practice: In <a class="reference internal" href="#trainvarfig"><span class="std std-numref">Fig. 4.6</span></a>, we see that
 over-parameterised neural networks are less likely to finish training with a training
 error that is far away from the optimum.</p>
 <p>For two matrices <span class="math notranslate nohighlight">\(A\in\mathbb R^{m\times n}\)</span> and <span class="math notranslate nohighlight">\(B\in\mathbb R^{k\times \ell}\)</span>
@@ -1078,7 +1094,7 @@ holds for <em>almost all</em> <span class="math notranslate nohighlight">\(x\in\
 
 </label><input type='checkbox' id='sidenote-role-9' name='sidenote-role-9' class='margin-toggle'><span class="sidenote"><sup>9</sup><em>Identifiability of parameters in latent structure models with many observed variables</em>, E.S. Allman, C. Matias, J.A. Rhodes (2009), <a class="reference external" href="https://arxiv.org/abs/0809.5032">arXiv:0809.5032</a></span></p>
 <div class="proof lemma admonition" id="otimeslem">
-<p class="admonition-title"><span class="caption-number">Lemma 13 </span> (Allman, Matias and Rhodes (2009))</p>
+<p class="admonition-title"><span class="caption-number">Lemma 4.1 </span> (Allman, Matias and Rhodes (2009))</p>
 <section class="lemma-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(k,\ell,N\)</span> be integers with <span class="math notranslate nohighlight">\(k\ell\geq N\)</span>. Then
 for almost all <span class="math notranslate nohighlight">\((A,B)\)</span> with
@@ -1103,7 +1119,7 @@ subset of the set of roots of <span class="math notranslate nohighlight">\(p\)</
 \{(A,B):p(A,B)=0\}
 \]</div>
 <p>From analysis we know that the set of roots of a polynomial is a null set — unless the polynomial
-is~<span class="math notranslate nohighlight">\(0\)</span>. Thus, let us prove that <span class="math notranslate nohighlight">\(p\not\equiv 0\)</span>.</p>
+is 0. Thus, let us prove that <span class="math notranslate nohighlight">\(p\not\equiv 0\)</span>.</p>
 <p>To show that <span class="math notranslate nohighlight">\(p\not\equiv 0\)</span> it suffices to find some <span class="math notranslate nohighlight">\((A,B)\)</span> for which <span class="math notranslate nohighlight">\(p(A,B)\neq 0\)</span>.
 Pick distinct primes <span class="math notranslate nohighlight">\(a_1,\ldots, a_k\)</span> and <span class="math notranslate nohighlight">\(b_1,\ldots, b_\ell\)</span> and consider the
 Vandermonde matrices</p>
@@ -1199,15 +1215,15 @@ a small perturbation of the activation function.</p>
 <p>We also collect all datapoints into a matrix <span class="math notranslate nohighlight">\(X=(x^{(1)},\ldots, x^{(N)})\)</span>,
 and prescribe (mean) square loss as loss function</p>
 <div class="math notranslate nohighlight" id="equation-mselss">
-<span class="eqno">(19)<a class="headerlink" href="#equation-mselss" title="Link to this equation">#</a></span>\[\text{MSE}=\frac{1}{N}\sum_{n=1}^N (y^{(n)}-W^{(2)}\diag(a^{(n)}) \cdot W^{(1)}x^{(n)} )^2\]</div>
+<span class="eqno">(4.11)<a class="headerlink" href="#equation-mselss" title="Link to this equation">#</a></span>\[\text{MSE}=\frac{1}{N}\sum_{n=1}^N (y^{(n)}-W^{(2)}\diag(a^{(n)}) \cdot W^{(1)}x^{(n)} )^2\]</div>
 <p>We now get to a main insight due to Soudry and Carmon:<label for='sidenote-role-10' class='margin-toggle'><span id="id10">
 <sup>10</sup></span>
 
 </label><input type='checkbox' id='sidenote-role-10' name='sidenote-role-10' class='margin-toggle'><span class="sidenote"><sup>10</sup><em>Data independent training error guarantees for multilayer neural networks</em>, D. Soudry and Y. Carmon (2016), <a class="reference external" href="https://arxiv.org/abs/1605.08361">arXiv:1605.08361</a></span></p>
 <div class="proof theorem admonition" id="scthm">
-<p class="admonition-title"><span class="caption-number">Theorem 5 </span> (Soudry and Carmon)</p>
+<p class="admonition-title"><span class="caption-number">Theorem 4.3 </span> (Soudry and Carmon)</p>
 <section class="theorem-content" id="proof-content">
-<p>If <span class="math notranslate nohighlight">\(n_0n_1\geq N\)</span> then all differentiable local minima of~\eqref{mselss} are global
+<p>If <span class="math notranslate nohighlight">\(n_0n_1\geq N\)</span> then all differentiable local minima of <a class="reference internal" href="#equation-mselss">(4.11)</a> are global
 minima with <span class="math notranslate nohighlight">\(\text{MSE}=0\)</span> for almost all <span class="math notranslate nohighlight">\((X,\mathcal E)\)</span>.</p>
 </section>
 </div><p>The theorem does not imply that (almost) every local minimum is a global one.
@@ -1215,7 +1231,7 @@ The additional assumption that we need in order to prove the theorem
 are simply to restrictive. However, the conditions are realistic enough
 that we plausibly may conclude that typically there few high training error local minima.</p>
 <div class="proof admonition" id="proof">
-<p>Proof. Consider <a class="reference internal" href="#equation-mselss">(19)</a> and observe that <span class="math notranslate nohighlight">\(W^{(2)}\)</span> is a row vector as there is only one output node.
+<p>Proof. Consider <a class="reference internal" href="#equation-mselss">(4.11)</a> and observe that <span class="math notranslate nohighlight">\(W^{(2)}\)</span> is a row vector as there is only one output node.
 That means we can swap it with the diagonal matrix <span class="math notranslate nohighlight">\(\diag(a^{(n)})\)</span> that succeeds it
 such that we get</p>
 <div class="amsmath math notranslate nohighlight">
@@ -1225,10 +1241,10 @@ such that we get</p>
 \end{align*}\]</div>
 <p>We now write <span class="math notranslate nohighlight">\(W=\diag(W^{(2)}) \cdot W^{(1)}\)</span> in order to simplify:</p>
 <div class="math notranslate nohighlight" id="equation-mselss2">
-<span class="eqno">(20)<a class="headerlink" href="#equation-mselss2" title="Link to this equation">#</a></span>\[\text{MSE} =\frac{1}{N}\sum_{n=1}^N (y^{(n)}-\trsp{(a^{(n)})} Wx^{(n)} )^2\]</div>
-<p>We note that <span class="math notranslate nohighlight">\((W^{(1)},W^{(2)})\)</span> is a DLM of~\eqref{mselss} if and only if <span class="math notranslate nohighlight">\(W\)</span> is a DLM
-of <a class="reference internal" href="#equation-mselss2">(20)</a>.</p>
-<p>Now let’s consider a DLM of <a class="reference internal" href="#equation-mselss2">(20)</a>. In particular, the gradient is 0:</p>
+<span class="eqno">(4.12)<a class="headerlink" href="#equation-mselss2" title="Link to this equation">#</a></span>\[\text{MSE} =\frac{1}{N}\sum_{n=1}^N (y^{(n)}-\trsp{(a^{(n)})} Wx^{(n)} )^2\]</div>
+<p>We note that <span class="math notranslate nohighlight">\((W^{(1)},W^{(2)})\)</span> is a DLM of <a class="reference internal" href="#equation-mselss">(4.11)</a> if and only if <span class="math notranslate nohighlight">\(W\)</span> is a DLM
+of <a class="reference internal" href="#equation-mselss2">(4.12)</a>.</p>
+<p>Now let’s consider a DLM of <a class="reference internal" href="#equation-mselss2">(4.12)</a>. In particular, the gradient is 0:</p>
 <div class="math notranslate nohighlight">
 \[
 0=\nabla_W \text{MSE} = \frac{1}{N}\sum_{n=1}^N \nabla_W(y^{(n)}-\trsp{(a^{(n)})} Wx^{(n)} )^2
@@ -1254,7 +1270,7 @@ e^{(n)}=y^{(n)}-\trsp{(a^{(n)})} Wx^{(n)}\in\mathbb R
 is, if MSE <span class="math notranslate nohighlight">\(=0\)</span>. Obviously, that means a perfect classification of the training set, and in turn,
 that the local minimum is also a global one.</p>
 <p>Thus our task consists in showing that the set of <span class="math notranslate nohighlight">\(A\circ X\)</span> with <span class="math notranslate nohighlight">\(\rank(A\circ X)&lt;N\)</span>
-is a null set. We cannot apply directly <a class="reference internal" href="#otimeslem">Lemma 13</a> as <span class="math notranslate nohighlight">\(A\)</span> implicitly depends on <span class="math notranslate nohighlight">\(X\)</span>:
+is a null set. We cannot apply directly <a class="reference internal" href="#otimeslem">Lemma 4.1</a> as <span class="math notranslate nohighlight">\(A\)</span> implicitly depends on <span class="math notranslate nohighlight">\(X\)</span>:
 indeed, whether <span class="math notranslate nohighlight">\((W^{(1)}x^{(n)})_h\geq 0\)</span> or <span class="math notranslate nohighlight">\((W^{(1)}x^{(n)})_h&lt;0\)</span> determines whether
 <span class="math notranslate nohighlight">\(a^{(n)}_h=\epsilon^{(n)}_h\)</span> or whether <span class="math notranslate nohighlight">\(a^{(n)}_h=0.1\epsilon^{(n)}_h\)</span>. However, for each <span class="math notranslate nohighlight">\(n,h\)</span> there are
 only two options, which means that, given <span class="math notranslate nohighlight">\(\mathcal E\)</span>, there are only <span class="math notranslate nohighlight">\(2^{Nn_1}\)</span> different possible matrices <span class="math notranslate nohighlight">\(A\)</span>.</p>
@@ -1273,7 +1289,7 @@ many null sets is still a null set, we deduce that for almost all <span class="m
 <a class="reference internal image-reference" href="../_images/blurry_Leopold_Kronecker_1865.jpg"><img alt="../_images/blurry_Leopold_Kronecker_1865.jpg" src="../_images/blurry_Leopold_Kronecker_1865.jpg" style="width: 6cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 19 </span><span class="caption-text">blurry Kronecker</span><a class="headerlink" href="#id12" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 4.7 </span><span class="caption-text">blurry Kronecker</span><a class="headerlink" href="#id12" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p class="sd-card-text">A common challenge in image processing lies in recovering a sharp image from an out of focus, blurred photograph.
@@ -1316,15 +1332,15 @@ This view then informs  theoretical insights.</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Stochastic gradient descent</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Stochastic gradient descent</p>
       </div>
     </a>
     <a class="right-next"
-       href="mips.html"
+       href="netsprops.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Maximum inner product search</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Properties of neural networks</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1345,13 +1361,13 @@ This view then informs  theoretical insights.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-propagation">Back propagation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-loss-function">The loss function</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#softmax-and-loss">Softmax and loss</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-cross-entropy-loss">Why cross-entropy loss?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kullback-leibler-divergence">Kullback-Leibler divergence</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-minima">Local minima</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#no-traps">No traps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-propagation">4.1. Back propagation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-loss-function">4.2. The loss function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#softmax-and-loss">4.3. Softmax and loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-cross-entropy-loss">4.4. Why cross-entropy loss?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kullback-leibler-divergence">4.5. Kullback-Leibler divergence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-minima">4.6. Local minima</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#no-traps">4.7. No traps</a></li>
 </ul>
   </nav></div>
 
@@ -1365,10 +1381,6 @@ This view then informs  theoretical insights.</p>
   
   <div class="footer-item">
     
-<p class="component-author">
-By Henning
-</p>
-
   </div>
   
   <div class="footer-item">

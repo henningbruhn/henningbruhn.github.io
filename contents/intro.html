@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Predictors, classification and losses &#8212; A second test run  documentation</title>
+    <title>1. Predictors, classification and losses &#8212; Mathematics of Machine Learning</title>
   
   
   
@@ -35,6 +35,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/proof.css?v=ca93fcec" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=82609fe5" />
+    <link rel="stylesheet" type="text/css" href="../_static/tippy.css?v=2687f39f" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -47,13 +48,16 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
+    <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
+    <script defer="defer" src="../_static/tippy/contents/intro.96804c43-5543-4e53-9708-231be2da2ab6.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'contents/intro';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Stochastic gradient descent" href="convex.html" />
-    <link rel="prev" title="A second test run" href="../index.html" />
+    <link rel="next" title="2. PAC learning" href="pac.html" />
+    <link rel="prev" title="Mathematics of Machine Learning" href="../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -130,8 +134,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/robot_reading_small.png" class="logo__image only-light" alt="Mathematics of Machine Learning - Home"/>
+    <img src="../_static/robot_reading_small.png" class="logo__image only-dark pst-js-only" alt="Mathematics of Machine Learning - Home"/>
   
-    <p class="title logo__title">A second test run  documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -143,12 +153,17 @@
 </button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Predictors, classification and losses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="convex.html">Stochastic gradient descent</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nets.html">Neural networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mips.html">Maximum inner product search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html">TEST</a></li>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">1. Predictors, classification and losses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pac.html">2. PAC learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convex.html">3. Stochastic gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nets.html">4. Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netsprops.html">5. Properties of neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loss.html">6. Loss functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl.html">7. Reinforcement learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mips.html">8. Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test.html">9. TEST</a></li>
 </ul>
 
     </div>
@@ -294,13 +309,19 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tasks-in-ml">Tasks in ML</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vocabulary">Vocabulary</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-predictors">Linear predictors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic regression</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-errors">Training and errors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-predictors">Polynomial predictors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nearest-neighbour">Nearest neighbour</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tasks-in-ml">1.1. Tasks in ML</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vocabulary">1.2. Vocabulary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-predictors">1.3. Linear predictors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">1.4. Logistic regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-errors">1.5. Training and errors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-predictors">1.6. Polynomial predictors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nearest-neighbour">1.7. Nearest neighbour</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-trees">1.8. Decision trees</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-networks">1.9. Neural networks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-functions">1.10. Loss functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression">1.11. Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-statistical-model">1.12. A statistical model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-error">1.13. Bayes error</a></li>
 </ul>
             </nav>
         </div>
@@ -323,27 +344,33 @@
 \newcommand{\trsp}[1]{#1^\intercal} % transpose
 \newcommand{\sigm}{\phi_{\text{sig}}} % logistic function
 \newcommand{\twovec}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\DeclareMathOperator*{\expec}{\mathbb{E}} % Expectation
+\DeclareMathOperator*{\proba}{\mathbb{P}}   % Probability
+\newcommand{\bayes}{h_{\text{Bayes}}} % the Bayes classifier
+\newcommand{\bayerr}{\epsilon_\text{Bayes}} % the Bayes error
+\DeclareMathOperator*{\argmax}{argmax}
 \)</span></p>
 <section class="tex2jax_ignore mathjax_ignore" id="predictors-classification-and-losses">
-<h1>Predictors, classification and losses<a class="headerlink" href="#predictors-classification-and-losses" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">1. </span>Predictors, classification and losses<a class="headerlink" href="#predictors-classification-and-losses" title="Link to this heading">#</a></h1>
 <p>Does a given picture show a dog or a cat?
 Should the applicant be granted a credit? Is the mail
 spam or ham? These are all examples of <em>classification</em> tasks, one of the
 principal domains in machine learning.</p>
 <p>A well-known classification tasks involves the MNIST data set.<label for='marginnote-role-1' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-1' name='marginnote-role-1' class='margin-toggle'><span class="marginnote"> MNIST is so well known that it has a <a class="reference external" href="https://en.wikipedia.org/wiki/MNIST_database">wikipedia</a> entry.</span>
-The MNIST data set contains 70000 handwritten digits as images of <span class="math notranslate nohighlight">\(28\times 28\)</span> pixels. The task is
-to decide whether a given image <span class="math notranslate nohighlight">\(x\)</span> shows a <span class="math notranslate nohighlight">\(0\)</span>, <span class="math notranslate nohighlight">\(1\)</span>, or perhaps a <span class="math notranslate nohighlight">\(7\)</span>. In machine learning
+The MNIST data set contains 70000 handwritten digits as images of 28<span class="math notranslate nohighlight">\(\times\)</span> 28 pixels. The task is
+to decide whether a given image <span class="math notranslate nohighlight">\(x\)</span> shows a 0, 1, or perhaps a 7. In machine learning
 this tasks is solved by letting an algorithm <em>learn</em> how to accomplish the tasks by
 giving it access to a large number of examples, the <em>training set</em>,
-together with the true classification.<label for='marginnote-role-2' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-2' name='marginnote-role-2' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/basic_algorithms_and_concepts/MNIST.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>MNIST</a></span>
+together with the true classification.<label for='marginnote-role-2' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-2' name='marginnote-role-2' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/basic_algorithms_and_concepts/MNIST.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>MNIST</a><br />
+(everywhere you see this icon, there’s a link that takes you directly to colab)</span>
 In the MNIST tasks that means that the algorithm not only
 receives perhaps 60000 images, each containing a handwritten digit, but also for each image
-the information which <em>class</em> it is, ie, which of the digits 0,1,…,9 is shown; see <a class="reference internal" href="#mnistfig"><span class="std std-numref">Fig. 1</span></a>.</p>
+the information which <em>class</em> it is, ie, which of the digits 0,1,…,9 is shown; see <a class="reference internal" href="#mnistfig"><span class="std std-numref">Fig. 1.1</span></a>.</p>
 <figure class="align-default" id="mnistfig">
 <a class="reference internal image-reference" href="../_images/mnist_row.png"><img alt="../_images/mnist_row.png" src="../_images/mnist_row.png" style="width: 15cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 1 </span><span class="caption-text">A small sample from the MNIST data set</span><a class="headerlink" href="#mnistfig" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 1.1 </span><span class="caption-text">A small sample from the MNIST data set</span><a class="headerlink" href="#mnistfig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Machine learning is part of the wider field of <em>artificial intelligence</em>. Early approaches to AI
@@ -373,7 +400,7 @@ a random forest).</p>
 <a class="reference internal image-reference" href="../_images/learning.png"><img alt="../_images/learning.png" src="../_images/learning.png" style="width: 15cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Learning an algorithm, the predictor</span><a class="headerlink" href="#gdtimefig" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 1.2 </span><span class="caption-text">Learning an algorithm, the predictor</span><a class="headerlink" href="#gdtimefig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Consequently, machine learning typically works in two phases: the <em>learning or training phase</em>
@@ -395,7 +422,7 @@ patterns in data or to learn some complicated probability distribution.
 So, for instance, an algorithm might learn how typical credit card transactions look like and
 then flag anomalous transactions because they might be fraudulent.</p>
 <section id="tasks-in-ml">
-<h2>Tasks in ML<a class="headerlink" href="#tasks-in-ml" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">1.1. </span>Tasks in ML<a class="headerlink" href="#tasks-in-ml" title="Link to this heading">#</a></h2>
 <p>Some common tasks in machine learning are:</p>
 <ul>
 <li><p><em>Classification:</em> classify some input into a finite number of classes. Examples are
@@ -427,7 +454,7 @@ the situation. Think chess programs and robots.</p></li>
 <p>We will first concentrate on classification and, to a lesser extent, on regression.</p>
 </section>
 <section id="vocabulary">
-<h2>Vocabulary<a class="headerlink" href="#vocabulary" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">1.2. </span>Vocabulary<a class="headerlink" href="#vocabulary" title="Link to this heading">#</a></h2>
 <p>In a classification task, we aim to train a classifier that assigns labels or a class to
 given input data.
 In the MNIST digit recognition task, the input consists of grey-scale images of size
@@ -451,7 +478,7 @@ There are also multidimensional regression problems, problems with <span class="
 The training classifier is obtained as a product of the <em>learning algorithm</em>, an algorithm that
 takes as input training data and outputs a classifier.<br />
 Here, the <em>training set</em> is a finite subset of <span class="math notranslate nohighlight">\(\mathcal X\times\mathcal Y\)</span>.
-For MNIST the tuples <span class="math notranslate nohighlight">\((x,y)\)</span> in the training set would consist of the image~<span class="math notranslate nohighlight">\(x\)</span> of a digit and <span class="math notranslate nohighlight">\(y\in\{0,\ldots, 9\}\)</span>,
+For MNIST the tuples <span class="math notranslate nohighlight">\((x,y)\)</span> in the training set would consist of the image <span class="math notranslate nohighlight">\(x\)</span> of a digit and <span class="math notranslate nohighlight">\(y\in\{0,\ldots, 9\}\)</span>,
 the digit shown in the image. That is, <span class="math notranslate nohighlight">\(y\)</span> is the <em>true class</em> of <span class="math notranslate nohighlight">\(x\)</span>. (It should be noted, however,
 that there may be errors in the training set, and that sometimes the truth is ambiguous:
 of two credit applicants with the exact same financial data <span class="math notranslate nohighlight">\(x\)</span> one may have been deemed credit worthy
@@ -526,7 +553,7 @@ The sensors could record electrical currents, magnetic fields or simple audio da
 </div>
 </details></section>
 <section id="linear-predictors">
-<h2>Linear predictors<a class="headerlink" href="#linear-predictors" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">1.3. </span>Linear predictors<a class="headerlink" href="#linear-predictors" title="Link to this heading">#</a></h2>
 <p>Let’s look at possible the simplest sort of classification algorithm, a <em>linear classifier</em>.</p>
 <p>We consider a binary classification task with domain set <span class="math notranslate nohighlight">\(\mathcal X\subseteq \mathbb R^d\)</span> and <span class="math notranslate nohighlight">\(\mathcal Y=\{-1,1\}\)</span>.
 A very simple classifier tries to separate the data points into different halfspaces. That is, we look for a halfspace
@@ -546,13 +573,13 @@ h(x)=\begin{cases}
 \sgn\circ h_{w,b},
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(\sgn\)</span> denotes the sign function, with the slightly non-standard convention that <span class="math notranslate nohighlight">\(0\)</span> is attributed sign <span class="math notranslate nohighlight">\(+1\)</span>.
-A classifier such as <span class="math notranslate nohighlight">\(\sgn\circ h_{w,b}\)</span> is a <em>linear predictor</em> or <em>linear classifier</em>; see <a class="reference internal" href="#linpredfig"><span class="std std-numref">Fig. 3</span></a>.
+A classifier such as <span class="math notranslate nohighlight">\(\sgn\circ h_{w,b}\)</span> is a <em>linear predictor</em> or <em>linear classifier</em>; see <a class="reference internal" href="#linpredfig"><span class="std std-numref">Fig. 1.3</span></a>.
 The term <span class="math notranslate nohighlight">\(b\)</span> in <span class="math notranslate nohighlight">\(\sgn\circ h_{w,b}\)</span> is the <em>bias</em> of the linear predictor.</p>
 <figure class="align-default" id="linpredfig">
 <a class="reference internal image-reference" href="../_images/sep_and_non_sep.png"><img alt="../_images/sep_and_non_sep.png" src="../_images/sep_and_non_sep.png" style="width: 15cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 3 </span><span class="caption-text">The left dataset can be fit perfectly by a linear classifier, the one on the right cannot.</span><a class="headerlink" href="#linpredfig" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 1.3 </span><span class="caption-text">The left dataset can be fit perfectly by a linear classifier, the one on the right cannot.</span><a class="headerlink" href="#linpredfig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>By modifying the domain set slightly
@@ -574,7 +601,7 @@ h_w: x\mapsto \trsp wx
 \]</div>
 </section>
 <section id="logistic-regression">
-<span id="logregsec"></span><h2>Logistic regression<a class="headerlink" href="#logistic-regression" title="Link to this heading">#</a></h2>
+<span id="logregsec"></span><h2><span class="section-number">1.4. </span>Logistic regression<a class="headerlink" href="#logistic-regression" title="Link to this heading">#</a></h2>
 <p>How can we train a linear predictor? Ideally, we would minimise the training error directly.
 Let’s assume
 a homogeneous training set, which means that it suffices to
@@ -582,14 +609,14 @@ learn a linear classifer of the form <span class="math notranslate nohighlight">
 And let’s assume that the loss function is zero-one loss.
 Then, minimising the training error means solving the following optimisation problem:<label for='marginnote-role-7' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-7' name='marginnote-role-7' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/basic_algorithms_and_concepts/logreg.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>logreg</a></span></p>
 <div class="math notranslate nohighlight" id="equation-linzo">
-<span class="eqno">(1)<a class="headerlink" href="#equation-linzo" title="Link to this equation">#</a></span>\[\begin{split}\min_{w} L_S(h_w) &amp;= \min_w\frac{1}{|S|}\sum_{(x,y)\in S}\ell_{0-1}(y,\sgn\circ h_w(x)) \notag \\
+<span class="eqno">(1.1)<a class="headerlink" href="#equation-linzo" title="Link to this equation">#</a></span>\[\begin{split}\min_{w} L_S(h_w) &amp;= \min_w\frac{1}{|S|}\sum_{(x,y)\in S}\ell_{0-1}(y,\sgn\circ h_w(x)) \notag \\
  &amp; =\min_{w}\frac{1}{|S|}\sum_{(x,y)\in S}\tfrac{1}{2}(1-y\sgn\trsp wx)\end{split}\]</div>
 <p>(Recall that <span class="math notranslate nohighlight">\(\ell_{0-1}\)</span> denotes the zero-one loss.)
 Unfortunately, this optimisation problem is a hard problem and also in practice not easily solvable.
 Why is it hard? It is not even smooth: A small change in <span class="math notranslate nohighlight">\(w\)</span> may flip <span class="math notranslate nohighlight">\(\sgn \trsp wx\)</span> from <span class="math notranslate nohighlight">\(+1\)</span> to <span class="math notranslate nohighlight">\(-1\)</span>.</p>
 <p>A common learner for linear predictors is <em>logistic regression</em>.<label for='marginnote-role-8' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-8' name='marginnote-role-8' class='margin-toggle'><span class="marginnote"> Everything is wrong about the name <em>logistic regression</em>. It doesn’t have anything to
 do with logistics and it’s not regression, it’s classification.</span>
-Logistic regression does not try to solve <a class="reference internal" href="#equation-linzo">(1)</a> directly but tries to solve
+Logistic regression does not try to solve <a class="reference internal" href="#equation-linzo">(1.1)</a> directly but tries to solve
 a <em>surrogate</em> problem that is much easier.
 This surrogate problem is based on the <em>logistic function</em><label for='sidenote-role-9' class='margin-toggle'><span id="id9">
 <sup>9</sup></span>
@@ -599,26 +626,26 @@ This surrogate problem is based on the <em>logistic function</em><label for='sid
 \[
 \sigm:\mathbb R\to\mathbb R_+,\quad z\mapsto \frac{1}{1+e^{-z}},
 \]</div>
-<p>which can also be seen in <a class="reference internal" href="#logisfig"><span class="std std-numref">Fig. 4</span></a>.</p>
+<p>which can also be seen in <a class="reference internal" href="#logisfig"><span class="std std-numref">Fig. 1.4</span></a>.</p>
 <figure class="align-default" id="logisfig">
 <a class="reference internal image-reference" href="../_images/logistic.png"><img alt="../_images/logistic.png" src="../_images/logistic.png" style="width: 15cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 4 </span><span class="caption-text">The logistic function</span><a class="headerlink" href="#logisfig" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 1.4 </span><span class="caption-text">The logistic function</span><a class="headerlink" href="#logisfig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The optimisation problem that logistic regression solves is:</p>
 <div class="math notranslate nohighlight" id="equation-logloss">
-<span class="eqno">(2)<a class="headerlink" href="#equation-logloss" title="Link to this equation">#</a></span>\[\min_{w} \frac{1}{|S|}\sum_{(x,y)\in S}-\log_2\left(\sigm(y\trsp wx)\right)\]</div>
+<span class="eqno">(1.2)<a class="headerlink" href="#equation-logloss" title="Link to this equation">#</a></span>\[\min_{w} \frac{1}{|S|}\sum_{(x,y)\in S}-\log_2\left(\sigm(y\trsp wx)\right)\]</div>
 <p>Why is the surrogate problem easier?
 Because it is a smooth optimisation problem and thus can be solved with a number
 of numerical optimisation algorithms. In fact, it is even a <em>convex optimisation</em> problem,
 a particularly simple type of optimisation problem that we’ll
 discuss later in this course. For the moment
-let us simply observe that the zero-one loss in <a class="reference internal" href="#equation-linzo">(1)</a> is upper-bounded by
-the so called <em>logistic loss</em> in <a class="reference internal" href="#equation-logloss">(2)</a>:</p>
+let us simply observe that the zero-one loss in <a class="reference internal" href="#equation-linzo">(1.1)</a> is upper-bounded by
+the so called <em>logistic loss</em> in <a class="reference internal" href="#equation-logloss">(1.2)</a>:</p>
 <div class="proof lemma admonition" id="upperloglosslem">
-<p class="admonition-title"><span class="caption-number">Lemma 1 </span></p>
+<p class="admonition-title"><span class="caption-number">Lemma 1.1 </span></p>
 <section class="lemma-content" id="proof-content">
 <p>For all training sets <span class="math notranslate nohighlight">\(S\subset\mathbb R^d\times\{-1,1\}\)</span> and
 <span class="math notranslate nohighlight">\(w\in\mathbb R^d\)</span> it holds that</p>
@@ -652,14 +679,14 @@ the the training error
 as well.</p>
 </section>
 <section id="training-and-errors">
-<h2>Training and errors<a class="headerlink" href="#training-and-errors" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">1.5. </span>Training and errors<a class="headerlink" href="#training-and-errors" title="Link to this heading">#</a></h2>
 <p>So far, we have tried to minimise the training error. With the zero-one-loss, for instance,
 we tried to minimise the misclassification rate on the training set when fitting a logistic regression.<label for='marginnote-role-10' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-10' name='marginnote-role-10' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/basic_algorithms_and_concepts/errors.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>errors</a></span></p>
 <figure class="align-default" id="testerrfig">
 <a class="reference internal image-reference" href="../_images/testerr.png"><img alt="../_images/testerr.png" src="../_images/testerr.png" style="width: 15cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Training, validation and test set.</span><a class="headerlink" href="#testerrfig" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 1.5 </span><span class="caption-text">Training, validation and test set.</span><a class="headerlink" href="#testerrfig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The real question, however, is how well the algorithm performs on <em>new</em> data, on data it has not seen
@@ -694,7 +721,7 @@ The aim therefore is to obtain first a relatively small training error, and then
 between training and test error.</p>
 </section>
 <section id="polynomial-predictors">
-<span id="polysec"></span><h2>Polynomial predictors<a class="headerlink" href="#polynomial-predictors" title="Link to this heading">#</a></h2>
+<span id="polysec"></span><h2><span class="section-number">1.6. </span>Polynomial predictors<a class="headerlink" href="#polynomial-predictors" title="Link to this heading">#</a></h2>
 <p>Linear predictors are very simple and will often have a large training error.<label for='marginnote-role-11' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-11' name='marginnote-role-11' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/basic_algorithms_and_concepts/quadpred.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>quadpred</a></span>
 A classifier based on quadratic functions, or even higher polynomials,
 will certainly be more powerful and will often have smaller training error.
@@ -723,12 +750,12 @@ higher polynomials.</p>
 <a class="reference internal image-reference" href="../_images/quadpred.png"><img alt="../_images/quadpred.png" src="../_images/quadpred.png" style="width: 8cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 6 </span><span class="caption-text">A quadratic classifier</span><a class="headerlink" href="#quadpredfig" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 1.6 </span><span class="caption-text">A quadratic classifier</span><a class="headerlink" href="#quadpredfig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
 <section id="nearest-neighbour">
-<h2>Nearest neighbour<a class="headerlink" href="#nearest-neighbour" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">1.7. </span>Nearest neighbour<a class="headerlink" href="#nearest-neighbour" title="Link to this heading">#</a></h2>
 <p>A classic and very simple algorithm is <em>nearest neighbour</em>.<label for='marginnote-role-12' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-12' name='marginnote-role-12' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/basic_algorithms_and_concepts/nearest.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>nearest</a></span>
 During training
 the algorithm simply memorises all training data points. When it is tasked to predict the
@@ -742,7 +769,7 @@ many bad predictions of new data. Because of that, a more robust variant is ofte
 training sets are determined, and the output is then most common class among these
 <span class="math notranslate nohighlight">\(k\)</span> data points. (Ties may be split randomly.)</p>
 <div class="proof algorithm admonition" id="nnalgo">
-<p class="admonition-title"><span class="caption-number">Algorithm 1 </span> (<span class="math notranslate nohighlight">\(k\)</span>-nearest neighbour)</p>
+<p class="admonition-title"><span class="caption-number">Algorithm 1.1 </span> (<span class="math notranslate nohighlight">\(k\)</span>-nearest neighbour)</p>
 <section class="algorithm-content" id="proof-content">
 <p><strong>Instance</strong> A training set <span class="math notranslate nohighlight">\(S\)</span>, a new data point <span class="math notranslate nohighlight">\(x\)</span>.<br />
 <strong>Output</strong> A predicted class for <span class="math notranslate nohighlight">\(x\)</span>.</p>
@@ -776,7 +803,7 @@ a yearly income of 45000€ and an income of 45100€.</p>
 </div>
 </div>
 <figcaption>
-<p><span class="caption-number">Fig. 7 </span><span class="caption-text">Algorithm <span class="math notranslate nohighlight">\(k\)</span>-nearest neighbour for <span class="math notranslate nohighlight">\(k=1\)</span> on the left and <span class="math notranslate nohighlight">\(k=20\)</span> on the right</span><a class="headerlink" href="#knnfig" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 1.7 </span><span class="caption-text">Algorithm <span class="math notranslate nohighlight">\(k\)</span>-nearest neighbour for <span class="math notranslate nohighlight">\(k=1\)</span> on the left and <span class="math notranslate nohighlight">\(k=20\)</span> on the right</span><a class="headerlink" href="#knnfig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Feature scaling is not only a problem for <span class="math notranslate nohighlight">\(k\)</span>-nearest neighbour but also for many other
@@ -789,6 +816,479 @@ There are some tricks that may speed up this step considerably. We may discuss t
 analyse from a theoretical point of view. In practice, it suffers from a number of
 drawbacks. The most obvious is that it is quite memory intensive: it has to store the
 whole training set!</p>
+</section>
+<section id="decision-trees">
+<span id="decsec"></span><h2><span class="section-number">1.8. </span>Decision trees<a class="headerlink" href="#decision-trees" title="Link to this heading">#</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(\mathcal X\subseteq \mathbb R^d\)</span>, and let <span class="math notranslate nohighlight">\(\mathcal Y\)</span> be a (finite) set of classes.<label for='marginnote-role-13' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-13' name='marginnote-role-13' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/basic_algorithms_and_concepts/dectree.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>dectree</a></span>
+A \defi{decision tree} <span class="math notranslate nohighlight">\(T\)</span> for <span class="math notranslate nohighlight">\(\mathcal X,\mathcal Y\)</span> consists of a rooted tree, where each
+non-leaf is associated with a decision rule. That is, <span class="math notranslate nohighlight">\(T\)</span> has a root <span class="math notranslate nohighlight">\(r\)</span>, every vertex <span class="math notranslate nohighlight">\(v\)</span> is either
+a \ndefi{leaf} or not; if <span class="math notranslate nohighlight">\(v\)</span> is not a leaf then it has precisely two children <span class="math notranslate nohighlight">\(v_L,v_R\)</span>; every
+leaf <span class="math notranslate nohighlight">\(v\)</span> is labelled with a class <span class="math notranslate nohighlight">\(c(v)\in\mathcal Y\)</span>; every non-leaf <span class="math notranslate nohighlight">\(v\)</span> has a decision rule,
+a tuple <span class="math notranslate nohighlight">\((i,t)\)</span>, where <span class="math notranslate nohighlight">\(i\in[d]\)</span> is a feature and <span class="math notranslate nohighlight">\(t\in\mathbb R\)</span>
+is a threshold. A decision tree defines a classifier in the following sense:</p>
+<div class="proof algorithm admonition" id="dectreealgo">
+<p class="admonition-title"><span class="caption-number">Algorithm 1.2 </span> (decision tree)</p>
+<section class="algorithm-content" id="proof-content">
+<p><strong>Instance</strong> <span class="math notranslate nohighlight">\(x\in\mathcal X\)</span>.<br />
+<strong>Output</strong> a class <span class="math notranslate nohighlight">\(y\in \mathcal Y\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Set <span class="math notranslate nohighlight">\(v=r\)</span>, where <span class="math notranslate nohighlight">\(r\)</span> is the root of the tree.</p></li>
+<li><p><strong>while</strong> <span class="math notranslate nohighlight">\(v\)</span> is not a leaf:</p></li>
+<li><p>      Let <span class="math notranslate nohighlight">\((i,t)\)</span> be the decision rule of <span class="math notranslate nohighlight">\(v\)</span>.</p></li>
+<li><p>      If <span class="math notranslate nohighlight">\(x_i\leq t\)</span> set <span class="math notranslate nohighlight">\(v=v_L\)</span>; else set <span class="math notranslate nohighlight">\(v=v_R\)</span>.</p></li>
+<li><p><strong>output</strong> the class <span class="math notranslate nohighlight">\(c(v)\)</span> of <span class="math notranslate nohighlight">\(v\)</span>.</p></li>
+</ol>
+</section>
+</div><figure class="align-default" id="iristreefig">
+<a class="reference internal image-reference" href="../_images/iris.png"><img alt="../_images/iris.png" src="../_images/iris.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1.8 </span><span class="caption-text">A decision tree for the <em>iris</em> data set</span><a class="headerlink" href="#iristreefig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p><span class="math notranslate nohighlight">\(\newcommand{\gain}{\text{Gain}}\)</span></p>
+<p>How is a decision tree computed? The tree is constructed iteratively, starting with the root.
+Each vertex <span class="math notranslate nohighlight">\(v\)</span> is associated with a subset <span class="math notranslate nohighlight">\(S_v\)</span> of the training set <span class="math notranslate nohighlight">\(S\)</span>, namely with those that end up
+in the vertex if we follow the already existing decision rules. Now, if all data points in <span class="math notranslate nohighlight">\(S_v\)</span>
+have the same class <span class="math notranslate nohighlight">\(y\)</span>, <span class="math notranslate nohighlight">\(v\)</span> is declared  a leaf and its class is fixed to <span class="math notranslate nohighlight">\(c(v)\)</span>.
+If not, <span class="math notranslate nohighlight">\(v\)</span> receives two children <span class="math notranslate nohighlight">\(v_L,v_R\)</span> and a decision rule <span class="math notranslate nohighlight">\((i,t)\)</span> – the decision rule
+is picked in order to maximise a measure, <span class="math notranslate nohighlight">\(\gain_{S_v}(i,t)\)</span> that depends on the feature <span class="math notranslate nohighlight">\(i\)</span> and
+on a threshold <span class="math notranslate nohighlight">\(t\)</span>.
+The idea is that <span class="math notranslate nohighlight">\(\gain_{S_v}(i,t)\)</span> is largest if the decision rule <span class="math notranslate nohighlight">\((i,t)\)</span>
+gives the <em>best</em> split (whatever that
+may mean). We discuss <span class="math notranslate nohighlight">\(\gain\)</span> below.</p>
+<div class="proof algorithm admonition" id="growalgo">
+<p class="admonition-title"><span class="caption-number">Algorithm 1.3 </span> (tree growing)</p>
+<section class="algorithm-content" id="proof-content">
+<p><strong>Instance</strong> Training set <span class="math notranslate nohighlight">\(S\)</span><br />
+<strong>Output</strong> A decision tree</p>
+<ol class="arabic simple">
+<li><p><strong>function</strong> Tree(<span class="math notranslate nohighlight">\(S\)</span>)</p></li>
+<li><p>      Let <span class="math notranslate nohighlight">\(v\)</span> be a new vertex.</p></li>
+<li><p>      If all points in <span class="math notranslate nohighlight">\(S\)</span> have the same class <span class="math notranslate nohighlight">\(y\)</span>, set <span class="math notranslate nohighlight">\(c(v)=y\)</span> and return leaf <span class="math notranslate nohighlight">\(v\)</span>.</p></li>
+<li><p>      Let <span class="math notranslate nohighlight">\((i^*,t^*)\)</span> be the decision rule that maximises <span class="math notranslate nohighlight">\(\max_{i\in[d],t\in\mathbb R}\gain_S(i,t)\)</span></p></li>
+<li><p>      Associate rule <span class="math notranslate nohighlight">\((i^*,t^*)\)</span> with <span class="math notranslate nohighlight">\(v\)</span>.</p></li>
+<li><p>      Set <span class="math notranslate nohighlight">\(S_L=\{(x,y)\in S: x_{i^*}\leq t^*\}\)</span> and <span class="math notranslate nohighlight">\(S_R=S\setminus S_L\)</span>.</p></li>
+<li><p>      Let <span class="math notranslate nohighlight">\(T_L\)</span> be the tree returned by Tree(<span class="math notranslate nohighlight">\(S_L\)</span>) and <span class="math notranslate nohighlight">\(T_R\)</span> be the one returned by Tree(<span class="math notranslate nohighlight">\(S_R\)</span>).</p></li>
+<li><p>      Let <span class="math notranslate nohighlight">\(v_L\)</span> be the root of <span class="math notranslate nohighlight">\(T_L\)</span> and <span class="math notranslate nohighlight">\(v_R\)</span> the root of <span class="math notranslate nohighlight">\(T_R\)</span>.</p></li>
+<li><p>      Set <span class="math notranslate nohighlight">\(v_L,v_R\)</span> to be children of <span class="math notranslate nohighlight">\(v\)</span> and return the resulting tree.</p></li>
+<li><p><strong>output</strong> Tree(<span class="math notranslate nohighlight">\(S\)</span>).</p></li>
+</ol>
+</section>
+</div><p>The algorithm is a basic model to construct a decision tree – there are many variants. In particular,
+actual implementations normally provide
+a number of  ways to limit the growth of the tree. Often, one may set a maximal depth (largest length of a root-leaf path) or a
+minimal number of data points for leaves.</p>
+<p>What about the gain measure?<label for='sidenote-role-14' class='margin-toggle'><span id="id14">
+<sup>14</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-14' name='sidenote-role-14' class='margin-toggle'><span class="sidenote"><sup>14</sup>Partially based on Sebastian Raschka’s <a class="reference external" href="https://sebastianraschka.com/faq/docs/decision-tree-binary.html">Machine Learning FAQ</a></span><br />
+In general, the gain depends on an impurity measure <span class="math notranslate nohighlight">\(\gamma(S')\)</span> of a subset of <span class="math notranslate nohighlight">\(S\)</span>.
+The impurity <span class="math notranslate nohighlight">\(\gamma(S')\in [0,1]\)</span> measures, in some appropriate way, how heterogeneous the set <span class="math notranslate nohighlight">\(S'\)</span> is.
+Thus, we should have <span class="math notranslate nohighlight">\(\gamma(S')=0\)</span> if all data points in <span class="math notranslate nohighlight">\(S'\)</span> are of the same class; and a larger value
+if <span class="math notranslate nohighlight">\(S'\)</span> is a mixture of several classes. There are a number of different impurity measures that
+we will discuss below.</p>
+<p>The gain
+is computed as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+\gain_{S_v}(i,t)=\gamma(S_v)-\left(\frac{|S_L|}{|S_v|}\gamma(S_L)+\frac{|S_R|}{|S_v|}\gamma(S_R)\right)
+\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(S_L\)</span> and <span class="math notranslate nohighlight">\(S_R\)</span> is the split of <span class="math notranslate nohighlight">\(S_v\)</span> according to the decision rule. That is</p>
+<div class="math notranslate nohighlight">
+\[
+S_L=\{(x,y)\in S_v: x_i\leq t\}\text{ and }S_R=S_v\setminus S_L
+\]</div>
+<p>How the impurity measure <span class="math notranslate nohighlight">\(\gamma\)</span> is defined, differentiates the different spliting criterions.
+Note that maximising \gain\ amounts to \emph{minimising}</p>
+<div class="math notranslate nohighlight" id="equation-impurity">
+<span class="eqno">(1.3)<a class="headerlink" href="#equation-impurity" title="Link to this equation">#</a></span>\[\left(\frac{|S_L|}{|S_v|}\gamma(S_L)+\frac{|S_R|}{|S_v|}\gamma(S_R)\right),\]</div>
+<p>which can be seen as a measure of how heterogenous the children of the node <span class="math notranslate nohighlight">\(v\)</span> are.</p>
+<p>For <span class="math notranslate nohighlight">\(S'\subseteq S\)</span>
+and <span class="math notranslate nohighlight">\(y'\in \mathcal Y\)</span> put</p>
+<div class="math notranslate nohighlight">
+\[
+p(y',S')=\frac{\# \{(x,y)\in S': y=y'\}}{|S'|}
+\]</div>
+<p>(This is the fraction of points that have label <span class="math notranslate nohighlight">\(y'\)</span>, and may be interpreted as the probability
+that a randomly picked point in <span class="math notranslate nohighlight">\(S'\)</span> has label <span class="math notranslate nohighlight">\(y'\)</span>.)</p>
+<p>To minimise training error in each step, <span class="math notranslate nohighlight">\(\gamma\)</span> is set to</p>
+<div class="math notranslate nohighlight">
+\[
+\gamma(S')=1-\max_{y\in\mathcal Y}p(y,S')
+\]</div>
+<p>To minimise the <em>Gini impurity</em>,<label for='marginnote-role-15' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-15' name='marginnote-role-15' class='margin-toggle'><span class="marginnote"> Gini impurity should not be confused with
+the Gini coefficient; the latter measures the homogeneity of a random variable, such
+as income in a country.</span> set <span class="math notranslate nohighlight">\(\gamma\)</span> to</p>
+<div class="math notranslate nohighlight">
+\[
+\gamma(S')=1-\sum_{y\in\mathcal Y}p(y,S')^2
+\]</div>
+<p>There is also a third common measure, where <span class="math notranslate nohighlight">\(\gamma\)</span> becomes the <em>entropy</em> of <span class="math notranslate nohighlight">\(S'\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+\gamma(S')=-\sum_{y\in\mathcal Y}p(y,S')\log_2 p(y,S')
+\]</div>
+<p>Often, however, there is not much of a difference between <span class="math notranslate nohighlight">\(\gain\)</span> based on
+Gini impurity and based on entropy.</p>
+<p>In any case, we observe that <span class="math notranslate nohighlight">\(\gamma(S')\)</span> becomes 0 when all points in <span class="math notranslate nohighlight">\(S'\)</span> belong to the same
+class. <a class="reference internal" href="#ginifig"><span class="std std-numref">Fig. 1.9</span></a> shows <span class="math notranslate nohighlight">\(\gamma(S')\)</span> for two classes and different values of <span class="math notranslate nohighlight">\(p(y,S')\)</span>
+of the first class.</p>
+<figure class="align-default" id="ginifig">
+<a class="reference internal image-reference" href="../_images/gini.png"><img alt="../_images/gini.png" src="../_images/gini.png" style="width: 12cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1.9 </span><span class="caption-text">Train error, Gini impurity and entropy for two classes; <span class="math notranslate nohighlight">\(x\)</span>-axis shows fraction of first class in sample.</span><a class="headerlink" href="#ginifig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Decision trees have a number of advantages. First, they are able to handle any number of classes. That is,
+in contrast to linear classifiers they are not restricted to binary classification. Second, they
+are rule-based, which makes them easy for us, the human users, to understand. Decision trees are not
+black-boxes (this point, though, is less true, the larger the tree).
+Third, as each decision rule operates on a single feature, there is no need to worry about scaling:
+features of wildly different scales (ages and yearly incomes, say) do not pose a problem.
+Finally, decision trees can also easily handle missing data.
+Nevertheless, I don’t think that decision trees are still widely used – their performance is simply
+not good enough. If many decision trees are combined, however, we obtain a simple but quite accurate
+predictor, a <em>random forest</em>. We’ll discuss random forests later.</p>
+</section>
+<section id="neural-networks">
+<h2><span class="section-number">1.9. </span>Neural networks<a class="headerlink" href="#neural-networks" title="Link to this heading">#</a></h2>
+<p>We’ve already talked about a number of classifying algorithms. I omitted, however, the most important one of
+them all, the neural network. Let’s remedy this omission.<label for='marginnote-role-16' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-16' name='marginnote-role-16' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/neural_networks/tfintro.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>tfintro</a></span></p>
+<p>Neural networks are old: Their origins go back to the 1940s. Modelled after (a crude simplification of) neurons
+in the brain they consists of single units, the neurons, that collect the inputs of other units (or of the input)
+and then compute an output value that might be fed into other neurons.</p>
+<figure class="align-default" id="neuronfig">
+<a class="reference internal image-reference" href="../_images/neuron.png"><img alt="../_images/neuron.png" src="../_images/neuron.png" style="width: 6cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1.10 </span><span class="caption-text">A single neuron</span><a class="headerlink" href="#neuronfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Mathematically, a neuron is simply a function <span class="math notranslate nohighlight">\(f:\mathbb R^n\to\mathbb R\)</span> of a special form.
+Namely, it’s the concatenation of an affine function <span class="math notranslate nohighlight">\(x\mapsto Wx+b\)</span> with a (usually) non-linear
+function <span class="math notranslate nohighlight">\(\sigma:\mathbb R\to\mathbb R\)</span>, the <em>activation</em> function:</p>
+<div class="math notranslate nohighlight">
+\[
+f(x) = \sigma(Wx+b)
+\]</div>
+<p>The rows of the matrix <span class="math notranslate nohighlight">\(W\)</span> are often called the <em>weights</em> of the connection between the
+input and the neuron, while the number <span class="math notranslate nohighlight">\(b\)</span> is the <em>bias</em>. Common activation functions
+are shown in <a class="reference internal" href="#actfig"><span class="std std-numref">Fig. 1.11</span></a>. While historically the logistic function and tanh
+were widely used, nowadays the <em>rectified linear unit</em> (short ReLU)
+is much more common. It is defined as <span class="math notranslate nohighlight">\(z\mapsto \max(0,z)\)</span>. A variant, <em>leaky ReLU</em>
+takes a (fixed) parameter <span class="math notranslate nohighlight">\(\alpha\)</span>, typically a small but positive value,
+and then is given by <span class="math notranslate nohighlight">\(z\mapsto \max(\alpha z,z)\)</span>.</p>
+<figure class="align-default" id="actfig">
+<a class="reference internal image-reference" href="../_images/activations.png"><img alt="../_images/activations.png" src="../_images/activations.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1.11 </span><span class="caption-text">Common activation functions</span><a class="headerlink" href="#actfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>A single neuron obviously does not constitute a network. In a neural network neurons
+are organised in <em>layers</em> that feed their output into the following layer. In the
+traditional design every neuron of some layer forwards its input to every neuron
+of the following layer. We then talk about a <em>fully connected</em> layer. Activation
+functions are the same for all neurons within a layer but may vary between layers.
+This is in particular so for the <em>output layer</em>, the last layer. Here, we often
+use the sign function <span class="math notranslate nohighlight">\(\sgn\)</span> (well, quite rarely in practice) and even more often
+the logistic function, or the softmax function (which we’ll discuss later).
+Why the logistic function? Because its range of <span class="math notranslate nohighlight">\([0,1]\)</span>
+can quite conveniently be interpreted as a probability, or as a level of confidence.
+That is, we see the output of <span class="math notranslate nohighlight">\(0.74\)</span> as a confidence of <span class="math notranslate nohighlight">\(74\%\)</span> that the picture
+shows indeed a cat.</p>
+<p>More formally, we can describe a fully connected neural network with <span class="math notranslate nohighlight">\(n\)</span> inputs, <span class="math notranslate nohighlight">\(L-1\)</span> hidden layers and
+one output (i.e.\ a network that could be used for binary classification)
+as follows.
+Each layer <span class="math notranslate nohighlight">\(\ell\)</span>
+has a certain width <span class="math notranslate nohighlight">\(n_\ell\)</span>, the number of nodes in that layer, where we put <span class="math notranslate nohighlight">\(n_0=n\)</span>.
+Between layer <span class="math notranslate nohighlight">\(\ell\)</span> and <span class="math notranslate nohighlight">\(\ell-1\)</span> (where layer 0 is the input layer, and where layer <span class="math notranslate nohighlight">\(L\)</span>
+is the output layer) there are weights, represented by the matrix <span class="math notranslate nohighlight">\(W^{(\ell)}\in\mathbb R^{n_\ell\times n_{\ell-1}}\)</span>.
+Each neuron <span class="math notranslate nohighlight">\(h\)</span> in the <span class="math notranslate nohighlight">\(\ell\)</span>th layer has a bias <span class="math notranslate nohighlight">\(b^{(\ell)}_h\)</span>, the vector of biases of the <span class="math notranslate nohighlight">\(\ell\)</span>th layer
+is <span class="math notranslate nohighlight">\(b^{(\ell)}\in\mathbb R^{n_\ell}\)</span>.
+Let’s assume that each layer has the same activation function <span class="math notranslate nohighlight">\(\sigma:\mathbb R\to\mathbb R\)</span> (most commonly ReLU),
+except
+for the output layer.</p>
+<p>Set <span class="math notranslate nohighlight">\(f^{(0)}(x)=x\)</span>.
+For <span class="math notranslate nohighlight">\(\ell=1,\ldots, L\)</span> we compute the input of the <span class="math notranslate nohighlight">\(\ell\)</span>th layer as</p>
+<div class="math notranslate nohighlight">
+\[
+g^{(\ell)}(x)=W^{(\ell)}f^{(\ell-1)}(x)+b^{(\ell)}
+\]</div>
+<p>and for <span class="math notranslate nohighlight">\(\ell=1,\ldots, L-1\)</span> the output as</p>
+<div class="math notranslate nohighlight">
+\[
+f^{(\ell)}(x)=\sigma(g^{(\ell)}(x)),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma\)</span> is applied componentwise.
+The output of the network is then <span class="math notranslate nohighlight">\(F(x)=\sgn(g^{(L)}(x))\)</span> or <span class="math notranslate nohighlight">\(F(x)=\sigm(g^{(L)}(x))\)</span>,
+depending on whether we want just the class or also a confidence level for the class.
+We also compute the number of parameters of the network
+as <span class="math notranslate nohighlight">\(N=\sum_{\ell=1}^{L} n_{\ell}\cdot n_{\ell-1} + n_{\ell}\)</span>.</p>
+<figure class="align-default" id="classnetfig">
+<a class="reference internal image-reference" href="../_images/classnet.png"><img alt="../_images/classnet.png" src="../_images/classnet.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1.12 </span><span class="caption-text">A simple classification ReLU-neural network</span><a class="headerlink" href="#classnetfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>How now is the network used for classification? Simple, with <span class="math notranslate nohighlight">\(\sgn\)</span> as output layer activation
+it realises a function <span class="math notranslate nohighlight">\(F:\mathbb R^n\to \{0,1\}\)</span>, which can directly be used for classification.
+More interesting is the question: How do we train a neural network? That is, how do we find
+the weights and biases? We’ll talk about this later.</p>
+<p>Modern, high performance neural networks, of the sort that power Alexa, Siri and however the Google Siri
+should be called,
+have many layers, many neurons and more complicated topologies than the simple fully connected network presented
+here. They also have a larger output layer: For a classification task with <span class="math notranslate nohighlight">\(k\)</span> layers the network usually
+has an output layer of size <span class="math notranslate nohighlight">\(k\)</span>, with softmax activation, which we’ll discuss later, too.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-success sd-bg-text-success">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-telescope" viewBox="0 0 16 16" aria-hidden="true"><path d="M14.184 1.143v-.001l1.422 2.464a1.75 1.75 0 0 1-.757 2.451L3.104 11.713a1.75 1.75 0 0 1-2.275-.702l-.447-.775a1.75 1.75 0 0 1 .53-2.32L11.682.573a1.748 1.748 0 0 1 2.502.57Zm-4.709 9.32h-.001l2.644 3.863a.75.75 0 1 1-1.238.848l-1.881-2.75v2.826a.75.75 0 0 1-1.5 0v-2.826l-1.881 2.75a.75.75 0 1 1-1.238-.848l2.049-2.992a.746.746 0 0 1 .293-.253l1.809-.87a.749.749 0 0 1 .944.252ZM9.436 3.92h-.001l-4.97 3.39.942 1.63 5.42-2.61Zm3.091-2.108h.001l-1.85 1.26 1.505 2.605 2.016-.97a.247.247 0 0 0 .13-.151.247.247 0 0 0-.022-.199l-1.422-2.464a.253.253 0 0 0-.161-.119.254.254 0 0 0-.197.038ZM1.756 9.157a.25.25 0 0 0-.075.33l.447.775a.25.25 0 0 0 .325.1l1.598-.769-.83-1.436-1.465 1Z"></path></svg></span><span class="sd-summary-text">Neural networks keep on growing</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Neural networks are becoming ever bigger.</p>
+<dl class="simple myst">
+<dt>1989</dt><dd><p class="sd-card-text">LeCun’s neural network for handwritten digit recognition had about 66000 parameters in three layers;</p>
+</dd>
+<dt>2012</dt><dd><p class="sd-card-text">AlexNet won the ImageNet competition, with 62 million parameters in 7 layers;</p>
+</dd>
+<dt>2015</dt><dd><p class="sd-card-text">The winner of the 2015 ImageNet competition had 152 layers and about 60 million parameters.</p>
+</dd>
+<dt>2020</dt><dd><p class="sd-card-text">GPT-3, a generative natural language processing network (meaning: it talks), has 175 billion parameters.</p>
+</dd>
+</dl>
+<p class="sd-card-text">The human brain, in contrast, is said to have 10<sup>15</sup> connections, which should probably be compared
+to the number of parameters of a neural network. In 2024 the wiring diagram of the complete brain of a fruit fly was
+finished. It turns out that a fruit fly has about 140000 neurons and 54.5 million synapses.</p>
+<p class="sd-card-text"><a class="reference external" href="https://pypi.org/project/tensorflowcv/">tensorflowcv</a><br/>
+<a class="reference external" href="https://en.wikipedia.org/wiki/GPT-3">Wikipedia entry on GPT-3</a><br/>
+<em>How to map the brain</em>, S. DeWeerdt, Nature (2019)<br/>
+<em>Largest brain map ever reveals fruit fly’s neurons in exquisite detail</em>, <a class="reference external" href="https://www.nature.com/articles/d41586-024-03190-y">Nature</a> (2024)</p>
+</div>
+</details></section>
+<section id="loss-functions">
+<h2><span class="section-number">1.10. </span>Loss functions<a class="headerlink" href="#loss-functions" title="Link to this heading">#</a></h2>
+<p>So far, we have only considered zero-one loss.
+In some situations, other loss functions will be needed. For instance, if we want to classify
+emails as <em>spam or ham</em>, that is, as spam emails or non-spam, then it is far more serious to
+misclassify a ham email than a spam email: Indeed, if we miss an important email because it was put
+in the spam folder (or perhaps deleted) then we will be quite cross, the occasional Viagra ad in our
+inbox, however, will merely annoy us somewhat.
+A loss function then might look like this:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\ell(y,y')=
+\begin{cases}
+0 &amp; \text{if }y=y'\\
+1 &amp; \text{if }y=\textsf{ham}\text{ but }y'=\textsf{spam}\\
+0.1 &amp; \text{if }y=\textsf{spam} \text{ but } y'=\textsf{ham}
+\end{cases}
+\end{split}\]</div>
+<p>Zero-one loss is symmetric in its two arguments; the loss function here isn’t. Let us agree on
+the convention that the first argument is the true value, while the second one is the
+predicted value. That is, for a classifier <span class="math notranslate nohighlight">\(h\)</span> we would consider <span class="math notranslate nohighlight">\(\ell(y,h(x))\)</span>
+when computing the training error.</p>
+</section>
+<section id="regression">
+<h2><span class="section-number">1.11. </span>Regression<a class="headerlink" href="#regression" title="Link to this heading">#</a></h2>
+<p>Regression is a more general problem than classification.
+In both cases, we aim to find a predictor <span class="math notranslate nohighlight">\(h:\mathcal X\to\mathcal Y\)</span>. In classification, the target set
+<span class="math notranslate nohighlight">\(\mathcal Y\)</span> is finite: we are interested in knowing whether the email is spam or not, or
+whether the image shows a cat, a dog or a hamster. In regression, in contrast, <span class="math notranslate nohighlight">\(\mathcal Y\)</span> is usually
+continuous, and normally equal to an interval <span class="math notranslate nohighlight">\([a,b]\)</span>, or perhaps to a multidimensional analog
+such as <span class="math notranslate nohighlight">\([a,b]^n\)</span>.
+In principle, regression can be seen as a <em>function approximation</em> task. There is some unknown function <span class="math notranslate nohighlight">\(f\)</span>
+that we want to approximate with our predictor <span class="math notranslate nohighlight">\(h:\mathcal X\to\mathcal Y\)</span>.<label for='marginnote-role-17' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-17' name='marginnote-role-17' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/basic_algorithms_and_concepts/california.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>regression</a></span></p>
+<p>The theory for classification, however, is cleaner than for regression, and this is the main reason
+why I will focus on classification tasks.
+Arguably, regression is more powerful.
+I am probably more interested in how large the expected return on investment
+for some stock portfolio is (a regression task) than whether there is a positive or negative ROI
+(a classification task). Let’s do a quick digression on regression.</p>
+<p>Fortunately, most classification algorithms can be repurposed for regression.
+<em>Linear regression</em>
+is probably best known. Given a training set <span class="math notranslate nohighlight">\(S\subseteq\mathbb R^d\times\mathbb R\)</span> find
+a vector <span class="math notranslate nohighlight">\(w^*\in\mathbb R^d\)</span> and a bias <span class="math notranslate nohighlight">\(b^*\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{w,b} \sum_{(x,y)\in S} ||\trsp wx+b-y||_2^2
+\]</div>
+<p>is minimised. Here we have used <em>squared error loss</em> as a loss function,
+which is quite common for regression problems.</p>
+<p>To use <span class="math notranslate nohighlight">\(k\)</span>-nearest neighbour for regression, find for some sample <span class="math notranslate nohighlight">\(x\)</span> the <span class="math notranslate nohighlight">\(k\)</span> closest
+data points in the training set and then output the average of their target values. (Perhaps weighted
+by distance to <span class="math notranslate nohighlight">\(x\)</span>.) Decision trees are adapted in a similar way.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-success sd-bg-text-success">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-telescope" viewBox="0 0 16 16" aria-hidden="true"><path d="M14.184 1.143v-.001l1.422 2.464a1.75 1.75 0 0 1-.757 2.451L3.104 11.713a1.75 1.75 0 0 1-2.275-.702l-.447-.775a1.75 1.75 0 0 1 .53-2.32L11.682.573a1.748 1.748 0 0 1 2.502.57Zm-4.709 9.32h-.001l2.644 3.863a.75.75 0 1 1-1.238.848l-1.881-2.75v2.826a.75.75 0 0 1-1.5 0v-2.826l-1.881 2.75a.75.75 0 1 1-1.238-.848l2.049-2.992a.746.746 0 0 1 .293-.253l1.809-.87a.749.749 0 0 1 .944.252ZM9.436 3.92h-.001l-4.97 3.39.942 1.63 5.42-2.61Zm3.091-2.108h.001l-1.85 1.26 1.505 2.605 2.016-.97a.247.247 0 0 0 .13-.151.247.247 0 0 0-.022-.199l-1.422-2.464a.253.253 0 0 0-.161-.119.254.254 0 0 0-.197.038ZM1.756 9.157a.25.25 0 0 0-.075.33l.447.775a.25.25 0 0 0 .325.1l1.598-.769-.83-1.436-1.465 1Z"></path></svg></span><span class="sd-summary-text">Examples of regression tasks</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<dl class="simple myst">
+<dt>physics modelling</dt><dd><p class="sd-card-text">Many interatomic potentials in physics are described by
+solutions of complex partial differential equations. Neural networks can sometimes approximate the solutions
+of these PDEs much faster than other numerical methods.</p>
+</dd>
+<dt>house prices</dt><dd><p class="sd-card-text">Real estate portals often offer a quick algorithmic house price estimation
+based on a few key data (location, age of the house, size).</p>
+</dd>
+<dt>credit scores</dt><dd><p class="sd-card-text">On each credit application the financial data of the applicant is
+evaluated to compute a credit score, a number that expresses the confidence of how likely
+the applicant is to pay back the credit. In Germany, the credit score is normally
+provided by SCHUFA. How credit scores are used is sometimes
+morally problematic and sometimes outright evil.</p>
+</dd>
+</dl>
+<p class="sd-card-text"><em>The rise of data-driven modelling</em>, Editorial, Nature (2021)<br/>
+<em>Weapons of Math Destruction</em>, Cathy O’Neil, Chapter 8 (2016)</p>
+</div>
+</details></section>
+<section id="a-statistical-model">
+<h2><span class="section-number">1.12. </span>A statistical model<a class="headerlink" href="#a-statistical-model" title="Link to this heading">#</a></h2>
+<p>On the face of it, what machine learning algorithms accomplish seems implausible.
+We train the predictors on one dataset, the training set, and then expect
+the predictors to perform well on a completely different dataset, ie, on new data, or
+on the test set. How can that work at all?</p>
+<p>That works – if training data and new data come from the same source. Mathematically,
+we model this by a probability distribution  <span class="math notranslate nohighlight">\(\mathcal D\)</span> on <span class="math notranslate nohighlight">\(\mathcal X\times\mathcal Y\)</span>.
+That is, we assume that there is distribution that produces pairs <span class="math notranslate nohighlight">\((x,y)\in\mathcal X\times\mathcal Y\)</span>
+of datapoints <span class="math notranslate nohighlight">\(x\)</span> and classes <span class="math notranslate nohighlight">\(y\)</span>, and we assume that the training set as well as
+any new data (or the test set) is drawn from this distribution.</p>
+<p>Why a probability distribution? Datapoints occur in nature with different frequencies.
+For instance, if we try to recognise hand-written letters
+we expect to see far fewer “z” than “e”, and consequently, it would probably be less critical to sometimes
+misclassify a “z” than to sometimes misclassify an “e”. We normally assume a <em>joint</em>
+distribution on <span class="math notranslate nohighlight">\(\mathcal X\times\mathcal Y\)</span> because the class is not always completely determined by the
+features.</p>
+<p>For example, assume we are predicting whether someone will default on their credit, and
+the features we have access to are income, credit history, and employment status. Now, there might be
+two people with exactly the same features, Alice and Bob, but Bob defaults on his loan
+but Alice does not. This may be because the data is incomplete (Bob became ill, and poor health is
+perhaps not well predicted by income and so on), or because the data is faulty (Alice misrepresented
+her income) or because the outcomes are simply not deterministic.
+That is, there is an inherent uncertainty in the data. To capture this, we imagine
+there is an underlying probability distribution that would, if we knew it, that encapsulates information
+such as “someone with this income, that age and this credit history has a risk of 11.374%
+of defaulting on their credit”.</p>
+<p>What else do we assume?</p>
+<ul class="simple">
+<li><p>The distribution <span class="math notranslate nohighlight">\(\mathcal D\)</span> is <em>unknown</em> and we normally do not make
+any assumptions about it. It could be wild.</p></li>
+<li><p>If we draw several datapoints, we draw them in <em>iid</em> fashion. That is,
+the data points are <em>identically and independently distributed</em>.</p></li>
+<li><p>The distribution is <em>fixed</em> – it does not change with time. This is actually an assumption
+that will not be satisfied in many real-world applications. While dogs will (probably) still look like dogs
+in ten years, the features that strongly indicate credit-worthiness now might be much less indicative in ten years.</p></li>
+</ul>
+<p>What is this model good for? We can formulate our ultimate goal in classification: to learn a
+classifier <span class="math notranslate nohighlight">\(h:\mathcal X\to\mathcal Y\)</span> with low average error on <em>all</em> data points, including
+unknown data points. More formally,
+we want to obtain a small <em>generalisation error</em>:</p>
+<div class="math notranslate nohighlight">
+\[
+L_{\mathcal D}(h)=\expec_{(x,y)\sim\mathcal D}[\ell(y,h(x)]
+\]</div>
+<p>So, this is the expected loss (remember that <span class="math notranslate nohighlight">\(\ell(\cdot,\cdot)\)</span> is a loss function, often the zero-one loss)
+over the distribution <span class="math notranslate nohighlight">\(\mathcal D\)</span>. Other names for the generalisation error are <em>true risk</em>
+or simply <em>risk</em>. Note that for the zero-one loss, we have:</p>
+<div class="math notranslate nohighlight" id="equation-zorisk">
+<span class="eqno">(1.4)<a class="headerlink" href="#equation-zorisk" title="Link to this equation">#</a></span>\[L_{\mathcal D}(h)=\proba_{(x,y)\sim\mathcal D}[h(x)\neq y]\]</div>
+<p>That is, the generalisation error is equal to the probability that the classifier misclassifies a data point.</p>
+<p>|
+Let me stress that the distribution <span class="math notranslate nohighlight">\(\mathcal D\)</span> is the link between training set
+and real-life datapoints that makes learning possible. We rely here on a major assumption:</p>
+<blockquote>
+<div><p>training samples and new samples are independently drawn, and from the same distribution.</p>
+</div></blockquote>
+<p>Sometimes this assumption is violated, and the mechanism that generates training samples
+differs in some way from real-life samples. In that case, all error guarantees go out of the window.</p>
+</section>
+<section id="bayes-error">
+<span id="sec-bayeserr"></span><h2><span class="section-number">1.13. </span>Bayes error<a class="headerlink" href="#bayes-error" title="Link to this heading">#</a></h2>
+<p>Because
+of the inherent uncertainty in the distribution, the smallest generalisation error that can be achieved
+might be larger than zero.</p>
+<p>Let’s assume, for example, that we want to predict the sex of a person based only on the height of the
+person. A person of height 1.8m is likely male – but not necessarily so. Obviously, there are also
+women of 1.8m, but they are fewer than men of 1.8m. Height does not determine sex, and thus any
+classifier based only on height will never be perfect. This residual error that any classifier
+is bound to make is called <em>Bayes error</em>. It is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+\bayerr=\inf_h L_{\mathcal D}(h),
+\]</div>
+<p>where for technical reasons the infimum is taken over all measureable classifiers <span class="math notranslate nohighlight">\(h\)</span>.
+A classifier that attains the Bayes error is called <em>Bayes classifier</em>.</p>
+<figure class="align-default" id="heightsfig">
+<a class="reference internal image-reference" href="../_images/heights_notes.png"><img alt="../_images/heights_notes.png" src="../_images/heights_notes.png" style="width: 8cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1.13 </span><span class="caption-text">Height distribution of US-Americans in 2007 / 2008 of age 40 to 49, fitted to Gaussians. Source: U.S.\ National Center for Health Statistics</span><a class="headerlink" href="#heightsfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Consider <a class="reference internal" href="#heightsfig"><span class="std std-numref">Fig. 1.13</span></a>, where the heights of men and women between 40 and 49 in the US
+are tabulated. The bars represent the results of a survey, while the solid lines are fitted Gaussians.
+We take these Gaussians as ground truth. That is, we assume that they indicate the probabilities<label for='sidenote-role-18' class='margin-toggle'><span id="id18">
+<sup>18</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-18' name='sidenote-role-18' class='margin-toggle'><span class="sidenote"><sup>18</sup>These are <em>conditional probabilities</em>; see the Appendix for a formal definition. Briefly, if <span class="math notranslate nohighlight">\(\proba\)</span>
+models a joint probability distribution on <span class="math notranslate nohighlight">\(\mathcal X\times\mathcal Y\)</span> then <span class="math notranslate nohighlight">\(\proba[y|x]\)</span> is defined as
+<span class="math notranslate nohighlight">\(
+\proba[y|x]=\frac{\proba[(x,y)]}{\proba[x]},
+\)</span>
+where <span class="math notranslate nohighlight">\(\proba[x]=\sum_{y'}\proba[(x,y')]\)</span> is the marginal probability.</span>
+<span class="math notranslate nohighlight">\(\proba[\text{female}|\text{height}]\)</span> and <span class="math notranslate nohighlight">\(\proba[\text{male}|\text{height}]\)</span>.
+We assume zero-one loss.
+Given the probabilities, what is the best way to classify by height? Up to a height of approximately 1.71m the
+probability is larger that the person is female, and we’d predict “female”.
+From 1.71m on we’d predict that the person is male.</p>
+<p>The resulting classifier would be:</p>
+<div class="math notranslate nohighlight" id="equation-bayclass">
+<span class="eqno">(1.5)<a class="headerlink" href="#equation-bayclass" title="Link to this equation">#</a></span>\[\bayes(x)=\argmax_{y\in \mathcal Y}\proba[y|x] \]</div>
+<p>(Note that this definition also works for non-binary classification.) Formally, we still need to
+prove that the classifier is actually a Bayes classifier. We’ll do that below.
+Moreover, there is some ambiguity if two classes have the exact same probability. In that case,
+let us agree that <span class="math notranslate nohighlight">\(\argmax\)</span> simply returns one of the classes with maximal probability.</p>
+<p>Let us prove that <span class="math notranslate nohighlight">\(\bayes\)</span> as defined in <a class="reference internal" href="#equation-bayclass">(1.5)</a> is indeed the Bayes classifier.</p>
+<div class="proof proposition admonition" id="bayesprop">
+<p class="admonition-title"><span class="caption-number">Proposition 1.1 </span></p>
+<section class="proposition-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(h:\mathcal X\to \mathcal Y\)</span> be a classifier, let <span class="math notranslate nohighlight">\(\mathcal D\)</span> be a distribution over <span class="math notranslate nohighlight">\(\mathcal X\times\mathcal Y\)</span>
+with zero-one loss.
+Then the generalisation error of <span class="math notranslate nohighlight">\(h\)</span> cannot be smaller than the Bayes error:</p>
+<div class="math notranslate nohighlight">
+\[
+L_{\mathcal D}(h)\geq L_{\mathcal D}(\bayes), 
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\bayes\)</span> is defined as in <a class="reference internal" href="#equation-bayclass">(1.5)</a>.</p>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. To avoid annoying integrals, probability density functions and technicalities, let me prove the statement for
+finite or countable domain sets <span class="math notranslate nohighlight">\(\mathcal X\)</span>. The proof for general <span class="math notranslate nohighlight">\(\mathcal X\)</span> follows along
+the same lines.</p>
+<p>The true risk is now</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+L_{\mathcal D}(h)&amp; =\expec_{(x,y)\sim\mathcal D}[\ell_{0-1}(y,h(x))]\\
+&amp; = \sum_{x\in\mathcal X,y\in\mathcal Y,h(x)\neq y}\proba[(x,y)]\\
+&amp; = \sum_{x\in\mathcal X}\proba[x]\left(\sum_{y\in\mathcal Y,y\neq h(x)}\proba[y|x]\right)\\
+&amp; = \sum_{x\in\mathcal X}\proba[x]\left(1-\proba[h(x)|x]\right)\\
+&amp; \geq \sum_{x\in\mathcal X}\proba[x]\left(1-\max_{y\in\mathcal Y}\proba[y|x]\right)\\
+&amp; = \sum_{x\in\mathcal X}\proba[x]\left(1-\proba[\bayes(x)|x]\right)\\
+&amp; = \expec_{(x,y)\sim\mathcal D}[\ell_{0-1}(y,\bayes(x))] = L_{\mathcal D}(\bayes)
+\end{align*}\]</div>
+</div>
+<p>Let me stress that the Bayes classifier is a purely theoretical
+construct. As we do not know the distribution we cannot compute it!
+The Bayes error is likewise not a quantity that we can routinely determine.
+In some situations, however, it may be possible to estimate bounds for the
+Bayes error.<label for='sidenote-role-19' class='margin-toggle'><span id="id19">
+<sup>19</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-19' name='sidenote-role-19' class='margin-toggle'><span class="sidenote"><sup>19</sup>See for instance <em>Evaluating Bayes Error Estimators on
+Real-World Datasets with FeeBee</em>, C. Renggli et al.\ (2021), <a class="reference external" href="https://arxiv.org/abs/2108.13034">arXiv:2108.13034</a>
+}</span>
+It is unclear to me how well that works.</p>
+<p>While neither the Bayes classifier nor the Bayes error are accessible to us, they are still
+useful concepts. The Bayes error makes clear that in some tasks it may not be possible to
+improve a classifier much further – simply because its error rate comes close to the Bayes error.</p>
 </section>
 </section>
 <hr class="footnotes docutils" />
@@ -810,15 +1310,15 @@ whole training set!</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">A second test run</p>
+        <p class="prev-next-title">Mathematics of Machine Learning</p>
       </div>
     </a>
     <a class="right-next"
-       href="convex.html"
+       href="pac.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Stochastic gradient descent</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>PAC learning</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -839,13 +1339,19 @@ whole training set!</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tasks-in-ml">Tasks in ML</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vocabulary">Vocabulary</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-predictors">Linear predictors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">Logistic regression</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-errors">Training and errors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-predictors">Polynomial predictors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nearest-neighbour">Nearest neighbour</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tasks-in-ml">1.1. Tasks in ML</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vocabulary">1.2. Vocabulary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-predictors">1.3. Linear predictors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logistic-regression">1.4. Logistic regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-errors">1.5. Training and errors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#polynomial-predictors">1.6. Polynomial predictors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nearest-neighbour">1.7. Nearest neighbour</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-trees">1.8. Decision trees</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-networks">1.9. Neural networks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-functions">1.10. Loss functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression">1.11. Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-statistical-model">1.12. A statistical model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-error">1.13. Bayes error</a></li>
 </ul>
   </nav></div>
 
@@ -859,10 +1365,6 @@ whole training set!</p>
   
   <div class="footer-item">
     
-<p class="component-author">
-By Henning
-</p>
-
   </div>
   
   <div class="footer-item">
