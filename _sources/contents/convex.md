@@ -274,7 +274,7 @@ that the logistic loss function is convex.
 Recall that when performing logistic regression we aim to find a linear classifier
 with small zero-one loss. Instead of minimising the zero-one loss directly, however, 
 we minimise the logistic loss -- which we had seen to upper-bound the zero-one loss; 
-see Lemma~\ref{upperloglosslem}. Here now is the reason, why we replace the zero-one loss 
+see {prf:ref}`upperloglosslem`. Here now is the reason, why we replace the zero-one loss 
 by a *surrogate loss* function, the logistic loss: in contrast to zero-one loss, 
 the logistic loss function is convex!
 
@@ -821,7 +821,7 @@ $$
 See Bottou[^Bot12]
 for more details.
 
-[^slow]: *Deep learning*, p.~148
+[^slow]: *Deep learning*, p. 148
 [^Bot12]: *Stochastic Gradient Descent Tricks*, L. Bottou (2012) and *Online Learning and Stochastic Approximations*, L. Bottou (1998)
 
 % discussion taken/inspired from 8.1.3 of Deep Learning

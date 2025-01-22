@@ -235,7 +235,7 @@ Even when we have complete knowledge of the environment, however,
 we often cannot use that extensively: Typically the number of states will be so
 large that we cannot even tabulate the transition function.
 
-|
+
 Released to the real environment, some RL systems employ additional tricks 
 to improve their performance. A Go playing system, for instance, 
 may take the current board position and simulate a number of random next moves.
@@ -294,7 +294,7 @@ Policies
 --------
 
 It's time to turn to the agent. Once fully trained, how should the agent act? What the agent
-knows about the environment is encapsulated in the state. Based on that state 
+knows about the current situation is encapsulated in the state. Based on that state 
 the agent has to decide which action to take. That is, an agent is described by a function 
 from states to actions. Such a function 
 
@@ -448,12 +448,12 @@ $$
 and let's say that $\pi$ is *strictly better*
 than $\pi'$ if it is better and if there is at least one state $s$ with  
 $v_{\pi}(s)> v_{\pi'}(s)$.
+Note that of any two policies neither needs to be better 
+than the other one. That is, two policies can be incomparable.
+
 A policy $\pi^*$ is *optimal* if it is better than 
 every other policy. 
-At the moment it's not clear whether there is any optimal policy at all,
-and also note that of any two policies neither needs to be better 
-than the other one, ie, two policies can be incomparable.
-
+At the moment it's not clear whether there is any optimal policy at all.
 
 Policy improvement theorem
 --------------------------
@@ -472,7 +472,7 @@ q_\pi(s,a) = &
 \end{align*}
 $$
 
-````{prf:Theorem}
+````{prf:Theorem} policy improvement
 :label: polimpthm
 
 Let $\pi$ and $\pi'$ be two deterministic policies such that
@@ -542,7 +542,7 @@ v_\pi(s) & \leq \expec_{a\sim \pi'}[q_\pi(s,a)] \\
 $$
 
 
-(Note that here we treat $S_t$ and $R_t$ as a random variable that returns the 
+(Note that here we treat $S_t$ and $R_t$ as a random variable that returns
 the state, respectively the reward, in step $t$.)
 
 We now apply the inequality repeatedly. 
@@ -563,7 +563,7 @@ denote states of the latter by $S'_t$. Then
 &\leq \expec_{\pi'}[R_2|S_0=s] +\gamma\expec_{\pi'}\left[ v_\pi(S_2)|S_0=s\right]
 \end{align*} 
 That the last inequality is true can be formally proved by going back to what $\expec_{\pi'}$
-actually means, or by appealing to the law of total expectation {prf:ref}`totalexp`).
+actually means, or by appealing to the law of total expectation, {prf:ref}`totalexp`).
 ````
 
 Note that, with virtually the same proof, we also obtain a mirror version of the theorem:
@@ -688,7 +688,7 @@ the number of actions is large then we will not be able to compute and store all
 
 
 How does $q$-learning work? Starting with some $q$-values (perhaps all 0) we will iteratively
-improve our estimation of the optimal $q$-values. To do so, we 
+improve our estimation $q_t$ of the optimal $q$-values. To do so, we 
 generate trajectories $s_0,s_1,s_2,\ldots $ by choosing actions $a_0,a_1,a_2,\ldots$ and then set
 
 ```{math}
@@ -721,14 +721,14 @@ we choose the currently best action.
 ```
 
 % this is from Géron
-In a variant, $\epsilon$ is initally set to some large value, $1$ for instance, and 
+In a variant, $\epsilon$ is initally set to some large value, 1 for instance, and 
 then decreased in the course of the algorithm, perhaps until it reaches a certain
-minimal value such as $0.05$. This allows for greater exploration at the beginning
+minimal value such as 0.05. This allows for greater exploration at the beginning
 and more targeted search at the end of the algorithm.[^qlearncode]
 
 [^qlearncode]: {-} [{{ codeicon }}qlearn](https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/reinforcement_learning/qlearn.ipynb)
 
-```{prf:Algorithm} $q$-learning
+````{prf:Algorithm} $q$-learning
 :label: qlearnalg
 
 **Instance** A reinforcement learning task, an $\epsilon>0$, learning rates $\eta_t$.\
@@ -736,14 +736,17 @@ and more targeted search at the end of the algorithm.[^qlearncode]
 
 1. Initialise $q_0$-values, set $t:=0$.
 2. **while** termination condition not sat'd:
-2.   {{tab}} Start new episode.
-2.   {{tab}}{{tab}}**while** current state not terminal state:
-3.   {{tab}}{{tab}}Choose action $a$ with \alg{$\epsilon$-greedy} algorithm.
+2.   {{tab}} Start new episode with random start state $s$.
+2.   {{tab}}**while** $s$ not terminal state:
+3.   {{tab}}{{tab}}Choose action $a$ with {prf:ref}`epsgreedyalg`.
 4.   {{tab}}{{tab}}Take action $a$, observe reward $r$ and new state $s'$.
-5.   {{tab}}{{tab}}Set $q_{t+1}(s,a):=q_t(s,a)+\eta_t(s,a)(r+\gamma \max_{a'}q_t(s',a')-q_t(s,a))$.
-6.   {{tab}}{{tab}}Set $t=t+1$.   
+5.   {{tab}}{{tab}}Set 
+   ```{math}
+   q_{t+1}(s,a):=q_t(s,a)+\eta_t(s,a)(r+\gamma \max_{a'}q_t(s',a')-q_t(s,a))
+   ```
+6.   {{tab}}{{tab}}Set $t:=t+1$, and $s:=s'$.   
 7. **output** $q_{t-1}$.
-```
+````
 
 
 ```{figure} pix/blackjack.png
@@ -833,7 +836,7 @@ r(s,a,s')+\gamma v_{\pi^*}(s')\right) \\
 & =  \sum_{s'}p(s,a,s')\left(
 r(s,a,s')+\gamma q_{\pi^*}(s',{\pi^*}(s'))\right)
 \end{align*}
-It is possible to show that then $q\equiv q_{\pi^*}$, at least if the discount factor is smaller than $1$: $\gamma<1$.
+It is possible to show that then $q\equiv q_{\pi^*}$, at least if the discount factor is smaller than 1: $\gamma<1$.
 To show this is not hard, but we will not do it.
 
 % Bellman operator, Banach fixed point theorem, see Szepesvari

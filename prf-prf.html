@@ -48,6 +48,7 @@
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'prf-prf';</script>
+    <link rel="icon" href="_static/noun-robot_32.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
 
@@ -162,9 +163,11 @@
 <li class="toctree-l1"><a class="reference internal" href="contents/nets.html">4. Neural networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contents/netsprops.html">5. Properties of neural networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contents/loss.html">6. Loss functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/rl.html">7. Reinforcement learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/mips.html">8. Maximum inner product search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/test.html">9. TEST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/autoencoders.html">7. Autoencoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/ensemble.html">8. Ensemble learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/rl.html">9. Reinforcement learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/mips.html">10. Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/appendix.html">11. Appendix</a></li>
 </ul>
 
     </div>
@@ -268,28 +271,39 @@
    <h1>Proof Index</h1>
 
    <div class="modindex-jumpbox">
+   <a href="#cap-Adathm"><strong>Adathm</strong></a> | 
    <a href="#cap-CPWLthm"><strong>CPWLthm</strong></a> | 
    <a href="#cap-Haninthm"><strong>Haninthm</strong></a> | 
+   <a href="#cap-KLnormalthm"><strong>KLnormalthm</strong></a> | 
    <a href="#cap-NNaddlem"><strong>NNaddlem</strong></a> | 
    <a href="#cap-NNcomplem"><strong>NNcomplem</strong></a> | 
    <a href="#cap-NNmaxlem"><strong>NNmaxlem</strong></a> | 
+   <a href="#cap-adaalg"><strong>adaalg</strong></a> | 
    <a href="#cap-affconflem"><strong>affconflem</strong></a> | 
    <a href="#cap-backprop"><strong>backprop</strong></a> | 
    <a href="#cap-bayesprop"><strong>bayesprop</strong></a> | 
+   <a href="#cap-canthm"><strong>canthm</strong></a> | 
+   <a href="#cap-condothm"><strong>condothm</strong></a> | 
    <a href="#cap-consistencythm"><strong>consistencythm</strong></a> | 
    <a href="#cap-consistencythmX"><strong>consistencythmX</strong></a> | 
    <a href="#cap-dectreealgo"><strong>dectreealgo</strong></a> | 
    <a href="#cap-distlem"><strong>distlem</strong></a> | 
    <a href="#cap-eglplem"><strong>eglplem</strong></a> | 
    <a href="#cap-epsgreedyalg"><strong>epsgreedyalg</strong></a> | 
+   <a href="#cap-eymthm"><strong>eymthm</strong></a> | 
+   <a href="#cap-fiftylem"><strong>fiftylem</strong></a> | 
+   <a href="#cap-fiftytwolem"><strong>fiftytwolem</strong></a> | 
    <a href="#cap-foolthm"><strong>foolthm</strong></a> | 
    <a href="#cap-gdalg"><strong>gdalg</strong></a> | 
    <a href="#cap-gibbsineq"><strong>gibbsineq</strong></a> | 
    <a href="#cap-gradlem"><strong>gradlem</strong></a> | 
    <a href="#cap-growalgo"><strong>growalgo</strong></a> | 
    <a href="#cap-hoeffthm"><strong>hoeffthm</strong></a> | 
+   <a href="#cap-jensenexpecthm"><strong>jensenexpecthm</strong></a> | 
    <a href="#cap-lemma-15"><strong>lemma-15</strong></a> | 
    <a href="#cap-loglosslem"><strong>loglosslem</strong></a> | 
+   <a href="#cap-markovthm"><strong>markovthm</strong></a> | 
+   <a href="#cap-multiKLlem"><strong>multiKLlem</strong></a> | 
    <a href="#cap-nnalgo"><strong>nnalgo</strong></a> | 
    <a href="#cap-nnpiecesthm"><strong>nnpiecesthm</strong></a> | 
    <a href="#cap-otimeslem"><strong>otimeslem</strong></a> | 
@@ -328,6 +342,7 @@
    <a href="#cap-theorem-2"><strong>theorem-2</strong></a> | 
    <a href="#cap-theorem-3"><strong>theorem-3</strong></a> | 
    <a href="#cap-theorem-4"><strong>theorem-4</strong></a> | 
+   <a href="#cap-totalexp"><strong>totalexp</strong></a> | 
    <a href="#cap-twicelem"><strong>twicelem</strong></a> | 
    <a href="#cap-univ2thm"><strong>univ2thm</strong></a> | 
    <a href="#cap-univthm"><strong>univthm</strong></a> | 
@@ -336,6 +351,14 @@
    </div>
 
    <table class="indextable modindextable">
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-Adathm"><td></td><td>
+       <strong>Adathm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/ensemble.html#Adathm"><code class="xref">Adathm</code></a> <em>(contents/ensemble)</em></td><td>
+       <em>theorem</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-CPWLthm"><td></td><td>
        <strong>CPWLthm</strong></td><td></td></tr>
@@ -351,6 +374,14 @@
        <td></td>
        <td>
        <a href="contents/netsprops.html#Haninthm"><code class="xref">Haninthm</code></a> <em>(contents/netsprops)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-KLnormalthm"><td></td><td>
+       <strong>KLnormalthm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/autoencoders.html#KLnormalthm"><code class="xref">KLnormalthm</code></a> <em>(contents/autoencoders)</em></td><td>
        <em>theorem</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-NNaddlem"><td></td><td>
@@ -377,6 +408,14 @@
        <a href="contents/netsprops.html#NNmaxlem"><code class="xref">NNmaxlem</code></a> <em>(contents/netsprops)</em></td><td>
        <em>lemma</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-adaalg"><td></td><td>
+       <strong>adaalg</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/ensemble.html#adaalg"><code class="xref">adaalg</code></a> <em>(contents/ensemble)</em></td><td>
+       <em>algorithm</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-affconflem"><td></td><td>
        <strong>affconflem</strong></td><td></td></tr>
      <tr>
@@ -400,6 +439,22 @@
        <td>
        <a href="contents/intro.html#bayesprop"><code class="xref">bayesprop</code></a> <em>(contents/intro)</em></td><td>
        <em>proposition</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-canthm"><td></td><td>
+       <strong>canthm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/ensemble.html#canthm"><code class="xref">canthm</code></a> <em>(contents/ensemble)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-condothm"><td></td><td>
+       <strong>condothm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/ensemble.html#condothm"><code class="xref">condothm</code></a> <em>(contents/ensemble)</em></td><td>
+       <em>theorem</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-consistencythm"><td></td><td>
        <strong>consistencythm</strong></td><td></td></tr>
@@ -449,6 +504,30 @@
        <a href="contents/rl.html#epsgreedyalg"><code class="xref">epsgreedyalg</code></a> <em>(contents/rl)</em></td><td>
        <em>algorithm</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-eymthm"><td></td><td>
+       <strong>eymthm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/autoencoders.html#eymthm"><code class="xref">eymthm</code></a> <em>(contents/autoencoders)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-fiftylem"><td></td><td>
+       <strong>fiftylem</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/adabool.html#fiftylem"><code class="xref">fiftylem</code></a> <em>(contents/adabool)</em></td><td>
+       <em>lemma</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-fiftytwolem"><td></td><td>
+       <strong>fiftytwolem</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/adabool.html#fiftytwolem"><code class="xref">fiftytwolem</code></a> <em>(contents/adabool)</em></td><td>
+       <em>lemma</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-foolthm"><td></td><td>
        <strong>foolthm</strong></td><td></td></tr>
      <tr>
@@ -497,6 +576,14 @@
        <a href="contents/pac.html#hoeffthm"><code class="xref">hoeffthm</code></a> <em>(contents/pac)</em></td><td>
        <em>theorem</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-jensenexpecthm"><td></td><td>
+       <strong>jensenexpecthm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/appendix.html#jensenexpecthm"><code class="xref">jensenexpecthm</code></a> <em>(contents/appendix)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-lemma-15"><td></td><td>
        <strong>lemma-15</strong></td><td></td></tr>
      <tr>
@@ -511,6 +598,22 @@
        <td></td>
        <td>
        <a href="contents/convex.html#loglosslem"><code class="xref">loglosslem</code></a> <em>(contents/convex)</em></td><td>
+       <em>lemma</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-markovthm"><td></td><td>
+       <strong>markovthm</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/appendix.html#markovthm"><code class="xref">markovthm</code></a> <em>(contents/appendix)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-multiKLlem"><td></td><td>
+       <strong>multiKLlem</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/autoencoders.html#multiKLlem"><code class="xref">multiKLlem</code></a> <em>(contents/autoencoders)</em></td><td>
        <em>lemma</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-nnalgo"><td></td><td>
@@ -798,7 +901,7 @@
      <tr>
        <td></td>
        <td>
-       <a href="contents/nets.html#theorem-2"><code class="xref">theorem-2</code></a> <em>(contents/nets)</em></td><td>
+       <a href="contents/adabool.html#theorem-2"><code class="xref">theorem-2</code></a> <em>(contents/adabool)</em></td><td>
        <em>theorem</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-theorem-3"><td></td><td>
@@ -815,6 +918,14 @@
        <td></td>
        <td>
        <a href="contents/rl.html#theorem-4"><code class="xref">theorem-4</code></a> <em>(contents/rl)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-totalexp"><td></td><td>
+       <strong>totalexp</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="contents/appendix.html#totalexp"><code class="xref">totalexp</code></a> <em>(contents/appendix)</em></td><td>
        <em>theorem</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-twicelem"><td></td><td>

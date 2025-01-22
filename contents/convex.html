@@ -50,10 +50,11 @@
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
     <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-    <script defer="defer" src="../_static/tippy/contents/convex.b6c4127c-c33e-49d2-be8b-04fd1238d954.js"></script>
+    <script defer="defer" src="../_static/tippy/contents/convex.4cb33113-fd5a-4bfc-9c49-bb5264330969.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'contents/convex';</script>
+    <link rel="icon" href="../_static/noun-robot_32.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="4. Neural networks" href="nets.html" />
@@ -161,9 +162,11 @@
 <li class="toctree-l1"><a class="reference internal" href="nets.html">4. Neural networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="netsprops.html">5. Properties of neural networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loss.html">6. Loss functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rl.html">7. Reinforcement learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mips.html">8. Maximum inner product search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html">9. TEST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoencoders.html">7. Autoencoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ensemble.html">8. Ensemble learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl.html">9. Reinforcement learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mips.html">10. Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">11. Appendix</a></li>
 </ul>
 
     </div>
@@ -564,7 +567,7 @@ that the logistic loss function is convex.</p>
 <p>Recall that when performing logistic regression we aim to find a linear classifier
 with small zero-one loss. Instead of minimising the zero-one loss directly, however,
 we minimise the logistic loss – which we had seen to upper-bound the zero-one loss;
-see Lemma~\ref{upperloglosslem}. Here now is the reason, why we replace the zero-one loss
+see <a class="reference internal" href="intro.html#upperloglosslem">Lemma 1.1</a>. Here now is the reason, why we replace the zero-one loss
 by a <em>surrogate loss</em> function, the logistic loss: in contrast to zero-one loss,
 the logistic loss function is convex!</p>
 <p>Let’s look at one more way to obtain a convex function.</p>
@@ -1025,7 +1028,7 @@ again:</p>
 to be ``slow and unreliable’’.<label for='sidenote-role-4' class='margin-toggle'><span id="id5">
 <sup>4</sup></span>
 
-</label><input type='checkbox' id='sidenote-role-4' name='sidenote-role-4' class='margin-toggle'><span class="sidenote"><sup>4</sup><em>Deep learning</em>, p.~148</span> Moreover,
+</label><input type='checkbox' id='sidenote-role-4' name='sidenote-role-4' class='margin-toggle'><span class="sidenote"><sup>4</sup><em>Deep learning</em>, p. 148</span> Moreover,
 in convex optimisation, when both algorithms are known to converge,
 SGD has even worse convergence rates than vanilla gradient descent.
 In fact, while the error <span class="math notranslate nohighlight">\(\epsilon\)</span>, the difference <span class="math notranslate nohighlight">\(f(x^{(t)})-f(x^*)\)</span>

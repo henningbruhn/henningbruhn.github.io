@@ -50,10 +50,11 @@
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
     <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-    <script defer="defer" src="../_static/tippy/contents/pac.560c1313-4238-49c1-8265-b48b4608fb49.js"></script>
+    <script defer="defer" src="../_static/tippy/contents/pac.097a7b22-dd1a-40d0-a72c-961a1dfe2298.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'contents/pac';</script>
+    <link rel="icon" href="../_static/noun-robot_32.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="3. Stochastic gradient descent" href="convex.html" />
@@ -161,9 +162,11 @@
 <li class="toctree-l1"><a class="reference internal" href="nets.html">4. Neural networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="netsprops.html">5. Properties of neural networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loss.html">6. Loss functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rl.html">7. Reinforcement learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mips.html">8. Maximum inner product search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html">9. TEST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoencoders.html">7. Autoencoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ensemble.html">8. Ensemble learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl.html">9. Reinforcement learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mips.html">10. Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">11. Appendix</a></li>
 </ul>
 
     </div>
@@ -312,6 +315,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-risk-minimisation">2.1. Empirical risk minimisation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-error-and-generalisation-error">2.2. Test error and generalisation error</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overfitting-and-underfitting">2.3. Overfitting and underfitting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vc-dimension">2.4. VC-dimension</a></li>
 </ul>
             </nav>
         </div>
@@ -632,6 +636,141 @@ However, we cannot compute <a class="reference internal" href="#equation-ggengap
 <span class="math notranslate nohighlight">\(L_{T}(h_S)-L_{S}(h_S)\)</span>. As long as the test set is large enough it makes not much
 difference which of the two quantities we consider as they are very close to each other.</p>
 </section>
+<section id="vc-dimension">
+<h2><span class="section-number">2.4. </span>VC-dimension<a class="headerlink" href="#vc-dimension" title="Link to this heading">#</a></h2>
+<p>Quadratic classifiers seem more powerful, more expressive than linear classifiers.
+How can we state this formally? How can we measure the, well, <em>expressiveness</em>
+of a set of classifiers?</p>
+<p>Arguably, a set of classifiers is more powerful than another if it can
+fit larger complicated training sets perfectly. Obviously, any classifier
+can fit large training sets if the classes are just right: indeed,
+linear classifiers classify abritrarily large training sets correctly,
+provided the sets are separable. With another setting of classes, however,
+a linear classifier will already fail to fit four points perfectly; see <a class="reference internal" href="#nolinfig"><span class="std std-numref">Fig. 2.5</span></a>.
+A quadratic classifier, in contrast, will still be able to fit most
+configurations of four points – whatever the classes.</p>
+<figure class="align-default" id="nolinfig">
+<a class="reference internal image-reference" href="../_images/fourpoints.png"><img alt="../_images/fourpoints.png" src="../_images/fourpoints.png" style="height: 2cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.5 </span><span class="caption-text">No linear classifier can fit the four points perfectly.</span><a class="headerlink" href="#nolinfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Let <span class="math notranslate nohighlight">\(\mathcal H\)</span> be a class of binary classifiers on domain set <span class="math notranslate nohighlight">\(\mathcal X\)</span>
+into the class set <span class="math notranslate nohighlight">\(\mathcal Y=\{0,1\}\)</span>. That is, <span class="math notranslate nohighlight">\(\mathcal H\)</span> is a set of
+functions  <span class="math notranslate nohighlight">\(\mathcal X\to\{0,1\}\)</span>.</p>
+<p>For a (finite) subset <span class="math notranslate nohighlight">\(C\subseteq \mathcal X\)</span> define the restriction
+<span class="math notranslate nohighlight">\(\mathcal H_C\)</span> of <span class="math notranslate nohighlight">\(\mathcal H\)</span> to <span class="math notranslate nohighlight">\(C\)</span>
+as</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal H_C=\{h_{|C}:C\to\{0,1\}: h\in\mathcal H\}
+\]</div>
+<p>The set <span class="math notranslate nohighlight">\(C\)</span> will always be finite, and we will sometimes view
+the restricted functions <span class="math notranslate nohighlight">\(h_{|C}\)</span> simply as the vector <span class="math notranslate nohighlight">\((h(c_1),\ldots,h(c_m))\)</span>,
+where <span class="math notranslate nohighlight">\(c_1,\ldots, c_m\)</span> is a fixed enumeration of <span class="math notranslate nohighlight">\(C\)</span>.</p>
+<p>We say that <span class="math notranslate nohighlight">\(\mathcal H\)</span> <em>shatters</em> the finite set <span class="math notranslate nohighlight">\(C\subseteq\mathcal X\)</span>
+if</p>
+<div class="math notranslate nohighlight">
+\[
+|\mathcal H_C|=2^{|C|} \Leftrightarrow \mathcal H_C=\{f:C\to\{0,1\}\},
+\]</div>
+<p>ie, if <span class="math notranslate nohighlight">\(\mathcal H_C\)</span> is equal to the set of all functions from <span class="math notranslate nohighlight">\(C\)</span> to <span class="math notranslate nohighlight">\(\{0,1\}\)</span>.</p>
+<p>Finally, the set of classifiers <span class="math notranslate nohighlight">\(\mathcal H\)</span> has <em>VC-dimension</em> <span class="math notranslate nohighlight">\(d\)</span><br />
+if <span class="math notranslate nohighlight">\(d\)</span> is the largest integer such that there is a set <span class="math notranslate nohighlight">\(C\subseteq \mathcal X\)</span>
+of size <span class="math notranslate nohighlight">\(d\)</span> that is shattered by <span class="math notranslate nohighlight">\(\mathcal H\)</span>.
+If <span class="math notranslate nohighlight">\(\mathcal H\)</span> shatters arbitrarily large sets <span class="math notranslate nohighlight">\(C\)</span> then <span class="math notranslate nohighlight">\(\mathcal H\)</span> has infinite
+VC-dimension. We denote the VC-dimension by <span class="math notranslate nohighlight">\(\text{VCdim}(\mathcal H)\)</span>.<label for='marginnote-role-5' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-5' name='marginnote-role-5' class='margin-toggle'><span class="marginnote"> VC-dimension has not only applications in statistical learning theory but also in
+other fields such as computational geometry and graph theory.
+It’s named for Vladimir Vapnik and Alexis Chervonenkis.
+}</span></p>
+<p>Let us consider some examples.</p>
+<p>First we examine the characteristic functions of intervals in <span class="math notranslate nohighlight">\(\mathcal X=\mathbb R\)</span>.
+That is, we define</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal H=\{1_{[a,b]}:a,b\in\mathbb R\}
+\]</div>
+<p>(Here, <span class="math notranslate nohighlight">\(1_{[a,b]}\)</span> is the characteristic function on <span class="math notranslate nohighlight">\([a,b]\)</span>, ie, the function
+that takes value <span class="math notranslate nohighlight">\(1\)</span> for every <span class="math notranslate nohighlight">\(x\in [a,b]\)</span> and <span class="math notranslate nohighlight">\(0\)</span> for every <span class="math notranslate nohighlight">\(x\notin [a,b]\)</span>.)</p>
+<p>It is easy to check that <span class="math notranslate nohighlight">\(\mathcal H\)</span> shatters every two-element subset <span class="math notranslate nohighlight">\(C=\{c_1,c_2\}\)</span>
+of <span class="math notranslate nohighlight">\(\mathbb R\)</span>. Indeed, if <span class="math notranslate nohighlight">\(c_1&lt;c_2\)</span> then the functions</p>
+<div class="math notranslate nohighlight">
+\[
+1_{\emptyset},1_{[c_1,c_1]},1_{[c_2,c_2}],1_{[c_1,c_2]}
+\]</div>
+<p>are enough to shatter <span class="math notranslate nohighlight">\(C\)</span>. Thus, <span class="math notranslate nohighlight">\(\text{VCdim}(\mathcal H)\geq 2\)</span>.
+(Note: it would be enough if <span class="math notranslate nohighlight">\(\mathcal H\)</span> shattered <em>one</em> two-element subset.)</p>
+<p>Now, if <span class="math notranslate nohighlight">\(C=\{c_1,c_2,c_3\}\subseteq\mathbb R\)</span> with <span class="math notranslate nohighlight">\(c_1&lt;c_2&lt;c_3\)</span> then no
+function in <span class="math notranslate nohighlight">\(\mathcal H\)</span> takes value 1 on <span class="math notranslate nohighlight">\(c_1,c_3\)</span> but <span class="math notranslate nohighlight">\(0\)</span> on <span class="math notranslate nohighlight">\(c_2\)</span>;
+simply because any interval that includes <span class="math notranslate nohighlight">\(c_1\)</span> and <span class="math notranslate nohighlight">\(c_3\)</span> also contains <span class="math notranslate nohighlight">\(c_2\)</span>.
+Thus <span class="math notranslate nohighlight">\(\text{VCdim}(\mathcal H)=2\)</span>.</p>
+<figure class="align-default" id="shatterfig">
+<a class="reference internal image-reference" href="../_images/axisrect.png"><img alt="../_images/axisrect.png" src="../_images/axisrect.png" style="width: 10cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.6 </span><span class="caption-text">Four points in the plane shattered by axis-parallel rectangles.</span><a class="headerlink" href="#shatterfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Let <span class="math notranslate nohighlight">\(\mathcal R\)</span> be the class of axis-aligned rectangles in the plane</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal R=\{[a,b]\times [c,d]:a,b,c,d\in\mathbb R\},
+\]</div>
+<p>and let <span class="math notranslate nohighlight">\(\mathcal H\)</span> be the set of characteristic functions of such rectangles:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal H=\{1_R:R\in\mathcal R\}.
+\]</div>
+<p>Set <span class="math notranslate nohighlight">\(C=\{e_1,e_2,-e_1,-e_2\}\)</span>, where <span class="math notranslate nohighlight">\(e_1,e_2\)</span> are the unit vectors. Then it is easy to see<br />
+that <span class="math notranslate nohighlight">\(\mathcal H\)</span> shatters <span class="math notranslate nohighlight">\(C\)</span>. As an example, to get the function <span class="math notranslate nohighlight">\(f\)</span> with values <span class="math notranslate nohighlight">\(1\)</span> on
+<span class="math notranslate nohighlight">\(e_1,-e_1\)</span> and <span class="math notranslate nohighlight">\(0\)</span> on <span class="math notranslate nohighlight">\(e_2,-e_2\)</span> as a restriction of <span class="math notranslate nohighlight">\(\mathcal H\)</span>, we take the
+rectangle <span class="math notranslate nohighlight">\(R=[-0.1,0.1]\times[-1,1]\)</span> and see that <span class="math notranslate nohighlight">\(1_R\)</span> restricted to <span class="math notranslate nohighlight">\(C\)</span> is <span class="math notranslate nohighlight">\(f\)</span>.
+Thus <span class="math notranslate nohighlight">\(\text{VCdim}(\mathcal H)\geq 4\)</span>. Observe that, in contrast to the previous examples,
+not <em>every</em> set <span class="math notranslate nohighlight">\(C\)</span> of size 4 is shattered by <span class="math notranslate nohighlight">\(\mathcal H\)</span>. (Which one is not?)
+See <a class="reference internal" href="#shatterfig"><span class="std std-numref">Fig. 2.6</span></a> for another example of a four-point set that is shattered.</p>
+<p>To see that <span class="math notranslate nohighlight">\(\text{VCdim}(H)\)</span> is exactly 4, consider an arbitrary set <span class="math notranslate nohighlight">\(C\subseteq\mathbb R^2\)</span>
+of cardinality 5. Let <span class="math notranslate nohighlight">\(c_1\)</span> be a left-most point in <span class="math notranslate nohighlight">\(C\)</span>, let <span class="math notranslate nohighlight">\(c_2\)</span> be a highest point in <span class="math notranslate nohighlight">\(C\)</span>,
+let <span class="math notranslate nohighlight">\(c_3\)</span> be a right-most point in <span class="math notranslate nohighlight">\(C\)</span>, let <span class="math notranslate nohighlight">\(c_4\)</span> be a lowest point in <span class="math notranslate nohighlight">\(C\)</span>, and let <span class="math notranslate nohighlight">\(c_5\)</span>
+be the fifth point in <span class="math notranslate nohighlight">\(C\)</span>. Then any rectangle that contains <span class="math notranslate nohighlight">\(c_1,c_2,c_3,c_4\)</span> also
+contains <span class="math notranslate nohighlight">\(c_5\)</span>. Thus, the function <span class="math notranslate nohighlight">\(f\)</span> that takes value 1 on <span class="math notranslate nohighlight">\(c_1,c_2,c_3,c_4\)</span>
+but <span class="math notranslate nohighlight">\(0\)</span> on <span class="math notranslate nohighlight">\(c_5\)</span> cannot be the restriction of <span class="math notranslate nohighlight">\(\mathcal H\)</span>.</p>
+<p>An example of class <span class="math notranslate nohighlight">\(\mathcal H\)</span> with infinite VC-dimension is the class of all
+functions <span class="math notranslate nohighlight">\(\{f:\mathbb R\to \{0,1\}\}\)</span>. Much smaller classes, however, may
+have infinite VC-dimension as well.</p>
+<p>Let me point out that the domain <span class="math notranslate nohighlight">\(\mathcal X\)</span> has some influence on the VC-dimension. First,
+the cardinality of <span class="math notranslate nohighlight">\(\mathcal X\)</span> gives a trivial upper bound on the VC-dimension:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{VCdim}(\mathcal H)\leq |\mathcal X|
+\]</div>
+<p>(Simply, because every set <span class="math notranslate nohighlight">\(C\subseteq \mathcal X\)</span>, shattered or not, is limited in size
+by the size of <span class="math notranslate nohighlight">\(\mathcal C\)</span>.)</p>
+<p>The VC-dimension, however, may also increase if we enlarge <span class="math notranslate nohighlight">\(\mathcal X\)</span>. To see this,
+let <span class="math notranslate nohighlight">\(\mathcal H\)</span> be the set of decision stumps in <span class="math notranslate nohighlight">\(\mathcal X=\mathbb R^n\)</span>. That is,
+each <span class="math notranslate nohighlight">\(h\in\mathcal H\)</span> is characterised by a dimension <span class="math notranslate nohighlight">\(i\)</span>, a threshold <span class="math notranslate nohighlight">\(t\in\mathbb R\)</span>
+and a sign <span class="math notranslate nohighlight">\(\sigma\in\{-1,1\}\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+h:x\mapsto \begin{cases}
+\sigma &amp;\text{ if }x_i\geq t\\
+-\sigma &amp;\text{ otherwise}
+\end{cases}
+\end{split}\]</div>
+<p>Now, if <span class="math notranslate nohighlight">\(n\geq 2^d\)</span> then the VC-dimension of <span class="math notranslate nohighlight">\(\mathcal H\)</span> will be at least <span class="math notranslate nohighlight">\(d\)</span>. Indeed,
+let <span class="math notranslate nohighlight">\(C=\{z^{(1)},\ldots, z^{(d)}\}\)</span>, where we’ll define the <span class="math notranslate nohighlight">\(z^{(i)}\)</span> shortly. Enumerate
+all possible class assigments <span class="math notranslate nohighlight">\(f:C\to \{0,1\}\)</span> as <span class="math notranslate nohighlight">\(f_1,\ldots, f_{2^d}\)</span>. Set</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+z^{(j)}_i=\begin{cases}
+1&amp; \text{ if }i\leq 2^d\text{ and }f_i(z^{(j)})=1\\
+-1&amp; \text{ otherwise}
+\end{cases}\quad\text{ for }j=1,\ldots, d,\, i=1,\ldots, n
+\end{split}\]</div>
+<p>To see that every class assignment on <span class="math notranslate nohighlight">\(C\)</span> can be realised by a decision stump, let
+a class assignment <span class="math notranslate nohighlight">\(f_i\)</span> be given, and choose the decision stump defined by the
+decision rule <span class="math notranslate nohighlight">\(x_i\geq 0\)</span>. This realises <span class="math notranslate nohighlight">\(f_i\)</span>.</p>
+</section>
 </section>
 <hr class="footnotes docutils" />
 
@@ -684,6 +823,7 @@ difference which of the two quantities we consider as they are very close to eac
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-risk-minimisation">2.1. Empirical risk minimisation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-error-and-generalisation-error">2.2. Test error and generalisation error</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overfitting-and-underfitting">2.3. Overfitting and underfitting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vc-dimension">2.4. VC-dimension</a></li>
 </ul>
   </nav></div>
 

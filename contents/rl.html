@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>7. Reinforcement learning &#8212; Mathematics of Machine Learning</title>
+    <title>9. Reinforcement learning &#8212; Mathematics of Machine Learning</title>
   
   
   
@@ -50,14 +50,15 @@
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
     <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-    <script defer="defer" src="../_static/tippy/contents/rl.8f31e54e-c6e9-4378-9591-6cc16466e38d.js"></script>
+    <script defer="defer" src="../_static/tippy/contents/rl.9d46af5d-a57a-4667-9520-e5dad7648d9f.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'contents/rl';</script>
+    <link rel="icon" href="../_static/noun-robot_32.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="8. Maximum inner product search" href="mips.html" />
-    <link rel="prev" title="6. Loss functions" href="loss.html" />
+    <link rel="next" title="10. Maximum inner product search" href="mips.html" />
+    <link rel="prev" title="8. Ensemble learning" href="ensemble.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -161,9 +162,11 @@
 <li class="toctree-l1"><a class="reference internal" href="nets.html">4. Neural networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="netsprops.html">5. Properties of neural networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loss.html">6. Loss functions</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Reinforcement learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mips.html">8. Maximum inner product search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html">9. TEST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoencoders.html">7. Autoencoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ensemble.html">8. Ensemble learning</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">9. Reinforcement learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mips.html">10. Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">11. Appendix</a></li>
 </ul>
 
     </div>
@@ -309,20 +312,20 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#markov-decision-processes">7.1. Markov decision processes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pole-balancing">7.2. Pole balancing</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-known-about-the-environment">7.3. What is known about the environment?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#returns">7.4. Returns</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policies">7.5. Policies</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#value-functions">7.6. Value functions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policy-improvement-theorem">7.7. Policy improvement theorem</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q-learning">7.8. <span class="math notranslate nohighlight">\(q\)</span>-learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameterised-policies">7.9. Parameterised policies</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policy-gradient-method">7.10. Policy gradient method</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baselines">7.11. Baselines</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#on-and-off-policy">7.12. On- and off-policy</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reinforcement-learning-and-llms">7.13. Reinforcement learning and LLMs</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-else-is-there">7.14. What else is there?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#markov-decision-processes">9.1. Markov decision processes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pole-balancing">9.2. Pole balancing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-known-about-the-environment">9.3. What is known about the environment?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#returns">9.4. Returns</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policies">9.5. Policies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#value-functions">9.6. Value functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policy-improvement-theorem">9.7. Policy improvement theorem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q-learning">9.8. <span class="math notranslate nohighlight">\(q\)</span>-learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameterised-policies">9.9. Parameterised policies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policy-gradient-method">9.10. Policy gradient method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baselines">9.11. Baselines</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#on-and-off-policy">9.12. On- and off-policy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reinforcement-learning-and-llms">9.13. Reinforcement learning and LLMs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-else-is-there">9.14. What else is there?</a></li>
 </ul>
             </nav>
         </div>
@@ -345,7 +348,7 @@
 \newcommand{\bigOmega}{\Omega}
 \)</span></p>
 <section class="tex2jax_ignore mathjax_ignore" id="reinforcement-learning">
-<h1><span class="section-number">7. </span>Reinforcement learning<a class="headerlink" href="#reinforcement-learning" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">9. </span>Reinforcement learning<a class="headerlink" href="#reinforcement-learning" title="Link to this heading">#</a></h1>
 <p>What is reinforcement learning?<label for='sidenote-role-1' class='margin-toggle'><span id="id1">
 <sup>1</sup></span>
 
@@ -358,7 +361,7 @@ The agent strives to maximise the total reward.</p>
 <a class="reference internal image-reference" href="../_images/basicRL.png"><img alt="../_images/basicRL.png" src="../_images/basicRL.png" style="width: 15cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 7.1 </span><span class="caption-text">Basic setup in reinforcement learning</span><a class="headerlink" href="#rlfig" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 9.1 </span><span class="caption-text">Basic setup in reinforcement learning</span><a class="headerlink" href="#rlfig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Many applications fall into this category.<label for='sidenote-role-2' class='margin-toggle'><span id="id2">
@@ -387,8 +390,8 @@ scenarios where the reward is only collected many steps later: A move in chess w
 only have consequences a number of moves later, and it is hard to figure out which moves
 contributed to a win or loss of the game.</p>
 <section id="markov-decision-processes">
-<h2><span class="section-number">7.1. </span>Markov decision processes<a class="headerlink" href="#markov-decision-processes" title="Link to this heading">#</a></h2>
-<p>Let’s consider a classical toy example, an example of a <em>gridworld</em>; see <a class="reference internal" href="#gridworldfig"><span class="std std-numref">Fig. 7.2</span></a>.
+<h2><span class="section-number">9.1. </span>Markov decision processes<a class="headerlink" href="#markov-decision-processes" title="Link to this heading">#</a></h2>
+<p>Let’s consider a classical toy example, an example of a <em>gridworld</em>; see <a class="reference internal" href="#gridworldfig"><span class="std std-numref">Fig. 9.2</span></a>.
 An agent starts at position <span class="math notranslate nohighlight">\(z\)</span> and moves in each time step from one square to the next. The agent
 is not allowed to leave the grid, and cannot enter the white (blocked) square above the starting position.
 The aim of the agent is to reach, in the shortest possible way, the square in the upper right corner, where a reward of +1
@@ -398,7 +401,7 @@ The task is stopped if the agent enters any of these two squares.</p>
 <a class="reference internal image-reference" href="../_images/gridworld.png"><img alt="../_images/gridworld.png" src="../_images/gridworld.png" style="height: 6cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 7.2 </span><span class="caption-text">Gridworld: each square shows the possible moves.</span><a class="headerlink" href="#gridworldfig" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 9.2 </span><span class="caption-text">Gridworld: each square shows the possible moves.</span><a class="headerlink" href="#gridworldfig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Reinforcement learning tasks are usually modelled as
@@ -478,16 +481,16 @@ We will enforce this by setting a reward of -0.1
 for every other transition.</p>
 </section>
 <section id="pole-balancing">
-<span id="polesec"></span><h2><span class="section-number">7.2. </span>Pole balancing<a class="headerlink" href="#pole-balancing" title="Link to this heading">#</a></h2>
+<span id="polesec"></span><h2><span class="section-number">9.2. </span>Pole balancing<a class="headerlink" href="#pole-balancing" title="Link to this heading">#</a></h2>
 <p><label for='marginnote-role-3' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-3' name='marginnote-role-3' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/reinforcement_learning/pole.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>pole</a></span>
 Let’s have a look at a classic reinforcement learning problem. The task consists in balancing a pole on a cart.
 When the pole starts falling over, the cart can move to counterbalance the movement of the pole. The aim
-is to keep the pole from falling as long as possible. See <a class="reference internal" href="#polefig"><span class="std std-numref">Fig. 7.3</span></a>.</p>
+is to keep the pole from falling as long as possible. See <a class="reference internal" href="#polefig"><span class="std std-numref">Fig. 9.3</span></a>.</p>
 <figure class="align-default" id="polefig">
 <a class="reference internal image-reference" href="../_images/polefig.png"><img alt="../_images/polefig.png" src="../_images/polefig.png" style="width: 15cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 7.3 </span><span class="caption-text">Pole balancing</span><a class="headerlink" href="#polefig" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 9.3 </span><span class="caption-text">Pole balancing</span><a class="headerlink" href="#polefig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Each state is characterised by four parameters:  position of the cart,  velocity,
@@ -503,7 +506,7 @@ can be quite a lot larger, maybe even infinite – that depends on the physics s
 the transition from one state to the next.</p>
 </section>
 <section id="what-is-known-about-the-environment">
-<h2><span class="section-number">7.3. </span>What is known about the environment?<a class="headerlink" href="#what-is-known-about-the-environment" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.3. </span>What is known about the environment?<a class="headerlink" href="#what-is-known-about-the-environment" title="Link to this heading">#</a></h2>
 <p>When we train a reinforcement learning system, what do we usually know about the environment?
 In particular, do we have access to the transition probability and the reward function?
 Sometimes yes, sometimes no. This depends on the scenario.</p>
@@ -533,8 +536,7 @@ we cannot expect to know the transition function.</p>
 Even when we have complete knowledge of the environment, however,
 we often cannot use that extensively: Typically the number of states will be so
 large that we cannot even tabulate the transition function.</p>
-<p>|
-Released to the real environment, some RL systems employ additional tricks
+<p>Released to the real environment, some RL systems employ additional tricks
 to improve their performance. A Go playing system, for instance,
 may take the current board position and simulate a number of random next moves.
 Why? In Go, the number of possible board positions is mind-bogglingly
@@ -544,7 +546,7 @@ current position through simulation of the actual position.
 Such an algorithm is often called a <em>rollout algorithm</em>.</p>
 </section>
 <section id="returns">
-<h2><span class="section-number">7.4. </span>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.4. </span>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h2>
 <p>Once the agent in a reinforcement learning task starts it follows a
 trajectory of states, actions, and rewards:</p>
 <div class="pst-scrollable-table-container"><table class="table">
@@ -610,9 +612,9 @@ As a result, rewards in the next few steps are more worth than rewards
 received much later.</p>
 </section>
 <section id="policies">
-<h2><span class="section-number">7.5. </span>Policies<a class="headerlink" href="#policies" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.5. </span>Policies<a class="headerlink" href="#policies" title="Link to this heading">#</a></h2>
 <p>It’s time to turn to the agent. Once fully trained, how should the agent act? What the agent
-knows about the environment is encapsulated in the state. Based on that state
+knows about the current situation is encapsulated in the state. Based on that state
 the agent has to decide which action to take. That is, an agent is described by a function
 from states to actions. Such a function</p>
 <div class="math notranslate nohighlight">
@@ -623,13 +625,13 @@ from states to actions. Such a function</p>
 the policy with best (expected) returns.</p>
 <p>A simple policy in the pole balancing task would be: Whenever the pole leans to the right, accelerate to the right,
 and when the pole leans to the left, accelerate to the left. It should be immediately clear that, while not
-the worst, this is also not the best of all policies. <a class="reference internal" href="#gridworld2fig"><span class="std std-numref">Fig. 7.4</span></a> shows
+the worst, this is also not the best of all policies. <a class="reference internal" href="#gridworld2fig"><span class="std std-numref">Fig. 9.4</span></a> shows
 the best policy for gridworld.</p>
 <figure class="align-default" id="gridworld2fig">
 <a class="reference internal image-reference" href="../_images/gridworld2.png"><img alt="../_images/gridworld2.png" src="../_images/gridworld2.png" style="height: 6cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 7.4 </span><span class="caption-text">A deterministic policy in gridworld.</span><a class="headerlink" href="#gridworld2fig" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 9.4 </span><span class="caption-text">A deterministic policy in gridworld.</span><a class="headerlink" href="#gridworld2fig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Policies do not have to be deterministic. Indeed, the whole setting of a
@@ -645,7 +647,7 @@ That is, in state <span class="math notranslate nohighlight">\(s\)</span>, the p
 with a probability that depends on the current state.</p>
 </section>
 <section id="value-functions">
-<h2><span class="section-number">7.6. </span>Value functions<a class="headerlink" href="#value-functions" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.6. </span>Value functions<a class="headerlink" href="#value-functions" title="Link to this heading">#</a></h2>
 <p>In many reinforcement learning tasks, a reward will only be awarded after many steps. A chess game has no immediate rewards;
 it is only won or lost at the end. In most tasks actions may have consequences that only become apparent many steps later.
 In an inventory control problem, it may  be beneficial in the short run to not order anything, as no costs for purchases
@@ -671,7 +673,7 @@ probability of a trajectory?
 Let’s, for the moment, assume a deterministic policy <span class="math notranslate nohighlight">\(\pi\)</span>.
 Then, for a trajectory <span class="math notranslate nohighlight">\(s_0,s_1,s_2,\ldots\)</span> we may be tempted to fix the probability of the trajectory to</p>
 <div class="math notranslate nohighlight" id="equation-trajprob">
-<span class="eqno">(7.1)<a class="headerlink" href="#equation-trajprob" title="Link to this equation">#</a></span>\[\proba[s_0,s_1,\ldots]=\prod_{t=0}^\infty p(s_t,\pi(s_t),s_{t+1})\]</div>
+<span class="eqno">(9.1)<a class="headerlink" href="#equation-trajprob" title="Link to this equation">#</a></span>\[\proba[s_0,s_1,\ldots]=\prod_{t=0}^\infty p(s_t,\pi(s_t),s_{t+1})\]</div>
 <p>If the trajectory encounters a terminal state, at <span class="math notranslate nohighlight">\(s_T\)</span> say, then all following transitions will go from <span class="math notranslate nohighlight">\(s_T\)</span> back to <span class="math notranslate nohighlight">\(s_T\)</span>
 with probability 1, and the probability of the whole trajectory simplifies to</p>
 <div class="math notranslate nohighlight">
@@ -679,7 +681,7 @@ with probability 1, and the probability of the whole trajectory simplifies to</p
 \proba[s_0,s_1,\ldots]=\prod_{t=0}^{T-1} p(s_t,\pi(s_t),s_{t+1})
 \]</div>
 <p>Unfortunately, if no terminal state is encountered,
-the probability <a class="reference internal" href="#equation-trajprob">(7.1)</a> will often be 0. Moreover, the space of trajectories may not be discrete.</p>
+the probability <a class="reference internal" href="#equation-trajprob">(9.1)</a> will often be 0. Moreover, the space of trajectories may not be discrete.</p>
 <p>We could now try to set up a <span class="math notranslate nohighlight">\(\sigma\)</span>-algebra and define a complicated measure. But let’s not do that.
 Instead, we observe that the return is a sum, and that the expectation is linear. That is</p>
 <div class="math notranslate nohighlight">
@@ -723,7 +725,7 @@ complicated:</p>
 \]</div>
 <p>With this we can now  define the expected discounted return more properly, and with it the value function:</p>
 <div class="math notranslate nohighlight" id="equation-valuedef">
-<span class="eqno">(7.2)<a class="headerlink" href="#equation-valuedef" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
+<span class="eqno">(9.2)<a class="headerlink" href="#equation-valuedef" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
 v_\pi(s_0) &amp; = \expec_\pi\left[\sum_{t=0}^\infty\gamma^{t}R_{t+1}|S_0=s_0\right]\\
 &amp; = \sum_{t=0}^\infty\gamma^t
 \sum_{s,s'}\sum_a
@@ -739,14 +741,14 @@ v_{\pi}(s)\geq v_{\pi'}(s) \text{ for every }s\in\mathcal S,
 <p>and let’s say that <span class="math notranslate nohighlight">\(\pi\)</span> is <em>strictly better</em>
 than <span class="math notranslate nohighlight">\(\pi'\)</span> if it is better and if there is at least one state <span class="math notranslate nohighlight">\(s\)</span> with<br />
 <span class="math notranslate nohighlight">\(v_{\pi}(s)&gt; v_{\pi'}(s)\)</span>.
-A policy <span class="math notranslate nohighlight">\(\pi^*\)</span> is <em>optimal</em> if it is better than
+Note that of any two policies neither needs to be better
+than the other one. That is, two policies can be incomparable.</p>
+<p>A policy <span class="math notranslate nohighlight">\(\pi^*\)</span> is <em>optimal</em> if it is better than
 every other policy.
-At the moment it’s not clear whether there is any optimal policy at all,
-and also note that of any two policies neither needs to be better
-than the other one, ie, two policies can be incomparable.</p>
+At the moment it’s not clear whether there is any optimal policy at all.</p>
 </section>
 <section id="policy-improvement-theorem">
-<h2><span class="section-number">7.7. </span>Policy improvement theorem<a class="headerlink" href="#policy-improvement-theorem" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.7. </span>Policy improvement theorem<a class="headerlink" href="#policy-improvement-theorem" title="Link to this heading">#</a></h2>
 <p>Assume an agent is following a policy <span class="math notranslate nohighlight">\(\pi\)</span> but is given the opportunity to change a single action in a state <span class="math notranslate nohighlight">\(s\)</span>.
 Which one should she choose? To answer this question, we introduce <em>state-action values</em>,
 or shorter <em><span class="math notranslate nohighlight">\(q\)</span>-values</em>. Given a state <span class="math notranslate nohighlight">\(s\)</span> and an action <span class="math notranslate nohighlight">\(a\)</span>, the value <span class="math notranslate nohighlight">\(q_\pi(s,a)\)</span>
@@ -761,19 +763,19 @@ q_\pi(s,a) = &amp;
 \end{align*}
 \end{split}\]</div>
 <div class="proof theorem admonition" id="polimpthm">
-<p class="admonition-title"><span class="caption-number">Theorem 7.1 </span></p>
+<p class="admonition-title"><span class="caption-number">Theorem 9.1 </span> (policy improvement)</p>
 <section class="theorem-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(\pi\)</span> and <span class="math notranslate nohighlight">\(\pi'\)</span> be two deterministic policies such that</p>
 <div class="math notranslate nohighlight" id="equation-polimpeq">
-<span class="eqno">(7.3)<a class="headerlink" href="#equation-polimpeq" title="Link to this equation">#</a></span>\[q_\pi(s,\pi'(s))\geq v_\pi(s)\text{ for all }s\in\mathcal S.\]</div>
+<span class="eqno">(9.3)<a class="headerlink" href="#equation-polimpeq" title="Link to this equation">#</a></span>\[q_\pi(s,\pi'(s))\geq v_\pi(s)\text{ for all }s\in\mathcal S.\]</div>
 <p>Then</p>
 <div class="math notranslate nohighlight" id="equation-polimpeq2">
-<span class="eqno">(7.4)<a class="headerlink" href="#equation-polimpeq2" title="Link to this equation">#</a></span>\[v_{\pi'}(s)\geq v_\pi(s) \text{ for all }s\in\mathcal S\]</div>
+<span class="eqno">(9.4)<a class="headerlink" href="#equation-polimpeq2" title="Link to this equation">#</a></span>\[v_{\pi'}(s)\geq v_\pi(s) \text{ for all }s\in\mathcal S\]</div>
 <p>Moreover, if some
-inequality in <a class="reference internal" href="#equation-polimpeq">(7.3)</a> is strict for some state <span class="math notranslate nohighlight">\(s\)</span>, then also <a class="reference internal" href="#equation-polimpeq2">(7.4)</a>
+inequality in <a class="reference internal" href="#equation-polimpeq">(9.3)</a> is strict for some state <span class="math notranslate nohighlight">\(s\)</span>, then also <a class="reference internal" href="#equation-polimpeq2">(9.4)</a>
 is strict for that state.</p>
 </section>
-</div><p>Inequality <a class="reference internal" href="#equation-polimpeq">(7.3)</a> can  be rewritten as</p>
+</div><p>Inequality <a class="reference internal" href="#equation-polimpeq">(9.3)</a> can  be rewritten as</p>
 <div class="math notranslate nohighlight">
 \[
 q_\pi(s,\pi'(s))\geq q_\pi(s,\pi(s))\text{ for all }s\in\mathcal S,
@@ -784,22 +786,22 @@ action that is at least as good as the action proposed by <span class="math notr
 the statement seems trivial, it still deserves a proof.
 We will actually prove a generalisation, that holds for stochastic policies, too.</p>
 <div class="proof theorem admonition" id="polimpthm2">
-<p class="admonition-title"><span class="caption-number">Theorem 7.2 </span> (policy improvement)</p>
+<p class="admonition-title"><span class="caption-number">Theorem 9.2 </span> (policy improvement)</p>
 <section class="theorem-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(\pi\)</span> and <span class="math notranslate nohighlight">\(\pi'\)</span> be two policies such that</p>
 <div class="math notranslate nohighlight" id="equation-polimpeq3">
-<span class="eqno">(7.5)<a class="headerlink" href="#equation-polimpeq3" title="Link to this equation">#</a></span>\[\expec_{a\sim \pi'}[q_\pi(s,a)]\geq v_\pi(s)\text{ for all }s\in\mathcal S.\]</div>
+<span class="eqno">(9.5)<a class="headerlink" href="#equation-polimpeq3" title="Link to this equation">#</a></span>\[\expec_{a\sim \pi'}[q_\pi(s,a)]\geq v_\pi(s)\text{ for all }s\in\mathcal S.\]</div>
 <p>Then</p>
 <div class="math notranslate nohighlight" id="equation-polimpeq4">
-<span class="eqno">(7.6)<a class="headerlink" href="#equation-polimpeq4" title="Link to this equation">#</a></span>\[v_{\pi'}(s)\geq v_\pi(s) \text{ for all }s\in\mathcal S\]</div>
+<span class="eqno">(9.6)<a class="headerlink" href="#equation-polimpeq4" title="Link to this equation">#</a></span>\[v_{\pi'}(s)\geq v_\pi(s) \text{ for all }s\in\mathcal S\]</div>
 <p>Moreover, if some
-inequality in <a class="reference internal" href="#equation-polimpeq3">(7.5)</a> is strict for some state <span class="math notranslate nohighlight">\(s\)</span>, then also <a class="reference internal" href="#equation-polimpeq4">(7.6)</a>
+inequality in <a class="reference internal" href="#equation-polimpeq3">(9.5)</a> is strict for some state <span class="math notranslate nohighlight">\(s\)</span>, then also <a class="reference internal" href="#equation-polimpeq4">(9.6)</a>
 is strict for that state.</p>
 </section>
-</div><p>Note that the expectation in <a class="reference internal" href="#equation-polimpeq3">(7.5)</a> simplifies to <span class="math notranslate nohighlight">\(q_\pi(s,\pi'(s))\)</span> if <span class="math notranslate nohighlight">\(\pi'\)</span> is a deterministic
+</div><p>Note that the expectation in <a class="reference internal" href="#equation-polimpeq3">(9.5)</a> simplifies to <span class="math notranslate nohighlight">\(q_\pi(s,\pi'(s))\)</span> if <span class="math notranslate nohighlight">\(\pi'\)</span> is a deterministic
 policy, which means that <span class="math notranslate nohighlight">\(\pi'(a|s)=1\)</span> for exactly one action <span class="math notranslate nohighlight">\(a\)</span>.</p>
 <div class="proof admonition" id="proof">
-<p>Proof. We start with <a class="reference internal" href="#equation-polimpeq3">(7.5)</a>:</p>
+<p>Proof. We start with <a class="reference internal" href="#equation-polimpeq3">(9.5)</a>:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{aligned}
@@ -808,7 +810,7 @@ v_\pi(s) &amp; \leq \expec_{a\sim \pi'}[q_\pi(s,a)] \\
 &amp; =\expec_{\pi'}[R_1|S_0=s] + \gamma\expec_{\pi'}\left[ v_\pi(S_1)|S_0=s\right]
 \end{aligned}
 \end{split}\]</div>
-<p>(Note that here we treat <span class="math notranslate nohighlight">\(S_t\)</span> and <span class="math notranslate nohighlight">\(R_t\)</span> as a random variable that returns the
+<p>(Note that here we treat <span class="math notranslate nohighlight">\(S_t\)</span> and <span class="math notranslate nohighlight">\(R_t\)</span> as a random variable that returns
 the state, respectively the reward, in step <span class="math notranslate nohighlight">\(t\)</span>.)</p>
 <p>We now apply the inequality repeatedly.</p>
 <div class="amsmath math notranslate nohighlight">
@@ -830,11 +832,11 @@ denote states of the latter by <span class="math notranslate nohighlight">\(S'_t
 &amp;\leq \expec_{\pi'}[R_2|S_0=s] +\gamma\expec_{\pi'}\left[ v_\pi(S_2)|S_0=s\right]
 \end{align*} \]</div>
 <p>That the last inequality is true can be formally proved by going back to what <span class="math notranslate nohighlight">\(\expec_{\pi'}\)</span>
-actually means, or by appealing to the law of total expectation <code class="xref prf prf-ref docutils literal notranslate"><span class="pre">totalexp</span></code>).</p>
+actually means, or by appealing to the law of total expectation, <a class="reference internal" href="appendix.html#totalexp">Theorem 11.3</a>).</p>
 </div>
 <p>Note that, with virtually the same proof, we also obtain a mirror version of the theorem:</p>
 <div class="proof theorem admonition" id="polimpthm3">
-<p class="admonition-title"><span class="caption-number">Theorem 7.3 </span> (policy improvement)</p>
+<p class="admonition-title"><span class="caption-number">Theorem 9.3 </span> (policy improvement)</p>
 <section class="theorem-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(\pi\)</span> and <span class="math notranslate nohighlight">\(\pi'\)</span> be two policies such that</p>
 <div class="math notranslate nohighlight">
@@ -871,7 +873,7 @@ v_{\pi'}(s) &amp; \geq \expec_{\pi}[R_1|S_0=s] + \gamma\expec_{\pi}\left[ v_{\pi
 </div>
 <p>We deduce an optimality criterion for deterministic policies.</p>
 <div class="proof theorem admonition" id="qoptthm">
-<p class="admonition-title"><span class="caption-number">Theorem 7.4 </span></p>
+<p class="admonition-title"><span class="caption-number">Theorem 9.4 </span></p>
 <section class="theorem-content" id="proof-content">
 <p>A deterministic policy <span class="math notranslate nohighlight">\(\pi\)</span> is optimal if and only for every state <span class="math notranslate nohighlight">\(s\in\mathcal S\)</span>
 it holds that</p>
@@ -883,7 +885,7 @@ it holds that</p>
 </div><div class="proof admonition" id="proof">
 <p>Proof. First, assume that <span class="math notranslate nohighlight">\(\pi'\)</span> is a deterministic policy that is not optimal.
 Thus, there is some (deterministic or stochastic) policy <span class="math notranslate nohighlight">\(\pi\)</span> and some state <span class="math notranslate nohighlight">\(s\)</span> such that
-<span class="math notranslate nohighlight">\( v_{\pi'}(s) &lt; v_{\pi}(s) \)</span>. By <a class="reference internal" href="#polimpthm3">Theorem 7.3</a>, this implies that there is some state <span class="math notranslate nohighlight">\(x\)</span>
+<span class="math notranslate nohighlight">\( v_{\pi'}(s) &lt; v_{\pi}(s) \)</span>. By <a class="reference internal" href="#polimpthm3">Theorem 9.3</a>, this implies that there is some state <span class="math notranslate nohighlight">\(x\)</span>
 such that</p>
 <div class="math notranslate nohighlight">
 \[
@@ -901,7 +903,7 @@ q_{\pi}(s,{\pi}(s)) &lt;
 \[
 \pi'(s)=a^*\text{ and }\pi'(s')=\pi(s')\text{ for every state }s'\neq s
 \]</div>
-<p>Then, by <a class="reference internal" href="#polimpthm">Theorem 7.1</a>, <span class="math notranslate nohighlight">\(\pi'\)</span> is strictly better than <span class="math notranslate nohighlight">\(\pi\)</span>. Therefore <span class="math notranslate nohighlight">\(\pi\)</span>
+<p>Then, by <a class="reference internal" href="#polimpthm">Theorem 9.1</a>, <span class="math notranslate nohighlight">\(\pi'\)</span> is strictly better than <span class="math notranslate nohighlight">\(\pi\)</span>. Therefore <span class="math notranslate nohighlight">\(\pi\)</span>
 is not optimal.</p>
 </div>
 <p>The theorem  yields a procedure to improve a policy <span class="math notranslate nohighlight">\(\pi\)</span>: Whenever there is a
@@ -912,14 +914,14 @@ there are only finitely many deterministic policies, and iterating the procedure
 will eventually yield an optimal policy.
 Thus:</p>
 <div class="proof theorem admonition" id="theorem-4">
-<p class="admonition-title"><span class="caption-number">Theorem 7.5 </span></p>
+<p class="admonition-title"><span class="caption-number">Theorem 9.5 </span></p>
 <section class="theorem-content" id="proof-content">
 <p>In
 every finite Markov decision process there is an optimal policy that is deterministic.</p>
 </section>
 </div></section>
 <section id="q-learning">
-<h2><span class="section-number">7.8. </span><span class="math notranslate nohighlight">\(q\)</span>-learning<a class="headerlink" href="#q-learning" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.8. </span><span class="math notranslate nohighlight">\(q\)</span>-learning<a class="headerlink" href="#q-learning" title="Link to this heading">#</a></h2>
 <p>How can we learn an optimal policy? Above we sketched a procedure: Start with some policy <span class="math notranslate nohighlight">\(\pi\)</span>,
 compute its <span class="math notranslate nohighlight">\(q\)</span>-values, check whether there is a
 state <span class="math notranslate nohighlight">\(s\)</span> and an action <span class="math notranslate nohighlight">\(a\)</span> with <span class="math notranslate nohighlight">\(q_{\pi}(s,{\pi}(s))&lt;q_{\pi}(s,a)\)</span>,
@@ -929,7 +931,7 @@ we don’t know how to compute the <span class="math notranslate nohighlight">\(
 steps and directly learns the <span class="math notranslate nohighlight">\(q\)</span>-values <span class="math notranslate nohighlight">\(q^*\)</span> of an optimal deterministic policy <span class="math notranslate nohighlight">\(\pi^*\)</span> – provided
 the MDP is finite.
 How then can we recover the policy from the <span class="math notranslate nohighlight">\(q\)</span>-values?
-It follows directly from <a class="reference internal" href="#qoptthm">Theorem 7.4</a> that</p>
+It follows directly from <a class="reference internal" href="#qoptthm">Theorem 9.4</a> that</p>
 <div class="math notranslate nohighlight">
 \[
 \pi^*(s)=\argmax_a q^*(s,a)
@@ -937,10 +939,10 @@ It follows directly from <a class="reference internal" href="#qoptthm">Theorem 7
 <p>As long as the number of actions is not too large we can efficiently determine the maximum. (And if
 the number of actions is large then we will not be able to compute and store all <span class="math notranslate nohighlight">\(q\)</span>-values in the first place.)</p>
 <p>How does <span class="math notranslate nohighlight">\(q\)</span>-learning work? Starting with some <span class="math notranslate nohighlight">\(q\)</span>-values (perhaps all 0) we will iteratively
-improve our estimation of the optimal <span class="math notranslate nohighlight">\(q\)</span>-values. To do so, we
+improve our estimation <span class="math notranslate nohighlight">\(q_t\)</span> of the optimal <span class="math notranslate nohighlight">\(q\)</span>-values. To do so, we
 generate trajectories <span class="math notranslate nohighlight">\(s_0,s_1,s_2,\ldots \)</span> by choosing actions <span class="math notranslate nohighlight">\(a_0,a_1,a_2,\ldots\)</span> and then set</p>
 <div class="math notranslate nohighlight" id="equation-qupdate">
-<span class="eqno">(7.7)<a class="headerlink" href="#equation-qupdate" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
+<span class="eqno">(9.7)<a class="headerlink" href="#equation-qupdate" title="Link to this equation">#</a></span>\[\begin{split}\begin{aligned}
 &amp;q_{t+1}(s_t,a_t):=\\
 &amp;\qquad q_t(s_t,a_t)+\eta_t(r(s_t,a_t,s_{t+1})+\gamma \max_{a'}q_t(s_{t+1},a')-q_t(s_t,a_t)),
 \end{aligned}\end{split}\]</div>
@@ -951,7 +953,7 @@ but convergence will be faster if profitable actions are chosen, ie, those actio
 is fixed. In each step we choose a random action with probability <span class="math notranslate nohighlight">\(\epsilon\)</span>, and with probability <span class="math notranslate nohighlight">\(1-\epsilon\)</span>
 we choose the currently best action.</p>
 <div class="proof algorithm admonition" id="epsgreedyalg">
-<p class="admonition-title"><span class="caption-number">Algorithm 7.1 </span> (<span class="math notranslate nohighlight">\(\epsilon\)</span>-greedy)</p>
+<p class="admonition-title"><span class="caption-number">Algorithm 9.1 </span> (<span class="math notranslate nohighlight">\(\epsilon\)</span>-greedy)</p>
 <section class="algorithm-content" id="proof-content">
 <p><strong>Instance</strong> A state <span class="math notranslate nohighlight">\(s\)</span>, <span class="math notranslate nohighlight">\(q\)</span>-values, a constant <span class="math notranslate nohighlight">\(\epsilon&gt;0\)</span>.<br />
 <strong>Output</strong> An action.</p>
@@ -962,24 +964,28 @@ we choose the currently best action.</p>
 <li><p><strong>output</strong> <span class="math notranslate nohighlight">\(a\)</span>.</p></li>
 </ol>
 </section>
-</div><p>In a variant, <span class="math notranslate nohighlight">\(\epsilon\)</span> is initally set to some large value, <span class="math notranslate nohighlight">\(1\)</span> for instance, and
+</div><p>In a variant, <span class="math notranslate nohighlight">\(\epsilon\)</span> is initally set to some large value, 1 for instance, and
 then decreased in the course of the algorithm, perhaps until it reaches a certain
-minimal value such as <span class="math notranslate nohighlight">\(0.05\)</span>. This allows for greater exploration at the beginning
+minimal value such as 0.05. This allows for greater exploration at the beginning
 and more targeted search at the end of the algorithm.<label for='marginnote-role-4' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-4' name='marginnote-role-4' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/reinforcement_learning/qlearn.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>qlearn</a></span></p>
 <div class="proof algorithm admonition" id="qlearnalg">
-<p class="admonition-title"><span class="caption-number">Algorithm 7.2 </span> (<span class="math notranslate nohighlight">\(q\)</span>-learning)</p>
+<p class="admonition-title"><span class="caption-number">Algorithm 9.2 </span> (<span class="math notranslate nohighlight">\(q\)</span>-learning)</p>
 <section class="algorithm-content" id="proof-content">
 <p><strong>Instance</strong> A reinforcement learning task, an <span class="math notranslate nohighlight">\(\epsilon&gt;0\)</span>, learning rates <span class="math notranslate nohighlight">\(\eta_t\)</span>.<br />
 <strong>Output</strong> <span class="math notranslate nohighlight">\(q\)</span>-values.</p>
 <ol class="arabic simple">
 <li><p>Initialise <span class="math notranslate nohighlight">\(q_0\)</span>-values, set <span class="math notranslate nohighlight">\(t:=0\)</span>.</p></li>
 <li><p><strong>while</strong> termination condition not sat’d:</p></li>
-<li><p>       Start new episode.</p></li>
-<li><p>            <strong>while</strong> current state not terminal state:</p></li>
-<li><p>            Choose action <span class="math notranslate nohighlight">\(a\)</span> with \alg{<span class="math notranslate nohighlight">\(\epsilon\)</span>-greedy} algorithm.</p></li>
+<li><p>       Start new episode with random start state <span class="math notranslate nohighlight">\(s\)</span>.</p></li>
+<li><p>      <strong>while</strong> <span class="math notranslate nohighlight">\(s\)</span> not terminal state:</p></li>
+<li><p>            Choose action <span class="math notranslate nohighlight">\(a\)</span> with <a class="reference internal" href="#epsgreedyalg">Algorithm 9.1</a>.</p></li>
 <li><p>            Take action <span class="math notranslate nohighlight">\(a\)</span>, observe reward <span class="math notranslate nohighlight">\(r\)</span> and new state <span class="math notranslate nohighlight">\(s'\)</span>.</p></li>
-<li><p>            Set <span class="math notranslate nohighlight">\(q_{t+1}(s,a):=q_t(s,a)+\eta_t(s,a)(r+\gamma \max_{a'}q_t(s',a')-q_t(s,a))\)</span>.</p></li>
-<li><p>            Set <span class="math notranslate nohighlight">\(t=t+1\)</span>.</p></li>
+<li><p>            Set</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[q_{t+1}(s,a):=q_t(s,a)+\eta_t(s,a)(r+\gamma \max_{a'}q_t(s',a')-q_t(s,a))\]</div>
+<ol class="arabic simple" start="6">
+<li><p>            Set <span class="math notranslate nohighlight">\(t:=t+1\)</span>, and <span class="math notranslate nohighlight">\(s:=s'\)</span>.</p></li>
 <li><p><strong>output</strong> <span class="math notranslate nohighlight">\(q_{t-1}\)</span>.</p></li>
 </ol>
 </section>
@@ -987,7 +993,7 @@ and more targeted search at the end of the algorithm.<label for='marginnote-role
 <a class="reference internal image-reference" href="../_images/blackjack.png"><img alt="../_images/blackjack.png" src="../_images/blackjack.png" style="height: 6cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 7.5 </span><span class="caption-text"><span class="math notranslate nohighlight">\(q\)</span>-learning in a game of Blackjack. After 200000 iterations
+<p><span class="caption-number">Fig. 9.5 </span><span class="caption-text"><span class="math notranslate nohighlight">\(q\)</span>-learning in a game of Blackjack. After 200000 iterations
 convergence still has not been achieved: The boundary between <em>hitting</em> (player demands one more card) and
 <em>sticking</em> (player sticks to their hand) should be much more regular.</span><a class="headerlink" href="#blackjackfig" title="Link to this image">#</a></p>
 </figcaption>
@@ -998,7 +1004,7 @@ that is not equal to the state/action pair occuring in step <span class="math no
 whenever <span class="math notranslate nohighlight">\(s,a\)</span> is the state/action pair in iteration <span class="math notranslate nohighlight">\(t\)</span> then <span class="math notranslate nohighlight">\(\sum_{t=1}^T\eta_t(s,a)\)</span> simply
 counts how often <span class="math notranslate nohighlight">\(s,a\)</span> appears in the iteration.)</p>
 <div class="proof theorem admonition" id="qlthm">
-<p class="admonition-title"><span class="caption-number">Theorem 7.6 </span> (Watkins 1982)</p>
+<p class="admonition-title"><span class="caption-number">Theorem 9.6 </span> (Watkins 1982)</p>
 <section class="theorem-content" id="proof-content">
 <p>Let a finite MDP be given.
 If</p>
@@ -1007,15 +1013,15 @@ If</p>
 \sum_{t=1}^\infty\eta_t(s,a)=\infty\quad\text{ and }\quad\sum_{t=1}^\infty \eta^2_t(s,a)&lt;\infty
 \]</div>
 <p>for all pairs <span class="math notranslate nohighlight">\(s,a\)</span> of a state and an action then the <span class="math notranslate nohighlight">\(q\)</span>-values
-<span class="math notranslate nohighlight">\(q_t\)</span> computed by <a class="reference internal" href="#qlearnalg">Algorithm 7.2</a>.
+<span class="math notranslate nohighlight">\(q_t\)</span> computed by <a class="reference internal" href="#qlearnalg">Algorithm 9.2</a>.
 converge with probability 1 to the <span class="math notranslate nohighlight">\(q\)</span>-values of an optimal policy.</p>
 </section>
 </div><p>Note that <span class="math notranslate nohighlight">\(\sum_{t=1}^\infty\eta_t(s,a)\)</span> in particular implies that every state/action pair
 needs to be visited infinitely often.</p>
-<p>I will not prove the theorem. But we can at least see where the update formula <a class="reference internal" href="#equation-qupdate">(7.7)</a>
+<p>I will not prove the theorem. But we can at least see where the update formula <a class="reference internal" href="#equation-qupdate">(9.7)</a>
 comes from. Assume that the <span class="math notranslate nohighlight">\(q_t\)</span> converge to a statistical equilibrium. That means,
 without going into technical details, that for large <span class="math notranslate nohighlight">\(t\)</span>, the values <span class="math notranslate nohighlight">\(q_t\)</span>
-cannot change much. Rewriting <a class="reference internal" href="#equation-qupdate">(7.7)</a> to</p>
+cannot change much. Rewriting <a class="reference internal" href="#equation-qupdate">(9.7)</a> to</p>
 <div class="math notranslate nohighlight">
 \[
 q_{t+1}(s_t,a_t)=q_t(s_t,a_t)+\eta_t\delta_{t+1}
@@ -1027,7 +1033,7 @@ q_{t+1}(s_t,a_t)=q_t(s_t,a_t)+\eta_t\delta_{t+1}
 \]</div>
 <p>that the <span class="math notranslate nohighlight">\(q_t\)</span> reach statistical equilibrium implies</p>
 <div class="math notranslate nohighlight" id="equation-expdelta">
-<span class="eqno">(7.8)<a class="headerlink" href="#equation-expdelta" title="Link to this equation">#</a></span>\[\expec[\delta_{t+1}]=0\]</div>
+<span class="eqno">(9.8)<a class="headerlink" href="#equation-expdelta" title="Link to this equation">#</a></span>\[\expec[\delta_{t+1}]=0\]</div>
 <p>How should we interpret this expression?
 In this way:
 fix <span class="math notranslate nohighlight">\(s,a\)</span> and put</p>
@@ -1040,10 +1046,10 @@ r(s,a,s')+\gamma \max_{a'}q(s',a')-q(s,a)
 \end{align*}\]</div>
 <p>It follows that</p>
 <div class="math notranslate nohighlight" id="equation-qlearn">
-<span class="eqno">(7.9)<a class="headerlink" href="#equation-qlearn" title="Link to this equation">#</a></span>\[q(s,a) = \sum_{s'}p(s,a,s')\left(
+<span class="eqno">(9.9)<a class="headerlink" href="#equation-qlearn" title="Link to this equation">#</a></span>\[q(s,a) = \sum_{s'}p(s,a,s')\left(
 r(s,a,s')+\gamma \max_{a'}q(s',a')\right)\]</div>
 <p>On the other hand, consider an optimal deterministic policy <span class="math notranslate nohighlight">\(\pi^*\)</span>.
-Then, via <a class="reference internal" href="#qoptthm">Theorem 7.4</a>, the <span class="math notranslate nohighlight">\(q\)</span>-values of <span class="math notranslate nohighlight">\(\pi^*\)</span>
+Then, via <a class="reference internal" href="#qoptthm">Theorem 9.4</a>, the <span class="math notranslate nohighlight">\(q\)</span>-values of <span class="math notranslate nohighlight">\(\pi^*\)</span>
 satisfy a similar relation:</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
@@ -1052,11 +1058,11 @@ r(s,a,s')+\gamma v_{\pi^*}(s')\right) \\
 &amp; =  \sum_{s'}p(s,a,s')\left(
 r(s,a,s')+\gamma q_{\pi^*}(s',{\pi^*}(s'))\right)
 \end{align*}\]</div>
-<p>It is possible to show that then <span class="math notranslate nohighlight">\(q\equiv q_{\pi^*}\)</span>, at least if the discount factor is smaller than <span class="math notranslate nohighlight">\(1\)</span>: <span class="math notranslate nohighlight">\(\gamma&lt;1\)</span>.
+<p>It is possible to show that then <span class="math notranslate nohighlight">\(q\equiv q_{\pi^*}\)</span>, at least if the discount factor is smaller than 1: <span class="math notranslate nohighlight">\(\gamma&lt;1\)</span>.
 To show this is not hard, but we will not do it.</p>
 </section>
 <section id="parameterised-policies">
-<h2><span class="section-number">7.9. </span>Parameterised policies<a class="headerlink" href="#parameterised-policies" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.9. </span>Parameterised policies<a class="headerlink" href="#parameterised-policies" title="Link to this heading">#</a></h2>
 <p><span class="math notranslate nohighlight">\(q\)</span>-learning is not always possible. If the set of possible states or the set of possible actions is
 large then it becomes infeasible to compute <span class="math notranslate nohighlight">\(q\)</span>-values. There are two ways out of this: We may
 try to learn a predictor for the <span class="math notranslate nohighlight">\(q\)</span>-values; or we may try to learn a policy that is not based on <span class="math notranslate nohighlight">\(q\)</span>-values.
@@ -1089,7 +1095,7 @@ of taking the action <span class="math notranslate nohighlight">\(a\)</span>.</p
 ascent!</p>
 </section>
 <section id="policy-gradient-method">
-<h2><span class="section-number">7.10. </span>Policy gradient method<a class="headerlink" href="#policy-gradient-method" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.10. </span>Policy gradient method<a class="headerlink" href="#policy-gradient-method" title="Link to this heading">#</a></h2>
 <p>Assume that the agent is positioned in state <span class="math notranslate nohighlight">\(s\)</span>, and assume that some
 stochastic parameterised policy <span class="math notranslate nohighlight">\(\pi_w\)</span> is given.<label for='sidenote-role-5' class='margin-toggle'><span id="id5">
 <sup>5</sup></span>
@@ -1107,7 +1113,7 @@ to <span class="math notranslate nohighlight">\(w\)</span> points in direction o
 \[
 w'=w+\eta\nabla_w v_{\pi_w}(s),
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(\eta&gt;0\)</span> is the learning rate. The value function <a class="reference internal" href="#equation-valuedef">(7.2)</a> has a fairly complicated
+<p>where <span class="math notranslate nohighlight">\(\eta&gt;0\)</span> is the learning rate. The value function <a class="reference internal" href="#equation-valuedef">(9.2)</a> has a fairly complicated
 definition. How can we compute the gradient?</p>
 <p>Because it’s a little bit simpler, let’s assume that we are dealing with an episodic task,
 and that, in particular, every task is completed after at most <span class="math notranslate nohighlight">\(T\)</span> time steps. For a trajectory
@@ -1118,7 +1124,7 @@ of the trajectory by</p>
 G(\tau)=\sum_{t=0}^{T}\gamma^tr_{t+1}
 \]</div>
 <div class="proof theorem admonition" id="polgradthm">
-<p class="admonition-title"><span class="caption-number">Theorem 7.7 </span></p>
+<p class="admonition-title"><span class="caption-number">Theorem 9.7 </span></p>
 <section class="theorem-content" id="proof-content">
 <div class="math notranslate nohighlight">
 \[
@@ -1141,17 +1147,17 @@ we can compute its gradient.</p>
 \]</div>
 <p>Recall that <span class="math notranslate nohighlight">\(\sigm'(z)=\sigm(z)(1-\sigm(z))\)</span>. Thus</p>
 <div class="math notranslate nohighlight" id="equation-cartnablar">
-<span class="eqno">(7.10)<a class="headerlink" href="#equation-cartnablar" title="Link to this equation">#</a></span>\[\frac{\nabla \pi(\text{right}|s)}{\pi(\text{right}|s)} = \frac{\sigm\left(\trsp ws\right)(1-\sigm(\left(\trsp ws\right)) s}{\pi(\text{right}|s)}
+<span class="eqno">(9.10)<a class="headerlink" href="#equation-cartnablar" title="Link to this equation">#</a></span>\[\frac{\nabla \pi(\text{right}|s)}{\pi(\text{right}|s)} = \frac{\sigm\left(\trsp ws\right)(1-\sigm(\left(\trsp ws\right)) s}{\pi(\text{right}|s)}
 = \pi(\text{left}|s)s\]</div>
 <p>and</p>
 <div class="math notranslate nohighlight" id="equation-cartnablal">
-<span class="eqno">(7.11)<a class="headerlink" href="#equation-cartnablal" title="Link to this equation">#</a></span>\[\frac{\nabla \pi(\text{left}|s)}{\pi(\text{left}|s)} = -\pi(\text{right}|s)s\]</div>
-<p>We can now do the proof of <a class="reference internal" href="#polgradthm">Theorem 7.7</a>:</p>
+<span class="eqno">(9.11)<a class="headerlink" href="#equation-cartnablal" title="Link to this equation">#</a></span>\[\frac{\nabla \pi(\text{left}|s)}{\pi(\text{left}|s)} = -\pi(\text{right}|s)s\]</div>
+<p>We can now do the proof of <a class="reference internal" href="#polgradthm">Theorem 9.7</a>:</p>
 <div class="proof admonition" id="proof">
 <p>Proof. Given a trajectory <span class="math notranslate nohighlight">\(\tau\)</span>, let us denote by <span class="math notranslate nohighlight">\(\proba[\tau|w]\)</span>
 the probability of <span class="math notranslate nohighlight">\(\tau\)</span> when following policy <span class="math notranslate nohighlight">\(\pi_w\)</span>.</p>
 <div class="math notranslate nohighlight" id="equation-rl1">
-<span class="eqno">(7.12)<a class="headerlink" href="#equation-rl1" title="Link to this equation">#</a></span>\[\begin{split}\begin{align}
+<span class="eqno">(9.12)<a class="headerlink" href="#equation-rl1" title="Link to this equation">#</a></span>\[\begin{split}\begin{align}
 \nabla_w v_{\pi_w}(s)= &amp;\nabla_w  \expec_{\tau\sim\pi_w}[G(\tau)]\notag \\
 = &amp; \nabla_w \sum_{\tau} \proba[\tau | w] G(\tau)\notag \\
 = &amp;  \sum_{\tau} \nabla_w\proba[\tau | w] G(\tau)  \\
@@ -1168,9 +1174,9 @@ the probability of <span class="math notranslate nohighlight">\(\tau\)</span> wh
 \[
 \nabla_w \proba[\tau | w] = \proba[\tau | w] \nabla_w \log(\proba[\tau | w])
 \]</div>
-<p>We plug this into <a class="reference internal" href="#equation-rl1">(7.12)</a>:</p>
+<p>We plug this into <a class="reference internal" href="#equation-rl1">(9.12)</a>:</p>
 <div class="math notranslate nohighlight" id="equation-rl2">
-<span class="eqno">(7.13)<a class="headerlink" href="#equation-rl2" title="Link to this equation">#</a></span>\[\nabla_w v_{\pi_w}(s)= 
+<span class="eqno">(9.13)<a class="headerlink" href="#equation-rl2" title="Link to this equation">#</a></span>\[\nabla_w v_{\pi_w}(s)= 
    \sum_{\tau} G(\tau)\proba[\tau | w] \nabla_w \log(\proba[\tau | w])\]</div>
 <p>What is <span class="math notranslate nohighlight">\(\proba[\tau | w]\)</span>? Let the states and actions of <span class="math notranslate nohighlight">\(\tau\)</span>
 be <span class="math notranslate nohighlight">\(s_0,s_1,\ldots,s_{T+1}\)</span> and <span class="math notranslate nohighlight">\(a_0,\ldots,a_T\)</span>, where <span class="math notranslate nohighlight">\(s_0=s\)</span>. Then</p>
@@ -1186,7 +1192,7 @@ be <span class="math notranslate nohighlight">\(s_0,s_1,\ldots,s_{T+1}\)</span> 
 &amp; = \sum_{t=0}^T \nabla_w  \log \pi_w(a_t|s_t), 
 \end{align*}\]</div>
 <p>as <span class="math notranslate nohighlight">\( p(s_t,a_t,s_{t+1})\)</span> does not depend on <span class="math notranslate nohighlight">\(w\)</span>.</p>
-<p>Substituting in <a class="reference internal" href="#equation-rl2">(7.13)</a> gives:</p>
+<p>Substituting in <a class="reference internal" href="#equation-rl2">(9.13)</a> gives:</p>
 <div class="math notranslate nohighlight">
 \[
 \nabla_w v_{\pi_w}(s)= 
@@ -1198,7 +1204,7 @@ be <span class="math notranslate nohighlight">\(s_0,s_1,\ldots,s_{T+1}\)</span> 
 generate an episode (or several) and use the obtained returns in place of the expected
 returns.</p>
 <div class="proof algorithm admonition" id="pgmalg">
-<p class="admonition-title"><span class="caption-number">Algorithm 7.3 </span> (Policy gradient method)</p>
+<p class="admonition-title"><span class="caption-number">Algorithm 9.3 </span> (Policy gradient method)</p>
 <section class="algorithm-content" id="proof-content">
 <p><strong>Instance</strong> A RL environment, a parameterised policy <span class="math notranslate nohighlight">\(w\mapsto \pi_w\)</span>.<br />
 <strong>Output</strong> A better parameterised policy <span class="math notranslate nohighlight">\(\pi_w\)</span>.</p>
@@ -1222,7 +1228,7 @@ trajectories and take their average <span class="math notranslate nohighlight">\
 how the method can be improved even further.</p>
 </section>
 <section id="baselines">
-<h2><span class="section-number">7.11. </span>Baselines<a class="headerlink" href="#baselines" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.11. </span>Baselines<a class="headerlink" href="#baselines" title="Link to this heading">#</a></h2>
 <p><label for='marginnote-role-6' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-6' name='marginnote-role-6' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/sreinforcement_learning/policy_grad.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>policy grad</a></span>
 How can we improve the policy gradient method? Here is what seems nonsensical about the
 method: No matter how good the trajectory <span class="math notranslate nohighlight">\(\tau\)</span> is, we try to improve the likelihood
@@ -1234,7 +1240,7 @@ make it more likely, but if <span class="math notranslate nohighlight">\(\tau\)<
 the opposite direction. That is, if <span class="math notranslate nohighlight">\(b\)</span> is the average return of a trajectory then the sign of <span class="math notranslate nohighlight">\(G(\tau)-b\)</span>
 tells us whether <span class="math notranslate nohighlight">\(\tau\)</span> is better or worse than an average trajectory.
 (How can we compute <span class="math notranslate nohighlight">\(b\)</span>? Easy: We sample a number of trajectories and take the average of the returns.)</p>
-<p>Consequently, if in <a class="reference internal" href="#pgmalg">Algorithm 7.3</a> we replace the update in line 6
+<p>Consequently, if in <a class="reference internal" href="#pgmalg">Algorithm 9.3</a> we replace the update in line 6
 by</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1243,7 +1249,7 @@ by</p>
 <p>we reinforce good trajectories and penalise bad ones.
 Is this intuition theoretically sound? At the very least, it does not change the expectation:</p>
 <div class="proof theorem admonition" id="polgrad2thm">
-<p class="admonition-title"><span class="caption-number">Theorem 7.8 </span></p>
+<p class="admonition-title"><span class="caption-number">Theorem 9.8 </span></p>
 <section class="theorem-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(b\)</span> be a function on the states. Then</p>
 <div class="math notranslate nohighlight">
@@ -1256,7 +1262,7 @@ Is this intuition theoretically sound? At the very least, it does not change the
 </section>
 </div><p>For the proof we need a lemma.</p>
 <div class="proof lemma admonition" id="eglplem">
-<p class="admonition-title"><span class="caption-number">Lemma 7.1 </span></p>
+<p class="admonition-title"><span class="caption-number">Lemma 9.1 </span></p>
 <section class="lemma-content" id="proof-content">
 <p>Let <span class="math notranslate nohighlight">\(p_w\)</span> be a parameterised probability distribution that depends on a vector <span class="math notranslate nohighlight">\(w\)</span>.
 Then</p>
@@ -1275,14 +1281,14 @@ Then</p>
 &amp; = \expec_{x\sim p_w}\left[\nabla_w\log p_w(x)\right]
 \end{align*} \]</div>
 </div>
-<p>We can now turn to the proof of <a class="reference internal" href="#polgrad2thm">Theorem 7.8</a>, which is based on Schulman (2016).<label for='sidenote-role-7' class='margin-toggle'><span id="id7">
+<p>We can now turn to the proof of <a class="reference internal" href="#polgrad2thm">Theorem 9.8</a>, which is based on Schulman (2016).<label for='sidenote-role-7' class='margin-toggle'><span id="id7">
 <sup>7</sup></span>
 
 </label><input type='checkbox' id='sidenote-role-7' name='sidenote-role-7' class='margin-toggle'><span class="sidenote"><sup>7</sup><em>Optimizing Expectations: From deep reinforcement learning to stochastic computation graphs</em>, John Schulman, PhD thesis (2016)</span></p>
 <div class="proof admonition" id="proof">
-<p>Proof. The statement follows from <a class="reference internal" href="#polgradthm">Theorem 7.7</a> if we can prove for all <span class="math notranslate nohighlight">\(t\)</span> that</p>
+<p>Proof. The statement follows from <a class="reference internal" href="#polgradthm">Theorem 9.7</a> if we can prove for all <span class="math notranslate nohighlight">\(t\)</span> that</p>
 <div class="math notranslate nohighlight" id="equation-polgradeq">
-<span class="eqno">(7.14)<a class="headerlink" href="#equation-polgradeq" title="Link to this equation">#</a></span>\[\expec_{\tau\sim p_w}\left[
+<span class="eqno">(9.14)<a class="headerlink" href="#equation-polgradeq" title="Link to this equation">#</a></span>\[\expec_{\tau\sim p_w}\left[
 \nabla_w \log\pi_w(A_t|S_t)b(S_t)
 \right]=0\]</div>
 <p>To do so, we fix a <span class="math notranslate nohighlight">\(t\)</span>, and
@@ -1313,7 +1319,7 @@ on a fixed state <span class="math notranslate nohighlight">\(s_{i-1}\)</span> i
 \]</div>
 <p>Then</p>
 <div class="math notranslate nohighlight" id="equation-polgradeq2">
-<span class="eqno">(7.15)<a class="headerlink" href="#equation-polgradeq2" title="Link to this equation">#</a></span>\[\begin{split}\begin{align}
+<span class="eqno">(9.15)<a class="headerlink" href="#equation-polgradeq2" title="Link to this equation">#</a></span>\[\begin{split}\begin{align}
 \expec_{\tau\sim p_w} &amp; \left[
 \nabla_w \log\pi_w(A_t|S_t)b(S_t)
 \right] \notag\\
@@ -1347,7 +1353,7 @@ Thus</p>
 \nabla_w \log\pi_w(A_t|S_t)
 \right]
 \]</div>
-<p>Then, however, we are in the setting of <a class="reference internal" href="#eglplem">Lemma 7.1</a> and obtain</p>
+<p>Then, however, we are in the setting of <a class="reference internal" href="#eglplem">Lemma 9.1</a> and obtain</p>
 <div class="math notranslate nohighlight">
 \[
 \expec_{t+1\to T}\left[
@@ -1359,7 +1365,7 @@ Thus</p>
 \right]
 =0,
 \]</div>
-<p>which we use in <a class="reference internal" href="#equation-polgradeq2">(7.15)</a> to get</p>
+<p>which we use in <a class="reference internal" href="#equation-polgradeq2">(9.15)</a> to get</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
 \expec_{\tau\sim p_w} &amp; \left[
@@ -1369,22 +1375,22 @@ Thus</p>
 b(S_t)\cdot
 0\right] =0
 \end{align*}\]</div>
-<p>This proves <a class="reference internal" href="#equation-polgradeq">(7.14)</a> and thus concludes the proof of the theorem.</p>
+<p>This proves <a class="reference internal" href="#equation-polgradeq">(9.14)</a> and thus concludes the proof of the theorem.</p>
 </div>
 <p>There are further improvements to the
-<a class="reference internal" href="#pgmalg">Algorithm 7.3</a> that make the algorithm more efficient; see, eg, <a class="reference external" href="https://spinningup.openai.com/en/latest/spinningup/rl_intro3.html">here</a>.
+<a class="reference internal" href="#pgmalg">Algorithm 9.3</a> that make the algorithm more efficient; see, eg, <a class="reference external" href="https://spinningup.openai.com/en/latest/spinningup/rl_intro3.html">here</a>.
 Still the version presented here is quite capable of learning a linear policy for the cart pole task
 that can balance the pole more or less indefinitely.</p>
 </section>
 <section id="on-and-off-policy">
-<h2><span class="section-number">7.12. </span>On- and off-policy<a class="headerlink" href="#on-and-off-policy" title="Link to this heading">#</a></h2>
-<p>The <a class="reference internal" href="#pgmalg">Algorithm 7.3</a> (policy gradient method) is <em>on-policy</em>: the algorithm needs to generate
+<h2><span class="section-number">9.12. </span>On- and off-policy<a class="headerlink" href="#on-and-off-policy" title="Link to this heading">#</a></h2>
+<p>The <a class="reference internal" href="#pgmalg">Algorithm 9.3</a> (policy gradient method) is <em>on-policy</em>: the algorithm needs to generate
 trajectories that follow the current policy (see line 4).
-At first glance this looks to be the case for <a class="reference internal" href="#qlearnalg">Algorithm 7.2</a> (<span class="math notranslate nohighlight">\(q\)</span>-learning), too.
+At first glance this looks to be the case for <a class="reference internal" href="#qlearnalg">Algorithm 9.2</a> (<span class="math notranslate nohighlight">\(q\)</span>-learning), too.
 The next action is chosen <span class="math notranslate nohighlight">\(\epsilon\)</span>-greedily, and thus most of the time
 according to the current <span class="math notranslate nohighlight">\(q\)</span>-values. The algorithm, however, does not need that.
 What it needs is that every state/action pair is visited arbitrarily often,
-ie, that the conditions of <a class="reference internal" href="#qlthm">Theorem 7.6</a> are satisfied.
+ie, that the conditions of <a class="reference internal" href="#qlthm">Theorem 9.6</a> are satisfied.
 In fact, <span class="math notranslate nohighlight">\(q\)</span>-learning is an <em>off-policy</em> method: the
 trajectories do not have to come from the current policy.</p>
 <p>Off-policy methods have an advantage over on-policy methods. They allow
@@ -1431,7 +1437,7 @@ is <em>reinforcement learning from human feedback</em>.</p>
 </div>
 </details></section>
 <section id="reinforcement-learning-and-llms">
-<h2><span class="section-number">7.13. </span>Reinforcement learning and LLMs<a class="headerlink" href="#reinforcement-learning-and-llms" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.13. </span>Reinforcement learning and LLMs<a class="headerlink" href="#reinforcement-learning-and-llms" title="Link to this heading">#</a></h2>
 <p>After training on a large text corpus,
 an AI chatbot such as ChatGPT, Gemini or Claude needs to be finetuned
 to ensure that it produces helpful, harmless und honest output.
@@ -1480,7 +1486,7 @@ RL methods. OpenAI, for instance, uses a policy gradient method called
 <a class="reference external" href="https://openai.com/index/openai-baselines-ppo/">proximal policy optimisation</a>.</p>
 </section>
 <section id="what-else-is-there">
-<h2><span class="section-number">7.14. </span>What else is there?<a class="headerlink" href="#what-else-is-there" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.14. </span>What else is there?<a class="headerlink" href="#what-else-is-there" title="Link to this heading">#</a></h2>
 <p>The methods treated here will not be enough to train a world-class
 chess engine or a fully autonomous robot.
 The spectacular advances in reinforcement learning that we have seen
@@ -1513,12 +1519,12 @@ to improve a policy by exploiting the approximated <span class="math notranslate
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="loss.html"
+       href="ensemble.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">6. </span>Loss functions</p>
+        <p class="prev-next-title"><span class="section-number">8. </span>Ensemble learning</p>
       </div>
     </a>
     <a class="right-next"
@@ -1526,7 +1532,7 @@ to improve a policy by exploiting the approximated <span class="math notranslate
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">8. </span>Maximum inner product search</p>
+        <p class="prev-next-title"><span class="section-number">10. </span>Maximum inner product search</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1547,20 +1553,20 @@ to improve a policy by exploiting the approximated <span class="math notranslate
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#markov-decision-processes">7.1. Markov decision processes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pole-balancing">7.2. Pole balancing</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-known-about-the-environment">7.3. What is known about the environment?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#returns">7.4. Returns</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policies">7.5. Policies</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#value-functions">7.6. Value functions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policy-improvement-theorem">7.7. Policy improvement theorem</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q-learning">7.8. <span class="math notranslate nohighlight">\(q\)</span>-learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameterised-policies">7.9. Parameterised policies</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policy-gradient-method">7.10. Policy gradient method</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baselines">7.11. Baselines</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#on-and-off-policy">7.12. On- and off-policy</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reinforcement-learning-and-llms">7.13. Reinforcement learning and LLMs</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-else-is-there">7.14. What else is there?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#markov-decision-processes">9.1. Markov decision processes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pole-balancing">9.2. Pole balancing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-known-about-the-environment">9.3. What is known about the environment?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#returns">9.4. Returns</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policies">9.5. Policies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#value-functions">9.6. Value functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policy-improvement-theorem">9.7. Policy improvement theorem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q-learning">9.8. <span class="math notranslate nohighlight">\(q\)</span>-learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameterised-policies">9.9. Parameterised policies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policy-gradient-method">9.10. Policy gradient method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baselines">9.11. Baselines</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#on-and-off-policy">9.12. On- and off-policy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reinforcement-learning-and-llms">9.13. Reinforcement learning and LLMs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-else-is-there">9.14. What else is there?</a></li>
 </ul>
   </nav></div>
 

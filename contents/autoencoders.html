@@ -1,0 +1,953 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>7. Autoencoders &#8212; Mathematics of Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css?v=ca93fcec" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=82609fe5" />
+    <link rel="stylesheet" type="text/css" href="../_static/tippy.css?v=2687f39f" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
+    <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
+    <script defer="defer" src="../_static/tippy/contents/autoencoders.08af289c-92ac-4667-baac-5a3ec598fa28.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contents/autoencoders';</script>
+    <link rel="icon" href="../_static/noun-robot_32.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="8. Ensemble learning" href="ensemble.html" />
+    <link rel="prev" title="6. Loss functions" href="loss.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/robot_reading_small.png" class="logo__image only-light" alt="Mathematics of Machine Learning - Home"/>
+    <img src="../_static/robot_reading_small.png" class="logo__image only-dark pst-js-only" alt="Mathematics of Machine Learning - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Predictors, classification and losses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pac.html">2. PAC learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convex.html">3. Stochastic gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nets.html">4. Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netsprops.html">5. Properties of neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loss.html">6. Loss functions</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Autoencoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ensemble.html">8. Ensemble learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl.html">9. Reinforcement learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mips.html">10. Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">11. Appendix</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/contents/autoencoders.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Autoencoders</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principle-component-analysis">7.1. Principle component analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pca-and-autoencoder">7.2. PCA and autoencoder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variational-autoencoders">7.3. Variational autoencoders</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reconstruction-loss">7.4. Reconstruction loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-kullback-leibler-loss">7.5. The Kullback-Leibler loss</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><span class="math notranslate nohighlight">\(\newcommand{\trsp}[1]{#1^\intercal} % transpose
+\newcommand{\id}{\textrm{Id}} % identity matrix
+\newcommand{\rank}{\textrm{rank}}
+\DeclareMathOperator*{\expec}{\mathbb{E}} % Expectation
+\DeclareMathOperator*{\proba}{\mathbb{P}}   % Probability
+\newcommand{\KL}{\textrm{D}_\textrm{KL}} % Kullback-Leibler divergence
+\DeclareMathOperator*{\argmax}{argmax}
+\)</span></p>
+<section class="tex2jax_ignore mathjax_ignore" id="autoencoders">
+<h1><span class="section-number">7. </span>Autoencoders<a class="headerlink" href="#autoencoders" title="Link to this heading">#</a></h1>
+<p>Labelled training data is often scarce. Labelling is typically costly and time consuming. Often, however,
+unlabelled data is much more readily available (think all the images on the internet, or all of wikipedia).
+<em>Autoencoders</em> are a way to leverage unlabelled data
+in tasks that in principle would require labelled data. So what’s an autoencoder? An autoencoder
+consists of two parts: an <em>encoder</em> neural network <span class="math notranslate nohighlight">\(e:\mathbb R^n\to\mathbb R^k\)</span> and
+a <em>decoder</em> neural network <span class="math notranslate nohighlight">\(d:\mathbb R^k\to\mathbb R^n\)</span>. Here, <span class="math notranslate nohighlight">\(n\)</span> is the input dimension, while
+<span class="math notranslate nohighlight">\(k\)</span> is the dimension of the <em>latent space</em>, ie, of the <em>latent representation</em> <span class="math notranslate nohighlight">\(z=e(x)\)</span>.
+The idea of an autoencoder is that it learns to replicate the input. That is, that on input <span class="math notranslate nohighlight">\(x\)</span> it computes</p>
+<div class="math notranslate nohighlight">
+\[
+d(e(x))=\hat x \approx x
+\]</div>
+<p>For this reason, an autoencoder is often trained with MSE loss <span class="math notranslate nohighlight">\(||x-\hat x||_2\)</span>.</p>
+<figure class="align-default" id="autoencoderfig">
+<a class="reference internal image-reference" href="../_images/autoencoder.png"><img alt="../_images/autoencoder.png" src="../_images/autoencoder.png" style="height: 6cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 7.1 </span><span class="caption-text">An autoencoder.</span><a class="headerlink" href="#autoencoderfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Clearly, nothing is gained if the autoencoder simply learns the identity function. For this reason, the latent dimension
+is often much smaller than the input dimension, ie, <span class="math notranslate nohighlight">\(k\ll n\)</span>. The autoencoder should also not overfit, should
+not be able to memorise the whole training set. Ideally, the autoencoder learns a meaningful, low-dimensional
+latent representation of the data.</p>
+<p>What’s an autoencoder good for?</p>
+<ul>
+<li><p><em>semi-supervised</em> learning: This is the setting alluded to above. In many classification tasks
+labelled data may not be abundant. For example, we may want to classify user feedback as generally positive
+or negative. To obtain the labels, positive or negative, we may need to pay human workers to manually read and
+classify many user comments. Unlabelled user feedback, however, may be freely available in large quantities.
+In this situation, an autoencoder can be trained to learn useful features about user feedback. Then,
+we take the encoder and a new, small neural network <span class="math notranslate nohighlight">\(f:\mathbb R^k\to [0,1]\)</span> that we put on top of the
+encoder. (<span class="math notranslate nohighlight">\(f\)</span> maps to <span class="math notranslate nohighlight">\([0,1]\)</span> as I am assuming a simple binary classification task.) The combined
+network <span class="math notranslate nohighlight">\(f\circ  e\)</span> is then trained on the labelled data. If necessary, the weights of <span class="math notranslate nohighlight">\(e\)</span> could even
+be fixed during that second round of training.</p>
+<p>In this way, it is possible to train a relatively powerful neural network (with many weights) even if
+only a small number of labelled data is available.</p>
+</li>
+<li><p><em>anomaly detection</em>: It has become fairly cheap to record large amounts of machine data during the
+manufacturing of goods. Companies have an interest in detecting early whether manufactured goods
+are in perfect order and can be sold, or whether the production process resulted in faults, so that the
+goods need to be repaired or discarded. The hope is to detect that via the recorded machine data. This may
+be voltage time series data, sound data or data on forces that some part of the machine was subjected to.
+Anomaly detection then aims to detect data, ie, goods, that somehow look different than the typical data.
+(Normally, the vast majority of the production will be fault-free.) Autoencoders can do that. The idea is
+that an autoencoder learns to reproduce the typical data to a high degree, so that the <em>reconstruction error</em>
+<span class="math notranslate nohighlight">\(||\hat x - x||\)</span> is small. Anomalous data, however, will be difficult to replicate, so that
+the resulting reconstruction error is large.</p></li>
+<li><p><em>denoising</em>: Image or sound data may in some applications be regularly corrupted by noise.
+Autoencoders can be used to remove that noise. For this, each training data point <span class="math notranslate nohighlight">\(x\)</span> is subjected
+to some noise <span class="math notranslate nohighlight">\(\epsilon\)</span> before being fed into the
+autoencoder, so that the autoencoder learns to minimise <span class="math notranslate nohighlight">\(||e(d(x+\epsilon))-x||\)</span>.
+Once trained, the autoencoder will, on input of noisy data output denoised data.</p></li>
+</ul>
+<p>In general, the encoder of an autoencoder may be seen as a <em>dimension reduction</em> method, and
+thus can be compared to classic methods such as <em>principle component analysis</em>, or <em>PCA</em> for
+short. In fact, the connection to PCA is quite a bit tighter.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-success sd-bg-text-success">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-telescope" viewBox="0 0 16 16" aria-hidden="true"><path d="M14.184 1.143v-.001l1.422 2.464a1.75 1.75 0 0 1-.757 2.451L3.104 11.713a1.75 1.75 0 0 1-2.275-.702l-.447-.775a1.75 1.75 0 0 1 .53-2.32L11.682.573a1.748 1.748 0 0 1 2.502.57Zm-4.709 9.32h-.001l2.644 3.863a.75.75 0 1 1-1.238.848l-1.881-2.75v2.826a.75.75 0 0 1-1.5 0v-2.826l-1.881 2.75a.75.75 0 1 1-1.238-.848l2.049-2.992a.746.746 0 0 1 .293-.253l1.809-.87a.749.749 0 0 1 .944.252ZM9.436 3.92h-.001l-4.97 3.39.942 1.63 5.42-2.61Zm3.091-2.108h.001l-1.85 1.26 1.505 2.605 2.016-.97a.247.247 0 0 0 .13-.151.247.247 0 0 0-.022-.199l-1.422-2.464a.253.253 0 0 0-.161-.119.254.254 0 0 0-.197.038ZM1.756 9.157a.25.25 0 0 0-.075.33l.447.775a.25.25 0 0 0 .325.1l1.598-.769-.83-1.436-1.465 1Z"></path></svg></span><span class="sd-summary-text">Cost of labelling</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Obtaining reliable labels for data may be time-consuming and costly,
+especially, if the data needs to be labelled by experts or if the data are proprietary and cannot be made
+publicly available. If that is not the case, then the data may be labelled through one
+of many micro-work services such as Amazon Mechanical Turk. MTurk, probably the most well-known
+micro-work platform, apparently charges shockingly small fees, on the order of $0.012 per image label.
+There is, however, increasing concern whether labellers are treated fairly.</p>
+<p class="sd-card-text"><a class="reference external" href="https://aws.amazon.com/sagemaker/groundtruth/pricing/">MTurk pricing</a> accessed in 2024<br />
+<a class="reference external" href="http://faircrowd.work/">http://faircrowd.work/</a></p>
+</div>
+</details><section id="principle-component-analysis">
+<h2><span class="section-number">7.1. </span>Principle component analysis<a class="headerlink" href="#principle-component-analysis" title="Link to this heading">#</a></h2>
+<p>Principle component analysis is a common method to project some data
+from a high-dimensional space <span class="math notranslate nohighlight">\(\mathbb R^n\)</span> to a low-dimensional space <span class="math notranslate nohighlight">\(\mathbb R^k\)</span>,
+while keeping as much information on the data as possible.
+Let’s briefly
+recap what PCA does and how it works.</p>
+<p>PCA is based on <em>singular value decomposition</em>, or <em>SVD</em>.
+For this consider a matrix <span class="math notranslate nohighlight">\(X\in\mathbb R^{N\times n}\)</span>, which in our context will
+arise from stacking the data <span class="math notranslate nohighlight">\(x^{(1)},\ldots,x^{(N)}\in\mathbb R^n\)</span>  as row vectors on top of each other, ie,
+each row corresponds to a data point. (The definition of the SVD works for any matrix, though.)
+It’s best to assume <span class="math notranslate nohighlight">\(N\gg n\)</span>.</p>
+<p>The SVD of <span class="math notranslate nohighlight">\(X\in\mathbb R^{N\times n}\)</span> is then the decomposition</p>
+<div class="math notranslate nohighlight">
+\[
+X=U\Sigma \trsp V,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(U\in\mathbb R^{N\times N}\)</span>, <span class="math notranslate nohighlight">\(V\in\mathbb R^{n\times n}\)</span> are orthonormal matrices, ie, matrices with <span class="math notranslate nohighlight">\(U\trsp U=\id\)</span> and <span class="math notranslate nohighlight">\(V\trsp V=\id\)</span>,
+while <span class="math notranslate nohighlight">\(\Sigma\in\mathbb R^{N\times n}\)</span> has the following form</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\Sigma=\begin{cases}
+\begin{pmatrix}\text{diag}(\sigma)\\ 0 \end{pmatrix} &amp; \text{ if }n\leq N\\
+\begin{pmatrix}\text{diag}(\sigma)&amp; 0 \end{pmatrix} &amp; \text{ if }n\geq N
+\end{cases}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\text{diag}(\sigma)\)</span> denotes a diagonal matrix with entries <span class="math notranslate nohighlight">\(\sigma=(\sigma_1,\ldots,\sigma_p)\)</span>,
+<span class="math notranslate nohighlight">\(p=\min(n,N)\)</span>. Finally, the <em>singular values</em> <span class="math notranslate nohighlight">\(\sigma_i\)</span> are non-negative and ordered by size:
+<span class="math notranslate nohighlight">\(\sigma_1\geq \sigma_2\geq\ldots\geq\sigma_p\geq 0\)</span>.</p>
+<p>What is now the PCA? For the <em>PCA</em>, we fix an integer <span class="math notranslate nohighlight">\(k\leq n\)</span>, the dimension of the
+projection. Then, we define
+<span class="math notranslate nohighlight">\(U_k\in\mathbb R^{N\times k}\)</span> and <span class="math notranslate nohighlight">\(V_k\in\mathbb R^{n\times k}\)</span> to consist of the first <span class="math notranslate nohighlight">\(k\)</span> columns of
+<span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span>, and we define <span class="math notranslate nohighlight">\(S_k\in\mathbb R^{k\times k}\)</span> as <span class="math notranslate nohighlight">\(\text{diag}(\sigma_1,\ldots,\sigma_k)\)</span>.
+The PCA (with <span class="math notranslate nohighlight">\(k\)</span> principle components) is then the projection <span class="math notranslate nohighlight">\(\mathbb R^n\to\mathbb R^k\)</span> defined by
+<span class="math notranslate nohighlight">\(x\mapsto \trsp{V_k} x\)</span> (here, <span class="math notranslate nohighlight">\(x\)</span> is seen as a column vector). Thus, the latent representation of <span class="math notranslate nohighlight">\(X\)</span> becomes
+<span class="math notranslate nohighlight">\(Z=XV_k\)</span> (note the lack of transposition as <span class="math notranslate nohighlight">\(X\)</span> contains the data as row vectors).
+Note that</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+Z&amp; =XV_k=U\Sigma \trsp VV_k = U\begin{pmatrix}\text{diag}(\sigma) \\0\end{pmatrix} \begin{pmatrix}\id_k \\0\end{pmatrix} \\
+&amp; = U \begin{pmatrix}\text{diag}(\sigma_1\ldots \sigma_k) \\0\end{pmatrix} = U_kS_k
+\end{align*}\]</div>
+<p>It is also possible to recover data in the original space <span class="math notranslate nohighlight">\(\mathbb R^n\)</span> from the latent representation in <span class="math notranslate nohighlight">\(\mathbb R^k\)</span>,
+as follows: <span class="math notranslate nohighlight">\(\mathbb R^k\to\mathbb R^n\)</span>, <span class="math notranslate nohighlight">\(z\mapsto V_kz\)</span>.
+For the data matrix, this translates to <span class="math notranslate nohighlight">\(\hat X=Z\trsp{V_k}\)</span> and thus to</p>
+<div class="math notranslate nohighlight">
+\[
+\hat X =Z\trsp{V_k} = U_kS_k\trsp{V_k}
+\]</div>
+<p>Note that <span class="math notranslate nohighlight">\(\rank(\hat X)\leq k\)</span> as <span class="math notranslate nohighlight">\(S_k\in\mathbb R^{k\times k}\)</span>.</p>
+<p>In fact it turns out that <span class="math notranslate nohighlight">\(\hat X =Z\trsp{V_k} = U_kS_k\trsp{V_k}\)</span> is the best approximation of <span class="math notranslate nohighlight">\(X\)</span> among
+all matrices of rank at most <span class="math notranslate nohighlight">\(k\)</span>. This is the <a class="reference external" href="https://en.wikipedia.org/wiki/Low-rank_approximation">Eckhart-Young-Mirsky</a> theorem:</p>
+<div class="proof theorem admonition" id="eymthm">
+<p class="admonition-title"><span class="caption-number">Theorem 7.1 </span> (Eckhart-Young-Mirsky)</p>
+<section class="theorem-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(X\in\mathbb R^{n\times N}\)</span> be a matrix, and let <span class="math notranslate nohighlight">\(k\leq\min(n,N)\)</span> be an integer.
+Let <span class="math notranslate nohighlight">\(\hat X= U_k\text{diag}(\sigma_1\ldots\sigma_k)\trsp{V_k}\)</span>, where <span class="math notranslate nohighlight">\(X=U\Sigma \trsp V\)</span> is the SVD of <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span>
+is the vector of singular values.
+Then</p>
+<div class="math notranslate nohighlight">
+\[
+||\hat X -X||_F \leq ||A-X||_F,
+\]</div>
+<p>for every matrix <span class="math notranslate nohighlight">\(A\in\mathbb R^{n\times N}\)</span> with <span class="math notranslate nohighlight">\(\rank(A)\leq k\)</span>.</p>
+</section>
+</div><p>(Recall that <span class="math notranslate nohighlight">\(||A||_F\)</span> is the <a class="reference external" href="https://mathworld.wolfram.com/FrobeniusNorm.html">Frobenius norm</a>, ie, the <span class="math notranslate nohighlight">\(2\)</span>-norm of <span class="math notranslate nohighlight">\(A\)</span> written as a vector.)</p>
+</section>
+<section id="pca-and-autoencoder">
+<h2><span class="section-number">7.2. </span>PCA and autoencoder<a class="headerlink" href="#pca-and-autoencoder" title="Link to this heading">#</a></h2>
+<p>We consider the simplest autoencoder possible: an encoder that consists of a neural network <em>without</em> hidden layers, and with
+linear activation function, and the same holds for the decoder. On top of that, we set the bias to 0 everywhere.
+Then, the encoder does nothing more than a matrix-vector mulitplication: <span class="math notranslate nohighlight">\(e:x\mapsto Ex\)</span> for some matrix <span class="math notranslate nohighlight">\(E\in\mathbb R^{k\times n}\)</span>.
+The same goes for the decoder: <span class="math notranslate nohighlight">\(d:z\mapsto Dz\)</span> for some <span class="math notranslate nohighlight">\(D\in\mathbb R^{n\times k}\)</span>.
+In total, the autoencoder computes <span class="math notranslate nohighlight">\(x\mapsto DEx\)</span>.</p>
+<p>If we collect the (training) data as above in a matrix <span class="math notranslate nohighlight">\(X\in\mathbb R^{N\times n}\)</span> (with each data point as a row)
+then the autoencoder computes <span class="math notranslate nohighlight">\(\hat X = X\trsp E\trsp D\)</span>. Note that the matrix <span class="math notranslate nohighlight">\(C=\trsp E\trsp D\)</span> has rank at most <span class="math notranslate nohighlight">\(k\)</span>,
+as each of <span class="math notranslate nohighlight">\(D,E\)</span> has one dimension equal to <span class="math notranslate nohighlight">\(k\)</span>.</p>
+<p>The autoencoder is trained with SGD. That is, SGD aims to find weights <span class="math notranslate nohighlight">\(D,E\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[
+\text{loss} = \sum_{i=1}^N||x^{(i)}-DEx^{(i)}||_2^2 = ||X-\hat X||_F^2
+\]</div>
+<p>is as small as possible. While we are not guaranteed that SGD finds the global minimum we see
+with <a class="reference internal" href="#eymthm">Theorem 7.1</a> that the minimum is achieved by the SVD (as <span class="math notranslate nohighlight">\(\rank(C)\leq k\)</span>, whatever the weights).
+Thus, in the best case the autoencoder will basically compute the PCA.
+(This is not quite right. We’re not guaranteed that the autoencoder finds the PCA projection.
+Technically, we’re only guaranteed that the reconstruction error of PCA and of the autoencoder
+coincide – if the autoencoder is optimally trained.)</p>
+<p><label for='marginnote-role-1' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-1' name='marginnote-role-1' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/autoencoder/auto-vs-pca.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>auto-vs-pca</a></span>
+Nobody will use such a simple autoencoder. So, why is that insight interesting?
+We can interpret that as: In the simplest setting the autoencoder is as good as
+PCA, which is a venerable and widely used technique; with a more powerful encoder and decoder
+(ie, with hidden layers and non-linear activation), autoencoders are likely
+to be better still.</p>
+</section>
+<section id="variational-autoencoders">
+<span id="vaesec"></span><h2><span class="section-number">7.3. </span>Variational autoencoders<a class="headerlink" href="#variational-autoencoders" title="Link to this heading">#</a></h2>
+<p>The latent representation in autoencoders makes it possible to generate new samples.
+Generative AI such as midjourney, DALL-E and stable diffusion
+show that this may be incredibly useful. (These systems, however, are based on a different method.)
+There is just a problem – how would we sample
+from the latent space? We do not have any control over the latent space, and we have no idea
+how the latent representations of the samples are distributed.</p>
+<p><label for='marginnote-role-2' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-2' name='marginnote-role-2' class='margin-toggle'><span class="marginnote"> <em>An Introduction to Variational Autoencoders</em>, D.P. Kingma and M. Welling (2019),
+<a class="reference external" href="https://arxiv.org/abs/1906.02691">arXiv:1906.02691</a></span>
+<em>Variational autoencoders</em> (VAEs) aim to impose tight control on the latent space.
+In fact in a variational autoencoder, the latent vectors are forced to conform
+to a fixed probability distribution, normally to a multivariate normal distribution.
+Then, it’s easy to sample from the latent space: We simply draw <span class="math notranslate nohighlight">\(z\sim \mathcal N(0,1)\)</span>,
+and then use the decoder to compute a new sample <span class="math notranslate nohighlight">\(d(z)\)</span>.</p>
+<p>In general a variational autoencoder is an autoencoder, consisting of an encoder <span class="math notranslate nohighlight">\(e\)</span>,
+a decoder <span class="math notranslate nohighlight">\(d\)</span>, and some stochastic elements. First, though, let’s take a step
+back and let’s look at the motivation for them.</p>
+<p>We assume that there is some unknown process that generates samples <span class="math notranslate nohighlight">\(x\)</span>.
+To make this a bit more concrete, let us concentrate on cat pictures.
+Thus, we assume that cat pictures <span class="math notranslate nohighlight">\(x\)</span> are generated by a distribution <span class="math notranslate nohighlight">\(x\sim p^*(x)\)</span>.
+Here, <span class="math notranslate nohighlight">\(p^*\)</span> is a probability density function (that is unknown and likely very complicated).
+The stochastic process is actually governed by hidden, latent variables <span class="math notranslate nohighlight">\(z\)</span>. That is,
+we imagine that the process to generate a sample <span class="math notranslate nohighlight">\(x\)</span> has two steps:</p>
+<ul>
+<li><p>first, a latent vector <span class="math notranslate nohighlight">\(z\sim p^*(z)\)</span> is drawn, where we require that
+the distribution on the latent space is equal to the standard normal distribution,
+ie</p>
+<div class="math notranslate nohighlight">
+\[
+    p^*(z)=\frac{1}{(2\pi)^\frac{k}{2}}e^\frac{||z||_2^2}{2}
+    \]</div>
+</li>
+<li><p>then, the sample <span class="math notranslate nohighlight">\(x\)</span> is drawn, conditioned on <span class="math notranslate nohighlight">\(z\)</span>: <span class="math notranslate nohighlight">\(x\sim p^*(x|z)\)</span>.</p></li>
+</ul>
+<p>This has only shifted the problem, as we
+we do not know <span class="math notranslate nohighlight">\(p^*(x|z)\)</span>. We therefore will try to approximate
+<span class="math notranslate nohighlight">\(p^*(x|z)\)</span> with a parametric probability density function <span class="math notranslate nohighlight">\(p_\theta(x|z)\)</span>
+that still will be quite complicated. <em>Parametric</em> here means that
+the function depends on the parameter vector <span class="math notranslate nohighlight">\(\theta\)</span>. Essentially,
+<span class="math notranslate nohighlight">\(p_\theta(x|z)\)</span> will be determined by the decoder of the VAE, and <span class="math notranslate nohighlight">\(\theta\)</span>
+will simply collect all the weights of the neural network that realises
+the decoder. This is coupled with a simple probabilistic distribution;
+this may be a multivariate Bernoulli distribution or a multivariate
+normal distribution. Here we fix a normal distribution.</p>
+<figure class="align-default" id="vaexfig">
+<a class="reference internal image-reference" href="../_images/VAE1.png"><img alt="../_images/VAE1.png" src="../_images/VAE1.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 7.2 </span><span class="caption-text">From latent space to sample.</span><a class="headerlink" href="#vaexfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>More concretely,</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(z\sim\mathcal N(0,1)\)</span> is drawn from the <span class="math notranslate nohighlight">\(k\)</span>-dimensional standard normal distribution;</p></li>
+<li><p>the decoder network computes two vectors <span class="math notranslate nohighlight">\(\mu^{(1)},s^{(1)}\)</span>, ie <span class="math notranslate nohighlight">\(d(z)=(\mu^{(1)},s^{(1)})\)</span>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(x\)</span> is drawn from <span class="math notranslate nohighlight">\(\mathcal N(\mu^{(1)},s^{(1)})\)</span>.</p></li>
+</ol>
+<p>A bit of fineprint: Here, we assume that the final output <span class="math notranslate nohighlight">\(x\)</span> is drawn from a normal distribution <span class="math notranslate nohighlight">\(\mathcal N(\mu^{(1)},s^{(1)})\)</span>.
+For different types of data, a different final distribution may be appropriate. For instance, for image data,
+we might have a multivariate Bernoulli distribution instead of the normal distribution. We stick
+with  <span class="math notranslate nohighlight">\(\mathcal N(\mu^{(1)},s^{(1)})\)</span> to keep things simple.</p>
+<p>The steps 1.-3. describe how we generate new samples. What is not yet clear, is how we can train
+the decoder in the first place. For that, we also need to have a closer look at the encoder.
+For that,
+we approximate the probability density function <span class="math notranslate nohighlight">\(p^*(z|x)\)</span> by
+a parametric PDF <span class="math notranslate nohighlight">\(q_\phi(z|x)\)</span>. This time, we use the encoder of the autoencoder, and
+the parameters <span class="math notranslate nohighlight">\(\phi\)</span> will be the weights of the encoder.
+Indeed, for the encoder we prescribe the following steps:</p>
+<ol class="arabic simple">
+<li><p>on input <span class="math notranslate nohighlight">\(x\)</span>, the encoder computes two vectors <span class="math notranslate nohighlight">\(\mu^{(2)},s^{(2)}\)</span>, ie <span class="math notranslate nohighlight">\(e(x)=(\mu^{(2)},s^{(2)})\)</span>;</p></li>
+<li><p>then <span class="math notranslate nohighlight">\(\epsilon\in\mathbb R^k\)</span> is drawn <span class="math notranslate nohighlight">\(\epsilon\sim\mathcal N(0,1)\)</span>; and</p></li>
+<li><p>finally, we compute a latent representation <span class="math notranslate nohighlight">\(z=\mu^{(2)}+(s^{(2)}\odot \epsilon)\)</span>,
+where <span class="math notranslate nohighlight">\(\odot\)</span> denotes entry-wise multiplation.</p></li>
+</ol>
+<p>Why don’t we draw <span class="math notranslate nohighlight">\(z\sim\mathcal N(\mu^{(2)},s^{(2)})\)</span>, in a similar way as for the decoder?
+Well, we effectively do that, just in a slightly roundabout way. Below we will see that there is a good
+reason to pursue this three step process.</p>
+<figure class="align-default" id="vaefig">
+<a class="reference internal image-reference" href="../_images/VAE2.png"><img alt="../_images/VAE2.png" src="../_images/VAE2.png" style="width: 15cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 7.3 </span><span class="caption-text">A variational autoencoder.</span><a class="headerlink" href="#vaefig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>How do we determine the weights of the autoencoder? Let us start with the decoder.
+We assume we have access to training data <span class="math notranslate nohighlight">\(x^{(1)},\ldots, x^{(N)}\)</span> that is drawn
+iid according to the hidden process <span class="math notranslate nohighlight">\(p^*\)</span>. We do a maximum likelihood fit:</p>
+<div class="math notranslate nohighlight" id="equation-thetastar">
+<span class="eqno">(7.1)<a class="headerlink" href="#equation-thetastar" title="Link to this equation">#</a></span>\[\begin{split}\begin{align}
+\theta^* &amp; = \argmax_{\theta} \prod_{i=1}^Np_\theta(x^{(i)}) \notag \\
+\Leftrightarrow\quad\theta^* &amp; = \argmax_\theta \sum_{i=1}^N\log\left(p_\theta(x^{(i)})\right) 
+\end{align}\end{split}\]</div>
+<p>Can we maximise the expression on the right-hand side? Not directly. In fact, we cannot even
+evaluate <span class="math notranslate nohighlight">\(p_\theta(x)\)</span> directly, for any <span class="math notranslate nohighlight">\(x=x^{(i)}\)</span>.
+Rather, what we can do is to compute <span class="math notranslate nohighlight">\(p_\theta(x|z)\)</span> for any given <span class="math notranslate nohighlight">\(z\)</span>: As outlined
+above the decoder network yields parameters that are then fed into a simple stochastic process.
+So, let’s rewrite <span class="math notranslate nohighlight">\(p_\theta(x)\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[
+p_\theta(x)=\int_z p_\theta(x|z) p_\theta(z)dz
+\]</div>
+<p>This looks partially better because at least we can compute <span class="math notranslate nohighlight">\(p_\theta(x|z)\)</span>, and I suppose that
+for <span class="math notranslate nohighlight">\(p_\theta(z)\)</span> we could use that we require the latent vectors <span class="math notranslate nohighlight">\(z\)</span> to conform to a standard normal distribution.
+However, this is also quite a bit worse, because we would need to evaluate an integral over a complex space.
+It turns out that that is quite infeasible. So, let’s take a different route.</p>
+<p>Fix <span class="math notranslate nohighlight">\(x=x^{(i)}\)</span> for some <span class="math notranslate nohighlight">\(i\)</span> and let’s continue with <span class="math notranslate nohighlight">\(\log p_\theta(x)\)</span>. Because
+notation is already fairly dense, I will suppress the indices <span class="math notranslate nohighlight">\(\theta\)</span> and <span class="math notranslate nohighlight">\(\phi\)</span> for the moment, and
+simply write <span class="math notranslate nohighlight">\(p(x)\)</span> and <span class="math notranslate nohighlight">\(q(z|x)\)</span> and so on. Then</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\log p(x) &amp; = \expec_{z\sim q(z|x)} [\log p(x)]
+\end{align*}\]</div>
+<p>as <span class="math notranslate nohighlight">\(p(x)\)</span> does not depend on <span class="math notranslate nohighlight">\(z\)</span>, and thus is a constant as far as <span class="math notranslate nohighlight">\(z\sim q(z|x)\)</span> is concerned.
+Again, to keep notation uncluttered I will simply write subscript <span class="math notranslate nohighlight">\(q\)</span> instead of <span class="math notranslate nohighlight">\(z\sim q(z|x)\)</span>.
+As</p>
+<div class="math notranslate nohighlight">
+\[
+p(z|x)=\frac{p(x,z)}{p(x)} \quad \Leftrightarrow \quad p(x) = \frac{p(x,z)}{p(z|x)}
+\]</div>
+<p>we obtain</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\log p(x) &amp; = \expec_{q} [\log p(x,z)-\log p(z|x)] \\
+&amp; = \expec_q\left[\log p(x,z)-\log q(z|x) +\log q(z|x) - \log p(z|x) \right] \\
+&amp; = \underbrace{\expec_q\left[\log p(x,z)-\log q(z|x)\right]}_{\text{\rm ELBO}_{\theta,\phi}(x)} + \underbrace{\expec_q\left[\log q(z|x) - \log p(z|x) \right]}_{\KL(q(z|x)||p(z|x))}
+\end{align*}\]</div>
+<p>The part</p>
+<div class="math notranslate nohighlight">
+\[
+\expec_q\left[\log p(x,z)-\log q(z|x)\right]
+\]</div>
+<p>is called the <em>Evidence Lower BOund</em>, or <em>ELBO</em>. I am writing <span class="math notranslate nohighlight">\(\text{ELBO}_{\theta,\phi}(x)\)</span> to stress
+that the ELBO depends on parameters <span class="math notranslate nohighlight">\(\theta\)</span>, <span class="math notranslate nohighlight">\(\phi\)</span> and also on <span class="math notranslate nohighlight">\(x\)</span>.
+The other part is the <a class="reference internal" href="nets.html#klsec"><span class="std std-ref"><em>Kullback-Leibler divergence</em></span></a>.</p>
+<p>By Gibb’s inequality (<a class="reference internal" href="nets.html#gibbsineq">Theorem 4.1</a>), the Kullback-Leibler divergence is always non-negative, which results in</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\log p_\theta(x) &amp;  \geq \text{ELBO}_{\theta,\phi}(x)
+\end{align*}\]</div>
+<p>Thus, if <span class="math notranslate nohighlight">\(\text{ELBO}_{\theta,\phi}(x)\)</span> becomes larger, then so does <span class="math notranslate nohighlight">\(\log p_\theta(x)\)</span>.</p>
+<p>Originally, our aim was to maximise <a class="reference internal" href="#equation-thetastar">(7.1)</a>, which we argued to be infeasible, at least directly.
+Instead, we solve</p>
+<div class="math notranslate nohighlight" id="equation-elbomax">
+<span class="eqno">(7.2)<a class="headerlink" href="#equation-elbomax" title="Link to this equation">#</a></span>\[\max_{\theta,\phi} \sum_{i=1}^M\text{ELBO}_{\theta,\phi}\big(x^{(i)}\big)\]</div>
+<p>and then take the maximisers <span class="math notranslate nohighlight">\(\theta^*\)</span> and <span class="math notranslate nohighlight">\(\phi^*\)</span> as weights for the decoder and the encoder of the autoencoder.</p>
+<p>Before we can maximise the ELBO we will be massaging it a bit further. Why? In its current form,
+it contains <span class="math notranslate nohighlight">\(p_\theta(x,z)\)</span>, and we do not know how to compute that. Thus, we use
+<span class="math notranslate nohighlight">\(p(x,z)=p(x|z)p(z)\)</span> to replace that term. We get</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\text{ELBO}_{\theta,\phi}(x) &amp; = \expec_q\left[\log p(x,z)-\log q(z|x)\right] \\
+&amp; = \expec_q\left[\log p(x|z) +\log p(z) -\log q(z|x)\right] \\
+&amp; = \expec_q\left[\log p(x|z)\right] - \expec_q\left[\log q(z|x) -\log p(z)\right] \\
+&amp; = \expec_q\left[\log p(x|z)\right] - \KL(q(z|x)||p(z))
+\end{align*}\]</div>
+<p>We make one more simplification. The main motivation for all this was to impose a simple probability distribution,
+namely the standard normal distribution <span class="math notranslate nohighlight">\(\mathcal N(0,1)\)</span>, on the latent space of the <span class="math notranslate nohighlight">\(z\)</span>.
+As a consequence, <span class="math notranslate nohighlight">\(p_\theta(z)\)</span> should, after fitting the parameters, coincide with the standard normal distribution.
+We now assume that is already the case and replace <span class="math notranslate nohighlight">\(p_\theta(z)\)</span> directly with <span class="math notranslate nohighlight">\(\mathcal N(0,1)\)</span>.</p>
+<p>Taking the negative, our aim becomes:</p>
+<div class="math notranslate nohighlight" id="equation-elbomax2">
+<span class="eqno">(7.3)<a class="headerlink" href="#equation-elbomax2" title="Link to this equation">#</a></span>\[\begin{split}\min_{\theta,\phi}\Big(-&amp;\text{ELBO}_{\theta,\phi}(x)\Big)\notag \\  
+&amp; = \min_{\theta,\phi} \KL(q_\phi(z|x)||\mathcal N(0,1)) -\expec_{z\sim q_\phi(z|x)}\left[\log p_\theta(x|z)\right] \end{split}\]</div>
+<p>This then is the <em>loss function</em> when training the autoencoder. It consists of two parts:</p>
+<ul class="simple">
+<li><p>the <em>reconstruction loss</em>: <span class="math notranslate nohighlight">\(-\expec_{z\sim q_\phi(z|x)}\left[\log p_\theta(x|z)\right]\)</span>.
+This is a bit hard to parse. If <span class="math notranslate nohighlight">\(x\)</span> is fed into the VAE then the loss is small if the likelihood
+of <span class="math notranslate nohighlight">\(x\)</span> with respect to <span class="math notranslate nohighlight">\(p_\theta(x|z)\)</span> is large. We will consider the reconstruction loss further down below.</p></li>
+<li><p>the <em>Kullback-Leibler loss</em>: <span class="math notranslate nohighlight">\(\KL(q_\phi(z|x)||\mathcal N(0,1))\)</span>. This is small if <span class="math notranslate nohighlight">\(q_\phi(z|x)\)</span> is
+close to the standard normal distribution, and this is precisely what we want. The aim is to get a
+distribution on the latent space that is close to the normal distribution.</p></li>
+</ul>
+<p>How then can we minimise the loss? As always with stochastic gradient descent.
+We will see below that we can obtain an explicit expression for the KL-loss, so that this loss behaves
+in precisely the same way as other losses with which we train neural networks.
+What about the reconstruction loss? We will need to work a bit more.</p>
+</section>
+<section id="reconstruction-loss">
+<h2><span class="section-number">7.4. </span>Reconstruction loss<a class="headerlink" href="#reconstruction-loss" title="Link to this heading">#</a></h2>
+<p>To employ stochastic gradient descent on the reconstruction loss we need to compute
+gradients <span class="math notranslate nohighlight">\(\nabla_\theta\)</span> and <span class="math notranslate nohighlight">\(\nabla_\phi\)</span> with respect to the parameters <span class="math notranslate nohighlight">\(\theta,\phi\)</span>.
+The gradient with respect to <span class="math notranslate nohighlight">\(\theta\)</span> is relatively uncomplicated. In particular, the expectation and <span class="math notranslate nohighlight">\(\nabla_\theta\)</span>
+commute as the stochastic process <span class="math notranslate nohighlight">\(z\sim q_\phi(z|x) \)</span> is independent of <span class="math notranslate nohighlight">\(\theta\)</span>:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\nabla_\theta \expec_{z\sim q_\phi(z|x)}\left[\log p_\theta(x|z)\right] 
+&amp; = \expec_{z\sim q_\phi(z|x)}\left[\nabla_\theta p_\theta(x|z)\right] 
+\end{align*}\]</div>
+<p>In particular, <span class="math notranslate nohighlight">\(\nabla_\theta p_\theta(x|z)\)</span> is mostly determined by the decoder network (the final probability distribution
+also contributes), so that <span class="math notranslate nohighlight">\(\nabla_\theta p_\theta(x|z)\)</span> simply becomes the gradient with respect to the weights
+of the decoder network.</p>
+<p>What about the gradient with respect to <span class="math notranslate nohighlight">\(\phi\)</span>? It is not clear whether that commutes with the expectation,
+as <span class="math notranslate nohighlight">\(z\sim q_\phi(z|x)\)</span> does depend on <span class="math notranslate nohighlight">\(\phi\)</span>. To get around that we use the so-called
+<em>reparametrisation trick</em>. We recall that drawing <span class="math notranslate nohighlight">\(z\)</span> really means drawing <span class="math notranslate nohighlight">\(\epsilon\sim\mathcal N(0,1)\)</span>
+and then computing <span class="math notranslate nohighlight">\(z=\mu^{(2)}+s^{(2)}\odot\epsilon\)</span>. Thus</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\nabla_\phi \expec_{z\sim q_\phi(z|x)}\left[\log p_\theta(x|z)\right] 
+&amp; =  \nabla_\phi \expec_{\epsilon\sim \mathcal N(0,1)}\left[\log p_\theta(x|\mu^{(2)}+s^{(2)}\odot\epsilon)\right] \\
+&amp; = \expec_{\epsilon\sim \mathcal N(0,1)}\left[\nabla_\phi p_\theta(x|\mu^{(2)}+s^{(2)}\odot\epsilon)\right] 
+\end{align*}\]</div>
+<p>Recall that <span class="math notranslate nohighlight">\(\mu^{(2)}\)</span> and <span class="math notranslate nohighlight">\(s^{(2)}\)</span> are computed by the encoder, which depends on the weights <span class="math notranslate nohighlight">\(\phi\)</span>.
+That means in particular, that we can compute the gradient <span class="math notranslate nohighlight">\(\nabla_\phi\)</span> in the normal way.</p>
+<p>There is one final issue, namely the expectation <span class="math notranslate nohighlight">\(\expec_\epsilon\)</span> in front of the gradient. What should we do with that?
+We do a Monte Carlo estimation, which is fancy speak for: draw a number of samples <span class="math notranslate nohighlight">\(\epsilon^{(1)},\ldots,\epsilon^{(L)}\sim\mathcal N(0,1)\)</span>
+and take the mean of the resulting gradient, ie</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla \expec_{\epsilon}[\log p_\theta(x|z)]\approx \frac{1}{L}\sum_{i=1}^L\nabla\log p_\theta(x|\mu^{(2)}+s^{(2)}\odot\epsilon^{(i)})
+\]</div>
+<p>In practice, it seems it is not uncommon to draw a single sample (but each time anew for each training data point), that is,
+to take <span class="math notranslate nohighlight">\(L=1\)</span>.</p>
+<p>To make this a bit more concrete, let us assume that in the final step <span class="math notranslate nohighlight">\(x\)</span> is actually drawn
+from a normal distribution <span class="math notranslate nohighlight">\(\mathcal N(\mu^{(1)},s^{(1)})\)</span> as described above.<br />
+To make the calculation easier, assume moreover, that <span class="math notranslate nohighlight">\(s^{(1)}=\sigma^2\1\)</span> for a scalar <span class="math notranslate nohighlight">\(\sigma\in\mathbb R\)</span>.
+Then
+the probability density function for the normal distribution <span class="math notranslate nohighlight">\(\mathcal N(\mu^{(1)},s^{(1)})\)</span>
+becomes</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{(2\pi\sigma)^{n/2}} e^{-\frac{||x-\mu^{(1)}||^2}{2\sigma^2}}
+\]</div>
+<p>and thus</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+-\log p_\theta(x|z) &amp; = -\log\left( \frac{1}{(2\pi\sigma)^{n/2}} e^{-\frac{||x-\mu^{(1)}||^2}{2\sigma^2}}\right) \\
+&amp; = \frac{n}{2}\log(2\pi\sigma) + \frac{1}{2\sigma^2}||x-\mu^{(1)}||^2 
+\end{align*}\]</div>
+<p>This is interesting because we suddenly find the mean square loss <span class="math notranslate nohighlight">\(||x-\mu^{(1)}||^2\)</span> loss prominently in there,
+exactly as for an ordinary autoencoder.</p>
+</section>
+<section id="the-kullback-leibler-loss">
+<h2><span class="section-number">7.5. </span>The Kullback-Leibler loss<a class="headerlink" href="#the-kullback-leibler-loss" title="Link to this heading">#</a></h2>
+<p>What about the Kullback-Leibler loss <span class="math notranslate nohighlight">\(\KL(q_\phi(z|x)||\mathcal N(0,1))\)</span>?
+We had fixed the distribution <span class="math notranslate nohighlight">\(q_\phi(z|x)\)</span> to be a normal distribution. Indeed, it is simply <span class="math notranslate nohighlight">\(\mathcal N(\mu^{(2)},s^{(2)})\)</span>,
+where <span class="math notranslate nohighlight">\(\mu^{(2)}\)</span> and <span class="math notranslate nohighlight">\(s^{(2)}\)</span> are computed by the encoder network. Fortunately, for two
+normal distributions there is an explizit formula for the Kullback-Leibler divergence
+(and in our case, one is even the standard normal distribution).</p>
+<div class="proof theorem admonition" id="KLnormalthm">
+<p class="admonition-title"><span class="caption-number">Theorem 7.2 </span></p>
+<section class="theorem-content" id="proof-content">
+<div class="math notranslate nohighlight">
+\[
+\KL(\mathcal N(\mu,s)||\mathcal N(0,1)) = \tfrac{1}{2}\sum_{i=1}^k\left(s_i+\mu_i^2-1-\ln s_i\right)
+\]</div>
+<p>for any <span class="math notranslate nohighlight">\(\mu\in\mathbb R^k\)</span> and <span class="math notranslate nohighlight">\(s\in\mathbb R_{&gt;0}^k\)</span>.</p>
+</section>
+</div><p>Before we start with the proof of the theorem let us see what that means for the Kullback-Leibler loss
+of a variational autoencoder. With the theorem, we compute the loss as:</p>
+<div class="math notranslate nohighlight">
+\[
+\KL(q_\phi(z|x)||\mathcal N(0,1)) = \tfrac{1}{2}\left(||\mu^{(2)}||_2^2+\sum_{i=1}^ks_i^{(2)}-k-\sum_{i=1}^k2\ln(s^{(2)}_i)\right)
+\]</div>
+<p>The Kullback-Leibler loss thus acts as a regulariser on the latent space. That is, it institutes a penalty
+for large weights.</p>
+<p>To prove the theorem we use an easy insight on the Kullback-Leibler divergence for multivariate distributions.</p>
+<div class="proof lemma admonition" id="multiKLlem">
+<p class="admonition-title"><span class="caption-number">Lemma 7.1 </span></p>
+<section class="lemma-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(p,q\)</span> be multivariate probability density functions with independent components, ie,</p>
+<div class="math notranslate nohighlight">
+\[
+p(x)=\prod_{i=1}^k p_i(x_i)\quad\text{ and }\quad q(x)=\prod_{i=1}^kq_i(x_i),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(p_i,q_i\)</span> are univariate probability density functions.
+Then</p>
+<div class="math notranslate nohighlight">
+\[
+\KL(p||q)=\sum_{i=1}^k\KL(p_i||q_i)
+\]</div>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. We start with:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\KL(p||q) &amp; = \expec_p[\log p-\log q] \\
+&amp; = \expec_p\left[\log\left(\prod_{i=1}^kp_i(x_i)\right) - \log\left(\prod_{i=1}^kq_i(x_i)\right) \right] \\
+&amp; = \expec_p\left[\sum_{i=1}^k\log\left(p_i(x_i)\right) - \log\left(q_i(x_i)\right) \right] \\
+&amp; = \sum_{i=1}^k \expec_p\left[\log\left(p_i(x_i)\right) - \log\left(q_i(x_i)\right)\right] \\
+&amp; = \sum_{i=1}^k \expec_{p_1}\ldots\expec_{p_k}\left[\log\left(p_i(x_i)\right) - \log\left(q_i(x_i)\right)\right] \\
+&amp; = \sum_{i=1}^k \expec_{p_i}\left[\log\left(p_i(x_i)\right) - \log\left(q_i(x_i)\right)\right], 
+\end{align*}\]</div>
+<p>as neither <span class="math notranslate nohighlight">\(\log p_i\)</span> nor <span class="math notranslate nohighlight">\(\log q_i\)</span> depends on <span class="math notranslate nohighlight">\(x_j\)</span> for <span class="math notranslate nohighlight">\(i\neq j\)</span>.</p>
+<p>To finish the proof we observe that</p>
+<div class="math notranslate nohighlight">
+\[
+\expec_{p_i}\left[\log\left(p_i(x_i)\right) - \log\left(q_i(x_i)\right)\right] = \KL(p_i||q_i)
+\]</div>
+</div>
+<p>We also need
+the first and second moments of a univariate normal distribution.
+These are <a class="reference external" href="https://en.wikipedia.org/wiki/Normal_distribution">well-known:</a></p>
+<div class="math notranslate nohighlight">
+\[
+\expec_{\mathcal N(\mu,\sigma^2)}[x]=\mu\quad\text{ and }
+\expec_{\mathcal N(\mu,\sigma^2)}[x^2]=\mu^2+\sigma^2
+\]</div>
+<p>We now prove <a class="reference internal" href="#KLnormalthm">Theorem 7.2</a></p>
+<div class="proof admonition" id="proof">
+<p>Proof. By <a class="reference internal" href="#multiKLlem">Lemma 7.1</a> it suffices to prove the theorem in the univariate case, ie, when <span class="math notranslate nohighlight">\(k=1\)</span>.</p>
+<p>We start with</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\KL(\mathcal N(\mu,\sigma^2)||\mathcal N(0,1))  = &amp; \expec_{\mathcal N(\mu,\sigma^2)}\left[
+\log\left(\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}\right)
+\right]\\
+&amp;-\expec_{\mathcal N(\mu,\sigma^2)}\left[
+\log\left(\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}\right)
+\right]\\
+\end{align*}\]</div>
+<p>and then look at the two terms separately.</p>
+<p>The first term becomes</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\expec_{\mathcal N(\mu,\sigma^2)}&amp;\left[
+\log\left(\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}\right)
+\right] \\
+&amp; = -\tfrac{1}{2}\log\left(2\pi\sigma^2\right) - \expec_{\mathcal N(\mu,\sigma^2)}\left[\frac{(x-\mu)^2}{2\sigma^2}\right]\\
+&amp; = -\tfrac{1}{2}\log\left(2\pi\sigma^2\right) - \frac{1}{2\sigma^2}\expec_{\mathcal N(\mu,\sigma^2)}[x^2]
++\frac{2\mu}{2\sigma^2}\expec_{\mathcal N(\mu,\sigma^2)}[x] - \frac{\mu^2}{2\sigma^2} \\
+&amp; = -\tfrac{1}{2}\log\left(2\pi\sigma^2\right) - \frac{\mu^2+\sigma^2}{2\sigma^2}
++\frac{2\mu^2}{2\sigma^2} - \frac{\mu^2}{2\sigma^2}
+=-\tfrac{1}{2}\log\left(2\pi\sigma^2\right)  -\tfrac{1}{2}
+\end{align*}\]</div>
+<p>The second term becomes</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\expec_{\mathcal N(\mu,\sigma^2)}&amp;\left[
+\log\left(\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}\right)
+\right]\\
+&amp; = -\tfrac{1}{2}\log(2\pi) -\tfrac{1}{2}\expec_{\mathcal N(\mu,\sigma^2)}[x^2] \\
+&amp; = -\frac{1}{2}\log(2\pi)-\frac{\mu^2+\sigma^2}{2}
+\end{align*}\]</div>
+<p>Putting the terms together, we obtain</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\KL&amp;(\mathcal N(\mu,\sigma^2)||\mathcal N(0,1)) \\
+&amp; \quad = -\frac{1}{2}\log\left(2\pi\sigma^2\right)  -\frac{1}{2} +\frac{1}{2}\log(2\pi)+\frac{\mu^2+\sigma^2}{2}\\
+&amp;\quad = \tfrac{1}{2}\left(-\log\sigma^2-1+\mu^2+\sigma^2\right),
+\end{align*}\]</div>
+<p>which finishes the proof.</p>
+</div>
+</section>
+</section>
+<hr class="footnotes docutils" />
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="loss.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>Loss functions</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ensemble.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">8. </span>Ensemble learning</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#principle-component-analysis">7.1. Principle component analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pca-and-autoencoder">7.2. PCA and autoencoder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variational-autoencoders">7.3. Variational autoencoders</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reconstruction-loss">7.4. Reconstruction loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-kullback-leibler-loss">7.5. The Kullback-Leibler loss</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Henning.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -50,10 +50,11 @@
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
     <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-    <script defer="defer" src="../_static/tippy/contents/nets.8910da8e-ba4d-476c-b331-b2992e6c9517.js"></script>
+    <script defer="defer" src="../_static/tippy/contents/nets.834aad35-b1dc-4f8c-9836-e516292dfd6d.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'contents/nets';</script>
+    <link rel="icon" href="../_static/noun-robot_32.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="5. Properties of neural networks" href="netsprops.html" />
@@ -161,9 +162,11 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Neural networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="netsprops.html">5. Properties of neural networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loss.html">6. Loss functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rl.html">7. Reinforcement learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mips.html">8. Maximum inner product search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html">9. TEST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoencoders.html">7. Autoencoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ensemble.html">8. Ensemble learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl.html">9. Reinforcement learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mips.html">10. Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">11. Appendix</a></li>
 </ul>
 
     </div>
@@ -526,8 +529,8 @@ the product is the matrix of same size defined by</p>
 (A\odot B)_{ij}=A_{ij}\cdot B_{ij}
 \]</div>
 <p>Then</p>
-<div class="amsmath math notranslate nohighlight" id="equation-de8ea2f2-bfce-4a66-bcfb-21227aeb2a64">
-<span class="eqno">(4.8)<a class="headerlink" href="#equation-de8ea2f2-bfce-4a66-bcfb-21227aeb2a64" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-81c02c49-e3b3-4d53-93de-512cb253617e">
+<span class="eqno">(4.8)<a class="headerlink" href="#equation-81c02c49-e3b3-4d53-93de-512cb253617e" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \delta^{(k)}=\trsp{(W^{(k+1)})}\delta^{(k+1)}\odot \sigma'_k(g^{(k)})
 \end{equation}\]</div>
 <p>Using <a class="reference internal" href="#equation-deltak">(4.2)</a> and <a class="reference internal" href="#equation-gradb">(4.5)</a>–<a class="reference internal" href="#equation-updatedelta">(4.7)</a> we can formulate
@@ -792,8 +795,8 @@ h(x) &amp; \text{ if $y=1$}\\
 \end{split}\]</div>
 <p>We may interpret <span class="math notranslate nohighlight">\(q(y|x)\)</span> as the probability that, given <span class="math notranslate nohighlight">\(x\)</span>, our classifier <span class="math notranslate nohighlight">\(h\)</span> predicts class <span class="math notranslate nohighlight">\(y\)</span>.
 We use <span class="math notranslate nohighlight">\(q(y|x)\)</span> rightaway to rewrite the cross-entropy loss as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3cd400ee-1806-459d-8b0c-2dbcd8664cb0">
-<span class="eqno">(4.9)<a class="headerlink" href="#equation-3cd400ee-1806-459d-8b0c-2dbcd8664cb0" title="Permalink to this equation">#</a></span>\[\begin{equation}\label{ceq}
+<div class="amsmath math notranslate nohighlight" id="equation-8786bf85-a30a-4cd4-b19a-1a7927820bc1">
+<span class="eqno">(4.9)<a class="headerlink" href="#equation-8786bf85-a30a-4cd4-b19a-1a7927820bc1" title="Permalink to this equation">#</a></span>\[\begin{equation}\label{ceq}
 L=-\frac{1}{|S|}\sum_{(x,y)\in S}\log(q(y|x))
 \end{equation}\]</div>
 <p>We also simply write <span class="math notranslate nohighlight">\(p(x)\)</span> for the <em>marginal probability</em></p>

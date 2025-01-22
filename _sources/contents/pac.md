@@ -385,4 +385,167 @@ However, we cannot compute {eq}`ggengap` directly but we can measure
 $L_{T}(h_S)-L_{S}(h_S)$. As long as the test set is large enough it makes not much 
 difference which of the two quantities we consider as they are very close to each other. 
 
+VC-dimension
+------------
+
+Quadratic classifiers seem more powerful, more expressive than linear classifiers.
+How can we state this formally? How can we measure the, well, *expressiveness*
+of a set of classifiers? 
+
+Arguably, a set of classifiers is more powerful than another if it can 
+fit larger complicated training sets perfectly. Obviously, any classifier
+can fit large training sets if the classes are just right: indeed, 
+linear classifiers classify abritrarily large training sets correctly,
+provided the sets are separable. With another setting of classes, however, 
+a linear classifier will already fail to fit four points perfectly; see {numref}`nolinfig`. 
+A quadratic classifier, in contrast, will still be able to fit most
+configurations of four points -- whatever the classes.
+
+```{figure} pix/fourpoints.png
+:name: nolinfig
+:height: 2cm
+
+No linear classifier can fit the four points perfectly.
+```
+
+Let $\mathcal H$ be a class of binary classifiers on domain set $\mathcal X$
+into the class set $\mathcal Y=\{0,1\}$. That is, $\mathcal H$ is a set of 
+ functions  $\mathcal X\to\{0,1\}$.
+
+For a (finite) subset $C\subseteq \mathcal X$ define the restriction 
+$\mathcal H_C$ of $\mathcal H$ to $C$
+as 
+
+$$
+\mathcal H_C=\{h_{|C}:C\to\{0,1\}: h\in\mathcal H\}
+$$
+
+The set $C$ will always be finite, and we will sometimes view
+the restricted functions $h_{|C}$ simply as the vector $(h(c_1),\ldots,h(c_m))$,
+where $c_1,\ldots, c_m$ is a fixed enumeration of $C$.
+
+We say that $\mathcal H$ *shatters* the finite set $C\subseteq\mathcal X$
+if 
+
+$$
+|\mathcal H_C|=2^{|C|} \Leftrightarrow \mathcal H_C=\{f:C\to\{0,1\}\},
+$$
+
+ie, if $\mathcal H_C$ is equal to the set of all functions from $C$ to $\{0,1\}$.
+
+
+Finally, the set of classifiers $\mathcal H$ has *VC-dimension* $d$  
+if $d$ is the largest integer such that there is a set $C\subseteq \mathcal X$
+of size $d$ that is shattered by $\mathcal H$.
+If $\mathcal H$ shatters arbitrarily large sets $C$ then $\mathcal H$ has infinite
+VC-dimension. We denote the VC-dimension by $\text{VCdim}(\mathcal H)$.[^vcnote]
+
+[^vcnote]: {-} VC-dimension has not only applications in statistical learning theory but also in 
+other fields such as computational geometry and graph theory.
+It's named for Vladimir Vapnik and Alexis Chervonenkis.
+}
+
+Let us consider some examples. 
+
+First we examine the characteristic functions of intervals in $\mathcal X=\mathbb R$. 
+That is, we define
+
+$$
+\mathcal H=\{1_{[a,b]}:a,b\in\mathbb R\}
+$$
+
+(Here, $1_{[a,b]}$ is the characteristic function on $[a,b]$, ie, the function 
+that takes value $1$ for every $x\in [a,b]$ and $0$ for every $x\notin [a,b]$.)
+
+It is easy to check that $\mathcal H$ shatters every two-element subset $C=\{c_1,c_2\}$
+of $\mathbb R$. Indeed, if $c_1<c_2$ then the functions 
+
+$$
+1_{\emptyset},1_{[c_1,c_1]},1_{[c_2,c_2}],1_{[c_1,c_2]}
+$$
+
+are enough to shatter $C$. Thus, $\text{VCdim}(\mathcal H)\geq 2$. 
+(Note: it would be enough if $\mathcal H$ shattered *one* two-element subset.)
+
+Now, if $C=\{c_1,c_2,c_3\}\subseteq\mathbb R$ with $c_1<c_2<c_3$ then no 
+function in $\mathcal H$ takes value 1 on $c_1,c_3$ but $0$ on $c_2$;
+simply because any interval that includes $c_1$ and $c_3$ also contains $c_2$.
+Thus $\text{VCdim}(\mathcal H)=2$. 
+
+```{figure} pix/axisrect.png
+:name: shatterfig
+:width: 10cm
+
+Four points in the plane shattered by axis-parallel rectangles.
+```
+
+Let $\mathcal R$ be the class of axis-aligned rectangles in the plane
+
+$$
+\mathcal R=\{[a,b]\times [c,d]:a,b,c,d\in\mathbb R\},
+$$
+
+and let $\mathcal H$ be the set of characteristic functions of such rectangles:
+
+$$
+\mathcal H=\{1_R:R\in\mathcal R\}.
+$$
+
+Set $C=\{e_1,e_2,-e_1,-e_2\}$, where $e_1,e_2$ are the unit vectors. Then it is easy to see  
+that $\mathcal H$ shatters $C$. As an example, to get the function $f$ with values $1$ on 
+$e_1,-e_1$ and $0$ on $e_2,-e_2$ as a restriction of $\mathcal H$, we take the 
+rectangle $R=[-0.1,0.1]\times[-1,1]$ and see that $1_R$ restricted to $C$ is $f$.
+Thus $\text{VCdim}(\mathcal H)\geq 4$. Observe that, in contrast to the previous examples, 
+not *every* set $C$ of size 4 is shattered by $\mathcal H$. (Which one is not?)
+See {numref}`shatterfig` for another example of a four-point set that is shattered.
+
+To see that $\text{VCdim}(H)$ is exactly 4, consider an arbitrary set $C\subseteq\mathbb R^2$
+of cardinality 5. Let $c_1$ be a left-most point in $C$, let $c_2$ be a highest point in $C$,
+let $c_3$ be a right-most point in $C$, let $c_4$ be a lowest point in $C$, and let $c_5$
+be the fifth point in $C$. Then any rectangle that contains $c_1,c_2,c_3,c_4$ also 
+contains $c_5$. Thus, the function $f$ that takes value 1 on $c_1,c_2,c_3,c_4$
+but $0$ on $c_5$ cannot be the restriction of $\mathcal H$. 
+
+An example of class $\mathcal H$ with infinite VC-dimension is the class of all 
+functions $\{f:\mathbb R\to \{0,1\}\}$. Much smaller classes, however, may 
+have infinite VC-dimension as well. 
+
+
+Let me point out that the domain $\mathcal X$ has some influence on the VC-dimension. First, 
+the cardinality of $\mathcal X$ gives a trivial upper bound on the VC-dimension:
+
+$$
+\text{VCdim}(\mathcal H)\leq |\mathcal X|
+$$
+
+(Simply, because every set $C\subseteq \mathcal X$, shattered or not, is limited in size
+by the size of $\mathcal C$.)
+
+The VC-dimension, however, may also increase if we enlarge $\mathcal X$. To see this, 
+let $\mathcal H$ be the set of decision stumps in $\mathcal X=\mathbb R^n$. That is, 
+each $h\in\mathcal H$ is characterised by a dimension $i$, a threshold $t\in\mathbb R$
+and a sign $\sigma\in\{-1,1\}$ as
+
+$$
+h:x\mapsto \begin{cases}
+\sigma &\text{ if }x_i\geq t\\
+-\sigma &\text{ otherwise}
+\end{cases}
+$$
+
+Now, if $n\geq 2^d$ then the VC-dimension of $\mathcal H$ will be at least $d$. Indeed, 
+let $C=\{z^{(1)},\ldots, z^{(d)}\}$, where we'll define the $z^{(i)}$ shortly. Enumerate
+all possible class assigments $f:C\to \{0,1\}$ as $f_1,\ldots, f_{2^d}$. Set 
+
+$$
+z^{(j)}_i=\begin{cases}
+1& \text{ if }i\leq 2^d\text{ and }f_i(z^{(j)})=1\\
+-1& \text{ otherwise}
+\end{cases}\quad\text{ for }j=1,\ldots, d,\, i=1,\ldots, n
+$$
+
+To see that every class assignment on $C$ can be realised by a decision stump, let 
+a class assignment $f_i$ be given, and choose the decision stump defined by the 
+decision rule $x_i\geq 0$. This realises $f_i$. 
+
 

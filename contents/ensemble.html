@@ -1,0 +1,1278 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>8. Ensemble learning &#8212; Mathematics of Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css?v=ca93fcec" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=82609fe5" />
+    <link rel="stylesheet" type="text/css" href="../_static/tippy.css?v=2687f39f" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
+    <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
+    <script defer="defer" src="../_static/tippy/contents/ensemble.c0c0df00-09c0-4c4e-9549-0e90ec66a603.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contents/ensemble';</script>
+    <link rel="icon" href="../_static/noun-robot_32.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="9. Reinforcement learning" href="rl.html" />
+    <link rel="prev" title="7. Autoencoders" href="autoencoders.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/robot_reading_small.png" class="logo__image only-light" alt="Mathematics of Machine Learning - Home"/>
+    <img src="../_static/robot_reading_small.png" class="logo__image only-dark pst-js-only" alt="Mathematics of Machine Learning - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Predictors, classification and losses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pac.html">2. PAC learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convex.html">3. Stochastic gradient descent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nets.html">4. Neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="netsprops.html">5. Properties of neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loss.html">6. Loss functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoencoders.html">7. Autoencoders</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">8. Ensemble learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl.html">9. Reinforcement learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mips.html">10. Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">11. Appendix</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/contents/ensemble.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Ensemble learning</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wisdom-of-the-crowd">8.1. Wisdom of the crowd</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#short-stochastic-digression">8.2. Short stochastic digression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dependent-classifiers">8.3. Dependent classifiers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-forest">8.4. Random Forest</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#noise-features">8.5. Noise features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boosting">8.6. Boosting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adaboost">8.7. AdaBoost</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-boosting">8.8. Gradient boosting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#xgboost">8.9. XGBoost</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p><span class="math notranslate nohighlight">\(\DeclareMathOperator*{\expec}{\mathbb{E}} % Expectation
+\DeclareMathOperator*{\proba}{\mathbb{P}}   % Probability
+\DeclareMathOperator*{\vari}{\mathbb{V}}   % Probability
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator{\sgn}{sgn}
+\)</span></p>
+<section class="tex2jax_ignore mathjax_ignore" id="ensemble-learning">
+<h1><span class="section-number">8. </span>Ensemble learning<a class="headerlink" href="#ensemble-learning" title="Link to this heading">#</a></h1>
+<p>In <em>Who wants to be a millionaire?</em> contestants have the option to ask the audience
+for help with a quiz question. Often this successful: the majority vote indicates the right answer.
+The interesting feature
+here is that obviously the audience of game shows does not usually consist of experts.
+On the contrary, the typical audience member  is arguably more ignorant than the contestants,
+who have already proved their merit by clearing the pre-selection process. Still,
+collectively, the audience is relatively strong.
+This phenomenon is called <em>wisdom of the crowd</em>.<label for='marginnote-role-1' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-1' name='marginnote-role-1' class='margin-toggle'><span class="marginnote"> There seems to have been written a lot about the supposed
+wisdom of the crowd, even a whole book. Sometimes, though, the crowd is dead-wrong:
+The 80s, for example, were terrible and there’s no reason to celebrate them.</span></p>
+<p><em>Ensemble learning</em> combines several poor
+predictors to a better predictor. Broadly, there are two ways to do that:</p>
+<ul class="simple">
+<li><p>a collective of classifiers decides by majority vote, or a collective of regressors
+predicts by taking the average; or</p></li>
+<li><p>a sequence of classifiers or regressors is iteratively trained, where each tries
+to correct for the errors of its predecessors.</p></li>
+</ul>
+<p>The second technique is called <em>boosting</em>. We first look at majority decisions.</p>
+<section id="wisdom-of-the-crowd">
+<h2><span class="section-number">8.1. </span>Wisdom of the crowd<a class="headerlink" href="#wisdom-of-the-crowd" title="Link to this heading">#</a></h2>
+<p>An easy way to increase the performance in a classification task is
+to train several classifiers and then let them decide by majority voting.</p>
+<p>To gain a first insight, consider a binary classification task and
+assume that we have access to <span class="math notranslate nohighlight">\(T\)</span> classifiers
+<span class="math notranslate nohighlight">\(h_1,\ldots, h_T\)</span> that each have a probability of <span class="math notranslate nohighlight">\(p&gt;\tfrac{1}{2}\)</span>
+to classify a randomly drawn data point correctly (we assume here that
+the class <span class="math notranslate nohighlight">\(y\)</span> is completely determined by <span class="math notranslate nohighlight">\(x\)</span>). Assume, furthermore,
+that the classifiers are stochastically independent. (Clearly,
+this is an unrealistic assumption.) Then the probability that
+the majority vote decides wrongly is</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\proba[\text{majority is wrong}] &amp; =\sum_{t=0}^{\lfloor T/2\rfloor}{T\choose t}p^t(1-p)^{T-t}\\
+&amp; =(1-p)^T\sum_{t=0}^{\lfloor T/2\rfloor}{T\choose t}\left(\frac{p}{1-p}\right)^t
+\end{align*}\]</div>
+<p>As <span class="math notranslate nohighlight">\(p/(1-p)&gt;1\)</span> we can upper-bound by</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\proba[\text{majority is wrong}] &amp; \leq 
+ (1-p)^T\sum_{t=0}^{\lfloor T/2\rfloor}{T\choose t}\left(\frac{p}{1-p}\right)^{\frac{T}{2}}\\
+&amp;\leq (1-p)^{\frac{T}{2}}p^{\frac{T}{2}}\cdot \tfrac{1}{2}2^T
+\end{align*}\]</div>
+<p>Let’s write <span class="math notranslate nohighlight">\(p=\tfrac{1}{2}+\epsilon\)</span> for <span class="math notranslate nohighlight">\(\epsilon\in(0,\tfrac{1}{2})\)</span>.</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\proba[\text{majority is wrong}] &amp; \leq 
+ \left(\tfrac{1}{4}-\epsilon^2\right)^{\frac{T}{2}}\cdot \tfrac{1}{2}2^T
+= \left(\frac{1-4\epsilon^2}{4}\right)^{\frac{T}{2}}\cdot \tfrac{1}{2}2^T\\
+&amp; = \tfrac{1}{2}(1-4\epsilon^2)^{\frac{T}{2}} \to 0 \text{ as }T\to\infty
+\end{align*}\]</div>
+<p>What we have proved here is a famous result, <em>Condorcet’s jury theorem</em>,<label for='marginnote-role-2' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-2' name='marginnote-role-2' class='margin-toggle'><span class="marginnote"> Why <em>jury</em> theorem? Condorcet tried to model the decision of a jury
+as a random experiment, with each juror having a certain probability to vote for
+the right decision. While the mathematics is wonderful, the model seems
+wildly implausible.</span>
+originally found by the Marquis de Condorcet in 1785.</p>
+<div class="proof theorem admonition" id="condothm">
+<p class="admonition-title"><span class="caption-number">Theorem 8.1 </span> (Condorcet’s jury theorem)</p>
+<section class="theorem-content" id="proof-content">
+<p>Let <span class="math notranslate nohighlight">\(X_1,\ldots,X_T\)</span> be stochastically independent random <span class="math notranslate nohighlight">\(0,1\)</span>-variables,
+each with <span class="math notranslate nohighlight">\(\proba[X_i=1]=p\)</span>. If <span class="math notranslate nohighlight">\(p&gt;\tfrac{1}{2}\)</span> then</p>
+<div class="math notranslate nohighlight">
+\[
+\proba\big[\sum_{i=1}^{T}X_i&gt;\tfrac{T}{2}\big]\to 1\text{ as }T\to\infty
+\]</div>
+</section>
+</div><p>This seems to indicate that there is a sure way to devise a nearly perfect
+classifier: simply assemble many stochastically independent classifiers
+that each have slightly better accuracy than pure chance. While it is often not
+hard to fulfill the second part, this is certainly not the case for the first
+part. Indeed, we do not expect classifiers to be independent: each should,
+by learning from the training set, hopefully gain some understanding
+about the ground truth.</p>
+<p>Some measure of independence is clearly
+important for a majority voting ensemble to be effective: a collective
+of classifiers that simply consists of clones will not be better
+than a single member of the collective.</p>
+</section>
+<section id="short-stochastic-digression">
+<h2><span class="section-number">8.2. </span>Short stochastic digression<a class="headerlink" href="#short-stochastic-digression" title="Link to this heading">#</a></h2>
+<p>To cope with a collective of classifiers with stochastic interdependencies
+we need a stochastic tool, a sort of  one-sided
+Chebyshev’s inequality.</p>
+<p>For comparison, let’s recall Chebyshev’s inequality.
+For this let <span class="math notranslate nohighlight">\(X\)</span> be a random variable, and recall the definition
+of the <em>variance</em> of a random variable:</p>
+<div class="math notranslate nohighlight">
+\[
+\vari[X]=\expec[X^2]-(\expec[X])^2
+\]</div>
+<p>Then <em>Chebyshev’s inequality</em> states that for every <span class="math notranslate nohighlight">\(\lambda&gt;0\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+\proba[|X-\expec[X]|\geq\lambda]\leq\frac{\vari[X]}{\lambda^2}
+\]</div>
+<p>The one-sided variant of Chebyshev’s inequality is called <em>Cantelli’s inequality</em>:</p>
+<div class="proof theorem admonition" id="canthm">
+<p class="admonition-title"><span class="caption-number">Theorem 8.2 </span> (Cantelli’s inequality)</p>
+<section class="theorem-content" id="proof-content">
+<p>For a random variable <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(\lambda&gt;0\)</span> it holds that</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(\proba[X\geq\expec[X]+\lambda]\leq\frac{\vari[X]}{\vari[X]+\lambda^2}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\proba[X\leq\expec[X]-\lambda]\leq\frac{\vari[X]}{\vari[X]+\lambda^2}\)</span></p></li>
+</ol>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. We prove 1. first. For this, set <span class="math notranslate nohighlight">\(Y=X-\expec[X]\)</span> and observe that <span class="math notranslate nohighlight">\(\expec[Y]=0\)</span>
+and that</p>
+<div class="math notranslate nohighlight">
+\[
+\vari[Y]=\expec[Y^2]-\expec[Y]^2= \expec[(X-\expec[X])^2]=\vari[X]
+\]</div>
+<p>We write <span class="math notranslate nohighlight">\(\sigma^2=\vari[X]\)</span>.</p>
+<p>Then, we obtain, for every <span class="math notranslate nohighlight">\(u\in\mathbb R\)</span>:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\proba[X\geq\expec[X]+\lambda] &amp; = \proba[Y\geq\lambda] = \proba[Y+u\geq \lambda+u]\\
+&amp; \leq \proba\left[(Y+u)^2\geq (\lambda+u)^2\right]
+\end{align*}\]</div>
+<p>Obviously, <span class="math notranslate nohighlight">\((Y+u)^2\)</span> is a non-negative random variable, which means that we can use
+Markov’s inequality to get</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\proba[X\geq\expec[X]+\lambda] &amp; \leq  \proba\left[(Y+u)^2\geq (\lambda+u)^2\right]\\
+&amp; \leq \frac{\expec[(Y+u)^2}{(\lambda+u)^2}
+= \frac{\expec[Y]^2+u^2}{(\lambda+u)^2} = \frac{\sigma^2+u^2}{(\lambda+u)^2}
+\end{align*}\]</div>
+<p>Now, substitute <span class="math notranslate nohighlight">\(u=\frac{\sigma^2}{\lambda}\)</span>:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\proba[X\geq\expec[X]+\lambda] &amp; \leq   \frac{\sigma^2+(\sigma^2/\lambda)^2}{(\lambda+\sigma^2/\lambda)^2} 
+= \frac{\sigma^2}{\lambda^2}\cdot\frac{\lambda^2+\sigma^2}{(\lambda+\sigma^2/\lambda)^2}\\
+&amp; = \frac{\sigma^2}{\lambda^2}\cdot\lambda^2\cdot\frac{\lambda^2+\sigma^2}{(\lambda^2+\sigma^2)^2}
+= \frac{\sigma^2}{\sigma^2+\lambda^2}
+\end{align*}\]</div>
+<p>To prove 2., apply 1. to <span class="math notranslate nohighlight">\(Z=-X\)</span> and <span class="math notranslate nohighlight">\(\lambda\)</span>:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\proba[X\leq\expec[X]-\lambda] &amp; = \proba[-Z\leq -\expec[Z]-\lambda] 
+=  \proba[Z\geq \expec[Z]+\lambda] \\
+&amp; \leq \frac{\vari[Z]}{\vari[Z]+\lambda^2} = \frac{\vari[X]}{\vari[X]+\lambda^2}
+\end{align*}\]</div>
+</div>
+</section>
+<section id="dependent-classifiers">
+<span id="sec-depclass"></span><h2><span class="section-number">8.3. </span>Dependent classifiers<a class="headerlink" href="#dependent-classifiers" title="Link to this heading">#</a></h2>
+<p>After this short digression, we come back to a collective of interdependent classifiers.<label for='sidenote-role-3' class='margin-toggle'><span id="id3">
+<sup>3</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-3' name='sidenote-role-3' class='margin-toggle'><span class="sidenote"><sup>3</sup>Based on <em>The Condorcet Jury Theorem, Free Speech, and Correlated Votes</em>, K.K. Ladha (1992)</span>
+Assume that we have trained <span class="math notranslate nohighlight">\(n\)</span> classifiers <span class="math notranslate nohighlight">\(h_i:\mathcal X\to\mathcal Y\)</span>, and we let <span class="math notranslate nohighlight">\(h\)</span>
+be the majority classifier</p>
+<div class="math notranslate nohighlight">
+\[
+h:\mathcal X\to\mathcal Y,\, x\mapsto
+\argmax_{y\in\mathcal Y}\#\{h_i(x)=y:i=1,\ldots,n\}
+\]</div>
+<p>(If there are ties for the majority class, <span class="math notranslate nohighlight">\(h\)</span> simply returns an arbitrary majority class.)</p>
+<p>Because the analysis becomes quite a bit more complicated otherwise, we now concentrate on a binary
+classification problem.
+We model the collective <span class="math notranslate nohighlight">\(h_1,\ldots, h_n\)</span> by a number of random variables <span class="math notranslate nohighlight">\(X_1,\ldots, X_n\)</span> that each
+take only the values 0 or 1, where 1 indicates a correct decision.
+That is, we set</p>
+<div class="math notranslate nohighlight">
+\[
+X_i(x,y)=1-\ell_{0-1}(y,h_i(x))\text{ for each }i=1,\ldots,n\text{ and }(x,y)\in\mathcal X\times\{-1,1\}
+\]</div>
+<p>We, moreover, set <span class="math notranslate nohighlight">\(\bar X=\frac{1}{n}\sum_{i=1}^nX_i\)</span>.</p>
+<p>Then, given a data distribution <span class="math notranslate nohighlight">\(\mathcal D\)</span> on <span class="math notranslate nohighlight">\(\mathcal X\times\{-1,1\}\)</span>,
+we can express the true risk as follows</p>
+<div class="math notranslate nohighlight">
+\[
+L_\mathcal D(h) = \expec_{(x,y)\sim\mathcal D}[\ell_{0-1}(y,h(x))] = \proba_{(x,y)\sim\mathcal D}[h(x)\neq y]
+\leq 1-\proba_{(x,y)\sim\mathcal D}[\bar X&gt;\tfrac{1}{2}]
+\]</div>
+<p>(Why <span class="math notranslate nohighlight">\(\leq\)</span> and not <span class="math notranslate nohighlight">\(=\)</span>? Because if <span class="math notranslate nohighlight">\(n\)</span> is even then <span class="math notranslate nohighlight">\(\bar X=\tfrac{1}{2}\)</span> may or may not result in a correct decision.)
+Thus, we need to focus on the probability that the majority is right:</p>
+<div class="math notranslate nohighlight">
+\[
+\proba[\bar X&gt;\tfrac{1}{2}]
+\]</div>
+<p>(We drop the reference to the distribution as, in what follows, it will play no role.)</p>
+<p>For this probability to be large, the expectation of <span class="math notranslate nohighlight">\(\bar X\)</span> should better be larger
+than <span class="math notranslate nohighlight">\(\tfrac{1}{2}\)</span>. The expectation is:</p>
+<div class="math notranslate nohighlight">
+\[
+\expec[\bar X]=\frac{1}{n}\sum_{i=1}^n\expec[X_i]=\frac{1}{n}\sum_{i=1}^n\proba[X_i=1]
+\]</div>
+<p>Let us write <span class="math notranslate nohighlight">\(\bar p=\expec[\bar X]\)</span>. It seems reasonable to assume that
+<span class="math notranslate nohighlight">\(\proba[X_i=1]&gt;\tfrac{1}{2}\)</span>, i.e.\ that each classifier actually improves the
+collective at least a little bit. Then <span class="math notranslate nohighlight">\(\bar p&gt;\tfrac{1}{2}\)</span>.</p>
+<p>Set  <span class="math notranslate nohighlight">\(\sigma^2=\vari[\bar X]\)</span>. Then</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\proba[\bar X&gt;\tfrac{1}{2}] = 1-\proba[\bar X\leq \tfrac{1}{2}] 
+= 1-\proba[\bar X\leq \bar p-\delta],
+\end{align*}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\delta=\bar p-\tfrac{1}{2}&gt;0\)</span>. Cantelli’s inequality now yields:</p>
+<div class="math notranslate nohighlight" id="equation-canteq">
+<span class="eqno">(8.1)<a class="headerlink" href="#equation-canteq" title="Link to this equation">#</a></span>\[\proba[\bar X&gt;\tfrac{1}{2}]  
+= 1-\proba[\bar X\leq \bar p-\delta] 
+ \geq 1-\frac{\sigma^2}{\sigma^2+\delta^2} = \frac{\delta^2}{\sigma^2+\delta^2}\]</div>
+<p>So, let’s compute the variance <span class="math notranslate nohighlight">\(\sigma^2\)</span> of <span class="math notranslate nohighlight">\(\bar X\)</span>.</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\sigma^2 &amp; = \expec[\bar X^2]-\expec[\bar X]^2 
+=\frac{1}{n^2}\sum_{i,j=1}^n\expec[X_iX_j]-\bar p^2\\
+&amp; = \frac{1}{n^2}\sum_{i=1}^n\expec[X_i]+\frac{1}{n^2}\sum_{i\neq j}\expec[X_iX_j]-\bar p^2\\
+&amp; = \frac{\bar p}{n} -\bar p^2 + \frac{1}{n^2}\sum_{i\neq j}\expec[X_iX_j]
+\end{align*}\]</div>
+<p>The thing to note there is that the term  <span class="math notranslate nohighlight">\(\expec[X_iX_j]\)</span> makes up an essential part
+of the <em>correlation coefficient</em> of the random variables <span class="math notranslate nohighlight">\(X_i,X_j\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{corr}(X_i,X_j)=\frac{\expec[X_iX_j]-\expec[X_i]\expec[X_j]}{\sqrt{\vari[X_i]\vari[X_j]}}
+\]</div>
+<p>The correlation coefficient takes values in <span class="math notranslate nohighlight">\([-1,1]\)</span> and
+is a measure of how much <span class="math notranslate nohighlight">\(X_i\)</span> and <span class="math notranslate nohighlight">\(X_j\)</span> influence each other.
+In particular, stochastically independent variables have correlation coefficient 0.
+(However, correlation 0 does not necessarily imply stochastic independence.)</p>
+<p>In our setting, we can expect positive correlation. Indeed, if one classifier
+detects the true class, then another one seems more likely to do so, too – perhaps
+because they both decide because of the same feature.</p>
+<p>To simplify a little bit, let us assume that all <span class="math notranslate nohighlight">\(X_i\)</span> have the same expectation,
+which is then equal to <span class="math notranslate nohighlight">\(\bar p\)</span>. Then <span class="math notranslate nohighlight">\(\proba[X_i=1]=\bar p\)</span>
+and <span class="math notranslate nohighlight">\(\vari[X_i]=\bar p(1-\bar p)\)</span>, and thus</p>
+<div class="math notranslate nohighlight">
+\[
+\sqrt{\vari[X_i]\vari[X_j]} = \bar p(1-\bar p)
+\]</div>
+<p>We also
+write <span class="math notranslate nohighlight">\(c\)</span> for the average correlation coefficient</p>
+<div class="math notranslate nohighlight">
+\[
+c=\frac{1}{n(n-1)}\sum_{i\neq j}\text{corr}(X_i,X_j)
+\]</div>
+<p>We get from above:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\sigma^2 &amp; = \frac{\bar p}{n} -\bar p^2 + 
+\frac{1}{n^2}\sum_{i\neq j}\left(\expec[X_iX_j]-\bar p^2+\bar p^2\right) \\
+&amp; = \frac{\bar p}{n} -\bar p^2 +  \frac{n-1}{n}c\bar p(1-\bar p)+\frac{n(n-1)}{n^2}\bar p^2\\
+&amp; = \frac{\bar p-\bar p^2}{n}+\frac{n-1}{n}c\bar p(1-\bar p)
+\end{align*}\]</div>
+<p>Let me point out here that we now have obtained a complicated proof of Condorcet’s
+jury theorem. Indeed, if <span class="math notranslate nohighlight">\(c=0\)</span> then <span class="math notranslate nohighlight">\(\sigma^2\to 0\)</span> for <span class="math notranslate nohighlight">\(n\to\infty\)</span>, which together
+with <a class="reference internal" href="#equation-canteq">(8.1)</a> yields <span class="math notranslate nohighlight">\(\proba[\bar X&gt;\tfrac{1}{2}]\to 1\)</span>.</p>
+<p>If <span class="math notranslate nohighlight">\(c&gt;0\)</span>, however, it no longer follows that a correct majority decision tends to
+certainty with increasing <span class="math notranslate nohighlight">\(n\)</span>, and indeed, this is sometimes not the case. (Recall
+the clone collective.)</p>
+<figure class="align-default" id="corrfig">
+<a class="reference internal image-reference" href="../_images/corr.png"><img alt="../_images/corr.png" src="../_images/corr.png" style="height: 6cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.1 </span><span class="caption-text"><span class="math notranslate nohighlight">\(\bar p\mapsto \frac{\delta^2}{c\bar p(1-\bar p)+\delta^2}\)</span> for different values of the average
+correlation <span class="math notranslate nohighlight">\(c\)</span>.</span><a class="headerlink" href="#corrfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>For larger <span class="math notranslate nohighlight">\(n\)</span>, the variance <span class="math notranslate nohighlight">\(\sigma^2\)</span> becomes smaller. In particular, in the limit,
+we get <span class="math notranslate nohighlight">\(\sigma^2\to c\bar p(1-\bar p)\)</span>, and thus with <a class="reference internal" href="#equation-canteq">(8.1)</a> the following lower bound</p>
+<div class="math notranslate nohighlight">
+\[
+\proba[\bar X&gt;\tfrac{1}{2}]\geq \frac{\delta^2}{c\bar p(1-\bar p)+\delta^2}
+\]</div>
+<p><a class="reference internal" href="#corrfig"><span class="std std-numref">Fig. 8.1</span></a> shows the right-hand side as a function of <span class="math notranslate nohighlight">\(\bar p\)</span> for different
+values of <span class="math notranslate nohighlight">\(c\)</span>. We see that for only small average correlation coefficient we get a significant
+boost for many values of <span class="math notranslate nohighlight">\(\bar p\)</span>, or at all. Now, this is only a lower bound. That is,
+it would be good to have a closely matching upper bound, or to know that the lower
+bound is in fact tight. Unfortunately, I cannot provide either.</p>
+<p>What can we deduce from  these observations? A collective of classifiers
+can significantly boost accuracy, but only if the classifiers are at most
+lightly correlated. We will see below that this insight drives the design
+of the most popular majority voting classifier, the random forest.</p>
+<p>Ensemble techniques are very powerful. Apparently, the top machine learning
+algorithms in competitions are often ensembles of predictors.
+Neural networks offer a very convenient way to assemble such an ensemble:
+by the stochastic nature of the initialisation and <a class="reference internal" href="convex.html#sgdsec"><span class="std std-ref">SGD</span></a>, each
+training run of a neural network will yield a different local minimum.
+Each such minimum yields a different classifier; the ensemble of
+several of such training runs may be a significantly better classifier.</p>
+<p>The  disadvantages of an ensemble of classifiers are obvious: longer training
+times, slower classification performance and larger energy consumption.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="correlated.html#sec-corr"><span class="std std-ref">Example of correlated classifiers</span></a></p>
+</div>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-success sd-bg-text-success">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-telescope" viewBox="0 0 16 16" aria-hidden="true"><path d="M14.184 1.143v-.001l1.422 2.464a1.75 1.75 0 0 1-.757 2.451L3.104 11.713a1.75 1.75 0 0 1-2.275-.702l-.447-.775a1.75 1.75 0 0 1 .53-2.32L11.682.573a1.748 1.748 0 0 1 2.502.57Zm-4.709 9.32h-.001l2.644 3.863a.75.75 0 1 1-1.238.848l-1.881-2.75v2.826a.75.75 0 0 1-1.5 0v-2.826l-1.881 2.75a.75.75 0 1 1-1.238-.848l2.049-2.992a.746.746 0 0 1 .293-.253l1.809-.87a.749.749 0 0 1 .944.252ZM9.436 3.92h-.001l-4.97 3.39.942 1.63 5.42-2.61Zm3.091-2.108h.001l-1.85 1.26 1.505 2.605 2.016-.97a.247.247 0 0 0 .13-.151.247.247 0 0 0-.022-.199l-1.422-2.464a.253.253 0 0 0-.161-.119.254.254 0 0 0-.197.038ZM1.756 9.157a.25.25 0 0 0-.075.33l.447.775a.25.25 0 0 0 .325.1l1.598-.769-.83-1.436-1.465 1Z"></path></svg></span><span class="sd-summary-text">Popularity of ML algorithms</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Neural networks enjoy a lot of hype and certainly are the most powerful machine learning
+algorithms that we know. They are, however, difficult and expensive to train
+and to fine-tune. Ensemble algorithms are often simpler to use and often
+powerful enough. A 2021 survey by kaggle asked for the most
+often used machine learning algorithms. Ensemble techniques
+proved to be very popular:</p>
+<ol class="arabic simple">
+<li><p class="sd-card-text">Linear or logistic regression</p></li>
+<li><p class="sd-card-text">Decision trees or random forest</p></li>
+<li><p class="sd-card-text">Gradient Boosting (ie, xgboost, lightgbm etc.)</p></li>
+</ol>
+<p class="sd-card-text">The first type of neural networks (convolutional networks) came in fourth place.
+It should be noted, however, that the ranking distinguished between several types
+of neural networks.</p>
+<p class="sd-card-text"><a class="reference external" href="https://www.kaggle.com/kaggle-survey-2021"><em>State of Machine Learning and Data Science 2021</em></a>,
+kaggle</p>
+</div>
+</details></section>
+<section id="random-forest">
+<h2><span class="section-number">8.4. </span>Random Forest<a class="headerlink" href="#random-forest" title="Link to this heading">#</a></h2>
+<p>One of the most popular ensemble machine learning algorithms is
+<em>random forest</em>.
+Random forest trains an ensemble of decision trees, and then
+classifies by majority voting (or alternatively, by voting weighted
+by confidence levels).</p>
+<p>As we have seen in <a class="reference internal" href="#sec-depclass"><span class="std std-numref">Section 8.3</span></a>, there are two design goals
+for a majority voting classifier:</p>
+<ul class="simple">
+<li><p>each decision tree of the ensemble should have a large expected accuracy; and</p></li>
+<li><p>the ensemble should be <em>diverse</em>, ie, any two decision trees should
+only be lightly correlated.</p></li>
+</ul>
+<p>These goals inform what kind of decision trees we base our ensemble on.
+There are two extremes of decision trees, decision stumps (the base classifiers
+of \alg{AdaBoost}) and fully grown trees. Which of these should make up
+the ensemble? Decision stumps are not expected to be very accurate; they are
+too crude for that. Fully grown trees are prone to overfitting but normally
+more accurate. (And in fact majority decision inhibits overfitting.)
+Moreover, decision stumps will not be very diverse. There is simply not
+enough variation, there are only so many ways you can carve up a space
+with axis parallel hyperplanes. Two fully grown decision trees, however,
+can be wildly different.</p>
+<p>It is therefore recommended
+to fully grow the decision trees for random forest, ie, to use decision trees of maximum depth,
+such that, typically, leaves represent single data points.</p>
+<figure class="align-default" id="moretreesfig">
+<a class="reference internal image-reference" href="../_images/rf_depths.png"><img alt="../_images/rf_depths.png" src="../_images/rf_depths.png" style="height: 6cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.2 </span><span class="caption-text">Random forest benefits from deeper and more trees. Test error vs number of
+decision trees in the ensemble, with varying maximum depths.
+Data set is on <a class="reference external" href="https://www.openml.org/search?type=data&amp;amp;status=active&amp;amp;id=40497">Thyroid function</a>.
+Each setting is
+repeated 100 times, plot shows means and 95% confidence intervals.</span><a class="headerlink" href="#moretreesfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Two methods ensure a maximum of diversity among the trained decision trees.
+The first is <em>bootstrap sampling</em>.
+Each of the individual decision trees receives its own training set generated
+from the whole training set by sampling with replacement. More precisely,
+if <span class="math notranslate nohighlight">\(S\)</span> is the entire training set of size <span class="math notranslate nohighlight">\(m\)</span>, say, then for each decision
+tree <span class="math notranslate nohighlight">\(T\)</span> a fixed number <span class="math notranslate nohighlight">\(m'\)</span> of samples are chosen uniformly with replacement
+from <span class="math notranslate nohighlight">\(S\)</span>. That means that, typically, the training set <span class="math notranslate nohighlight">\(S_T\)</span> of tree <span class="math notranslate nohighlight">\(T\)</span>
+will contain some of the samples of <span class="math notranslate nohighlight">\(S\)</span> twice (or even more often), and will
+miss some others from <span class="math notranslate nohighlight">\(S\)</span>. In this way, two trees <span class="math notranslate nohighlight">\(T,T'\)</span> of the ensemble
+will be trained on different training sets <span class="math notranslate nohighlight">\(S_T\)</span>, <span class="math notranslate nohighlight">\(S_{T'}\)</span>.
+Because a random forest aggregates the classifications of
+classifiers trained on bootstrapped sets, it is often called a <em>bagging</em>
+classifier, a contraction of bootstrapping and aggregating, which is clever
+if you like that sort of thing.
+In a random forest classifier the parameter <span class="math notranslate nohighlight">\(m'\)</span> is often chosen to be
+equal to <span class="math notranslate nohighlight">\(m\)</span> – this still means that the training sets of the different trees
+will likely be different.<label for='marginnote-role-4' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-4' name='marginnote-role-4' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/ensemble_classifiers/rf-corr.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>rf-corr</a></span></p>
+<p>The second technique that ensures diversity concerns how the decision trees
+are grown. Let’s recall how normally a decision tree is grown. Given a
+data points <span class="math notranslate nohighlight">\(x^{(1)},\ldots, x^{(m)}\in\mathbb R^d\)</span> and their
+classes <span class="math notranslate nohighlight">\(y^{(1)},\ldots, y^{(m)}\in\{1,\ldots, k\}\)</span> the tree is grown iteratively
+by splitting existing leaves if it increases some purity measure, such as the
+Gini index. To do so, at each leaf for each of the <span class="math notranslate nohighlight">\(d\)</span> features
+(dimensions of <span class="math notranslate nohighlight">\(\mathbb R^d\)</span>) the best split <span class="math notranslate nohighlight">\(x_d\leq t\)</span> is computed, and
+then, among all the features, the best split is chosen. For random forest,
+at each existing leaf the best split is determined not over the set of all
+<span class="math notranslate nohighlight">\(d\)</span> features but only over a randomly chosen subset of the features.
+That is, at each leaf, a number <span class="math notranslate nohighlight">\(p\)</span> of the <span class="math notranslate nohighlight">\(d\)</span> features is randomly chosen
+and then the best split among these <span class="math notranslate nohighlight">\(p\)</span> features is computed. For
+a random forest classifier it is recommended to pick <span class="math notranslate nohighlight">\(p=\sqrt d\)</span>.</p>
+<p>To sum up:</p>
+<ul class="simple">
+<li><p>each decision tree of the ensemble is trained on a random subset
+of the whole training set (chosen via bootstrap sampling); and</p></li>
+<li><p>when training a decision tree, splits at leaves are not chosen
+over all features but only over a random subset of the features.</p></li>
+</ul>
+<p>Training and prediction of a random forest can easily be parallelised: indeed,
+it suffices to split the decision trees into groups that are then trained
+or evaluated on different machines.</p>
+<p>The average correlation coefficient and  accuracy can be empirically estimated
+by examining the trees in the ensemble. It appears that bootstrapping and
+random feature selection decrease average accuracy (in comparision to unadulterated
+decision trees), and that they also do decrease correlation. The trick
+then is to find the right balance between these two effects.</p>
+</section>
+<section id="noise-features">
+<h2><span class="section-number">8.5. </span>Noise features<a class="headerlink" href="#noise-features" title="Link to this heading">#</a></h2>
+<p><label for='marginnote-role-5' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-5' name='marginnote-role-5' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/ensemble_classifiers/rf_noise_vars.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>rf_noise_vars</a></span>
+The design of random forest gives us some insights when random forest is adequate
+and when not. Let’s look at one set of circumstances when it is not.</p>
+<p>In many classification tasks some of the inputs are just noise and are not in any way indicative
+of the class. This is typically the case, for instance, for boundary pixels in image recognition.
+In the MNIST digit recognition task there are some pixels, the upper left pixel, for example,
+that are white for every single sample. In a more realistic image recognition task the upper left
+pixel will typically still be completely unrelated to the class but show different values
+for different images – it’s simply noise.</p>
+<figure class="align-default" id="rfnoisefig">
+<a class="reference internal image-reference" href="../_images/rf_noise_vars.png"><img alt="../_images/rf_noise_vars.png" src="../_images/rf_noise_vars.png" style="width: 6cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.3 </span><span class="caption-text">Accuracy of random forest suffers if there are many noisy features.
+In a binary classification task with two features, different numbers of noise features where
+added, each normally distributed independently of the class. Each setting was repeated 100 times;
+the plot shows mean and 95% confidence intervals. While both, AdaBoost and random forest,
+perform worse with increased number of noise features, \alg{random forest} is much more severely
+affected.</span><a class="headerlink" href="#rfnoisefig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Many such noise features can severely hamper random forest. Why?
+The decision trees of the ensemble are not grown with all the features. Rather, at each
+potential split we choose randomly <span class="math notranslate nohighlight">\(\sqrt d\)</span> of the <span class="math notranslate nohighlight">\(d\)</span> features and then compute
+the best split according to this random subset. If there are many noise features then
+it may happen often that there is no real feature among the randomly chosen subset.
+(Compute the probability!)
+The split then is just based on noise and becomes worthless.
+The effect of this can be seen in <a class="reference internal" href="#rfnoisefig"><span class="std std-numref">Fig. 8.3</span></a>.</p>
+<p>As a consequence, if many features are simply noise or only loosely indicative of the class
+it may be beneficial when using random forest to suppress these.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-success sd-bg-text-success">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-telescope" viewBox="0 0 16 16" aria-hidden="true"><path d="M14.184 1.143v-.001l1.422 2.464a1.75 1.75 0 0 1-.757 2.451L3.104 11.713a1.75 1.75 0 0 1-2.275-.702l-.447-.775a1.75 1.75 0 0 1 .53-2.32L11.682.573a1.748 1.748 0 0 1 2.502.57Zm-4.709 9.32h-.001l2.644 3.863a.75.75 0 1 1-1.238.848l-1.881-2.75v2.826a.75.75 0 0 1-1.5 0v-2.826l-1.881 2.75a.75.75 0 1 1-1.238-.848l2.049-2.992a.746.746 0 0 1 .293-.253l1.809-.87a.749.749 0 0 1 .944.252ZM9.436 3.92h-.001l-4.97 3.39.942 1.63 5.42-2.61Zm3.091-2.108h.001l-1.85 1.26 1.505 2.605 2.016-.97a.247.247 0 0 0 .13-.151.247.247 0 0 0-.022-.199l-1.422-2.464a.253.253 0 0 0-.161-.119.254.254 0 0 0-.197.038ZM1.756 9.157a.25.25 0 0 0-.075.33l.447.775a.25.25 0 0 0 .325.1l1.598-.769-.83-1.436-1.465 1Z"></path></svg></span><span class="sd-summary-text">Mixture of experts</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">Training and inference in large neural networks is very costly and consumes
+a lot of energy.
+A <em>mixture of experts</em> model may help to alleviate theses costs. A
+mixture of experts model combines several neural networks, the <em>experts</em>,
+with a simple neural network, the <em>gating network</em>. On input <span class="math notranslate nohighlight">\(x\)</span>, the
+gating network estimates which <span class="math notranslate nohighlight">\(k\)</span> of the experts are most suitable
+to treat the input and then forwards <span class="math notranslate nohighlight">\(x\)</span> to <em>only</em> those <span class="math notranslate nohighlight">\(k\)</span> networks.
+Their output is then combined, perhaps through a weighted sum, to
+produce the ultimate output of the model.
+The hyperparameter <span class="math notranslate nohighlight">\(k\)</span>, the number of active experts, is typically small, perhaps <span class="math notranslate nohighlight">\(k=4\)</span>.</p>
+<a class="reference internal image-reference" href="../_images/mixture.png"><img alt="../_images/mixture.png" class="align-center" src="../_images/mixture.png" style="width: 14cm;" />
+</a>
+<p class="sd-card-text">The model enjoys the advantages
+of an ensemble model, increased accuracy, and because the individual experts typically
+have fewer parameters than a large model of comparable performance,
+it also needs less compute. For example, the large language model <em>DeepSeek-V2</em>
+has 236 billion parameters in total, but in each step only about 10% of these
+are involved in the computation. It is claimed that the model has about 40% lower
+training cost than a comparable model.</p>
+<p class="sd-card-text"><a class="reference external" href="https://huggingface.co/blog/moe%7D%7Bhttps://huggingface.co/blog/moe"><em>Mixture of Experts Explained</em></a><br />
+<em>DeepSeek-V2: A Strong, Economical, and Efficient
+Mixture-of-Experts Language Model</em>, DeepSeek-AI (2024), <a class="reference external" href="https://arxiv.org/abs/2405.04434">arXiv:2405.04434</a></p>
+</div>
+</details></section>
+<section id="boosting">
+<h2><span class="section-number">8.6. </span>Boosting<a class="headerlink" href="#boosting" title="Link to this heading">#</a></h2>
+<p>A classifier may show bad performance due to two reasons:</p>
+<ul class="simple">
+<li><p>it may overfit, ie, it fits the training set well but not the
+data generating distribution; or</p></li>
+<li><p>it may underfit; it is not expressive enough to fit the training set,
+or the data
+generating distribution.</p></li>
+</ul>
+<p>In a random forest, expressive classifiers are combined (namely, deep
+decision trees). While each individual tree has a tendency to overfit, averaging
+over the trees greatly reduces that tendency.</p>
+<p><em>Boosting</em><label for='sidenote-role-6' class='margin-toggle'><span id="id6">
+<sup>6</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-6' name='sidenote-role-6' class='margin-toggle'><span class="sidenote"><sup>6</sup>There’s a whole book on <em>Boosting</em>, by R.E. Shapire and Y. Freund, MIT Press (2012).</span> is fundamentally different: There, we combine several <em>weak</em>
+classifiers, classifiers that underfit, to a strong classifier.
+Weak classifiers are boosted to strength. The idea
+is that the ensemble classifier starts with a weak, underfitting base classifier
+to which, iteratively, more classifiers are added. This makes the ensemble classifier
+stronger (more expressive). We stop when the ensemble classifier
+starts to overfit.</p>
+<p>AdaBoost<label for='marginnote-role-7' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-7' name='marginnote-role-7' class='margin-toggle'><span class="marginnote"> Why the name <em>AdaBoost</em>?
+According to the inventors of AdaBoost, Shapire and Freund, it’s short for <em>adaptive boosting</em>.</span> consists of a weighted sum of weak classifiers, typically decision stumps.
+In the first step a weak classifier is trained. As a weak learner
+it will not be able to fit the training set perfectly, and thus misclassify some samples.
+Generalisation error will be small, though. Then, more weight is attributed
+to misclassified samples of the traininig set, so that the next classifier will work harder
+to correctly classify those. The two classifiers are then combined: they decide by weighted majority vote.
+Then, more weight is put on still misclassified samples, and a third weak classifier
+is trained, and so on; see <a class="reference internal" href="#adafig"><span class="std std-numref">Fig. 8.4</span></a>.</p>
+<figure class="align-default" id="adafig">
+<a class="reference internal image-reference" href="../_images/ada.png"><img alt="../_images/ada.png" src="../_images/ada.png" style="width: 12cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.4 </span><span class="caption-text">The effect of boosting: we iteratively combine six simple classifiers,
+each one an axis-parallel half-plane. In each panel the decision boundary of the combined
+classifier is shown, as well as the training set (two classes), with misclassified
+samples shown with larger markers. The dashed line shows the decision boundary
+of the new classifier in each step.
+Observe that the decision boundary becomes increasingly
+more complicated with increased number of classifiers. Also, previously correctly
+classified samples may become misclassified.</span><a class="headerlink" href="#adafig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The individual classifiers are typically weak learners. By combining them we gradually
+increase their expressiveness. Why weak learners? Because these tend to generalise well;
+they don’t overfit. The combination
+of several such learners will have larger generalisation error and, with increasing
+number of learners, will eventually overfit. By tuning the number of combined learners,
+the right balance between expressiveness and good generalisation can be found.</p>
+</section>
+<section id="adaboost">
+<h2><span class="section-number">8.7. </span>AdaBoost<a class="headerlink" href="#adaboost" title="Link to this heading">#</a></h2>
+<p>We consider a binary classification task. That is, as usual, we draw a training set
+<span class="math notranslate nohighlight">\(S\)</span> from <span class="math notranslate nohighlight">\(\mathcal X\times \mathcal Y\)</span>, where <span class="math notranslate nohighlight">\(\mathcal Y=\{-1,1\}\)</span>. Moreover,
+we aim to minimise the average zero-one loss</p>
+<div class="math notranslate nohighlight">
+\[
+L_S(h)=\frac{1}{|S|}\sum_{(x,y)\in S}\ell_{0-1}(y,h(x)),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\ell_{0-1}\)</span> is the zero-one loss and <span class="math notranslate nohighlight">\(h:\mathcal X\to\mathcal Y\)</span> is
+a classifier.</p>
+<p><label for='marginnote-role-8' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-8' name='marginnote-role-8' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/ensemble_classifiers/ada.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>adaboost</a></span>
+The learning algorithm <em>AdaBoost</em> typically combines <em>decision stumps</em>: decision trees of depth 1,
+or more explicitly, classifiers <span class="math notranslate nohighlight">\(h^\sigma_{j,t}\)</span> described by a single decision rule <span class="math notranslate nohighlight">\((j,t)\)</span>
+and a sign <span class="math notranslate nohighlight">\(\sigma\in\{-1,1\}\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+h^\sigma_{j,t}(x)=\begin{cases}
+\sigma &amp; \text{if }x_j\leq t\\
+-\sigma&amp;\text{otherwise}
+\end{cases}
+\end{split}\]</div>
+<p>Decision stumps are weak: only the simplest
+tasks will be classified with high accuracy by decision stumps.
+In principle the weak learners do not have to be decision stumps but could be any
+set of classifiers that:</p>
+<ul class="simple">
+<li><p>can be computed efficiently; and that</p></li>
+<li><p>allow for <em>weighted</em> loss minimisation.</p></li>
+</ul>
+<p>What does the second point mean? Given a set of normalised non-negative weights <span class="math notranslate nohighlight">\(p_z\)</span>, <span class="math notranslate nohighlight">\(z\in S\)</span>,
+ie, a probability distribution over <span class="math notranslate nohighlight">\(S\)</span>, the weighted empirical loss is</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+L_{p,S}(h)=\sum_{(x,y)\in S}p_{(x,y)}\ell_{0-1}(y,h(x))
+\end{equation*}\]</div>
+<p>(Normalised means that <span class="math notranslate nohighlight">\(\sum_{(x,y)}p_{(x,y)}=1\)</span>.)</p>
+<p>Now, let <span class="math notranslate nohighlight">\(\mathcal W\)</span> be a set of classifiers for which the weighted loss can be minimised
+efficiently. That is, for every probability distribution <span class="math notranslate nohighlight">\(p\)</span> over <span class="math notranslate nohighlight">\(S\)</span>
+the optimisation problem</p>
+<div class="math notranslate nohighlight" id="equation-wloss">
+<span class="eqno">(8.2)<a class="headerlink" href="#equation-wloss" title="Link to this equation">#</a></span>\[\argmin_{h\in\mathcal W} L_{p,S}(h) = \argmin_{h\in\mathcal W}
+\sum_{(x,y)\in S}p_{(x,y)}\ell_{0-1}(y,h(x))\]</div>
+<p>can be solved efficiently. We will see that this is indeed the case for decision stumps.</p>
+<p>AdaBoost now  computes, in each iteration <span class="math notranslate nohighlight">\(t\)</span>, a weak classifier <span class="math notranslate nohighlight">\(h_t\)</span> and a weight <span class="math notranslate nohighlight">\(\alpha_t\)</span>
+and then outputs the classifier
+<span class="math notranslate nohighlight">\(\sgn\sum_{t=1}^T\alpha_th_t\)</span>. That is, the decision is made by weighted majority. (Again,
+in the unlikely case of a tie, we arbitrarily classify the data point as class 1 by
+setting <span class="math notranslate nohighlight">\(\sgn(0)=1\)</span>.)</p>
+<div class="proof algorithm admonition" id="adaalg">
+<p class="admonition-title"><span class="caption-number">Algorithm 8.1 </span> (AdaBoost)</p>
+<section class="algorithm-content" id="proof-content">
+<p><strong>Instance</strong> Training set <span class="math notranslate nohighlight">\(S\)</span>, number of iterations <span class="math notranslate nohighlight">\(T\)</span>.<br />
+<strong>Output</strong> A classifier.</p>
+<ol class="arabic simple">
+<li><p>Put <span class="math notranslate nohighlight">\(p^{(1)}_{(x,y)}=\frac{1}{|S|}\)</span> for every <span class="math notranslate nohighlight">\((x,y)\in S\)</span>.</p></li>
+<li><p><strong>for</strong> <span class="math notranslate nohighlight">\(t=1,\ldots, T\)</span></p></li>
+<li><p>      Minimise <a class="reference internal" href="#equation-wloss">(8.2)</a> over <span class="math notranslate nohighlight">\(\mathcal W\)</span>, and let <span class="math notranslate nohighlight">\(h_t\)</span> be a minimiser.</p></li>
+<li><p>      Compute the error</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\epsilon_t=\sum_{(x,y)\in S}p^{(t)}_{(x,y)}\ell_{0-1}(y,h_t(x))\]</div>
+<ol class="arabic simple" start="5">
+<li><p>      Put <span class="math notranslate nohighlight">\(\alpha_t=\tfrac{1}{2}\log\left(\frac{1}{\epsilon_t}-1\right)\)</span>.</p></li>
+<li><p>      Put</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[p_{(x,y)}^{(t+1)}=\frac{p^{(t)}_{(x,y)}e^{-\alpha_tyh_t(x)}}
+{\sum_{(x',y')\in S}p^{(t)}_{(x',y')}e^{-\alpha_ty'h_t(x')}}
+\quad\text{for every }(x,y)\in S\]</div>
+<ol class="arabic simple" start="7">
+<li><p><strong>output</strong> <span class="math notranslate nohighlight">\(\sgn\sum_{t=1}^T\alpha_th_t\)</span>.</p></li>
+</ol>
+</section>
+</div><p><label for='marginnote-role-9' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-9' name='marginnote-role-9' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/ensemble_classifiers/rf-v-ada.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>rf-v-ada</a></span>
+Decision stumps are certainly weak classifiers – but we do not want <em>too</em> weak classifiers.
+The whole process makes no sense if not each of the  weak classifiers
+gives at least a little bit of insight into the task. We formalise that in the assumption
+that there is a <span class="math notranslate nohighlight">\(\gamma&gt;0\)</span> such that:</p>
+<div class="math notranslate nohighlight" id="equation-adab">
+<span class="eqno">(8.3)<a class="headerlink" href="#equation-adab" title="Link to this equation">#</a></span>\[\epsilon_t\leq \frac{1}{2}-\gamma\]</div>
+<p>That is, in every iteration the weak learners perform at least a bit better than a coin toss on the weighted
+training set: Their error rate is at most <span class="math notranslate nohighlight">\(49.9\%\)</span>, say.</p>
+<p>Together the weak learners are strong:</p>
+<div class="proof theorem admonition" id="Adathm">
+<p class="admonition-title"><span class="caption-number">Theorem 8.3 </span></p>
+<section class="theorem-content" id="proof-content">
+<p>If <a class="reference internal" href="#equation-adab">(8.3)</a> holds then the training error of the classifier <span class="math notranslate nohighlight">\(h^*\)</span> output
+by AdaBoost (<a class="reference internal" href="#adaalg">Algorithm 8.1</a>) is</p>
+<div class="math notranslate nohighlight">
+\[ 
+L_S(h^*)\leq e^{-2\gamma^2T}.
+\]</div>
+</section>
+</div><div class="proof admonition" id="proof">
+<p>Proof. Write <span class="math notranslate nohighlight">\(g_t=\sum_{i=1}^t\alpha_ih_i\)</span> for every iteration <span class="math notranslate nohighlight">\(t\)</span>, and also
+put <span class="math notranslate nohighlight">\(g_0\equiv 0\)</span>.
+Thus, the classifier
+output by AdaBoost is <span class="math notranslate nohighlight">\(\sgn g_T\)</span>. We consider exponential loss as surrogate loss
+function, namely, we set</p>
+<div class="math notranslate nohighlight">
+\[
+Z_t=\frac{1}{|S|}\sum_{(x,y)\in S}e^{-yg_t(x)}
+\]</div>
+<p>Note that <span class="math notranslate nohighlight">\(Z_0=1\)</span>.</p>
+<p>Now, as <span class="math notranslate nohighlight">\(yg_T(x)\geq 0\)</span> is equivalent to <span class="math notranslate nohighlight">\(y=h^*(x)\)</span> for every <span class="math notranslate nohighlight">\((x,y)\in S\)</span> it follows
+for misclassified <span class="math notranslate nohighlight">\((x,y)\in S\)</span> that
+<span class="math notranslate nohighlight">\(\ell_{0-1}(h^*(x),y)=1= e^0 \leq e^{-yg_T(x)}\)</span> and thus that</p>
+<div class="math notranslate nohighlight">
+\[
+L_S(h^*)\leq Z_T
+\]</div>
+<p>Therefore, it is enough to prove that <span class="math notranslate nohighlight">\(Z_T\leq e^{-2\gamma^2T}\)</span>.</p>
+<p>We write</p>
+<div class="math notranslate nohighlight">
+\[
+Z_T=\frac{Z_T}{Z_{T-1}}\cdot\ldots\cdot \frac{Z_2}{Z_1} \cdot \frac{Z_1}{Z_0},
+\]</div>
+<p>where we have used that <span class="math notranslate nohighlight">\(Z_0=1\)</span>.
+We deduce that it is enough to prove</p>
+<div class="math notranslate nohighlight" id="equation-enough">
+<span class="eqno">(8.4)<a class="headerlink" href="#equation-enough" title="Link to this equation">#</a></span>\[\frac{Z_{t+1}}{Z_t}\leq e^{-2\gamma^2}\]</div>
+<p>Next, we see by induction that for every <span class="math notranslate nohighlight">\((x,y)\in S\)</span></p>
+<div class="math notranslate nohighlight" id="equation-pt">
+<span class="eqno">(8.5)<a class="headerlink" href="#equation-pt" title="Link to this equation">#</a></span>\[p^{(t+1)}_{(x,y)}=\frac{e^{-yg_t(x)}}{\sum_{(x',y')\in S}e^{-y'g_t(x')}}\]</div>
+<p>Then</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\frac{Z_{t+1}}{Z_t} &amp;= \frac{\sum_{(x,y)\in S}e^{-yg_{t+1}(x)}}{\sum_{(x',y')\in S}e^{-y'g_t(x')}}
+= \frac{\sum_{(x,y)\in S}e^{-y\alpha_{t+1}h_{t+1}(x)}\cdot e^{-yg_{t}(x)}}{
+\sum_{(x',y')\in S}e^{-y'g_t(x')}}
+\end{align*}\]</div>
+<p>as <span class="math notranslate nohighlight">\(g_{t+1}=\alpha_{t+1}h_{t+1}+g_t\)</span>. Next we use <a class="reference internal" href="#equation-pt">(8.5)</a> to write</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\frac{Z_{t+1}}{Z_t} &amp;
+= \sum_{(x,y)\in S}p^{(t+1)}_{(x,y)} e^{-y\alpha_{t+1}h_{t+1}(x)}\\
+&amp; = e^{-\alpha_{t+1}}\mathop{\sum_{(x,y)\in S}}_{yh_{t+1}(x)=1}p^{(t+1)}_{(x,y)}+
+e^{\alpha_{t+1}}\mathop{\sum_{(x,y)\in S}}_{yh_{t+1}(x)=-1} p^{(t+1)}_{(x,y)}
+\end{align*}\]</div>
+<p>We note that the last sum is simply <span class="math notranslate nohighlight">\(\epsilon_{t+1}\)</span>, and that the first
+sum then is equal to <span class="math notranslate nohighlight">\(1-\epsilon_{t+1}\)</span> as the <span class="math notranslate nohighlight">\(p^{(t+1)}_{(x,y)}\)</span> sum up to 1.
+We get</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\frac{Z_{t+1}}{Z_t} &amp;
+ = e^{-\alpha_{t+1}}(1-\epsilon_{t+1})+
+e^{\alpha_{t+1}}\epsilon_{t+1}
+\end{align*}\]</div>
+<p>Now we substitute <span class="math notranslate nohighlight">\(\alpha_{t+1}=\tfrac{1}{2}\log\left(\frac{1}{\epsilon_{t+1}}-1\right)\)</span></p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\frac{Z_{t+1}}{Z_t} &amp;
+ = \frac{1}{\sqrt{\frac{1}{\epsilon_{t+1}}-1}}\cdot(1-\epsilon_{t+1})+
+\sqrt{\frac{1}{\epsilon_{t+1}}-1}\cdot \epsilon_{t+1}\\
+&amp; = \sqrt{\frac{\epsilon_{t+1}}{1-\epsilon_{t+1}}}\cdot(1-\epsilon_{t+1})+
+\sqrt{\frac{1-\epsilon_{t+1}}{\epsilon_{t+1}}}\cdot \epsilon_{t+1} 
+= 2\sqrt{\epsilon_{t+1}(1-\epsilon_{t+1})}
+\end{align*}\]</div>
+<p>By <a class="reference internal" href="#equation-adab">(8.3)</a>, we have that <span class="math notranslate nohighlight">\(\epsilon_{t+1}\leq \tfrac{1}{2}-\gamma\)</span>. Moreover,
+the function <span class="math notranslate nohighlight">\(a\mapsto a(1-a)\)</span> is monotonically increasing in <span class="math notranslate nohighlight">\([0,\tfrac{1}{2}]\)</span>.
+Thus, the expression under the square root is maximised by substituting <span class="math notranslate nohighlight">\(\tfrac{1}{2}-\gamma\)</span>
+for <span class="math notranslate nohighlight">\(\epsilon_{t+1}\)</span>:</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\frac{Z_{t+1}}{Z_t} &amp;
+\leq 2\sqrt{\left(\tfrac{1}{2}-\gamma\right)\left(\tfrac{1}{2}+\gamma\right)} 
+= \sqrt{1-4\gamma^2}
+\end{align*}\]</div>
+<p>Finally, we use <span class="math notranslate nohighlight">\(1+a\leq e^a\)</span>, which holds for all real <span class="math notranslate nohighlight">\(a\)</span>, and obtain
+<span class="math notranslate nohighlight">\(\frac{Z_{t+1}}{Z_t} 
+\leq e^{-2\gamma^2}\)</span>, which is <a class="reference internal" href="#equation-enough">(8.4)</a>.</p>
+</div>
+<p>Looking closely at the proof, we note that AdaBoost attempts to minimise a surrogate
+loss function, namely the <em>exponential loss</em></p>
+<div class="math notranslate nohighlight">
+\[
+Z_t=\frac{1}{|S|}\sum_{(x,y)\in S}e^{-yg_t(x)}
+\]</div>
+<figure class="align-default" id="lossfig">
+<a class="reference internal image-reference" href="../_images/losses.png"><img alt="../_images/losses.png" src="../_images/losses.png" style="width: 10cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 8.5 </span><span class="caption-text">Three loss functions. The zero-one loss here is interpreted as
+<span class="math notranslate nohighlight">\(z\mapsto \ell_{0-1}(y\sgn z,1)\)</span>. The logistic loss function was defined
+in <a class="reference internal" href="intro.html#logregsec"><span class="std std-numref">Section 1.4</span></a>.</span><a class="headerlink" href="#lossfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>AdaBoost has some advantages:</p>
+<ul class="simple">
+<li><p>simple algorithm, easy to implement;</p></li>
+<li><p>Few tunable parameters: number of weak classifiers and nature of weak classifiers.</p></li>
+</ul>
+<p>It also has a major disadvantage: The performance appears to be mediocre.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p>AdaBoost cannot fit every Boolean function; see <a class="reference internal" href="adabool.html#adafailsec"><span class="std std-ref">here.</span></a></p></li>
+<li><p>There is an extension of AdaBoost to multiple classes;
+see <em>Multi-class AdaBoost</em>, T. Hastie et al. (2009) <a class="reference external" href="https://link.intlpress.com/JDetail/1806634576447516674">Statistics and Its Interface</a></p></li>
+<li><p>The boosting principle also applies to regression;
+see <em>Improving Regressors using Boosting techniques</em>, H. Drucker (1997) <a class="reference external" href="https://citeseerx.ist.psu.edu/document?repid=rep1&amp;amp;type=pdf&amp;amp;doi=6d8226a52ebc70c8d97ccae10a74e1b0a3908ec1">link</a></p></li>
+</ul>
+</div>
+</section>
+<section id="gradient-boosting">
+<h2><span class="section-number">8.8. </span>Gradient boosting<a class="headerlink" href="#gradient-boosting" title="Link to this heading">#</a></h2>
+<p>AdaBoost, as presented above, does binary classification. What if we have a regression
+problem? What if the loss function is somewhat unusual? It is not immediately
+clear how AdaBoost would need to be adapted. The framework
+of <em>gradient boosting</em> helps.</p>
+<p>We consider a regression problem, with a training set <span class="math notranslate nohighlight">\(S\)</span> of
+pairs <span class="math notranslate nohighlight">\((x,y)\)</span> with <span class="math notranslate nohighlight">\(x\in\mathbb R^n\)</span> and <span class="math notranslate nohighlight">\(y\in\mathbb R\)</span>, and a loss
+function <span class="math notranslate nohighlight">\(\ell\)</span> that is sufficiently smooth (with perhaps a finite number
+of exceptions). It is not wrong to imagine that <span class="math notranslate nohighlight">\(\ell\)</span> is equal to the square loss,
+ie</p>
+<div class="math notranslate nohighlight">
+\[
+\ell(y,y')=(y-y')^2
+\]</div>
+<p>AdaBoost belongs to the class of additive models: Models of the form</p>
+<div class="math notranslate nohighlight">
+\[
+\phi_T(x)=\sum_{t=1}^Th_t
+\]</div>
+<p>that are trained iteratively, such that, in each round we add a new
+predictor <span class="math notranslate nohighlight">\(h_{T+1}\)</span> to the previously computed algorithm <span class="math notranslate nohighlight">\(\phi_T\)</span>.
+That is, in round <span class="math notranslate nohighlight">\(T+1\)</span> we look for a predictor <span class="math notranslate nohighlight">\(h_{T+1}\)</span> and then
+form</p>
+<div class="math notranslate nohighlight">
+\[
+\phi_{T+1}=\phi_T+h_{T+1}
+\]</div>
+<p>(Above, in Adaboost, we still had a coefficient <span class="math notranslate nohighlight">\(\alpha_t\)</span> for the new predictor.
+To keep things simple, I’ve included that in the predictor, ie, <span class="math notranslate nohighlight">\(\tilde h_t=\alpha_t h_t\)</span>.)</p>
+<p>In round <span class="math notranslate nohighlight">\(T+1\)</span>, how now can we decrease the training error? We search for
+a predictor <span class="math notranslate nohighlight">\(h_{T+1}\)</span> such that the training error</p>
+<div class="math notranslate nohighlight">
+\[
+L_S(\phi_{T+1})=\frac{1}{|S|}\sum_{(x,y)\in S} \ell(y,\phi_T(x)+h_{T+1}(x))
+\]</div>
+<p>becomes as small as possible.</p>
+<p>To do so, let us consider, for a given <span class="math notranslate nohighlight">\(y\in\mathbb R\)</span>, the loss as a function of prediction:</p>
+<div class="math notranslate nohighlight">
+\[
+y'\mapsto\ell(y,y')
+\]</div>
+<p>and let us write <span class="math notranslate nohighlight">\(\ell'\)</span> for the derivative of <span class="math notranslate nohighlight">\(\ell\)</span> with respect to the prediction <span class="math notranslate nohighlight">\(y'\)</span>.
+That means, if <span class="math notranslate nohighlight">\(\ell\)</span> is the square loss then</p>
+<div class="math notranslate nohighlight">
+\[
+\ell'(y,y') = 2(y'-y)
+\]</div>
+<p>And if <span class="math notranslate nohighlight">\(\ell\)</span> is equal to the absolute loss, ie, if <span class="math notranslate nohighlight">\(\ell(y,y')=|y-y'|\)</span> then</p>
+<div class="math notranslate nohighlight">
+\[
+\ell'(y,y') = \sgn(y'-y)
+\]</div>
+<p>(Except for at <span class="math notranslate nohighlight">\(y'=0\)</span>, where the derivative is not defined.)</p>
+<p>With this we do a first order Taylor approximation</p>
+<div class="math notranslate nohighlight">
+\[
+L_S(\phi_{T+1}) \approx \frac{1}{|S|}\sum_{(x,y)\in S} \ell(y,\phi_T(x)) + \ell'(y,\phi_T(x)) h_{T+1}(x)
+\]</div>
+<p>Recalling that we want to minimise the training error – what does that tell us?
+That <span class="math notranslate nohighlight">\(h_{T+1}(x)\)</span> should point in direction of <span class="math notranslate nohighlight">\(- \ell'(y,\phi_T(x))\)</span>. That is, ideally,</p>
+<div class="math notranslate nohighlight">
+\[
+h_{T+1}(x) \approx  - \alpha\ell'(y,\phi_T(x)) \text{ for every }(x,y)\in S,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\alpha&gt;0\)</span> can be seen as a learning rate.</p>
+<p>In the case of the mean square loss, ie, <span class="math notranslate nohighlight">\(\ell(y,y')=(y-y')^2\)</span> this means
+<span class="math notranslate nohighlight">\(h_{T+1}\)</span> should fit the <em>residuals</em> <span class="math notranslate nohighlight">\(y-\phi_T(x)\)</span> for <span class="math notranslate nohighlight">\((x,y)\in S\)</span> as then</p>
+<div class="math notranslate nohighlight">
+\[
+\ell'(y,\phi_T(x)) = 2(\phi_T(x)-y)
+\]</div>
+</section>
+<section id="xgboost">
+<h2><span class="section-number">8.9. </span>XGBoost<a class="headerlink" href="#xgboost" title="Link to this heading">#</a></h2>
+<p>XGBoost<label for='sidenote-role-10' class='margin-toggle'><span id="id10">
+<sup>10</sup></span>
+
+</label><input type='checkbox' id='sidenote-role-10' name='sidenote-role-10' class='margin-toggle'><span class="sidenote"><sup>10</sup><em>XGBoost: A Scalable Tree Boosting System</em>, T. Chen and C. Guestrin, <a class="reference external" href="https://arxiv.org/abs/1603.02754">arXiv:1603.02754</a></span>
+combines gradient boosting and regularisation. It is a relatively simple but quite powerful learning algorithm
+that was sucessfully used in a number of competitions.
+Let me just give a rough overview on XGBoost without going into too many details.</p>
+<p><label for='marginnote-role-11' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-11' name='marginnote-role-11' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/ensemble_classifiers/xgb.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>xgb</a></span>
+XGBoost introduces a penalty term <span class="math notranslate nohighlight">\(\Omega(h_{t})\)</span> on the trees <span class="math notranslate nohighlight">\(h_{t}\)</span>. The term penalises
+large weights and also large trees. The loss function becomes</p>
+<div class="math notranslate nohighlight">
+\[
+L_S(\phi_{T+1})=\frac{1}{|S|}\sum_{(x,y)\in S} \ell(y,\phi_T(x)+h_{T+1}(x)) + \sum_{t=1}^{T+1}\Omega(h_{t})
+\]</div>
+<p>AdaBoost adds a very simple tree classifier, usually a decision stump, in each iteration.
+Because of the penalty term <span class="math notranslate nohighlight">\(\Omega(h_{t})\)</span>, XGBoost can allow more complex trees in each iteration.
+A deep tree, however, will only be added if its benefit compensates for the penalty that it incurs.</p>
+<p>Besides the complexity penalty there is a second element that distinguishes XGBoost from other
+gradient boosting algorithms: XGBoost does a second-order Taylor approximation of the loss function.
+That is,</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+L_S(\phi_{T+1}) &amp; \approx \frac{1}{|S|}\sum_{(x,y)\in S} \ell(y,\phi_T(x)) + \ell'(y,\phi_T(x)) h_{T+1}(x)\\
+&amp;\qquad\qquad\qquad+\tfrac{1}{2}\ell''(y,\phi_T(x))h_{T+1}(x)^2 + \sum_{t=1}^T\Omega(h_{t})+\Omega(h_{T+1})
+\end{align*}\]</div>
+<p>Here, again, we write</p>
+<div class="math notranslate nohighlight">
+\[
+\ell'(y,y') =\frac{\partial}{\partial y'}\ell(y,y')\quad\text{ and }
+\quad \ell''(y,y') =\frac{\partial^2}{(\partial y')^2}\ell(y,y')
+\]</div>
+<p>Then, a tree classifier <span class="math notranslate nohighlight">\(h_{T+1}\)</span> is sought that approximately minimises the parts of
+the second-order Taylor approximation
+of <span class="math notranslate nohighlight">\(L_S(\phi_{T+1})\)</span> that actually depend on <span class="math notranslate nohighlight">\(h_{T+1}\)</span>. These are:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{|S|}\sum_{(x,y)\in S}\ell'(y,\phi_T(x)) h_{T+1}(x)
++\tfrac{1}{2}\ell''(y,\phi_T(x))h_{T+1}(x)^2 +\Omega(h_{T+1})
+\]</div>
+<p>This is done in a similar way as decision trees are learnt: Starting with a trivial tree,
+in each step we check whether splitting a leaf will improve the loss function.</p>
+</section>
+</section>
+<hr class="footnotes docutils" />
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="autoencoders.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">7. </span>Autoencoders</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="rl.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">9. </span>Reinforcement learning</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wisdom-of-the-crowd">8.1. Wisdom of the crowd</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#short-stochastic-digression">8.2. Short stochastic digression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dependent-classifiers">8.3. Dependent classifiers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#random-forest">8.4. Random Forest</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#noise-features">8.5. Noise features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boosting">8.6. Boosting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adaboost">8.7. AdaBoost</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-boosting">8.8. Gradient boosting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#xgboost">8.9. XGBoost</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Henning.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

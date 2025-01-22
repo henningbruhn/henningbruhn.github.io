@@ -50,10 +50,11 @@
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
     <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-    <script defer="defer" src="_static/tippy/index.ab8b0004-a13d-4821-8f29-1353f03fbd46.js"></script>
+    <script defer="defer" src="_static/tippy/index.88f0a01f-03dd-48db-b428-6dd289c208df.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
+    <link rel="icon" href="_static/noun-robot_32.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="1. Predictors, classification and losses" href="contents/intro.html" />
@@ -162,9 +163,11 @@
 <li class="toctree-l1"><a class="reference internal" href="contents/nets.html">4. Neural networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contents/netsprops.html">5. Properties of neural networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contents/loss.html">6. Loss functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/rl.html">7. Reinforcement learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/mips.html">8. Maximum inner product search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contents/test.html">9. TEST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/autoencoders.html">7. Autoencoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/ensemble.html">8. Ensemble learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/rl.html">9. Reinforcement learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/mips.html">10. Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/appendix.html">11. Appendix</a></li>
 </ul>
 
     </div>
@@ -339,6 +342,7 @@ alpha stage, with lots of errors, incongruities and omissions.</p>
 <li class="toctree-l2"><a class="reference internal" href="contents/pac.html#empirical-risk-minimisation">2.1. Empirical risk minimisation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="contents/pac.html#test-error-and-generalisation-error">2.2. Test error and generalisation error</a></li>
 <li class="toctree-l2"><a class="reference internal" href="contents/pac.html#overfitting-and-underfitting">2.3. Overfitting and underfitting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/pac.html#vc-dimension">2.4. VC-dimension</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contents/convex.html">3. Stochastic gradient descent</a><ul>
@@ -379,28 +383,51 @@ alpha stage, with lots of errors, incongruities and omissions.</p>
 <li class="toctree-l2"><a class="reference internal" href="contents/loss.html#bayes-consistency-and-arbitrary-classification-losses">6.7. Bayes consistency and arbitrary classification losses</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="contents/rl.html">7. Reinforcement learning</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#markov-decision-processes">7.1. Markov decision processes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#pole-balancing">7.2. Pole balancing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#what-is-known-about-the-environment">7.3. What is known about the environment?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#returns">7.4. Returns</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#policies">7.5. Policies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#value-functions">7.6. Value functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#policy-improvement-theorem">7.7. Policy improvement theorem</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#q-learning">7.8. <span class="math notranslate nohighlight">\(q\)</span>-learning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#parameterised-policies">7.9. Parameterised policies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#policy-gradient-method">7.10. Policy gradient method</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#baselines">7.11. Baselines</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#on-and-off-policy">7.12. On- and off-policy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#reinforcement-learning-and-llms">7.13. Reinforcement learning and LLMs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#what-else-is-there">7.14. What else is there?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/autoencoders.html">7. Autoencoders</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contents/autoencoders.html#principle-component-analysis">7.1. Principle component analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/autoencoders.html#pca-and-autoencoder">7.2. PCA and autoencoder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/autoencoders.html#variational-autoencoders">7.3. Variational autoencoders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/autoencoders.html#reconstruction-loss">7.4. Reconstruction loss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/autoencoders.html#the-kullback-leibler-loss">7.5. The Kullback-Leibler loss</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="contents/mips.html">8. Maximum inner product search</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="contents/mips.html#vector-quantisation">8.1. Vector quantisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/ensemble.html">8. Ensemble learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contents/ensemble.html#wisdom-of-the-crowd">8.1. Wisdom of the crowd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/ensemble.html#short-stochastic-digression">8.2. Short stochastic digression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/ensemble.html#dependent-classifiers">8.3. Dependent classifiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/ensemble.html#random-forest">8.4. Random Forest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/ensemble.html#noise-features">8.5. Noise features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/ensemble.html#boosting">8.6. Boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/ensemble.html#adaboost">8.7. AdaBoost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/ensemble.html#gradient-boosting">8.8. Gradient boosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/ensemble.html#xgboost">8.9. XGBoost</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="contents/test.html">9. TEST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contents/rl.html">9. Reinforcement learning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#markov-decision-processes">9.1. Markov decision processes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#pole-balancing">9.2. Pole balancing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#what-is-known-about-the-environment">9.3. What is known about the environment?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#returns">9.4. Returns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#policies">9.5. Policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#value-functions">9.6. Value functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#policy-improvement-theorem">9.7. Policy improvement theorem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#q-learning">9.8. <span class="math notranslate nohighlight">\(q\)</span>-learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#parameterised-policies">9.9. Parameterised policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#policy-gradient-method">9.10. Policy gradient method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#baselines">9.11. Baselines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#on-and-off-policy">9.12. On- and off-policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#reinforcement-learning-and-llms">9.13. Reinforcement learning and LLMs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contents/rl.html#what-else-is-there">9.14. What else is there?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contents/mips.html">10. Maximum inner product search</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contents/mips.html#vector-quantisation">10.1. Vector quantisation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contents/appendix.html">11. Appendix</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contents/appendix.html#very-basic-probability-theory">11.1. Very basic probability theory</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>

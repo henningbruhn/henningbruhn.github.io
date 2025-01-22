@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>8. Maximum inner product search &#8212; Mathematics of Machine Learning</title>
+    <title>10. Maximum inner product search &#8212; Mathematics of Machine Learning</title>
   
   
   
@@ -50,14 +50,15 @@
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
     <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-    <script defer="defer" src="../_static/tippy/contents/mips.d4bb0bd9-779d-4acb-9460-2be7a6fc0e17.js"></script>
+    <script defer="defer" src="../_static/tippy/contents/mips.9fa1fa6a-3d40-445d-806e-562d177c0e58.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'contents/mips';</script>
+    <link rel="icon" href="../_static/noun-robot_32.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="9. TEST" href="test.html" />
-    <link rel="prev" title="7. Reinforcement learning" href="rl.html" />
+    <link rel="next" title="11. Appendix" href="appendix.html" />
+    <link rel="prev" title="9. Reinforcement learning" href="rl.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -161,9 +162,11 @@
 <li class="toctree-l1"><a class="reference internal" href="nets.html">4. Neural networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="netsprops.html">5. Properties of neural networks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loss.html">6. Loss functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rl.html">7. Reinforcement learning</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">8. Maximum inner product search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="test.html">9. TEST</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoencoders.html">7. Autoencoders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ensemble.html">8. Ensemble learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rl.html">9. Reinforcement learning</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">10. Maximum inner product search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendix.html">11. Appendix</a></li>
 </ul>
 
     </div>
@@ -309,7 +312,7 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-quantisation">8.1. Vector quantisation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-quantisation">10.1. Vector quantisation</a></li>
 </ul>
             </nav>
         </div>
@@ -330,7 +333,7 @@
 \DeclareMathOperator*{\argmax}{argmax}
 \)</span></p>
 <section class="tex2jax_ignore mathjax_ignore" id="maximum-inner-product-search">
-<h1><span class="section-number">8. </span>Maximum inner product search<a class="headerlink" href="#maximum-inner-product-search" title="Link to this heading">#</a></h1>
+<h1><span class="section-number">10. </span>Maximum inner product search<a class="headerlink" href="#maximum-inner-product-search" title="Link to this heading">#</a></h1>
 <p><em>Vector databases</em> are becoming more and more important.
 What’s a vector database? A system to store a large number of vectors
 <span class="math notranslate nohighlight">\(x^{(1)},\ldots, x^{(n)}\in\mathbb R^d\)</span>
@@ -372,7 +375,7 @@ bot then generates the response based on the query and the search results.</p>
 P. Lewis et al. (2021), <a class="reference external" href="https://arxiv.org/pdf/2005.11401">arXiv:2005.11401</a></p>
 </div>
 </details><section id="vector-quantisation">
-<h2><span class="section-number">8.1. </span>Vector quantisation<a class="headerlink" href="#vector-quantisation" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">10.1. </span>Vector quantisation<a class="headerlink" href="#vector-quantisation" title="Link to this heading">#</a></h2>
 <p>Let <span class="math notranslate nohighlight">\(x^{(1)},\ldots x^{(n)}\in\mathbb R^d\)</span> be the vectors  that make up the database,
 let <span class="math notranslate nohighlight">\(k,m&gt;0\)</span> be integers, and let <span class="math notranslate nohighlight">\(\ell=\tfrac{d}{m}\)</span>, which we assume to be an integer.<label for='sidenote-role-1' class='margin-toggle'><span id="id1">
 <sup>1</sup></span>
@@ -413,7 +416,7 @@ good approximation of <span class="math notranslate nohighlight">\(\trsp q_jx^{(
 let us assume that the queries <span class="math notranslate nohighlight">\(q\)</span> are drawn from some distribution <span class="math notranslate nohighlight">\(\mathcal D\)</span>.
 Then, arguably, we should choose <span class="math notranslate nohighlight">\(c_{j1},\ldots,c_{jk}\)</span> such that</p>
 <div class="math notranslate nohighlight" id="equation-vqobj">
-<span class="eqno">(8.1)<a class="headerlink" href="#equation-vqobj" title="Link to this equation">#</a></span>\[\expec_{q\sim\mathcal D}\left[\sum_{i=1}^n(\trsp q_jx^{(i)}_j-\trsp q_j\hat x^{(i)}_j)^2\right]\]</div>
+<span class="eqno">(10.1)<a class="headerlink" href="#equation-vqobj" title="Link to this equation">#</a></span>\[\expec_{q\sim\mathcal D}\left[\sum_{i=1}^n(\trsp q_jx^{(i)}_j-\trsp q_j\hat x^{(i)}_j)^2\right]\]</div>
 <p>is minimised. Let us rewrite that.</p>
 <div class="amsmath math notranslate nohighlight">
 \[\begin{align*}
@@ -445,7 +448,7 @@ solve for the data <span class="math notranslate nohighlight">\(x^{(1)}_j,\ldots
 in the centres <span class="math notranslate nohighlight">\(c_{j1},\ldots,c_{jk}\)</span>; finally we replace each <span class="math notranslate nohighlight">\(x^{(i)}_j\)</span> with the nearest cluster centre <span class="math notranslate nohighlight">\(c_{js}\)</span>.</p>
 <p>Replacing vectors in a dataset by simpler vectors is  called <em>vector quantisation</em><label for='marginnote-role-2' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-2' name='marginnote-role-2' class='margin-toggle'><span class="marginnote"> vector quantisation</span>, and also used as a compression tool,
 for example, in video or audio codecs.</p>
-<p>The approach outlined here can be improved upon. Indeed, I’ve cheated with the objective <a class="reference internal" href="#equation-vqobj">(8.1)</a>: The objective
+<p>The approach outlined here can be improved upon. Indeed, I’ve cheated with the objective <a class="reference internal" href="#equation-vqobj">(10.1)</a>: The objective
 incorporates <em>all</em> scalar products <span class="math notranslate nohighlight">\(\trsp q\hat x^{(i)}\)</span>. In the applications, however, we just want to find
 the datapoint with largest scalar product with the query, or rather, the top-10 datapoints with largest scalar product.
 Thus, it does not matter if <span class="math notranslate nohighlight">\(\trsp q\hat x^{(i)}\)</span> deviates from <span class="math notranslate nohighlight">\(\trsp qx^{(i)}\)</span> as long as both scalar products
@@ -476,15 +479,15 @@ F. Chern and S. Kumar (2020), <a class="reference external" href="https://arxiv.
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">7. </span>Reinforcement learning</p>
+        <p class="prev-next-title"><span class="section-number">9. </span>Reinforcement learning</p>
       </div>
     </a>
     <a class="right-next"
-       href="test.html"
+       href="appendix.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">9. </span>TEST</p>
+        <p class="prev-next-title"><span class="section-number">11. </span>Appendix</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -505,7 +508,7 @@ F. Chern and S. Kumar (2020), <a class="reference external" href="https://arxiv.
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-quantisation">8.1. Vector quantisation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-quantisation">10.1. Vector quantisation</a></li>
 </ul>
   </nav></div>
 

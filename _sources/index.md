@@ -15,7 +15,9 @@ contents/convex.md
 contents/nets.md
 contents/netsprops.md
 contents/loss.md
+contents/autoencoders.md
+contents/ensemble.md
 contents/rl.md
 contents/mips.md
-contents/test.md
+contents/appendix.md
 ```

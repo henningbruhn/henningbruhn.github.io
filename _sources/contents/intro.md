@@ -66,7 +66,7 @@ a random forest).
 
 
 ```{figure} pix/learning.png
-:name: gdtimefig
+:name: learningfig
 :width: 15cm
 
 Learning an algorithm, the predictor
