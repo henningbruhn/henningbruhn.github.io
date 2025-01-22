@@ -59,19 +59,19 @@ contributed to a win or loss of the game.
 Markov decision processes
 -------------------------
 
-Let's consider a classical toy example, an example of a *gridworld*; see {numref}`gridworldfig`.
-An agent starts at position $z$ and moves in each time step from one square to the next. The agent
-is not allowed to leave the grid, and cannot enter the white (blocked) square above the starting position. 
-The aim of the agent is to reach, in the shortest possible way, the square in the upper right corner, where a reward of +1 
-is waiting. The square just below it will result in a penalty of -1. 
-The task is stopped if the agent enters any of these two squares. 
+Let's consider a classical toy example, an example of a *maze*; see {numref}`mazefig`.
+An agent starts at the position marked by a robot and moves in each time step from one square to the next. 
+The agent can move up, down, left or right, as long as there are no walls.
+The aim of the agent is to reach, in the shortest possible way, the exit marked by a flag, where a reward of +1 
+is waiting. There are also three squares with deadly traps resulting in a penalty of -1. 
+The task is stopped if the agent enters any square with a trap or the exit. 
 
 
-```{figure} pix/gridworld.png
-:name: gridworldfig
+```{figure} pix/maze.png
+:name: mazefig
 :height: 6cm
 
-Gridworld: each square shows the possible moves.
+A maze: Find the exit, don't die.
 ```
 
 
@@ -81,14 +81,14 @@ a
 *Markov decision process* or MDP for short.
 Such an MDP consists of a set of states, a set of allowed
 actions, a transition probability and a reward function. Let's go through these one by one.
-The set $\mathcal S$ of *states* completely describes the state of the agent. In the gridworld example, 
-the position of the agent in the grid would be the state. The set of states is often, but not always, finite.
+The set $\mathcal S$ of *states* completely describes the state of the agent. In the maze example, 
+the position of the agent in the maze would be the state. The set of states is often, but not always, finite.
 We will always assume that it's discrete. 
 In practice, the set of states is often a subset of $\mathbb R^n$, so that states are described by vectors.
 
 For each state $s\in\mathcal S$
 there is a set $\mathcal A(s)$ of allowed actions. For instance, in the starting state $z$, the agent
-can only go to the left or the right. The set of all actions, ie, $\bigcup_{s\in\mathcal S}\mathcal A(s)$,
+can only go to the right. The set of all actions, ie, $\bigcup_{s\in\mathcal S}\mathcal A(s)$,
 is denoted by $\mathcal A$. The set of actions is also often finite, and often there are only few actions 
 available in each state. There are natural tasks, however, that allow many actions. For example, 
 there are $361=19\times 19$ places for the first stone in Go. An inventory management system 
@@ -118,21 +118,27 @@ $$
 We set $p(s,a,s')=0$ for all $s'\in\mathcal S$
 if some action $a$ is not allowed in $s$.
 
-For the sober agent, if $z_\text{R}$ is the square to the right of the starting position $z$ then 
-$p(z,\rightarrow,z_\text{R})=1$, while $p(z,\rightarrow,s)=0$ for every other state $s$.
 
-For the drunk agent, on the other hand,  whatever action the agent takes, we might attribute a probability
+```{figure} pix/maze2.png
+:name: maze2fig
+:height: 6cm
+
+Transition probabilities from state $s$ if action $\uparrow$ (go up) is taken.
+```
+
+For the sober agent in the maze, if $s$ is the square as shown in {numref}`maze2fig` then 
+$p(s,\uparrow,s_u)=1$, while $p(s,\uparrow,s')=0$ for every other state $s'$.
+
+For the drunk agent, on the other hand, whatever action the agent takes, we might attribute a probability
 of 0.1 for each adjacent square that is not the intended destination, while the intended square 
-receives the remaining probability. Thus, for the starting state $z$, we'd get
+receives the remaining probability. Thus, for the state $s$, we'd get
 
 $$
-p(z,\rightarrow,z_\text{R})=0.9\text{ and }
-p(z,\rightarrow,z_\text{L})=0.1,
+p(s,\uparrow,s_u)=0.8\text{ and }
+p(s,\uparrow,s_\ell)=p(s,\uparrow,s_r) = 0.1,
 $$
 
-where $z_\text{L}$ is the square to the left of $z$. In a square with three arrows, whatever action is taken,
-two of the adjacent squares would have probability 0.1, while the intended square would have 0.8.
-The two squares with $-1$ and $+1$ are *terminal states* --- there is only action
+The exit square and the three trap squares are *terminal states* --- there is only action
 available and that always leads back to the square. 
 There is also a *start state*, the state where the agent starts the task. 
 By introducing a new dummy start state we can always assume that there is a unique start state.
@@ -151,8 +157,8 @@ Often the reward does not depend on the action, and then we will simply write $r
 only depends on the reached state, and we will write $r(s')$.
 Some authors consider stochastic rewards, but we will not do so. 
  
-In gridworld, there are already two squares with a reward, $+1$ and $-1$, and if $s_+$ denotes the $+1$-square and 
-$s_-$ the $-1$-square,
+In the maze MDP, there are already four squares with a reward, $+1$ or $-1$, and if $s_+$ denotes the exit square (with reward $+1$) and 
+$s_-$ any square with a trap (and a $-1$ penalty),
 we set 
 
 $$
@@ -194,7 +200,7 @@ towards the left or acceleration towards the right. If the pole leans too much, 
 the episode is over, and the same happens when the cart crashes into the left or right barrier.
 Each time step that this is not happening yields a reward of 1. 
 
-The pole balancing scenario differs in at least one aspect significantly from the gridworld 
+The pole balancing scenario differs in at least one aspect significantly from the maze 
 problem: while there are also only few (two) actions possible in each state, the number of states
 can be quite a lot larger, maybe even infinite -- that depends on the physics simulation that ultimately governs
 the transition from one state to the next. 
@@ -261,7 +267,7 @@ We view these states, actions and rewards as random variables.
 
 
 What is the objective of a Markov decision process? To collect the highest reward. At least in an MDP 
-as simple as gridworld, where there are natural terminal states, it is easy to state an objective:
+as simple as the maze MDP, where there are natural terminal states, it is easy to state an objective:
 If in time step $t$ the collected reward is $R_t$ then the objective consists in maximising
 the total *return* 
 
@@ -307,14 +313,14 @@ the policy with best (expected) returns.
 
 A simple policy in the pole balancing task would be: Whenever the pole leans to the right, accelerate to the right,
 and when the pole leans to the left, accelerate to the left. It should be immediately clear that, while not 
-the worst, this is also not the best of all policies. {numref}`gridworld2fig` shows 
-the best policy for gridworld.
+the worst, this is also not the best of all policies. {numref}`mazepolfig` shows 
+the best policy for the maze problem.
 
-```{figure} pix/gridworld2.png
-:name: gridworld2fig
+```{figure} pix/mazepol.png
+:name: mazepolfig
 :height: 6cm
 
-A deterministic policy in gridworld.
+A deterministic policy in a maze.
 ```
 
 Policies do not have to be deterministic. Indeed, the whole setting of a 
@@ -651,6 +657,7 @@ Then, by {prf:ref}`polimpthm`, $\pi'$ is strictly better than $\pi$. Therefore $
 is not optimal.
 ````
 
+[^bellnote]
 The theorem  yields a procedure to improve a policy $\pi$: Whenever there is a
 state $s$ and an action $a$ with  $q_{\pi}(s,{\pi}(s))<q_{\pi}(s,a)$, 
 change the preferred action at $s$ to $a$, ie, set $\pi(s)=a$. 
@@ -663,6 +670,11 @@ Thus:
 In
 every finite Markov decision process there is an optimal policy that is deterministic.
 ```
+
+[^bellnote]: {-} If we have perfect knowledge of the environment, can't we solve for the
+optimal policy exactly? Yes, that's possible, see, eg, Chapter 4 of [Sutton and Barto.](http://incompleteideas.net/book/the-book-2nd.html)
+In practice, however, this is not a viable approach as the size of the MDP 
+will make computing an exact solution prohibitively expensive.
 
 $q$-learning
 ------------
@@ -785,8 +797,9 @@ $q_t$ computed by {prf:ref}`qlearnalg`.
  converge with probability 1 to the $q$-values of an optimal policy. 
 ```
 
-Note that $\sum_{t=1}^\infty\eta_t(s,a)$ in particular implies that every state/action pair 
-needs to be visited infinitely often. 
+Note that $\sum_{t=1}^\infty\eta_t(s,a)=\infty$ in particular implies that every state/action pair 
+needs to be visited infinitely often. Also observe that we had a very similar requirement on 
+the learning rate for stochastic gradient descent, see {numref}`analsgdsec`.
 
 I will not prove the theorem. But we can at least see where the update formula {eq}`qupdate` 
 comes from. Assume that the $q_t$ converge to a statistical equilibrium. That means,

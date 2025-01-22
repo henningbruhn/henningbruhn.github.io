@@ -593,6 +593,7 @@ measure) stops improving then the learning rate is decreased.
 A. Senior, G. Heigold, M. Ranzato and K. Yang (2013) [link](https://static.googleusercontent.com/media/research.google.com/de//pubs/archive/40808.pdf)
 :::
 
+(analsgdsec)=
 Analysis of SGD
 ---------------
 
