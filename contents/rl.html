@@ -50,7 +50,7 @@
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
     <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-    <script defer="defer" src="../_static/tippy/contents/rl.b563e144-c45e-4178-a5b7-359680ae1bbb.js"></script>
+    <script defer="defer" src="../_static/tippy/contents/rl.f8bebfbd-ea45-48eb-ade3-fe2febd37c10.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'contents/rl';</script>
@@ -314,18 +314,19 @@
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#markov-decision-processes">9.1. Markov decision processes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pole-balancing">9.2. Pole balancing</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-known-about-the-environment">9.3. What is known about the environment?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#returns">9.4. Returns</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policies">9.5. Policies</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#value-functions">9.6. Value functions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policy-improvement-theorem">9.7. Policy improvement theorem</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q-learning">9.8. <span class="math notranslate nohighlight">\(q\)</span>-learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameterised-policies">9.9. Parameterised policies</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policy-gradient-method">9.10. Policy gradient method</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baselines">9.11. Baselines</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#on-and-off-policy">9.12. On- and off-policy</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reinforcement-learning-and-llms">9.13. Reinforcement learning and LLMs</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-else-is-there">9.14. What else is there?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wordle">9.3. Wordle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-known-about-the-environment">9.4. What is known about the environment?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#returns">9.5. Returns</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policies">9.6. Policies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#value-functions">9.7. Value functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policy-improvement-theorem">9.8. Policy improvement theorem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q-learning">9.9. <span class="math notranslate nohighlight">\(q\)</span>-learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameterised-policies">9.10. Parameterised policies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policy-gradient-method">9.11. Policy gradient method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baselines">9.12. Baselines</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#on-and-off-policy">9.13. On- and off-policy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reinforcement-learning-and-llms">9.14. Reinforcement learning and LLMs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-else-is-there">9.15. What else is there?</a></li>
 </ul>
             </nav>
         </div>
@@ -510,8 +511,83 @@ problem: while there are also only few (two) actions possible in each state, the
 can be quite a lot larger, maybe even infinite – that depends on the physics simulation that ultimately governs
 the transition from one state to the next.</p>
 </section>
+<section id="wordle">
+<h2><span class="section-number">9.3. </span>Wordle<a class="headerlink" href="#wordle" title="Link to this heading">#</a></h2>
+<p>In the game Wordle you need to guess a five letter word in at most six guesses. In each turn you
+try a five letter word, which must be a proper English word. As feedback the letters of your guess
+are marked with green, yellow or black. A letter of the guessed word is marked with…</p>
+<ul class="simple">
+<li><p>green if it coincides with the letter of the solution word at the same position.</p></li>
+<li><p>yellow if the letter appears in the solution but at a different position.
+Actually, it’s a bit more complicated than that:
+if a letter appears several times in the guess
+then it is marked with yellow only as often as it appears in the solution, and
+for these appearances we do not count the green letters. (In <a class="reference internal" href="#wordlefig"><span class="std std-numref">Fig. 9.5</span></a>,
+in the third guess ‘queer’, the first ‘e’ is black although ‘e’ appears in the solution –
+this is because the second ‘e’ in queer is already green and there is only one ‘e’ in ‘upper’.)</p></li>
+<li><p>black otherwise.</p></li>
+</ul>
+<p>Note: You’re allowed to play words that you’ve already excluded. In <a class="reference internal" href="#wordlefig"><span class="std std-numref">Fig. 9.5</span></a>,
+I could have played ‘dingo’ instead of ‘queer’. ‘Dingo’ could not have been right – already after
+‘train’ I knew that the solution did not contain an ‘n’ or an ‘i’. Still it would have been a valid guess.</p>
+<p>If you guess the solution, the game is over. The game is also over after six guesses.</p>
+<figure class="align-default" id="wordlefig">
+<a class="reference internal image-reference" href="../_images/wordle.jpg"><img alt="../_images/wordle.jpg" src="../_images/wordle.jpg" style="width: 4cm;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 9.5 </span><span class="caption-text">Four tries until the solution ‘upper’ was guessed.</span><a class="headerlink" href="#wordlefig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>How can we model Wordle as an MDP? Each guess should certainly be an action. That
+fixes already the set of action: All five letter words of the English language.
+In fact, the original Wordle implementation accepted 12972 five letter words as valid;
+the solution word, however, always came out of a smaller set of 2315 words.</p>
+<p>What about the states? The states should fully describe the, well, state of the environment.
+That means, the state needs to</p>
+<ul class="simple">
+<li><p>capture the number of guesses;</p></li>
+<li><p>capture <em>all</em> guesses so far; and</p></li>
+<li><p>needs to also capture <em>all</em> the feedback (green, yellow, black letters) received so far.</p></li>
+</ul>
+<p>The starting state is simple: It can be represented by an empty set <span class="math notranslate nohighlight">\(\emptyset\)</span>, as there is no
+information gained yet. The second state, after the first guess needs to contain the first guess
+and the feedback. That is, it could look like this:</p>
+<a class="reference internal image-reference" href="../_images/wordle_guess1.png"><img alt="../_images/wordle_guess1.png" class="align-center" src="../_images/wordle_guess1.png" style="width: 4cm;" />
+</a>
+<p>The third state would essentially be:</p>
+<a class="reference internal image-reference" href="../_images/wordle_guess3.png"><img alt="../_images/wordle_guess3.png" class="align-center" src="../_images/wordle_guess3.png" style="width: 4cm;" />
+</a>
+<p>What about the rewards? Each wrong guess could result in a penalty of -1, and
+the correct guess in a reward of 0. In that way, the four guesses of <a class="reference internal" href="#wordlefig"><span class="std std-numref">Fig. 9.5</span></a>
+result in a total reward of -3, while six unsuccesful guesses yield -6.</p>
+<p>Wordle is a very simple game. And yet, the model is already very large:</p>
+<ul class="simple">
+<li><p>There are over 10000 actions (set of all valid five letter words).</p></li>
+<li><p>There are over 10<sup>4·6</sup>=10<sup>24</sup> possible states (six guesses, with
+10000 possibilities each, and that is not counting the feedback).</p></li>
+</ul>
+<p>This is a quite typical situation: Reinforcement learning tasks normally have way too many states
+for any direct, explicit solution approach.</p>
+<br>
+The eagle-eyed reader will have noticed that something is off. Wordle as I have presented it, is not 
+an MDP. Why? Because in an MDP, there is a transition function that *only* depends
+on the current state. Yet, what feedback you get, and with that, what next state you reach, depends
+on the hidden solution, and that is different in each game. 
+<p>There are two ways around this: We can postulate that the agent has only access to partial information about the
+state. That is, the state would include the solution – the agent, however, would not have access to the solution.
+(Because that would be cheating!) This is, in fact, not uncommon in real life applications.
+We will, however, not treat this situation. We will assume that the agents always has full information on the state.</p>
+<p>Then, the only other option is to change the rules of the game. Instead of choosing the solution at the beginning,
+we can in each step choose a random candidate solution that is consistent with the feedback so far (ie, if
+there is already a green ‘r’ in the last position the candidate solution needs to end with ‘r’) and then
+give feedback according to the candidate solution. In the next step, if there are still more possibile solutions,
+we choose a new candidate solution. In this way, the transition truly only depends on the current state,
+and we have indeed an MDP.</p>
+<p>By the way, a random strategy that always picks uniformly at random among
+the still possible words needs about four guesses on average.</p>
+</section>
 <section id="what-is-known-about-the-environment">
-<h2><span class="section-number">9.3. </span>What is known about the environment?<a class="headerlink" href="#what-is-known-about-the-environment" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.4. </span>What is known about the environment?<a class="headerlink" href="#what-is-known-about-the-environment" title="Link to this heading">#</a></h2>
 <p>When we train a reinforcement learning system, what do we usually know about the environment?
 In particular, do we have access to the transition probability and the reward function?
 Sometimes yes, sometimes no. This depends on the scenario.</p>
@@ -551,7 +627,7 @@ current position through simulation of the actual position.
 Such an algorithm is often called a <em>rollout algorithm</em>.</p>
 </section>
 <section id="returns">
-<h2><span class="section-number">9.4. </span>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.5. </span>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h2>
 <p>Once the agent in a reinforcement learning task starts it follows a
 trajectory of states, actions, and rewards:</p>
 <div class="pst-scrollable-table-container"><table class="table">
@@ -617,7 +693,7 @@ As a result, rewards in the next few steps are more worth than rewards
 received much later.</p>
 </section>
 <section id="policies">
-<h2><span class="section-number">9.5. </span>Policies<a class="headerlink" href="#policies" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.6. </span>Policies<a class="headerlink" href="#policies" title="Link to this heading">#</a></h2>
 <p>It’s time to turn to the agent. Once fully trained, how should the agent act? What the agent
 knows about the current situation is encapsulated in the state. Based on that state
 the agent has to decide which action to take. That is, an agent is described by a function
@@ -630,13 +706,13 @@ from states to actions. Such a function</p>
 the policy with best (expected) returns.</p>
 <p>A simple policy in the pole balancing task would be: Whenever the pole leans to the right, accelerate to the right,
 and when the pole leans to the left, accelerate to the left. It should be immediately clear that, while not
-the worst, this is also not the best of all policies. <a class="reference internal" href="#mazepolfig"><span class="std std-numref">Fig. 9.5</span></a> shows
+the worst, this is also not the best of all policies. <a class="reference internal" href="#mazepolfig"><span class="std std-numref">Fig. 9.6</span></a> shows
 the best policy for the maze problem.</p>
 <figure class="align-default" id="mazepolfig">
 <a class="reference internal image-reference" href="../_images/mazepol.png"><img alt="../_images/mazepol.png" src="../_images/mazepol.png" style="height: 6cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 9.5 </span><span class="caption-text">A deterministic policy in a maze.</span><a class="headerlink" href="#mazepolfig" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 9.6 </span><span class="caption-text">A deterministic policy in a maze.</span><a class="headerlink" href="#mazepolfig" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Policies do not have to be deterministic. Indeed, the whole setting of a
@@ -652,7 +728,7 @@ That is, in state <span class="math notranslate nohighlight">\(s\)</span>, the p
 with a probability that depends on the current state.</p>
 </section>
 <section id="value-functions">
-<h2><span class="section-number">9.6. </span>Value functions<a class="headerlink" href="#value-functions" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.7. </span>Value functions<a class="headerlink" href="#value-functions" title="Link to this heading">#</a></h2>
 <p>In many reinforcement learning tasks, a reward will only be awarded after many steps. A chess game has no immediate rewards;
 it is only won or lost at the end. In most tasks actions may have consequences that only become apparent many steps later.
 In an inventory control problem, it may  be beneficial in the short run to not order anything, as no costs for purchases
@@ -753,7 +829,7 @@ every other policy.
 At the moment it’s not clear whether there is any optimal policy at all.</p>
 </section>
 <section id="policy-improvement-theorem">
-<h2><span class="section-number">9.7. </span>Policy improvement theorem<a class="headerlink" href="#policy-improvement-theorem" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.8. </span>Policy improvement theorem<a class="headerlink" href="#policy-improvement-theorem" title="Link to this heading">#</a></h2>
 <p>Assume an agent is following a policy <span class="math notranslate nohighlight">\(\pi\)</span> but is given the opportunity to change a single action in a state <span class="math notranslate nohighlight">\(s\)</span>.
 Which one should she choose? To answer this question, we introduce <em>state-action values</em>,
 or shorter <em><span class="math notranslate nohighlight">\(q\)</span>-values</em>. Given a state <span class="math notranslate nohighlight">\(s\)</span> and an action <span class="math notranslate nohighlight">\(a\)</span>, the value <span class="math notranslate nohighlight">\(q_\pi(s,a)\)</span>
@@ -930,7 +1006,7 @@ every finite Markov decision process there is an optimal policy that is determin
 </section>
 </div></section>
 <section id="q-learning">
-<h2><span class="section-number">9.8. </span><span class="math notranslate nohighlight">\(q\)</span>-learning<a class="headerlink" href="#q-learning" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.9. </span><span class="math notranslate nohighlight">\(q\)</span>-learning<a class="headerlink" href="#q-learning" title="Link to this heading">#</a></h2>
 <p>How can we learn an optimal policy? Above we sketched a procedure: Start with some policy <span class="math notranslate nohighlight">\(\pi\)</span>,
 compute its <span class="math notranslate nohighlight">\(q\)</span>-values, check whether there is a
 state <span class="math notranslate nohighlight">\(s\)</span> and an action <span class="math notranslate nohighlight">\(a\)</span> with <span class="math notranslate nohighlight">\(q_{\pi}(s,{\pi}(s))&lt;q_{\pi}(s,a)\)</span>,
@@ -1002,7 +1078,7 @@ and more targeted search at the end of the algorithm.<label for='marginnote-role
 <a class="reference internal image-reference" href="../_images/blackjack.png"><img alt="../_images/blackjack.png" src="../_images/blackjack.png" style="height: 6cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 9.6 </span><span class="caption-text"><span class="math notranslate nohighlight">\(q\)</span>-learning in a game of Blackjack. After 200000 iterations
+<p><span class="caption-number">Fig. 9.7 </span><span class="caption-text"><span class="math notranslate nohighlight">\(q\)</span>-learning in a game of Blackjack. After 200000 iterations
 convergence still has not been achieved: The boundary between <em>hitting</em> (player demands one more card) and
 <em>sticking</em> (player sticks to their hand) should be much more regular.</span><a class="headerlink" href="#blackjackfig" title="Link to this image">#</a></p>
 </figcaption>
@@ -1072,7 +1148,7 @@ r(s,a,s')+\gamma q_{\pi^*}(s',{\pi^*}(s'))\right)
 To show this is not hard, but we will not do it.</p>
 </section>
 <section id="parameterised-policies">
-<h2><span class="section-number">9.9. </span>Parameterised policies<a class="headerlink" href="#parameterised-policies" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.10. </span>Parameterised policies<a class="headerlink" href="#parameterised-policies" title="Link to this heading">#</a></h2>
 <p><span class="math notranslate nohighlight">\(q\)</span>-learning is not always possible. If the set of possible states or the set of possible actions is
 large then it becomes infeasible to compute <span class="math notranslate nohighlight">\(q\)</span>-values. There are two ways out of this: We may
 try to learn a predictor for the <span class="math notranslate nohighlight">\(q\)</span>-values; or we may try to learn a policy that is not based on <span class="math notranslate nohighlight">\(q\)</span>-values.
@@ -1105,7 +1181,7 @@ of taking the action <span class="math notranslate nohighlight">\(a\)</span>.</p
 ascent!</p>
 </section>
 <section id="policy-gradient-method">
-<h2><span class="section-number">9.10. </span>Policy gradient method<a class="headerlink" href="#policy-gradient-method" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.11. </span>Policy gradient method<a class="headerlink" href="#policy-gradient-method" title="Link to this heading">#</a></h2>
 <p>Assume that the agent is positioned in state <span class="math notranslate nohighlight">\(s\)</span>, and assume that some
 stochastic parameterised policy <span class="math notranslate nohighlight">\(\pi_w\)</span> is given.<label for='sidenote-role-6' class='margin-toggle'><span id="id6">
 <sup>6</sup></span>
@@ -1238,7 +1314,7 @@ trajectories and take their average <span class="math notranslate nohighlight">\
 how the method can be improved even further.</p>
 </section>
 <section id="baselines">
-<h2><span class="section-number">9.11. </span>Baselines<a class="headerlink" href="#baselines" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.12. </span>Baselines<a class="headerlink" href="#baselines" title="Link to this heading">#</a></h2>
 <p><label for='marginnote-role-7' class='margin-toggle marginnote-label'></label><input type='checkbox' id='marginnote-role-7' name='marginnote-role-7' class='margin-toggle'><span class="marginnote"> <a class="reference external" href="https://colab.research.google.com/github/henningbruhn/math_of_ml_course/blob/main/sreinforcement_learning/policy_grad.ipynb"><svg version="4.0.0.63c5cb3" width="2.0em" height="2.0em" class="sd-material-icon sd-material-icon-terminal" viewBox="0 0 24 24" aria-hidden="true"><g><rect fill="none" height="24" width="24"></rect></g><g><path d="M20,4H4C2.89,4,2,4.9,2,6v12c0,1.1,0.89,2,2,2h16c1.1,0,2-0.9,2-2V6C22,4.9,21.11,4,20,4z M20,18H4V8h16V18z M18,17h-6v-2 h6V17z M7.5,17l-1.41-1.41L8.67,13l-2.59-2.59L7.5,9l4,4L7.5,17z"></path></g></svg>policy grad</a></span>
 How can we improve the policy gradient method? Here is what seems nonsensical about the
 method: No matter how good the trajectory <span class="math notranslate nohighlight">\(\tau\)</span> is, we try to improve the likelihood
@@ -1393,7 +1469,7 @@ Still the version presented here is quite capable of learning a linear policy fo
 that can balance the pole more or less indefinitely.</p>
 </section>
 <section id="on-and-off-policy">
-<h2><span class="section-number">9.12. </span>On- and off-policy<a class="headerlink" href="#on-and-off-policy" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.13. </span>On- and off-policy<a class="headerlink" href="#on-and-off-policy" title="Link to this heading">#</a></h2>
 <p>The <a class="reference internal" href="#pgmalg">Algorithm 9.3</a> (policy gradient method) is <em>on-policy</em>: the algorithm needs to generate
 trajectories that follow the current policy (see line 4).
 At first glance this looks to be the case for <a class="reference internal" href="#qlearnalg">Algorithm 9.2</a> (<span class="math notranslate nohighlight">\(q\)</span>-learning), too.
@@ -1447,7 +1523,7 @@ is <em>reinforcement learning from human feedback</em>.</p>
 </div>
 </details></section>
 <section id="reinforcement-learning-and-llms">
-<h2><span class="section-number">9.13. </span>Reinforcement learning and LLMs<a class="headerlink" href="#reinforcement-learning-and-llms" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.14. </span>Reinforcement learning and LLMs<a class="headerlink" href="#reinforcement-learning-and-llms" title="Link to this heading">#</a></h2>
 <p>After training on a large text corpus,
 an AI chatbot such as ChatGPT, Gemini or Claude needs to be finetuned
 to ensure that it produces helpful, harmless und honest output.
@@ -1496,7 +1572,7 @@ RL methods. OpenAI, for instance, uses a policy gradient method called
 <a class="reference external" href="https://openai.com/index/openai-baselines-ppo/">proximal policy optimisation</a>.</p>
 </section>
 <section id="what-else-is-there">
-<h2><span class="section-number">9.14. </span>What else is there?<a class="headerlink" href="#what-else-is-there" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">9.15. </span>What else is there?<a class="headerlink" href="#what-else-is-there" title="Link to this heading">#</a></h2>
 <p>The methods treated here will not be enough to train a world-class
 chess engine or a fully autonomous robot.
 The spectacular advances in reinforcement learning that we have seen
@@ -1565,18 +1641,19 @@ to improve a policy by exploiting the approximated <span class="math notranslate
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#markov-decision-processes">9.1. Markov decision processes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pole-balancing">9.2. Pole balancing</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-known-about-the-environment">9.3. What is known about the environment?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#returns">9.4. Returns</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policies">9.5. Policies</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#value-functions">9.6. Value functions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policy-improvement-theorem">9.7. Policy improvement theorem</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q-learning">9.8. <span class="math notranslate nohighlight">\(q\)</span>-learning</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameterised-policies">9.9. Parameterised policies</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policy-gradient-method">9.10. Policy gradient method</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baselines">9.11. Baselines</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#on-and-off-policy">9.12. On- and off-policy</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reinforcement-learning-and-llms">9.13. Reinforcement learning and LLMs</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-else-is-there">9.14. What else is there?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wordle">9.3. Wordle</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-known-about-the-environment">9.4. What is known about the environment?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#returns">9.5. Returns</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policies">9.6. Policies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#value-functions">9.7. Value functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policy-improvement-theorem">9.8. Policy improvement theorem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q-learning">9.9. <span class="math notranslate nohighlight">\(q\)</span>-learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameterised-policies">9.10. Parameterised policies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#policy-gradient-method">9.11. Policy gradient method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baselines">9.12. Baselines</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#on-and-off-policy">9.13. On- and off-policy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reinforcement-learning-and-llms">9.14. Reinforcement learning and LLMs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-else-is-there">9.15. What else is there?</a></li>
 </ul>
   </nav></div>
 

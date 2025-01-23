@@ -205,6 +205,109 @@ problem: while there are also only few (two) actions possible in each state, the
 can be quite a lot larger, maybe even infinite -- that depends on the physics simulation that ultimately governs
 the transition from one state to the next. 
 
+Wordle
+------
+
+In the game Wordle you need to guess a five letter word in at most six guesses. In each turn you 
+try a five letter word, which must be a proper English word. As feedback the letters of your guess
+are marked with green, yellow or black. A letter of the guessed word is marked with...
+
+* green if it coincides with the letter of the solution word at the same position.
+
+* yellow if the letter appears in the solution but at a different position.
+Actually, it's a bit more complicated than that:
+if a letter appears several times in the guess
+then it is marked with yellow only as often as it appears in the solution, and 
+for these appearances we do not count the green letters. (In {numref}`wordlefig`,
+in the third guess 'queer', the first 'e' is black although 'e' appears in the solution -- 
+this is because the second 'e' in queer is already green and there is only one 'e' in 'upper'.)
+
+* black otherwise. 
+
+Note: You're allowed to play words that you've already excluded. In {numref}`wordlefig`,
+I could have played 'dingo' instead of 'queer'. 'Dingo' could not have been right -- already after
+'train' I knew that the solution did not contain an 'n' or an 'i'. Still it would have been a valid guess. 
+
+ 
+If you guess the solution, the game is over. The game is also over after six guesses.
+ 
+
+```{figure} pix/wordle.jpg
+:name: wordlefig
+:width: 4cm
+
+Four tries until the solution 'upper' was guessed.
+```
+
+How can we model Wordle as an MDP? Each guess should certainly be an action. That 
+fixes already the set of action: All five letter words of the English language. 
+In fact, the original Wordle implementation accepted 12972 five letter words as valid; 
+the solution word, however, always came out of a smaller set of 2315 words. 
+
+What about the states? The states should fully describe the, well, state of the environment. 
+That means, the state needs to 
+
+* capture the number of guesses;
+
+* capture *all* guesses so far; and
+
+* needs to also capture *all* the feedback (green, yellow, black letters) received so far. 
+
+
+The starting state is simple: It can be represented by an empty set $\emptyset$, as there is no
+information gained yet. The second state, after the first guess needs to contain the first guess
+and the feedback. That is, it could look like this:
+
+
+```{image} pix/wordle_guess1.png
+:width: 4cm
+:align: center
+
+```
+
+The third state would essentially be:
+
+```{image} pix/wordle_guess3.png
+:width: 4cm
+:align: center
+
+```
+
+What about the rewards? Each wrong guess could result in a penalty of -1, and 
+the correct guess in a reward of 0. In that way, the four guesses of {numref}`wordlefig`
+result in a total reward of -3, while six unsuccesful guesses yield -6. 
+
+Wordle is a very simple game. And yet, the model is already very large:
+
+* There are over 10000 actions (set of all valid five letter words). 
+
+* There are over 10{sup}`4·6`=10{sup}`24` possible states (six guesses, with 
+10000 possibilities each, and that is not counting the feedback). 
+
+This is a quite typical situation: Reinforcement learning tasks normally have way too many states
+for any direct, explicit solution approach.
+
+<br>
+The eagle-eyed reader will have noticed that something is off. Wordle as I have presented it, is not 
+an MDP. Why? Because in an MDP, there is a transition function that *only* depends
+on the current state. Yet, what feedback you get, and with that, what next state you reach, depends
+on the hidden solution, and that is different in each game. 
+
+There are two ways around this: We can postulate that the agent has only access to partial information about the 
+state. That is, the state would include the solution -- the agent, however, would not have access to the solution. 
+(Because that would be cheating!) This is, in fact, not uncommon in real life applications. 
+We will, however, not treat this situation. We will assume that the agents always has full information on the state. 
+
+Then, the only other option is to change the rules of the game. Instead of choosing the solution at the beginning, 
+we can in each step choose a random candidate solution that is consistent with the feedback so far (ie, if 
+there is already a green 'r' in the last position the candidate solution needs to end with 'r') and then 
+give feedback according to the candidate solution. In the next step, if there are still more possibile solutions, 
+we choose a new candidate solution. In this way, the transition truly only depends on the current state, 
+and we have indeed an MDP. 
+
+By the way, a random strategy that always picks uniformly at random among 
+the still possible words needs about four guesses on average. 
+
 What is known about the environment?
 ------------------------------------
 
