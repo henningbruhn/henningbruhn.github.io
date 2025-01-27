@@ -465,6 +465,32 @@ the sequence of states the agent encounters while following the policy $\pi$.
 By the stochastic nature of the MDP, there is not a single trajectory that may be followed but a multitude; each however
 can be attributed a probability. Thus $\expec_\pi[G_0]$ is the expected return while following $\pi$. 
 
+````{subfigure} ABC
+:name: mazevalfig
+:layout-sm: A|B|C
+
+```{image} pix/mazeval1.png
+:alt: value function, optimal policy
+:width: 6cm
+```
+
+```{image} pix/mazeval2.png
+:alt: a non-optimal policy
+:width: 6cm
+```
+
+```{image} pix/mazeval3.png
+:alt: value function, non-optimal policy
+:width: 6cm
+```
+
+Shades of grey: (a) Value function of the optimal policy, darker patches designate higher
+values. (b) A non-optimal policy. (c) Value function with respect to the policy shown in (b).
+From the starting position (robot) the policy of (b) moves to the right. The field directly
+upwards from it has a higher value, and would thus be a better destination for the first move.
+````
+
+
 In a discrete probability space, the expectation is the sum over all outcomes, where we sum up the value of the outcome, weighted
 by the probability of the outcome. We can attribute a value to a trajectory, the discounted return, but what is the 
 probability of a trajectory? 

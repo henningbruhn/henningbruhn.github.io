@@ -50,7 +50,7 @@
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
     <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-    <script defer="defer" src="../_static/tippy/contents/rl.f8bebfbd-ea45-48eb-ade3-fe2febd37c10.js"></script>
+    <script defer="defer" src="../_static/tippy/contents/rl.2b4b71fb-b6de-4459-93af-6e32e89a83dd.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'contents/rl';</script>
@@ -338,7 +338,14 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <p><span class="math notranslate nohighlight">\(\newcommand{\bigO}{O}
+  
+<style>
+  .ss-layout-default-ABC { grid-template-areas: 'A B C'; }
+@media (max-width: 576px) {
+  .ss-layout-sm-A_B_C { grid-template-areas: 'A' 'B' 'C'; }
+}
+</style>
+<p><span class="math notranslate nohighlight">\(\newcommand{\bigO}{O}
 \newcommand{\trsp}[1]{#1^\intercal} % transpose
 \DeclareMathOperator*{\expec}{\mathbb{E}} % Expectation
 \DeclareMathOperator*{\proba}{\mathbb{P}}   % Probability
@@ -748,6 +755,28 @@ v_\pi(s_0)=\expec_\pi\left[\sum_{t=0}^\infty\gamma^{t}R_{t+1}|S_0=s_0\right]=\ex
 the sequence of states the agent encounters while following the policy <span class="math notranslate nohighlight">\(\pi\)</span>.
 By the stochastic nature of the MDP, there is not a single trajectory that may be followed but a multitude; each however
 can be attributed a probability. Thus <span class="math notranslate nohighlight">\(\expec_\pi[G_0]\)</span> is the expected return while following <span class="math notranslate nohighlight">\(\pi\)</span>.</p>
+<figure class="sphinx-subfigure align-default" id="mazevalfig">
+<div class="sphinx-subfigure-grid ss-layout-default-ABC ss-layout-sm-A_B_C" style="display: grid;">
+<div class="sphinx-subfigure-area" style="display: flex; flex-direction: column; justify-content: center; align-items: center; grid-area: A;">
+<a class="reference internal image-reference" href="../_images/mazeval1.png"><img alt="value function, optimal policy" src="../_images/mazeval1.png" style="width: 6cm;" />
+</a>
+</div>
+<div class="sphinx-subfigure-area" style="display: flex; flex-direction: column; justify-content: center; align-items: center; grid-area: B;">
+<a class="reference internal image-reference" href="../_images/mazeval2.png"><img alt="a non-optimal policy" src="../_images/mazeval2.png" style="width: 6cm;" />
+</a>
+</div>
+<div class="sphinx-subfigure-area" style="display: flex; flex-direction: column; justify-content: center; align-items: center; grid-area: C;">
+<a class="reference internal image-reference" href="../_images/mazeval3.png"><img alt="value function, non-optimal policy" src="../_images/mazeval3.png" style="width: 6cm;" />
+</a>
+</div>
+</div>
+<figcaption>
+<p><span class="caption-number">Fig. 9.7 </span><span class="caption-text">Shades of grey: (a) Value function of the optimal policy, darker patches designate higher
+values. (b) A non-optimal policy. (c) Value function with respect to the policy shown in (b).
+From the starting position (robot) the policy of (b) moves to the right. The field directly
+upwards from it has a higher value, and would thus be a better destination for the first move.</span><a class="headerlink" href="#mazevalfig" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
 <p>In a discrete probability space, the expectation is the sum over all outcomes, where we sum up the value of the outcome, weighted
 by the probability of the outcome. We can attribute a value to a trajectory, the discounted return, but what is the
 probability of a trajectory?
@@ -1078,7 +1107,7 @@ and more targeted search at the end of the algorithm.<label for='marginnote-role
 <a class="reference internal image-reference" href="../_images/blackjack.png"><img alt="../_images/blackjack.png" src="../_images/blackjack.png" style="height: 6cm;" />
 </a>
 <figcaption>
-<p><span class="caption-number">Fig. 9.7 </span><span class="caption-text"><span class="math notranslate nohighlight">\(q\)</span>-learning in a game of Blackjack. After 200000 iterations
+<p><span class="caption-number">Fig. 9.8 </span><span class="caption-text"><span class="math notranslate nohighlight">\(q\)</span>-learning in a game of Blackjack. After 200000 iterations
 convergence still has not been achieved: The boundary between <em>hitting</em> (player demands one more card) and
 <em>sticking</em> (player sticks to their hand) should be much more regular.</span><a class="headerlink" href="#blackjackfig" title="Link to this image">#</a></p>
 </figcaption>
